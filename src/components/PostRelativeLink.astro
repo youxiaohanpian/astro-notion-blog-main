@@ -14,6 +14,8 @@ const { prevPost, nextPost } = Astro.props
 const hasBothPosts = prevPost && nextPost;
 const hasOnlyPrev = prevPost && !nextPost;
 const hasOnlyNext = !prevPost && nextPost;
+//中间的点号 · 显示为方块的修改方法
+const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
 ---
 
 <div class={`post-relative-link ${hasOnlyPrev || hasOnlyNext ? "single-post" : ""}`}>
@@ -43,7 +45,7 @@ const hasOnlyNext = !prevPost && nextPost;
             <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
           </svg>
         </div>
-        <div class="title right">{nextPost.Title}</div>
+        <div class="title right">{formattedTitle}</div>
         <div class="tags-container right">
           <PostTags post={nextPost} enableLink={false} />
         </div>
@@ -75,7 +77,7 @@ const hasOnlyNext = !prevPost && nextPost;
               <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
             </svg>
           </div>
-          <div class="title right">{nextPost.Title}</div>
+          <div class="title right">{formattedTitle}</div>
           <div class="tags-container right">
             <PostTags post={nextPost} enableLink={false} />
           </div>
@@ -245,5 +247,11 @@ const hasOnlyNext = !prevPost && nextPost;
       font-size: 1rem;
       padding: 0.15rem 0 0.4rem;
     }
+  }
+  
+  .title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                 "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", 
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   }
 </style>
