@@ -1,0 +1,301 @@
+---
+import {
+  getPostsByPage,
+  getRankedPosts,
+  getAllTags,
+  getNumberOfPages,
+  getDatabase,
+  getAllBlocksByBlockId
+} from '../lib/notion/client.ts'
+import { 
+  getPostLink,
+  extractFirstImage
+} from '../lib/blog-helpers.ts'
+import Layout from '../layouts/Layout.astro'
+import NoContents from '../components/NoContents.astro'
+import PostDate from '../components/PostDate.astro'
+import PostTags from '../components/PostTags.astro'
+import PostTitle from '../components/PostTitle.astro'
+import PostFeaturedImage from '../components/PostFeaturedImage.astro'
+import PostExcerpt from '../components/PostExcerpt.astro'
+import Pagination from '../components/Pagination.astro'
+import BlogPostsLink from '../components/BlogPostsLink.astro'
+import BlogTagsLink from '../components/BlogTagsLink.astro'
+import styles from '../styles/blog.module.css'
+
+// 获取数据库信息（网站标题和描述）
+const database = await getDatabase()
+
+// 获取文章数据
+const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+  getPostsByPage(1),
+  getRankedPosts(),
+  getAllTags(),
+  getNumberOfPages(),
+])
+
+// 为每篇文章提取第一张图片
+await Promise.all(
+  posts.map(async (post) => {
+    // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
+    if (post.FeaturedImage || post.Cover) return;
+    
+    // 获取文章内容块
+    try {
+      const blocks = await getAllBlocksByBlockId(post.PageId);
+      // 提取第一张图片
+      const firstImageObject = extractFirstImage(blocks);
+      if (firstImageObject) {
+        post.FirstImage = firstImageObject;
+        console.log(`文章[${post.Title}]提取到第一张图片`);
+      }
+    } catch (error) {
+      console.error(`获取文章[${post.Title}]内容块失败:`, error);
+    }
+  })
+)
+---
+
+<Layout 
+  title={database.Title} 
+  description={database.Description} 
+  path="" 
+  ogImage=""
+  hideSidebar={true}
+  breadcrumbs={[
+    { label: '所有文章', href: '/' }
+  ]}
+>
+  <div slot="main" class={`${styles.main} blog-posts-container`}>
+    <div class="masonry-container">
+      <div class="masonry-grid">
+        {posts.length === 0 ? (
+          <NoContents contents={posts} />
+        ) : (
+          posts.map((post) => (
+            <article class="blog-post">
+              <a href={getPostLink(post.Slug)} class="blog-post-link">
+                {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
+                  <div class="blog-post-image">
+                    <PostFeaturedImage post={post} />
+                  </div>
+                )}
+                <div class="blog-post-content">
+                  <div class="blog-post-header">
+                    <PostTitle post={post} enableLink={false} />
+                    <PostDate post={post} />
+                  </div>
+                  <div class="blog-post-tags">
+                    <PostTags post={post} enableLink={true} />
+                  </div>
+                  <div class="blog-post-body">
+                    <PostExcerpt post={post} />
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))
+        )}
+      </div>
+    </div>
+
+    <div class="pagination-container">
+      <Pagination
+        currentPage={1}
+        numberOfPages={numberOfPages}
+        tag=""
+      />
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // 处理标签链接的点击事件，防止触发卡片链接
+  document.addEventListener('DOMContentLoaded', () => {
+    // 为所有标签链接添加点击事件，阻止事件冒泡
+    document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
+      tag.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    });
+  });
+</script>
+
+<style>
+  /* 分页容器 */
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 1rem 0 2rem;
+  }
+  
+  /* 新增瀑布流布局容器 */
+  .masonry-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* 新增瀑布流布局 */
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 固定3列 */
+    gap: 1.5rem;
+    margin: 2rem 0;
+    max-width: 1200px; /* 限制最大宽度 */
+    width: 100%;
+  }
+
+  /* 调整博客文章卡片样式 */
+  .blog-post {
+    margin: 0;
+    width: 100%;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .blog-post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    background-color: #fefefe;
+  }
+
+  /* 卡片链接 */
+  .blog-post-link {
+    display: block;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  /* 图片区域 */
+  .blog-post-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0; /* 只保留上边两个圆角 */
+  }
+  
+  .blog-post-image :global(.post-featured-image) {
+    border-radius: 12px 12px 0 0; /* 确保内部容器也有相同的圆角 */
+    overflow: hidden;
+  }
+  
+  .blog-post-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
+  }
+  
+  .blog-post:hover .blog-post-image :global(img) {
+    transform: scale(1.05);
+  }
+  
+  /* 内容区域 */
+  .blog-post-content {
+    padding: 1.2rem;
+  }
+  
+  .blog-post-header {
+    margin-bottom: 0.5rem;
+  }
+  
+  .blog-post-header :global(.post-title) {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 0.2rem 0;
+  }
+  
+  .blog-post-header :global(.post-title a) {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .blog-post:hover .blog-post-header :global(.post-title a) {
+    color: #000;
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+  }
+  
+  .blog-post-tags {
+    margin-bottom: 0.5rem;
+  }
+  
+  .blog-post-body {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 1024px) {
+    .masonry-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .masonry-grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+    }
+    
+    .blog-posts-container {
+      padding: 0 0.5rem;
+    }
+    
+    .blog-post-image {
+      height: 160px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .blog-post-image {
+      height: 140px;
+    }
+    
+    .blog-post-content {
+      padding: 1rem;
+    }
+    
+    .blog-post-header :global(.post-title) {
+      font-size: 15px;
+    }
+    
+    .blog-post-body {
+      font-size: 13px;
+    }
+  }
+
+  /* 系统字体设置 */
+  :root {
+    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  }
+
+  /* 博客文章容器 */
+  .blog-posts-container {
+    padding: 0 1rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* 系统字体检测 */
+  @supports (font: -apple-system-body) {
+    .blog-post-header :global(.post-title), .blog-post-body {
+      font-family: "PingFang SC", var(--font-family-sans);
+    }
+  }
+
+  @supports (-ms-ime-align: auto) {
+    .blog-post-header :global(.post-title), .blog-post-body {
+      font-family: "Microsoft YaHei", var(--font-family-sans);
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import arrowUp from '../images/icon-arrow-up.svg';
+---
+
+<button id="back-to-top" aria-label="返回顶部">
+  <img src={arrowUp.src} alt="返回顶部" />
+</button>
+
+<script>
+  // 获取按钮元素
+  const backToTopButton = document.getElementById('back-to-top');
+  
+  // 检查页面高度，如果页面不够长则隐藏按钮
+  const checkPageHeight = () => {
+    if (!backToTopButton) return;
+    
+    const pageHeight = document.body.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    
+    // 如果页面高度不超过视口高度的1.5倍，则完全隐藏按钮
+    if (pageHeight < viewportHeight * 1.5) {
+      backToTopButton.style.display = 'none';
+    } else {
+      backToTopButton.style.display = 'block';
+    }
+  };
+  
+  // 滚动事件处理
+  const handleScroll = () => {
+    if (!backToTopButton) return;
+    
+    // 当页面滚动超过视口高度的20%时显示按钮
+    if (window.scrollY > window.innerHeight * 0.2) {
+      backToTopButton.classList.add('visible');
+    } else {
+      backToTopButton.classList.remove('visible');
+    }
+  };
+  
+  // 点击事件处理
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  
+  // 添加事件监听器
+  if (backToTopButton) {
+    // 初始检查页面高度
+    checkPageHeight();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', checkPageHeight);
+    
+    // 监听滚动事件
+    window.addEventListener('scroll', handleScroll);
+    
+    // 添加点击事件
+    backToTopButton.addEventListener('click', scrollToTop);
+    
+    // 初始状态检查
+    handleScroll();
+  }
+</script>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(240, 240, 240, 0.8);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, background-color 0.2s ease;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #back-to-top.visible {
+    opacity: 1;
+  }
+  
+  #back-to-top:hover {
+    background: rgba(230, 230, 230, 0.95);
+  }
+  
+  #back-to-top img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  @media (max-width: 768px) {
+    #back-to-top {
+      bottom: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+    }
+  }
+</style> 

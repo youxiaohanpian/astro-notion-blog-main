@@ -1,0 +1,161 @@
+---
+import Prism from 'prismjs'
+import 'prismjs/components/prism-css'
+import 'prismjs/components/prism-diff'
+import 'prismjs/components/prism-docker'
+import 'prismjs/components/prism-elixir'
+import 'prismjs/components/prism-go'
+import 'prismjs/components/prism-hcl'
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-python'
+import 'prismjs/components/prism-ruby'
+import 'prismjs/components/prism-sql'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-yaml'
+import * as interfaces from '../../lib/interfaces'
+import Caption from './Caption.astro'
+
+export interface Props {
+  block: interfaces.Block
+}
+
+const { block } = Astro.props
+
+// 确保 block.Code 存在
+if (!block.Code) {
+  throw new Error('Code block is undefined')
+}
+
+const code = block.Code.RichTexts.map(
+  (richText: interfaces.RichText) => {
+    if (!richText.Text) {
+      return ''
+    }
+    return richText.Text.Content
+  }
+).join('')
+const language = block.Code.Language.toLowerCase()
+const grammer =
+  Prism.languages[language.toLowerCase()] || Prism.languages.javascript
+---
+
+<div class="code">
+  <div>
+    {
+      /* prettier-ignore */
+      language === 'mermaid' ? (
+        <pre class="mermaid">{code}</pre>
+      ) : (
+        <>
+          <div>
+            <button class="copy" data-code={code} data-done-text="Copied!">
+              Copy
+            </button>
+          </div>
+          <pre><code set:html={Prism.highlight(code, grammer, language)} /></pre>
+        </>
+      )
+    }
+  </div>
+  <Caption richTexts={block.Code.Caption} />
+</div>
+
+<script>
+  import mermaid from 'mermaid'
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral' })
+</script>
+
+<script>
+  document.querySelectorAll('button.copy').forEach((button) => {
+    button.addEventListener('click', (ev) => {
+      const target = ev.currentTarget as HTMLButtonElement;
+      navigator.clipboard
+        .writeText(target.getAttribute('data-code') || '')
+        .then(() => {
+          const originalText = target.innerText;
+
+          target.innerText = target.getAttribute('data-done-text') || '';
+
+          setTimeout(() => {
+            target.innerText = originalText;
+          }, 3000);
+        });
+    });
+  });
+</script>
+
+<style>
+  .code {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.6rem;
+  }
+  .code > div {
+    background: rgb(247, 246, 243);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  .code > div div {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .code button.copy {
+    display: block;
+    width: 4rem;
+    border: 0;
+    border-radius: 4px;
+    background-color: rgba(227, 226, 224, 0.5);
+    color: var(--text-color);
+    line-height: 1.2rem;
+    cursor: pointer;
+    padding: 0.2rem 0;
+    transition: background-color 0.2s ease;
+  }
+  .code button.copy:hover {
+    background-color: rgba(227, 226, 224, 0.8);
+  }
+  .code pre {
+    display: block;
+    overflow: auto;
+    padding: 0.5rem 1rem 1.5rem;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre;
+    width: 100%;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+  .code pre::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .code pre::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  .code pre.mermaid {
+    padding: 2rem;
+  }
+  .code pre code {
+    color: var(--text-color);
+    padding: 0;
+    background: transparent !important;
+    border-radius: 0;
+    width: 100%;
+    display: inline-block;
+  }
+  
+  @media (max-width: 768px) {
+    .code pre {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.8rem 1.2rem;
+    }
+    .code > div div {
+      padding: 0.4rem 0.8rem 0;
+    }
+  }
+</style>

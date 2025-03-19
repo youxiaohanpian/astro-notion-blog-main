@@ -1,0 +1,77 @@
+.main header {
+  padding: 0 0 20px;
+}
+.main footer {
+  margin: 2rem auto;
+  padding: 1.5rem 0 0;
+}
+@media (max-width: 640px) {
+  .main footer {
+    margin: 1.5rem auto;
+  }
+}
+
+.post {
+  margin: 0 auto;
+  padding-top: 2rem;
+  max-width: 800px;
+}
+.post footer {
+  margin-top: 0.5rem;
+  padding: 0;
+  border: 0;
+}
+
+/* 侧边栏样式 */
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* 目录样式 */
+.toc {
+  margin-top: 2rem;
+}
+
+/* 右侧栏卡片样式 */
+:global(.blog-posts-link),
+:global(.blog-tags-link) {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(230, 230, 230, 0.8);
+  margin: 0;
+}
+
+/* 右侧栏卡片标题样式 */
+:global(.blog-posts-link h2),
+:global(.blog-tags-link h2) {
+  padding-left: 0 !important;
+  margin-bottom: 0.8rem !important;
+  color: #555 !important;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  /* 调整卡片间距 */
+  .aside {
+    gap: 1.5rem;
+  }
+  
+  :global(.blog-posts-link),
+  :global(.blog-tags-link) {
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* 确保最后一个列表项没有底部边距 */
+:global(.blog-posts-link li:last-child),
+:global(.blog-tags-link li:last-child) {
+  margin-bottom: 0;
+}

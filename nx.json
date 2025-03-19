@@ -1,0 +1,15 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "_fetch-notion-blocks"
+        ],
+        "parallel": 8,
+        "accessToken": "${NX_CLOUD_ACCESS_TOKEN}"
+      }
+    }
+  },
+  "defaultBase": "main"
+}

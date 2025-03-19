@@ -1,0 +1,505 @@
+---
+import { PUBLIC_GA_TRACKING_ID, ENABLE_LIGHTBOX } from '../server-constants.ts'
+import { getDatabase, getAllTags } from '../lib/notion/client.ts'
+import { getNavLink, getStaticFilePath, filePath } from '../lib/blog-helpers.ts'
+import type { FileObject, Emoji, SelectProperty } from '../lib/interfaces.ts'
+import '../styles/syntax-coloring.css'
+import '../styles/global.css'
+import GoogleAnalytics from '../components/GoogleAnalytics.astro'
+import SearchModal from '../components/SearchModal.astro'
+import SearchButton from '../components/SearchButton.astro'
+import BackToTop from '../components/BackToTop.astro'
+import GitHubIcon from '../components/GitHubIcon.astro'
+// 主要改进点
+// 错误处理: 在 URL 处理和异步操作中添加了错误处理，以确保在数据获取失败时不会导致页面崩溃。
+// 代码格式: 确保代码格式一致，易于阅读和维护
+export interface Props {
+  title: string
+  description: string
+  path: string
+  ogImage: string
+  hideSidebar?: boolean
+  breadcrumbs?: { label: string; href: string }[]
+}
+
+const { 
+  title = '', 
+  description = '', 
+  path = '/', 
+  ogImage = '', 
+  hideSidebar = false,
+  breadcrumbs = [] 
+} = Astro.props
+
+const database = await getDatabase()
+const tags = await getAllTags()
+
+const siteTitle = title ? `${title} - ${database.Title}` : database.Title
+const siteDescription = description ? description : database.Description
+const siteURL = new URL(getNavLink(path), Astro.site).toString()
+const siteOGImage = new URL(
+  getStaticFilePath('/default-og-image.png'),
+  Astro.site
+)
+
+let coverImageURL: string | undefined
+if (database.Cover) {
+  if (database.Cover.Type === 'external') {
+    coverImageURL = database.Cover.Url
+  } else if (database.Cover.Type === 'file') {
+    try {
+      coverImageURL = filePath(new URL(database.Cover.Url))
+    } catch {
+      console.log('Invalid DB cover image URL: ', database.Cover?.Url)
+    }
+  }
+}
+
+let customIconURL: string | undefined
+if (database.Icon && database.Icon.Type === 'file') {
+  try {
+    customIconURL = filePath(new URL((database.Icon as FileObject).Url))
+  } catch {
+    console.log('Invalid DB custom icon URL: ', (database.Icon as FileObject)?.Url)
+  }
+}
+
+// 类型保护函数
+const isEmoji = (icon: FileObject | Emoji | null): icon is Emoji => {
+  return icon !== null && icon.Type === 'emoji';
+};
+
+const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
+  return icon !== null && (icon.Type === 'external' || icon.Type === 'file');
+};
+---
+
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta charset="UTF-8" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{siteTitle}</title>
+    <meta name="description" content={siteDescription} />
+    <link rel="canonical" href={siteURL} />
+    <meta property="og:url" content={siteURL} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={siteDescription} />
+    <meta property="og:site_name" content={database.Title} />
+    <meta property="og:image" content={ogImage || siteOGImage} />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={siteDescription} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage || siteOGImage} />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+      integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />
+    <div class="container">
+      <header class="site-header">
+        {coverImageURL && (
+          <div class="cover">
+            <img src={coverImageURL} alt="Site cover image" loading="lazy" />
+          </div>
+        )}
+        <div class="site-title-container">
+          <h1 class="site-title">
+            <a href={getNavLink('/')}>
+              {isEmoji(database.Icon) && (
+                <>
+                  <span>{database.Icon.Emoji}</span>
+                  {database.Title}
+                </>
+              )}
+              {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
+                <>
+                  <img src={database.Icon.Url} alt="Site icon image" />
+                  {database.Title}
+                </>
+              )}
+              {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
+                <>
+                  <img
+                    src={customIconURL}
+                    class="custom-icon"
+                    alt="Site icon image"
+                  />
+                  {database.Title}
+                </>
+              )}
+              {!database.Icon && database.Title}
+            </a>
+          </h1>
+          <div class="site-description">{database.Description}</div>
+        </div>
+      </header>
+
+      <div class="search-wrapper">
+        <div class="nav-container">
+          <div class="breadcrumbs">
+            <a href="https://ai233.top" class="breadcrumb-item home" aria-label="首页">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="18" height="18" class="home-icon">
+                <path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z" fill="currentColor"></path>
+              </svg>
+            </a>
+            
+            {/* 博客首页链接 */}
+            <span class="breadcrumb-separator">/</span>
+            <a href={getNavLink('/')} class="breadcrumb-item">所有文章</a>
+            
+            {/* 如果是文章详情页面，显示文章标题 */}
+            {path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0 && (
+              <>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-item active">{breadcrumbs[breadcrumbs.length - 1].label}</span>
+              </>
+            )}
+          </div>
+          <SearchButton />
+        </div>
+      </div>
+
+      <div class={`content-wrapper ${hideSidebar ? 'no-sidebar' : ''}`}>
+        <main>
+          <div class="content">
+            <slot name="main" />
+          </div>
+        </main>
+
+        {!hideSidebar && (
+          <aside>
+            <slot name="aside" />
+          </aside>
+        )}
+      </div>
+
+      <footer class="site-footer">
+        <div>
+          <span>
+            &copy; {new Date().getFullYear()} {database.Title} All rights
+            reserved.
+            <a href="https://github.com/youxiaohanpian/astro-notion-blog" target="_blank" rel="noopener noreferrer" title="GitHub Repository">
+              <GitHubIcon />
+            </a>
+          </span>
+        </div>
+      </footer>
+    </div>
+
+    <SearchModal />
+    <BackToTop />
+    {ENABLE_LIGHTBOX && (
+      <script src={getStaticFilePath('/scripts/fslightbox.js')} />
+    )}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 处理标签链接的点击事件，防止触发卡片链接
+        document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
+          tag.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  :root {
+    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    --primary-color: rgba(255,255,255,0.8);
+    --text-color: #333;
+    --text-light: #666;
+    --background-light: #f8f8f8;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-header {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .cover {
+    position: relative;
+  }
+
+  .cover img {
+    display: block;
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+    object-position: center 60%;
+  }
+
+  .site-title-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .site-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+  }
+
+  .site-title a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-title a span,
+  .site-title a img {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .site-title a img {
+    width: 2rem;
+    height: 2rem;
+    vertical-align: middle;
+  }
+
+  .site-title a img.custom-icon {
+    border-radius: 8px;
+  }
+
+  .site-description {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    max-width: 800px;
+    opacity: 0.9;
+    white-space: pre-line;
+  }
+
+  .content-wrapper {
+    display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    flex: 1;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  /* 无侧边栏布局 */
+  .content-wrapper.no-sidebar {
+    display: block;
+  }
+  
+  .content-wrapper.no-sidebar main {
+    width: 100%;
+  }
+
+  main {
+    flex: 1;
+    order: 1;
+  }
+
+  aside {
+    order: 2;
+    width: 300px;
+    padding: 0 0 0 2rem;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  .site-footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    background-color: var(--background-light);
+  }
+  
+  .site-footer div {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .site-footer span {
+    display: flex;
+    align-items: center;
+  }
+  
+  .github-link {
+    display: none;
+  }
+  
+  .search-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: -1rem auto 1rem;
+    padding: 0 1rem;
+    max-width: 100%;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+  
+  .nav-container :global(.search-container) {
+    margin-bottom: 0;
+  }
+  
+  .nav-container :global(.search-button) {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    padding: 0.4rem;
+  }
+  
+  .breadcrumb-item {
+    color: #999;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .breadcrumb-item:hover {
+    color: #555;
+  }
+  
+  .breadcrumb-item.active {
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .breadcrumb-item.home {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem;
+  }
+  
+  .breadcrumb-item.home svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+  
+  .breadcrumb-separator {
+    margin: 0 0.5rem;
+    color: #ccc;
+  }
+  
+  @media (max-width: 768px) {
+    .content-wrapper {
+      flex-direction: column;
+    }
+
+    main {
+      order: 1;
+    }
+
+    aside {
+      order: 2;
+      width: 100%;
+      padding: 2rem 0 0;
+    }
+
+    .site-title {
+      font-size: 2rem;
+    }
+
+    .site-description {
+      font-size: 1rem;
+    }
+    
+    .home-text {
+      display: none;
+    }
+    
+    .breadcrumbs {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-title-container {
+      padding: 1.5rem 1rem;
+    }
+
+    .site-title {
+      font-size: 1.5rem;
+    }
+
+    .site-description {
+      font-size: 0.9rem;
+    }
+
+    .cover img {
+      height: 25vh;
+    }
+  }
+
+  /* 系统字体检测 */
+  @supports (font: -apple-system-body) {
+    :root {
+      --font-family-chinese: "PingFang SC", var(--font-family-sans);
+    }
+  }
+
+  @supports (-ms-ime-align: auto) {
+    :root {
+      --font-family-chinese: "Microsoft YaHei", var(--font-family-sans);
+    }
+  }
+
+  .search-button svg {
+    width: 18px;
+    height: 18px;
+    color: inherit;
+  }
+
+  .breadcrumb-item.home svg.home-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: -0.15em;
+    /* 缩小一点房子图标的显示比例，因为它的原始宽高比与搜索图标不同 */
+    transform: scale(0.9);
+  }
+</style>

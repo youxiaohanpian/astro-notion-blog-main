@@ -1,0 +1,21 @@
+---
+export interface Props {
+  contents: any[]
+  showMessage?: boolean
+  message?: string
+}
+
+const { contents, showMessage = true, message = "There are no contents yet" } = Astro.props
+---
+
+{showMessage && contents.length === 0 && (
+  <div class="no-contents">{message}</div>
+)}
+
+<style>
+  .no-contents {
+    padding: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+</style>

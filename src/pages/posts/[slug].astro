@@ -1,0 +1,204 @@
+---
+import * as interfaces from '../../lib/interfaces.ts'
+import {
+  getPosts,
+  getAllPosts,
+  getRankedPosts,
+  getPostBySlug,
+  getPostsByTag,
+  getBlock,
+  getAllTags,
+  getAllBlocksByBlockId,
+  downloadFile,
+} from '../../lib/notion/client.ts'
+import {
+  getPostLink,
+  filePath,
+  extractTargetBlocks,
+  extractFirstImage,
+} from '../../lib/blog-helpers.ts'
+import Layout from '../../layouts/Layout.astro'
+import PostDate from '../../components/PostDate.astro'
+import PostTags from '../../components/PostTags.astro'
+import PostTitle from '../../components/PostTitle.astro'
+import PostBody from '../../components/PostBody.astro'
+import PostRelativeLink from '../../components/PostRelativeLink.astro'
+import BlogPostsLink from '../../components/BlogPostsLink.astro'
+import BlogTagsLink from '../../components/BlogTagsLink.astro'
+import TableOfContents from '../../components/TableOfContents.astro'
+import styles from '../../styles/blog.module.css'
+
+export async function getStaticPaths() {
+  try {
+    const posts = await getAllPosts();
+    return posts.map((post: interfaces.Post) => ({ params: { slug: post.Slug } }));
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+}
+
+const { slug } = Astro.params;
+
+let post;
+try {
+  post = await getPostBySlug(slug);
+  if (!post) {
+    throw new Error(`Post not found. slug: ${slug}`);
+  }
+} catch (error) {
+  console.error('Error fetching post:', error);
+  throw new Error(`Post not found. slug: ${slug}`);
+}
+
+const [blocks, allPosts, rankedPosts, recentPosts, tags, postsHavingSameTag] = await Promise.all([
+  getAllBlocksByBlockId(post.PageId),
+  getAllPosts(),
+  getRankedPosts(),
+  getPosts(5),
+  getAllTags(),
+  getPostsByTag(post.Tags[0]?.name, 6),
+]);
+
+// 提取文章的第一张图片并存储到Post对象中
+const firstImageObject = extractFirstImage(blocks);
+if (firstImageObject) {
+  post.FirstImage = firstImageObject;
+  console.log('提取到第一张图片:', firstImageObject.Url);
+} else {
+  console.log('没有从文章中提取到图片');
+}
+
+const fileAttachedBlocks = extractTargetBlocks('image', blocks)
+  .concat(extractTargetBlocks('file', blocks))
+  .filter((block) => {
+    if (!block) {
+      return false;
+    }
+    const imageOrFile = block.Image || block.File;
+    return imageOrFile && imageOrFile.File && imageOrFile.File.Url;
+  });
+
+// Download files
+await Promise.all(
+  fileAttachedBlocks
+    .map(async (block) => {
+      const fileObj = block.Image || block.File;
+      if (!fileObj || !fileObj.File || !fileObj.File.ExpiryTime) {
+        return Promise.resolve(block);
+      }
+      
+      const expiryTime = fileObj.File.ExpiryTime;
+      if (expiryTime && Date.parse(expiryTime) > Date.now()) {
+        return Promise.resolve(block);
+      }
+      return getBlock(block.Id);
+    })
+    .map((promise) =>
+      promise.then((block) => {
+        let url;
+        try {
+          const fileObj = block.Image || block.File;
+          if (fileObj && fileObj.File && fileObj.File.Url) {
+            url = new URL(fileObj.File.Url);
+          } else {
+            throw new Error('Missing file URL');
+          }
+        } catch (error) {
+          console.log('Invalid file URL: ', (block.Image || block.File)?.File?.Url);
+          return Promise.reject(error);
+        }
+        return Promise.resolve(url);
+      })
+    )
+    .map((promise) => promise.then(downloadFile))
+);
+
+const currentPostIndex = allPosts.findIndex((post) => post.Slug === slug);
+const prevPost = allPosts[currentPostIndex + 1];
+const nextPost = allPosts[currentPostIndex - 1];
+
+// 筛选出所有标题类型的块
+const headingBlocks = blocks.filter(b => 
+  ['heading_1', 'heading_2', 'heading_3'].includes(b.Type)
+);
+
+const relatedPosts = postsHavingSameTag.filter((p: interfaces.Post) => p.Slug !== post.Slug);
+
+// 准备 OG 图片
+let ogImage = '';
+// 优先使用 FeaturedImage
+if (post.FeaturedImage && post.FeaturedImage.Url) {
+  try {
+    const url = new URL(post.FeaturedImage.Url);
+    ogImage = new URL(filePath(url), Astro.site).toString();
+  } catch (error) {
+    console.log('Invalid FeaturedImage URL: ', post.FeaturedImage.Url);
+  }
+}
+// 如果没有 FeaturedImage，则使用 Cover
+else if (post.Cover && post.Cover.Url) {
+  try {
+    const url = new URL(post.Cover.Url);
+    ogImage = new URL(filePath(url), Astro.site).toString();
+  } catch (error) {
+    console.log('Invalid Cover URL: ', post.Cover.Url);
+  }
+}
+// 如果既没有FeaturedImage也没有Cover，则使用文章中的第一张图片
+else if (post.FirstImage && post.FirstImage.Url) {
+  try {
+    const url = new URL(post.FirstImage.Url);
+    ogImage = new URL(filePath(url), Astro.site).toString();
+  } catch (error) {
+    console.log('Invalid FirstImage URL: ', post.FirstImage.Url);
+  }
+}
+
+---
+
+<Layout
+  title={post.Title}
+  description={post.Excerpt}
+  path={getPostLink(post.Slug)}
+  ogImage={ogImage}
+  breadcrumbs={[
+    { label: '所有文章', href: '/' },
+    { label: post.Title, href: getPostLink(post.Slug) }
+  ]}
+>
+  <TableOfContents headings={headingBlocks} />
+  
+  <div slot="main" class={styles.main}>
+    <div class={styles.post}>
+      <PostTags post={post} enableLink={true} />
+      <PostTitle post={post} enableLink={false} />
+      <PostDate post={post} />
+      <PostBody blocks={blocks} />
+      <PostTags post={post} enableLink={true} />
+
+      <footer>
+        <PostRelativeLink prevPost={prevPost} nextPost={nextPost} />
+      </footer>
+    </div>
+  </div>
+
+  <div slot="aside">
+    <div class={styles.aside}>
+      <BlogPostsLink
+        heading="同类文章"
+        posts={
+          relatedPosts.length > 0
+            ? relatedPosts
+            : recentPosts.filter(p => p.Slug !== post.Slug)
+        }
+      />
+      <BlogPostsLink heading="最新文章" posts={recentPosts} />
+      <BlogTagsLink heading="分类" tags={tags} />
+    </div>
+  </div>
+</Layout>
+
+<style>
+/* 可以添加任何必要的额外样式 */
+</style>

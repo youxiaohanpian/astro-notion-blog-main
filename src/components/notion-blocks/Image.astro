@@ -1,0 +1,88 @@
+---
+import { ENABLE_LIGHTBOX } from '../../server-constants.ts'
+import * as interfaces from '../../lib/interfaces'
+import { filePath } from '../../lib/blog-helpers'
+import Caption from './Caption.astro'
+
+export interface Props {
+  block: interfaces.Block
+}
+
+const { block } = Astro.props
+
+// 确保 block.Image 存在
+if (!block.Image) {
+  throw new Error('Image block is undefined')
+}
+
+let image = ''
+if (block.Image.External) {
+  image = block.Image.External.Url
+} else if (block.Image.File) {
+  image = filePath(new URL(block.Image.File.Url))
+}
+---
+
+<figure class="image">
+  {
+    image && (
+      <div>
+        <div class={`image-container ${ENABLE_LIGHTBOX ? "clickable" : ""}`}>
+          {ENABLE_LIGHTBOX ? (
+            <a data-fslightbox href={image} data-type="image">
+              <img src={image} alt="Image in a image block" loading="lazy" />
+            </a>
+          ) : (
+            <img src={image} alt="Image in a image block" loading="lazy" />
+          )}
+        </div>
+        <Caption richTexts={block.Image.Caption} />
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .image {
+    display: flex;
+    margin: 1rem auto 1.5rem;
+    width: 100%;
+  }
+  .image > div {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  .image-container {
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* 默认不应用任何过渡效果 */
+  }
+  /* 只对可点击的图片添加过渡效果 */
+  .image-container.clickable {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  /* 只有可点击的图片才应用悬浮效果 */
+  .image-container.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  /* 确保非可点击图片不受全局悬浮效果影响 */
+  .image-container:not(.clickable):hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  .image > div > div img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .image {
+      margin: 0.8rem auto 1.2rem;
+    }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import { getPageLink } from '../lib/blog-helpers.ts'
+
+export interface Props {
+  currentPage: number
+  numberOfPages: number
+  tag: string
+}
+
+const { currentPage, numberOfPages, tag = '' } = Astro.props
+
+const isFirstPage = currentPage === 1
+const isLastPage = currentPage === numberOfPages
+
+const startPage = currentPage - 2 < 1 ? 1 : currentPage - 2
+const endPage =
+  currentPage + 2 > numberOfPages ? numberOfPages : currentPage + 2
+
+let pages = []
+for (let i = startPage; i <= endPage; i++) {
+  pages.push(i)
+}
+---
+
+<div class="pagination">
+  <a href={getPageLink(1, tag)} class={`pagination-arrow ${isFirstPage ? 'inactive' : ''}`}>&lt;&lt;</a>
+  {
+    pages.map((p: number) => (
+      <a href={getPageLink(p, tag)} class={`pagination-number ${p === currentPage ? 'active' : ''}`}>
+        {p}
+      </a>
+    ))
+  }
+  <a href={getPageLink(numberOfPages, tag)} class={`pagination-arrow ${isLastPage ? 'inactive' : ''}`}>&gt;&gt;</a>
+</div>
+
+<style>
+  .pagination {
+    display: flex;
+    width: 100%;
+    margin: 2rem auto;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 0.3rem;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+  }
+  
+  .pagination-number {
+    font-weight: 600;
+  }
+  
+  .pagination-arrow {
+    font-size: 0.8rem;
+  }
+  
+  .pagination a:hover:not(.inactive):not(.active) {
+    background: #fefefe;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    color: #333;
+  }
+  
+  .pagination a.active {
+    background: #333;
+    color: #ffffff;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .pagination a.inactive {
+    color: #aaa;
+    background: #f4f4f4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  @media (max-width: 480px) {
+    .pagination {
+      margin: 1.5rem auto;
+    }
+    
+    .pagination a {
+      width: 36px;
+      height: 36px;
+      margin: 0 0.2rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,249 @@
+---
+import type { Post } from '../lib/interfaces.ts'
+import { getPostLink } from '../lib/blog-helpers.ts'
+import PostTags from './PostTags.astro'
+
+export interface Props {
+  prevPost: Post
+  nextPost: Post
+}
+
+const { prevPost, nextPost } = Astro.props
+
+// 确定是否只有一篇文章
+const hasBothPosts = prevPost && nextPost;
+const hasOnlyPrev = prevPost && !nextPost;
+const hasOnlyNext = !prevPost && nextPost;
+---
+
+<div class={`post-relative-link ${hasOnlyPrev || hasOnlyNext ? "single-post" : ""}`}>
+  {hasOnlyPrev && (
+    <div class="full-width prev">
+      <a href={getPostLink(prevPost.Slug)} class="colored">
+        <div class="nav-arrow left">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+          <span>上一篇</span>
+        </div>
+        <div class="title left">{prevPost.Title}</div>
+        <div class="tags-container left">
+          <PostTags post={prevPost} enableLink={false} />
+        </div>
+      </a>
+    </div>
+  )}
+  
+  {hasOnlyNext && (
+    <div class="full-width next">
+      <a href={getPostLink(nextPost.Slug)} class="colored">
+        <div class="nav-arrow right">
+          <span>下一篇</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+          </svg>
+        </div>
+        <div class="title right">{nextPost.Title}</div>
+        <div class="tags-container right">
+          <PostTags post={nextPost} enableLink={false} />
+        </div>
+      </a>
+    </div>
+  )}
+  
+  {hasBothPosts && (
+    <>
+      <div class="prev">
+        <a href={getPostLink(prevPost.Slug)} class="colored">
+          <div class="nav-arrow left">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            <span>上一篇</span>
+          </div>
+          <div class="title left">{prevPost.Title}</div>
+          <div class="tags-container left">
+            <PostTags post={prevPost} enableLink={false} />
+          </div>
+        </a>
+      </div>
+      <div class="next">
+        <a href={getPostLink(nextPost.Slug)} class="colored">
+          <div class="nav-arrow right">
+            <span>下一篇</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+            </svg>
+          </div>
+          <div class="title right">{nextPost.Title}</div>
+          <div class="tags-container right">
+            <PostTags post={nextPost} enableLink={false} />
+          </div>
+        </a>
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  div.post-relative-link {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem;
+    width: 100%;
+  }
+  
+  /* 当只有一篇文章时，宽度与文章内容一致 */
+  div.post-relative-link.single-post {
+    max-width: 100%;
+  }
+  
+  div.post-relative-link > div {
+    flex: 1;
+    margin-top: 0;
+  }
+  
+  /* 当只有一篇文章时占据全宽 */
+  div.post-relative-link > div.full-width {
+    flex: 1;
+    width: 100%;
+  }
+  
+  div.post-relative-link > div > a {
+    display: block;
+    line-height: 1.2rem;
+    font-size: 0.95rem;
+    height: 100%;
+    text-decoration: none;
+  }
+  
+  div.post-relative-link > div > a:hover {
+    text-decoration: none;
+  }
+  
+  div.post-relative-link > div > a.colored {
+    padding: 1.2rem;
+    border-radius: 8px;
+    color: var(--text-color);
+    background: rgba(245, 245, 245, 0.8);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(230, 230, 230, 0.8);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  div.post-relative-link > div > a.colored:hover {
+    background: rgba(250, 250, 250, 0.98);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(200, 200, 200, 0.6);
+  }
+  
+  div.post-relative-link > div > a.colored::after {
+    display: none;
+  }
+  
+  /* 导航箭头样式 */
+  div.post-relative-link > div > a.colored > div.nav-arrow {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 0.5rem;
+  }
+  
+  div.post-relative-link > div > a.colored:hover > div.nav-arrow {
+    color: #555;
+  }
+  
+  div.post-relative-link > div > a.colored > div.nav-arrow svg {
+    width: 20px;
+    height: 20px;
+    transition: color 0.2s ease;
+  }
+  
+  /* 移除箭头的位移效果 */
+  div.post-relative-link > div > a.colored:hover > div.nav-arrow svg {
+    transform: none;
+  }
+  
+  div.post-relative-link > div.next > a.colored:hover > div.nav-arrow svg {
+    transform: none;
+  }
+  
+  div.post-relative-link > div > a.colored > div.nav-arrow.left {
+    justify-content: flex-start;
+  }
+  
+  div.post-relative-link > div > a.colored > div.nav-arrow.left svg {
+    margin-right: 0.5rem;
+  }
+  
+  div.post-relative-link > div > a.colored > div.nav-arrow.right {
+    justify-content: flex-end;
+  }
+  
+  div.post-relative-link > div > a.colored > div.nav-arrow.right svg {
+    margin-left: 0.5rem;
+  }
+  
+  /* 文本对齐样式 */
+  div.post-relative-link > div > a.colored > div.left {
+    text-align: left;
+  }
+  
+  div.post-relative-link > div > a.colored > div.right {
+    text-align: right;
+  }
+  
+  /* 标题样式 */
+  div.post-relative-link > div > a.colored > div.title {
+    padding: 0.2rem 0 0.6rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  div.post-relative-link > div > a.colored:hover > div.title {
+    color: #000;
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+  }
+  
+  /* 标签容器 */
+  div.post-relative-link > div > a.colored > div.tags-container {
+    display: flex;
+    margin-top: auto;
+  }
+  
+  /* 左对齐标签 */
+  div.post-relative-link > div > a.colored > div.tags-container.left {
+    justify-content: flex-start;
+  }
+  
+  /* 右对齐标签 */
+  div.post-relative-link > div > a.colored > div.tags-container.right {
+    justify-content: flex-end;
+  }
+  
+  @media (max-width: 640px) {
+    div.post-relative-link {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    div.post-relative-link > div > a.colored {
+      padding: 1rem;
+    }
+    
+    div.post-relative-link > div > a.colored > div.title {
+      font-size: 1rem;
+      padding: 0.15rem 0 0.4rem;
+    }
+  }
+</style>

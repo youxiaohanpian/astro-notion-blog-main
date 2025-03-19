@@ -1,0 +1,71 @@
+---
+// 使用内联SVG替代图标库
+---
+
+<div class="search-container">
+  <button class="search-button open-search-modal" type="button" aria-label="搜索">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+      <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128c0-70.7 57.2-128 128-128c70.7 0 128 57.2 128 128c0 70.7-57.2 128-128 128z" fill="currentColor"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .search-container {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    color: #999;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    line-height: 1;
+  }
+  
+  .search-button:hover {
+    cursor: pointer;
+    color: #555;
+    transform: none;
+  }
+  
+  .search-button:active {
+    transform: none;
+    color: #333;
+  }
+  
+  .search-button:focus {
+    outline: none;
+  }
+  
+  .search-button svg {
+    width: 14px;
+    height: 14px;
+    color: inherit;
+    vertical-align: middle;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    function handleKeydown(event: KeyboardEvent) {
+      if (event.keyCode === 75 && event.metaKey) {
+        // Ctrl+K or Cmd+K
+        const searchButton = document.querySelector('.open-search-modal') as HTMLButtonElement;
+        if (searchButton) {
+          searchButton.click();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeydown)
+  })
+</script>

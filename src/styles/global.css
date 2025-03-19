@@ -1,0 +1,211 @@
+/* 全局样式 */
+
+/* 修复标题链接样式 */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+  color: var(--primary-color) !important;
+  text-decoration: none !important;
+}
+
+/* 标题样式 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-chinese), var(--font-family-sans);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.3rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* 响应式标题 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  h5, h6 {
+    font-size: 1rem;
+  }
+}
+
+/* 内容样式 */
+p {
+  margin: 1em 0;
+  line-height: 1.7;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* 默认链接悬停效果 */
+a:hover {
+  text-decoration: underline;
+}
+
+/* 确保侧边栏链接不受全局样式影响 */
+.blog-tags-link a:hover,
+.blog-posts-link a:hover,
+.tag:hover,
+.post-relative-link a:hover {
+  text-decoration: none !important;
+}
+
+/* 列表样式 */
+ul, ol {
+  margin: 1em 0;
+  padding-left: 2em;
+  line-height: 1.7;
+}
+
+li {
+  margin: 0.5em 0;
+}
+
+/* 引用样式 */
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+  border-left: 4px solid var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.03);
+  color: var(--text-light);
+}
+
+/* 代码样式 */
+code {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+pre {
+  margin: 1.5em 0;
+  padding: 1em;
+  overflow-x: auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+/* 确保代码块组件内的代码样式不受全局样式影响 */
+.code pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.code pre {
+  margin: 0;
+  background-color: transparent;
+}
+
+/* 表格样式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+th, td {
+  padding: 0.5em;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+}
+
+/* 水平线样式 */
+hr {
+  margin: 2em 0;
+  border: 0;
+  height: 1px;
+  background-color: #eee;
+}
+
+/* 图片样式 */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* 禁止所有图片悬浮效果，除非明确指定 */
+.post-body img, 
+.post-body figure img, 
+.post-body .image img,
+img:not([class*="clickable"]):not(a img) {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* 覆盖所有可能的图片容器悬浮效果 */
+.post-body figure:not(.clickable):hover,
+.post-body .image:not(.clickable):hover,
+.post-body div:not(.clickable) > img:hover,
+.post-body p > img:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 其他元素样式 */
+mark {
+  background-color: rgba(255, 255, 0, 0.3);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+/* 移动设备适配 */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding: 0 0.8rem;
+  }
+} 

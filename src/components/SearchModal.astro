@@ -1,0 +1,365 @@
+---
+---
+
+<div class="search-modal-container">
+  <div class="overlay"></div>
+
+  <div class="search-modal">
+    <div class="search-prompt">
+      <input type="text" placeholder="搜索..." />
+    </div>
+    <div class="search-result">
+      <ul>
+        <li class="selected">
+          <a href="#">
+            <div class="search-result-title"></div>
+            <div class="search-result-description"></div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  div.search-modal-container {
+    display: none;
+  }
+
+  div.overlay {
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+  }
+
+  div.search-modal {
+    z-index: 100;
+    position: fixed;
+    top: 100px;
+    left: 20%;
+    width: 60%;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    div.search-modal {
+      left: 5%;
+      width: 90%;
+    }
+  }
+
+  div.search-prompt {
+    margin: 0;
+    padding: 0;
+  }
+  div.search-prompt input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    padding: 1rem 1.5rem;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-family: var(--font-family-chinese), var(--font-family-sans);
+  }
+  div.search-prompt input:focus {
+    outline: none;
+    border-bottom-color: var(--primary-color);
+  }
+  div.search-prompt input::placeholder {
+    color: #999;
+  }
+
+  div.search-result {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  div.search-result ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+  div.search-result ul > :global(li) {
+    margin: 0 0.5rem;
+  }
+  div.search-result ul > :global(li > a) {
+    display: block;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  div.search-result ul > :global(li > a:hover) {
+    background-color: #f5f5f5;
+  }
+  div.search-result ul > :global(li.selected > a) {
+    background-color: #f0f7ff;
+    border-left: 3px solid var(--primary-color);
+  }
+
+  div.search-result :global(div.search-result-title) {
+    padding: 0.1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.4rem;
+    font-weight: 600;
+    font-family: var(--font-family-chinese), var(--font-family-sans);
+  }
+  div.search-result :global(div.search-result-description) {
+    margin: 0.3rem 0 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    font-family: var(--font-family-chinese), var(--font-family-sans);
+  }
+</style>
+
+<script>
+  interface FeedItem {
+    title: string;
+    link: string;
+    description?: string;
+    pubDate?: string;
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    let feedItems: FeedItem[] = [];
+    let fetched = false;
+
+    async function openModal(): Promise<void> {
+      const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
+      if (modalContainer) {
+        modalContainer.style.display = 'block';
+      }
+      
+      const searchInput = document.querySelector('.search-prompt input') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.focus();
+      }
+
+      if (!fetched) {
+        await fetchRSS();
+      }
+      searchAndRender();
+    }
+
+    function closeModal(): void {
+      const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
+      if (modalContainer) {
+        modalContainer.style.display = 'none';
+      }
+    }
+
+    function handleKeydown(event: KeyboardEvent): void {
+      if (event.keyCode === 13) {
+        // Enter
+        select();
+      } else if (event.keyCode === 27) {
+        // ESC
+        closeModal();
+      } else if (event.keyCode === 38) {
+        // Up
+        selectUp(event);
+      } else if (event.keyCode === 40) {
+        // Down
+        selectDown(event);
+      } else {
+        searchAndRender();
+      }
+    }
+
+    function select(): void {
+      const a = document.querySelector('.search-result ul > li.selected a') as HTMLAnchorElement;
+      if (a) {
+        a.click();
+      }
+    }
+
+    function selectFirst(): void {
+      const li = document.querySelector('.search-result ul > li:first-child');
+      if (li) {
+        li.classList.add('selected');
+      }
+    }
+
+    function selectUp(event: KeyboardEvent): void {
+      event.preventDefault();
+
+      const ul = document.querySelector('.search-result ul');
+      if (!ul) return;
+      
+      const selected = ul.querySelector('.selected');
+      if (selected) {
+        selected.classList.remove('selected');
+
+        if (selected.previousElementSibling) {
+          selected.previousElementSibling.classList.add('selected');
+        } else {
+          const lastChild = ul.lastElementChild;
+          if (lastChild) {
+            lastChild.classList.add('selected');
+          }
+        }
+      } else {
+        const lastChild = ul.lastElementChild;
+        if (lastChild) {
+          lastChild.classList.add('selected');
+        }
+      }
+    }
+
+    function selectDown(event: KeyboardEvent): void {
+      event.preventDefault();
+
+      const ul = document.querySelector('.search-result ul');
+      if (!ul) return;
+      
+      const selected = ul.querySelector('.selected');
+      if (selected) {
+        selected.classList.remove('selected');
+
+        if (selected.nextElementSibling) {
+          selected.nextElementSibling.classList.add('selected');
+        } else {
+          const firstChild = ul.firstElementChild;
+          if (firstChild) {
+            firstChild.classList.add('selected');
+          }
+        }
+      } else {
+        const firstChild = ul.firstElementChild;
+        if (firstChild) {
+          firstChild.classList.add('selected');
+        }
+      }
+    }
+
+    function handleMouseover(event: MouseEvent): void {
+      const target = event.target as HTMLElement;
+      const ul = target.closest('ul');
+      if (!ul) return;
+      
+      Array.from(ul.children).forEach((element) => {
+        element.classList.remove('selected');
+      });
+      
+      const li = target.closest('li');
+      if (li) {
+        li.classList.add('selected');
+      }
+    }
+
+    function searchAndRender(): void {
+      const searchInput = document.querySelector('.search-prompt input') as HTMLInputElement;
+      if (!searchInput) return;
+      
+      const text = searchInput.value.trim();
+
+      if (text !== '') {
+        const results = search(text);
+        renderResults(results);
+      } else {
+        renderResults(feedItems);
+      }
+
+      selectFirst();
+    }
+
+    function search(query: string): FeedItem[] {
+      const results: FeedItem[] = [];
+      feedItems.forEach((item: FeedItem) => {
+        if (item.title.includes(query) || item?.description?.includes(query)) {
+          results.push(item);
+        }
+      });
+      return results;
+    }
+
+    function renderResults(results: FeedItem[]): void {
+      const ul = document.querySelector('.search-result ul');
+      if (!ul) return;
+      
+      ul.innerHTML = '';
+
+      results.forEach((item: FeedItem) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        const title = document.createElement('div');
+        const description = document.createElement('div');
+
+        title.classList.add('search-result-title');
+        title.textContent = item.title;
+        description.classList.add('search-result-description');
+        description.textContent = item.description || '';
+        a.href = item.link;
+
+        li.addEventListener('mouseover', handleMouseover);
+
+        a.appendChild(title);
+        a.appendChild(description);
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+    }
+
+    async function fetchRSS(): Promise<void> {
+      const url = new URL(location.href);
+      const port = url.port ? `:${url.port}` : '';
+
+      try {
+        const res = await fetch(
+          `${url.protocol}//${url.hostname}${port}/feed`
+        );
+        if (res.status !== 200) {
+          console.log(res.status);
+          throw new Error('Failed to fetch RSS feed');
+        }
+
+        const body = await res.text();
+
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(body, 'text/xml');
+
+        Array.from(xml.getElementsByTagName('item')).forEach((item) => {
+          const titleElement = item.getElementsByTagName('title')[0];
+          const linkElement = item.getElementsByTagName('link')[0];
+          const descriptionElement = item.getElementsByTagName('description')[0];
+          const pubDateElement = item.getElementsByTagName('pubDate')[0];
+
+          if (titleElement && linkElement) {
+            feedItems.push({
+              title: titleElement.textContent || '',
+              link: linkElement.textContent || '',
+              description: descriptionElement?.textContent || '',
+              pubDate: pubDateElement?.textContent || '',
+            });
+          }
+        });
+
+        fetched = true;
+      } catch (error) {
+        console.error('Error fetching RSS feed:', error);
+      }
+    }
+
+    // 添加事件监听器
+    const searchButtons = document.getElementsByClassName('open-search-modal');
+    Array.from(searchButtons).forEach((element) => {
+      element.addEventListener('click', openModal);
+    });
+    
+    const overlay = document.getElementsByClassName('overlay')[0];
+    if (overlay) {
+      overlay.addEventListener('click', closeModal);
+    }
+    
+    document.addEventListener('keydown', handleKeydown);
+  });
+</script>

@@ -1,0 +1,174 @@
+.gray,
+.gray:hover {
+  color: rgba(120, 119, 116, 1);
+}
+.brown,
+.brown:hover {
+  color: rgba(159, 107, 83, 1);
+}
+.orange,
+.orange:hover {
+  color: rgba(217, 115, 13, 1);
+}
+.yellow,
+.yellow:hover {
+  color: rgba(203, 145, 47, 1);
+}
+.green,
+.green:hover {
+  color: rgba(68, 131, 97, 1);
+}
+.blue,
+.blue:hover {
+  color: rgba(51, 126, 169, 1);
+}
+.purple,
+.purple:hover {
+  color: rgba(144, 101, 176, 1);
+}
+.pink,
+.pink:hover {
+  color: rgba(193, 76, 138, 1);
+}
+.red,
+.red:hover {
+  color: rgba(212, 76, 71, 1);
+}
+.gray-background {
+  background: rgba(241, 241, 239, 1) !important;
+}
+.brown-background {
+  background: rgba(244, 238, 238, 1) !important;
+}
+.orange-background {
+  background: rgba(251, 236, 221, 1) !important;
+}
+.yellow-background {
+  background: rgba(251, 243, 219, 1) !important;
+}
+.green-background {
+  background: rgba(237, 243, 236, 1) !important;
+}
+.blue-background {
+  background: rgba(231, 243, 248, 1) !important;
+}
+.purple-background {
+  background: rgba(244, 240, 247, 0.8) !important;
+}
+.pink-background {
+  background: rgba(249, 238, 243, 0.8) !important;
+}
+.red-background {
+  background: rgba(253, 235, 236, 1) !important;
+}
+
+/* 标签文字颜色统一修改 */
+.tag.light-gray, 
+.tag.gray, 
+.tag.brown, 
+.tag.orange, 
+.tag.yellow, 
+.tag.green, 
+.tag.blue, 
+.tag.purple, 
+.tag.pink, 
+.tag.red {
+  color: #333 !important; /* 修改为深灰色 */
+  border-radius: 8px !important; /* 统一修改圆角为8px */
+}
+
+/* 全局分割线样式统一 */
+.divider, hr {
+  margin: 1rem 0;
+  background-color: #dedede;
+  border: none;
+  height: 1px;
+}
+
+/* 各个标签的背景色 */
+.tag.light-gray {
+  background: rgba(227, 226, 224, 0.5) !important;
+}
+.tag.gray {
+  background: rgb(227, 226, 224) !important;
+}
+.tag.brown {
+  background: rgb(238, 224, 218) !important;
+}
+.tag.orange {
+  background: rgb(250, 222, 201) !important;
+}
+.tag.yellow {
+  background: rgb(253, 236, 200) !important;
+}
+.tag.green {
+  background: rgb(219, 237, 219) !important;
+}
+.tag.blue {
+  background: rgb(211, 229, 239) !important;
+}
+.tag.purple {
+  background: rgb(232, 222, 238) !important;
+}
+.tag.pink {
+  background: rgb(245, 224, 233) !important;
+}
+.tag.red {
+  background: rgb(255, 226, 221) !important;
+}
+
+/* 可点击标签的悬停效果 */
+a.tag {
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+a.tag:hover {
+  transform: translateY(-1px);
+}
+
+a.tag.light-gray:hover {
+  background: rgba(227, 226, 224, 0.8) !important;
+}
+a.tag.gray:hover {
+  background: rgba(227, 226, 224, 0.8) !important;
+}
+a.tag.brown:hover {
+  background: rgba(238, 224, 218, 0.8) !important;
+}
+a.tag.orange:hover {
+  background: rgba(250, 222, 201, 0.8) !important;
+}
+a.tag.yellow:hover {
+  background: rgba(253, 236, 200, 0.8) !important;
+}
+a.tag.green:hover {
+  background: rgba(219, 237, 219, 0.8) !important;
+}
+a.tag.blue:hover {
+  background: rgba(211, 229, 239, 0.8) !important;
+}
+a.tag.purple:hover {
+  background: rgba(232, 222, 238, 0.8) !important;
+}
+a.tag.pink:hover {
+  background: rgba(245, 224, 233, 0.8) !important;
+}
+a.tag.red:hover {
+  background: rgba(255, 226, 221, 0.8) !important;
+}
+
+/* 文章内容中链接样式 */
+.post-body a:not(.tag) {
+  margin-right: 0.3em; /* 链接右侧间距 */
+  display: inline-block; /* 确保间距生效 */
+}
+
+/* 书签卡片全局样式 */
+.post-body .bookmark {
+  margin: 1.5rem 0; /* 确保书签上下有足够间距 */
+}
+
+/* 连续书签之间的额外间距 */
+.post-body .bookmark + .bookmark {
+  margin-top: 2rem; /* 连续书签之间增加更多间距 */
+}

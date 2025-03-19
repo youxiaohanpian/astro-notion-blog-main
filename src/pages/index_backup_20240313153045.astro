@@ -1,0 +1,50 @@
+<Layout title="博客首页" description="博客文章列表" path="/" ogImage="">
+  <div slot="main" class={`${styles.main} blog-posts-container`}>
+    <div class="masonry-grid">
+      {posts.length === 0 ? (
+        <NoContents contents={posts} />
+      ) : (
+        posts.map((post) => (
+          <article class="blog-post">
+            <div class="blog-post-header-tags">
+              <PostTags post={post} enableLink={true} />
+            </div>
+            <a href={getPostLink(post.Slug)} class="blog-post-link">
+              <div class="blog-post-content">
+                <div class="blog-post-header">
+                  <PostTitle post={post} enableLink={false} />
+                  <PostDate post={post} />
+                </div>
+                <div class="blog-post-body">
+                  <PostExcerpt post={post} />
+                </div>
+              </div>
+              {(post.FeaturedImage?.Url || post.Cover?.Url) && (
+                <div class="blog-post-image">
+                  <PostFeaturedImage post={post} />
+                </div>
+              )}
+            </a>
+          </article>
+        ))
+      )}
+    </div>
+
+    <footer>
+      <Pagination currentPage={1} numberOfPages={numberOfPages} tag="" />
+    </footer>
+  </div>
+
+  <div slot="aside" class={styles.aside}>
+    <!-- 替换为详情页的右侧内容 -->
+    <div class="author-card">
+      <!-- 作者信息 -->
+    </div>
+    <div class="related-posts">
+      <!-- 相关文章 -->
+    </div>
+    <div class="tag-cloud">
+      <!-- 标签云 -->
+    </div>
+  </div>
+</Layout>
