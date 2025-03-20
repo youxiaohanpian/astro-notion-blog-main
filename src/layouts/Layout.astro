@@ -211,6 +211,24 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
             e.stopPropagation();
           });
         });
+
+        // 导航栏滚动固定效果
+        const header = document.querySelector('.site-header');
+        const searchWrapper = document.querySelector('.search-wrapper');
+        
+        if (header && searchWrapper) {
+          const headerHeight = (header as HTMLElement).offsetHeight;
+          
+          window.addEventListener('scroll', () => {
+            if (window.scrollY > headerHeight) {
+              searchWrapper.classList.add('fixed');
+              document.body.style.paddingTop = (searchWrapper as HTMLElement).offsetHeight + 'px';
+            } else {
+              searchWrapper.classList.remove('fixed');
+              document.body.style.paddingTop = '0';
+            }
+          });
+        }
       });
     </script>
   </body>
@@ -410,8 +428,8 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   .breadcrumbs {
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
-    margin-bottom: 0;
+    font-size: 0.95rem;
+    padding: 0.2rem 0;
   }
   
   .nav-container :global(.search-container) {
@@ -540,5 +558,89 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     width: 18px;
     height: 18px;
     color: inherit;
+  }
+
+  /* 导航栏固定样式 */
+  .search-wrapper {
+    width: 100%;
+    padding: 0.8rem 2rem;
+    background-color: white;
+    z-index: 998;
+    transition: all 0.3s ease;
+  }
+  
+  .search-wrapper.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 2rem;
+  }
+  
+  /* 导航栏内容 */
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* 面包屑导航样式 */
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-item:hover {
+    color: #000;
+  }
+
+  .breadcrumb-item.active {
+    color: #333;
+    font-weight: 500;
+  }
+
+  .breadcrumb-item.home {
+    display: flex;
+    align-items: center;
+  }
+
+  .home-icon {
+    margin-right: 0.2rem;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.5rem;
+    color: #aaa;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .search-wrapper, .search-wrapper.fixed {
+      padding: 0.5rem 1rem;
+    }
+    
+    .breadcrumb-item.home {
+      margin-right: 0;
+    }
+    
+    .breadcrumb-item:not(.home):not(.active) {
+      display: none;
+    }
+    
+    .breadcrumb-separator {
+      margin: 0 0.3rem;
+    }
   }
 </style>
