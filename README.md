@@ -55,7 +55,7 @@
 - 优化Slug长度，确保URL简洁易读
 - 允许删除Notion数据表中的Slug字段，系统会自动处理
 
-## notion 表格字段：
+## notion 表格字段
 Page、Tags、Date、Excerpt、FeaturedImage、Published、Rank、Slug
 ## 扩展与自定义指南
 
