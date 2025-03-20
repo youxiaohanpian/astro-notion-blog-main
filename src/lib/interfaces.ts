@@ -13,7 +13,7 @@ export interface Post {
   Slug: string
   Date: string
   Tags: SelectProperty[]
-  Excerpt: string
+  Excerpt?: string  // 使用可选标记，以防某些文章没有摘要
   FeaturedImage: FileObject | null
   FirstImage: FileObject | null
   Rank: number

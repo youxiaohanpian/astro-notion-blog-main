@@ -5,7 +5,9 @@ export interface Props {
   post: Post
 }
 
+// 添加错误处理和默认值
 const { post } = Astro.props
+const excerpt = post?.Excerpt ?? '暂无摘要'  // 在这里添加默认值
 ---
 
 <div class="post-excerpt">
