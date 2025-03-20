@@ -55,23 +55,22 @@ if (block.Image.External) {
   .image-container {
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /* 默认不应用任何过渡效果 */
+       /* 默认不应用任何过渡效果 */
   }
-  /* 只对可点击的图片添加过渡效果 */
+  /* 只对可点击的图片添加过渡效果
   .image-container.clickable {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   /* 只有可点击的图片才应用悬浮效果 */
-  .image-container.clickable:hover {
+  /* .image-container.clickable:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   }
   /* 确保非可点击图片不受全局悬浮效果影响 */
-  .image-container:not(.clickable):hover {
+  /* .image-container:not(.clickable):hover {
     transform: none !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-  }
+  } */
   .image > div > div img {
     display: block;
     max-width: 100%;

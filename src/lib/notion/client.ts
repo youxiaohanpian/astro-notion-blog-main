@@ -64,8 +64,26 @@ const client = new Client({
 
 let postsCache: Post[] | null = null
 let dbCache: Database | null = null
+let blocksCache: Record<string, Block[]> = {}
+let pageCache: Record<string, Post> = {}
+let tagsCache: SelectProperty[] | null = null
+const MAX_CONCURRENT_REQUESTS = 3
+let lastRequestTime = 0
+const REQUEST_THROTTLE_MS = 300
 
 const numberOfRetry = 2
+
+async function throttleRequest(): Promise<void> {
+  const now = Date.now()
+  const timeSinceLastRequest = now - lastRequestTime
+  
+  if (timeSinceLastRequest < REQUEST_THROTTLE_MS) {
+    const delay = REQUEST_THROTTLE_MS - timeSinceLastRequest
+    await new Promise(resolve => setTimeout(resolve, delay))
+  }
+  
+  lastRequestTime = Date.now()
+}
 
 export async function getAllPosts(): Promise<Post[]> {
   if (postsCache !== null) {
@@ -171,13 +189,38 @@ export async function getRankedPosts(pageSize = 10): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
+  // 检查缓存
+  const cachedPost = Object.values(pageCache).find(post => post.Slug === slug);
+  if (cachedPost) {
+    return cachedPost;
+  }
+  
   const allPosts = await getAllPosts()
-  return allPosts.find((post) => post.Slug === slug) || null
+  const post = allPosts.find((post) => post.Slug === slug) || null;
+  
+  // 保存到缓存
+  if (post) {
+    pageCache[post.PageId] = post;
+  }
+  
+  return post;
 }
 
 export async function getPostByPageId(pageId: string): Promise<Post | null> {
+  // 检查缓存
+  if (pageCache[pageId]) {
+    return pageCache[pageId];
+  }
+  
   const allPosts = await getAllPosts()
-  return allPosts.find((post) => post.PageId === pageId) || null
+  const post = allPosts.find((post) => post.PageId === pageId) || null;
+  
+  // 保存到缓存
+  if (post) {
+    pageCache[pageId] = post;
+  }
+  
+  return post;
 }
 
 export async function getPostsByTag(
@@ -246,11 +289,19 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
 }
 
 export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
+  // 检查缓存
+  if (blocksCache[blockId]) {
+    return blocksCache[blockId]
+  }
+
   let results: responses.BlockObject[] = []
 
   if (fs.existsSync(`tmp/${blockId}.json`)) {
     results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
   } else {
+    // 请求节流
+    await throttleRequest();
+    
     const params: requestParams.RetrieveBlockChildren = {
       block_id: blockId,
     }
@@ -283,14 +334,28 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
       }
 
       params['start_cursor'] = res.next_cursor as string
+      
+      // 添加请求节流
+      await throttleRequest();
     }
   }
 
   const allBlocks = results.map((blockObject) => _buildBlock(blockObject))
 
-  for (let i = 0; i < allBlocks.length; i++) {
-    const block = allBlocks[i]
-
+  // 使用Promise.all和批量处理来限制并发请求数
+  const processBatch = async (blocks: Block[], startIdx: number, batchSize: number) => {
+    const endIdx = Math.min(startIdx + batchSize, blocks.length);
+    const batchPromises = [];
+    
+    for (let i = startIdx; i < endIdx; i++) {
+      const block = blocks[i];
+      batchPromises.push(processBlock(block));
+    }
+    
+    await Promise.all(batchPromises);
+  };
+  
+  const processBlock = async (block: Block) => {
     if (block.Type === 'table' && block.Table) {
       block.Table.Rows = await _getTableRows(block.Id)
     } else if (block.Type === 'column_list' && block.ColumnList) {
@@ -342,8 +407,15 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
     } else if (block.Type === 'callout' && block.Callout && block.HasChildren) {
       block.Callout.Children = await getAllBlocksByBlockId(block.Id)
     }
+  };
+
+  // 以每批MAX_CONCURRENT_REQUESTS个块的大小批量处理
+  for (let i = 0; i < allBlocks.length; i += MAX_CONCURRENT_REQUESTS) {
+    await processBatch(allBlocks, i, MAX_CONCURRENT_REQUESTS);
   }
 
+  // 保存到缓存
+  blocksCache[blockId] = allBlocks;
   return allBlocks
 }
 
@@ -376,10 +448,14 @@ export async function getBlock(blockId: string): Promise<Block> {
 }
 
 export async function getAllTags(): Promise<SelectProperty[]> {
+  if (tagsCache !== null) {
+    return tagsCache
+  }
+
   const allPosts = await getAllPosts()
 
   const tagNames: string[] = []
-  return allPosts
+  const tags: SelectProperty[] = allPosts
     .flatMap((post) => post.Tags)
     .reduce((acc, tag) => {
       if (!tagNames.includes(tag.name)) {
@@ -391,6 +467,9 @@ export async function getAllTags(): Promise<SelectProperty[]> {
     .sort((a: SelectProperty, b: SelectProperty) =>
       a.name.localeCompare(b.name)
     )
+
+  tagsCache = tags
+  return tags
 }
 
 export async function downloadFile(url: URL) {
@@ -1008,9 +1087,8 @@ function _buildPost(pageObject: responses.PageObject): Post {
     }
   }
 
-  // 尝试从文章内容中提取第一张图片
-  // 注意：这需要在接下来的步骤中在获取完整文章内容后实现
-  // 这里只是预留了接口
+  // 初始化FirstImage属性为null，稍后在获取文章内容时会尝试提取实际内容中的第一张图片
+  let firstImage: FileObject | null = null;
 
   const title = prop.Page.title
     ? prop.Page.title.map((richText) => richText.plain_text).join('')
@@ -1038,6 +1116,7 @@ function _buildPost(pageObject: responses.PageObject): Post {
         ? prop.Excerpt.rich_text.map((richText) => richText.plain_text).join('')
         : '',
     FeaturedImage: featuredImage,
+    FirstImage: firstImage,
     Rank: prop.Rank.number ? prop.Rank.number : 0,
   }
 
@@ -1093,4 +1172,70 @@ function _buildRichText(richTextObject: responses.RichTextObject): RichText {
   }
 
   return richText
+}
+
+// 更新页面的点赞数
+export async function updatePostLikes(pageId: string, action: 'like' | 'unlike'): Promise<number> {
+  try {
+    console.log(`开始${action === 'like' ? '点赞' : '取消点赞'}文章，pageId:`, pageId);
+    
+    // 先获取当前页面以获取当前点赞数
+    const response = await client.pages.retrieve({ page_id: pageId });
+    
+    // 使用类型断言获取当前点赞数，如果属性不存在或值为空则默认为0
+    const pageObject = response as any;
+    const currentLikes = pageObject.properties.Likes?.number || 0;
+    console.log('当前点赞数:', currentLikes);
+    
+    // 根据操作类型计算新的点赞数
+    const newLikes = action === 'like' ? currentLikes + 1 : Math.max(0, currentLikes - 1);
+    console.log('更新后的点赞数将为:', newLikes);
+    
+    // 更新页面的点赞数
+    const updateResult = await client.pages.update({
+      page_id: pageId,
+      properties: {
+        Likes: { number: newLikes }
+      }
+    });
+    console.log('Notion API更新响应:', JSON.stringify(updateResult, null, 2));
+    
+    // 返回更新后的点赞数
+    return newLikes;
+  } catch (error) {
+    console.error('更新页面点赞数失败:', error);
+    throw error;
+  }
+}
+
+// 获取页面的点赞数
+export async function getPostLikes(pageId: string): Promise<number> {
+  try {
+    console.log('开始获取页面点赞数，pageId:', pageId);
+    const response = await client.pages.retrieve({ page_id: pageId });
+    console.log('Notion API响应:', JSON.stringify(response, null, 2));
+    
+    // 使用类型断言处理响应
+    const pageObject = response as any;
+    
+    // 检查响应中的properties
+    if (!pageObject.properties) {
+      console.error('响应中没有properties属性:', pageObject);
+      return 0;
+    }
+    
+    // 检查Likes属性是否存在
+    if (!pageObject.properties.Likes) {
+      console.error('页面中没有Likes属性，请确认Notion数据库中是否有名为"Likes"的属性(注意大小写)');
+      console.log('可用的属性:', Object.keys(pageObject.properties));
+      return 0;
+    }
+    
+    const likes = pageObject.properties.Likes?.number || 0;
+    console.log('获取到的点赞数:', likes);
+    return likes;
+  } catch (error) {
+    console.error('获取页面点赞数失败:', error);
+    throw error;
+  }
 }

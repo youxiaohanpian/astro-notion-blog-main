@@ -15,11 +15,11 @@ const hasBothPosts = prevPost && nextPost;
 const hasOnlyPrev = prevPost && !nextPost;
 const hasOnlyNext = !prevPost && nextPost;
 //中间的点号 · 显示为方块的修改方法
-const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
+const formattedTitle = nextPost?.Title?.replace(/·/g, ' · ') || '';
 ---
 
 <div class={`post-relative-link ${hasOnlyPrev || hasOnlyNext ? "single-post" : ""}`}>
-  {hasOnlyPrev && (
+  {hasOnlyPrev && prevPost && (
     <div class="full-width prev">
       <a href={getPostLink(prevPost.Slug)} class="colored">
         <div class="nav-arrow left">
@@ -28,7 +28,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
           </svg>
           <span>上一篇</span>
         </div>
-        <div class="title left">{prevPost.Title}</div>
+        <div class="title left">{prevPost.Title || '无标题'}</div>
         <div class="tags-container left">
           <PostTags post={prevPost} enableLink={false} />
         </div>
@@ -36,7 +36,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
     </div>
   )}
   
-  {hasOnlyNext && (
+  {hasOnlyNext && nextPost && (
     <div class="full-width next">
       <a href={getPostLink(nextPost.Slug)} class="colored">
         <div class="nav-arrow right">
@@ -45,7 +45,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
             <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
           </svg>
         </div>
-        <div class="title right">{formattedTitle}</div>
+        <div class="title right">{formattedTitle || '无标题'}</div>
         <div class="tags-container right">
           <PostTags post={nextPost} enableLink={false} />
         </div>
@@ -53,7 +53,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
     </div>
   )}
   
-  {hasBothPosts && (
+  {hasBothPosts && prevPost && nextPost && (
     <>
       <div class="prev">
         <a href={getPostLink(prevPost.Slug)} class="colored">
@@ -63,7 +63,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
             </svg>
             <span>上一篇</span>
           </div>
-          <div class="title left">{prevPost.Title}</div>
+          <div class="title left">{prevPost.Title || '无标题'}</div>
           <div class="tags-container left">
             <PostTags post={prevPost} enableLink={false} />
           </div>
@@ -77,7 +77,7 @@ const formattedTitle = nextPost.Title.replace(/·/g, ' · ');
               <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
             </svg>
           </div>
-          <div class="title right">{formattedTitle}</div>
+          <div class="title right">{formattedTitle || '无标题'}</div>
           <div class="tags-container right">
             <PostTags post={nextPost} enableLink={false} />
           </div>

@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel/serverless';
 import icon from 'astro-icon';
 import { CUSTOM_DOMAIN, BASE_PATH } from './src/server-constants';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
@@ -36,6 +37,8 @@ const getSite = function () {
 export default defineConfig({
   site: getSite(),
   base: BASE_PATH,
+  output: 'server',
+  adapter: vercel(),
   integrations: [
     icon(),
     CoverImageDownloader(),

@@ -75,7 +75,7 @@ p {
 }
 
 a {
-  color: var(--primary-color);
+  color: #87a3c4;
   text-decoration: none;
 }
 
@@ -118,7 +118,7 @@ code {
   font-size: 0.9em;
   background-color: rgba(0, 0, 0, 0.05);
   padding: 0.2em 0.4em;
-  border-radius: 3px;
+  border-radius: 8px;
 }
 
 pre {
@@ -126,7 +126,7 @@ pre {
   padding: 1em;
   overflow-x: auto;
   background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 /* 确保代码块组件内的代码样式不受全局样式影响 */
@@ -169,7 +169,7 @@ hr {
 img {
   max-width: 100%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 /* 禁止所有图片悬浮效果，除非明确指定 */
@@ -194,7 +194,7 @@ img:not([class*="clickable"]):not(a img) {
 mark {
   background-color: rgba(255, 255, 0, 0.3);
   padding: 0.1em 0.3em;
-  border-radius: 3px;
+  border-radius: 8px;
 }
 
 /* 移动设备适配 */
