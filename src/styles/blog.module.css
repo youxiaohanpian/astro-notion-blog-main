@@ -14,6 +14,8 @@
 .main {
   min-width: 0;
   margin-top: 0.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .post {
@@ -95,4 +97,16 @@
 :global(.blog-posts-link li:last-child),
 :global(.blog-tags-link li:last-child) {
   margin-bottom: 0;
+}
+
+@media (max-width: 1220px) {
+  .post {
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .post {
+    padding: 0;
+  }
 }

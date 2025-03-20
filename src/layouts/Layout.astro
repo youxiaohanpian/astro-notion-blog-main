@@ -324,11 +324,11 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
   .content-wrapper {
     display: flex;
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
     flex: 1;
     width: 100%;
-    padding: 0 1rem;
+    padding: 0;
   }
 
   /* 无侧边栏布局 */
@@ -411,7 +411,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     display: flex;
     justify-content: center;
     margin: -1rem auto 1rem;
-    padding: 0 1rem;
+    padding: 0;
     max-width: 100%;
     position: relative;
     z-index: 10;
@@ -423,13 +423,15 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
+    padding: 0.6em 0em 0em;
   }
   
   .breadcrumbs {
     display: flex;
     align-items: center;
     font-size: 0.95rem;
-    padding: 0rem 0;
+    padding: 0.6rem 0;
+    height: 50px;
   }
   
   .nav-container :global(.search-container) {
@@ -491,6 +493,16 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     color: #ccc;
   }
   
+  @media (max-width: 1220px) {
+    .nav-container {
+      padding: 0 1rem;
+    }
+    
+    .content-wrapper {
+      padding: 0 1rem;
+    }
+  }
+
   @media (max-width: 768px) {
     .content-wrapper {
       flex-direction: column;
@@ -505,7 +517,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       width: 100%;
       padding: 2rem 0 0;
     }
-
+    
     .site-title {
       font-size: 2rem;
     }
@@ -517,8 +529,21 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     .home-text {
       display: none;
     }
+
+    .search-wrapper, .search-wrapper.fixed {
+      padding: 0.5rem 0;
+    }
+    
+    .nav-container {
+      padding: 0 1rem;
+    }
+    
+    .breadcrumb-item.home {
+      margin-right: 0;
+    }
     
     .breadcrumbs {
+      height: 40px;
       font-size: 0.8rem;
     }
   }
@@ -563,7 +588,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   /* 导航栏固定样式 */
   .search-wrapper {
     width: 100%;
-    padding: 0.8rem 2rem;
+    padding: 0.8rem 0;
     background-color: white;
     z-index: 998;
     transition: all 0.3s ease;
@@ -575,7 +600,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     left: 0;
     right: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1.2rem 2rem 0.6rem;
+    padding: 0;
   }
   
   /* 导航栏内容 */
@@ -628,7 +653,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   /* 响应式调整 */
   @media (max-width: 768px) {
     .search-wrapper, .search-wrapper.fixed {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0;
     }
     
     .breadcrumb-item.home {

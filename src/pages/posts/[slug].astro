@@ -170,7 +170,7 @@ else if (post.FirstImage && post.FirstImage.Url) {
   <TableOfContents headings={headingBlocks} />
   
   <div slot="main" class={styles.main}>
-    <div class={styles.post}>
+    <div class="blog-posts-container">
       <PostTags post={post} enableLink={true} />
       <PostTitle post={post} enableLink={false} />
       <PostDate post={post} />
@@ -218,55 +218,6 @@ else if (post.FirstImage && post.FirstImage.Url) {
     </div>
   </div>
 </Layout>
-
-<style>
-  .post-actions {
-    display: flex;
-    gap: 1rem;
-    margin: 2rem 0 1.5rem;
-    justify-content: center;
-  }
-
-  .share-button,
-  .like-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid #eee;
-    background-color: white;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .share-button:hover,
-  .like-button:hover {
-    background-color: #f8f8f8;
-    border-color: #ddd;
-  }
-
-  .share-button:active,
-  .like-button:active {
-    transform: scale(0.98);
-  }
-
-  .like-button.liked {
-    color: #ff4b4b;
-  }
-
-  .like-button.liked svg {
-    fill: #ff4b4b;
-    stroke: #ff4b4b;
-  }
-
-  .like-count {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #666;
-  }
-</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -357,6 +308,67 @@ else if (post.FirstImage && post.FirstImage.Url) {
   }
 </script>
 
+<style>
+  .post-actions {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem;
+    justify-content: center;
+  }
+
+  .share-button,
+  .like-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #eee;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .share-button:hover,
+  .like-button:hover {
+    background-color: #f8f8f8;
+    border-color: #ddd;
+  }
+
+  .share-button:active,
+  .like-button:active {
+    transform: scale(0.98);
+  }
+
+  .like-button.liked {
+    color: #ff4b4b;
+  }
+
+  .like-button.liked svg {
+    fill: #ff4b4b;
+    stroke: #ff4b4b;
+  }
+
+  .like-count {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+  }
+  
+  .blog-posts-container {
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  @media (max-width: 1220px) {
+    .blog-posts-container {
+      padding: 0;
+    }
+  }
+</style>
+
 <style is:global>
   .copy-tooltip {
     position: fixed;
@@ -384,5 +396,26 @@ else if (post.FirstImage && post.FirstImage.Url) {
     0% { transform: scale(1); }
     50% { transform: scale(1.3); }
     100% { transform: scale(1); }
+  }
+</style>
+
+<style>
+  .post {
+    margin: 0;
+    padding-top: 0;
+    max-width: 800px;
+    word-break: break-word;
+  }
+
+  @media (max-width: 1220px) {
+    .post {
+      padding: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post {
+      padding: 0 1rem;
+    }
   }
 </style>

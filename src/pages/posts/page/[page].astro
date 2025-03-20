@@ -86,7 +86,7 @@ await Promise.all(
         ) : (
           posts.map((post) => (
             <article class="blog-post">
-              <a href={getPostLink(post.Slug)} class="blog-post-link">
+              <a href={getPostLink(post.Slug)} class="blog-post-link" target="_blank" rel="noopener noreferrer">
                 {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
                   <div class="blog-post-image">
                     <PostFeaturedImage post={post} />

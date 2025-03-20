@@ -63,8 +63,8 @@ const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) 
         ) : (
           posts.map((post) => (
             <article class="blog-post">
-              <a href={getPostLink(post.Slug)} class="blog-post-link">
-                {(post.FeaturedImage?.Url || post.Cover?.Url) && (
+              <a href={getPostLink(post.Slug)} class="blog-post-link" target="_blank" rel="noopener noreferrer">
+                {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
                   <div class="blog-post-image">
                     <PostFeaturedImage post={post} />
                   </div>
