@@ -58,6 +58,11 @@ import { Client, APIResponseError } from '@notionhq/client'
 import { generateSlugFromTitleSync, generateSlugFromTitle } from '../slug-helpers'
 import { buildURLToHTMLMap } from '../blog-helpers'
 
+// 添加调试日志
+console.log('Loading environment variables:')
+console.log('NOTION_API_SECRET:', NOTION_API_SECRET)
+console.log('DATABASE_ID:', DATABASE_ID)
+
 const client = new Client({
   auth: NOTION_API_SECRET,
 })

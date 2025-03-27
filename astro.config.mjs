@@ -7,6 +7,10 @@ import CustomIconDownloader from './src/integrations/custom-icon-downloader';
 import FeaturedImageDownloader from './src/integrations/featured-image-downloader';
 import PublicNotionCopier from './src/integrations/public-notion-copier';
 
+// 加载环境变量
+import dotenv from 'dotenv';
+dotenv.config();
+
 const getSite = function () {
   if (CUSTOM_DOMAIN) {
     return new URL(BASE_PATH, `https://${CUSTOM_DOMAIN}`).toString();
@@ -37,7 +41,7 @@ const getSite = function () {
 export default defineConfig({
   site: getSite(),
   base: BASE_PATH,
-  output: 'server',
+  output: 'static',
   adapter: vercel(),
   integrations: [
     icon(),
@@ -46,4 +50,10 @@ export default defineConfig({
     FeaturedImageDownloader(),
     PublicNotionCopier(),
   ],
+  vite: {
+    define: {
+      'process.env.NOTION_API_SECRET': JSON.stringify(process.env.NOTION_API_SECRET),
+      'process.env.DATABASE_ID': JSON.stringify(process.env.DATABASE_ID),
+    },
+  },
 });

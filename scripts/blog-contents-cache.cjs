@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '.env.local' });
+
 const { exec } = require('child_process');
 const { Client } = require('@notionhq/client');
 const cliProgress = require('cli-progress');
