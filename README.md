@@ -19,8 +19,8 @@
 - 改进响应式设计，提升移动端体验
 - 增强图片显示逻辑，支持三种图片源：
   1. FeaturedImage（第一优先级）：Notion 字段中的图片，经过优化处理
-  2. Cover（第二优先级）：在线图库图片，适合需要高质量封面的文章
-  3. FirstImage（第三优先级）：文章内第一张图片，适合临时使用
+  2. FirstImage（第二优先级）：文章内第一张图片，支持所有类型的图片块（包括列布局）
+  3. Cover（第三优先级）：在线图库图片，作为备选图片源
 - 图片加载优化：
   - 使用懒加载提升性能
   - 异步解码减少阻塞
@@ -70,6 +70,26 @@
 - 本地拼音转换作为最终备用方案，确保离线时也能生成有意义的Slug
 - 优化Slug长度，确保URL简洁易读
 - 允许删除Notion数据表中的Slug字段，系统会自动处理
+
+## 图片显示优先级
+
+1. FeaturedImage（Notion字段中的图片）
+   - 在 Notion 数据库中添加 FeaturedImage 字段
+   - 上传图片到该字段
+   - 优先级最高，会优先显示
+   - 适合作为文章的主要展示图片
+
+2. FirstImage（文章内第一张图片）
+   - 自动提取文章内容中的第一张图片
+   - 如果没有 FeaturedImage，则使用此图片
+   - 支持所有类型的图片块（包括列布局中的图片）
+   - 适合使用文章内容中的实际图片
+
+3. Cover（在线图库）
+   - 在 Notion 页面设置中设置的封面图片
+   - 优先级最低，仅当没有其他图片时使用
+   - 建议使用 FeaturedImage 或 FirstImage 来展示文章图片
+   - 可以作为备选图片源
 
 ## notion 表格字段
 Page、Tags、Date、Excerpt、FeaturedImage、Published、Rank、Slug
@@ -206,8 +226,8 @@ This project is an enhanced and optimized version based on the original [Astro N
 - Improved responsive design for better mobile experience
 - Enhanced image display logic supporting three image sources:
   1. FeaturedImage (first priority): images from Notion fields, optimized
-  2. Cover (second priority): online library images, suitable for articles needing high-quality covers
-  3. FirstImage (third priority): first image in article, suitable for temporary use
+  2. FirstImage (second priority): first image in article, suitable for temporary use
+  3. Cover (third priority): online library images, suitable for articles needing high-quality covers
 - Image loading optimization:
   - Lazy loading for performance
   - Asynchronous decoding to reduce blocking

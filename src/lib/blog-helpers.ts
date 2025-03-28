@@ -302,35 +302,16 @@ export function extractFirstImage(blocks: any[]): { Type: string; Url: string } 
     if (block.Type === 'column_list' && block.ColumnList && block.ColumnList.Columns) {
       console.log(`找到列布局块: ${block.Id}, 列数: ${block.ColumnList.Columns.length}`);
       
-      // 先检查第一列中的图片
+      // 递归检查所有列中的图片
       for (const column of block.ColumnList.Columns) {
         if (column.Children && column.Children.length > 0) {
-          for (const childBlock of column.Children) {
-            if (childBlock.Type === 'image' && childBlock.Image) {
-              console.log('找到列布局中的图片:', childBlock.Id);
-              if (childBlock.Image.File && childBlock.Image.File.Url) {
-                console.log('提取到列布局中的文件图片:', childBlock.Image.File.Url);
-                return {
-                  Type: 'file',
-                  Url: childBlock.Image.File.Url
-                };
-              } else if (childBlock.Image.External && childBlock.Image.External.Url) {
-                console.log('提取到列布局中的外部图片:', childBlock.Image.External.Url);
-                return {
-                  Type: 'external',
-                  Url: childBlock.Image.External.Url
-                };
-              }
-            }
+          // 递归检查每个列的子块
+          const firstImageInColumn = extractFirstImage(column.Children);
+          if (firstImageInColumn) {
+            console.log('在列布局中找到图片:', firstImageInColumn.Url);
+            return firstImageInColumn;
           }
         }
-      }
-      
-      // 如果第一列没有找到图片，尝试递归检查所有列
-      const columnBlocks = block.ColumnList.Columns.flatMap((col: any) => col.Children || []);
-      if (columnBlocks.length > 0) {
-        const firstImageInColumns = extractFirstImage(columnBlocks);
-        if (firstImageInColumns) return firstImageInColumns;
       }
     }
   }
