@@ -2,6 +2,10 @@
 
 [中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
 
+## 快速开始
+
+详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
+
 ## 主要特性与改进
 
 ### 1. 统一圆角设计
@@ -13,7 +17,19 @@
 - 移除"阅读更多"按钮，整个卡片可点击
 - 优化标签布局与样式
 - 改进响应式设计，提升移动端体验
-- 增强图片显示逻辑，同时支持FeaturedImage和Cover字段（优先使用FeaturedImage）
+- 增强图片显示逻辑，支持三种图片源：
+  1. FeaturedImage（第一优先级）：Notion 字段中的图片，经过优化处理
+  2. Cover（第二优先级）：在线图库图片，适合需要高质量封面的文章
+  3. FirstImage（第三优先级）：文章内第一张图片，适合临时使用
+- 图片加载优化：
+  - 使用懒加载提升性能
+  - 异步解码减少阻塞
+  - 固定宽高比避免布局偏移
+  - 支持开发环境和生产环境的不同处理方式
+- 图片显示规则：
+  - 如果三种图片源都没有上传，则只显示文章标题和内容
+  - 可以删除 Cover 字段，系统会自动降级使用 FirstImage
+  - 建议至少上传一张图片，以提升文章展示效果
 
 ### 3. 文章导航改进
 - 优化导航布局：上一篇在左侧，下一篇在右侧
@@ -188,7 +204,19 @@ This project is an enhanced and optimized version based on the original [Astro N
 - Removed "Read More" button, making entire cards clickable
 - Optimized tag layout and styling
 - Improved responsive design for better mobile experience
-- Enhanced image display logic supporting both FeaturedImage and Cover fields (prioritizing FeaturedImage)
+- Enhanced image display logic supporting three image sources:
+  1. FeaturedImage (first priority): images from Notion fields, optimized
+  2. Cover (second priority): online library images, suitable for articles needing high-quality covers
+  3. FirstImage (third priority): first image in article, suitable for temporary use
+- Image loading optimization:
+  - Lazy loading for performance
+  - Asynchronous decoding to reduce blocking
+  - Fixed aspect ratio to avoid layout shift
+  - Supports different processing methods for development and production environments
+- Image display rules:
+  - If none of the three image sources are uploaded, only the article title and content are displayed
+  - The Cover field can be deleted, and the system will automatically downgrade to use FirstImage
+  - It is recommended to upload at least one image to improve article display effect
 
 ### 3. Article Navigation Improvements
 - Optimized navigation layout: previous article on left, next on right

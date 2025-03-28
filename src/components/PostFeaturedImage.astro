@@ -9,7 +9,7 @@ export interface Props {
 const { post } = Astro.props
 
 let image = ''
-// 优先使用 FeaturedImage
+// 第一优先级：FeaturedImage（Notion字段中的图片）
 if (post.FeaturedImage && post.FeaturedImage.Url) {
   if (import.meta.env.DEV) {
     image = post.FeaturedImage.Url
@@ -18,11 +18,11 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
       image = filePath(new URL(post.FeaturedImage.Url))
     } catch (e) {
       console.error('FeaturedImage URL处理失败:', e);
-      image = post.FeaturedImage.Url; // 使用原始URL作为备选
+      image = post.FeaturedImage.Url;
     }
   }
 } 
-// 如果没有 FeaturedImage，则使用 Cover
+// 第二优先级：Cover（在线图库）
 else if (post.Cover && post.Cover.Url) {
   if (import.meta.env.DEV) {
     image = post.Cover.Url
@@ -31,11 +31,11 @@ else if (post.Cover && post.Cover.Url) {
       image = filePath(new URL(post.Cover.Url))
     } catch (e) {
       console.error('Cover URL处理失败:', e);
-      image = post.Cover.Url; // 使用原始URL作为备选
+      image = post.Cover.Url;
     }
   }
 }
-// 如果既没有FeaturedImage也没有Cover，则使用文章中的第一张图片
+// 第三优先级：FirstImage（文章内图片）
 else if (post.FirstImage && post.FirstImage.Url) {
   if (import.meta.env.DEV) {
     image = post.FirstImage.Url
@@ -44,18 +44,32 @@ else if (post.FirstImage && post.FirstImage.Url) {
       image = filePath(new URL(post.FirstImage.Url))
     } catch (e) {
       console.error('FirstImage URL处理失败:', e);
-      image = post.FirstImage.Url; // 使用原始URL作为备选
+      image = post.FirstImage.Url;
     }
   }
 }
 
-console.log(`文章[${post.Title}]最终使用的图片:`, image);
+// 添加详细的日志信息
+console.log(`文章[${post.Title}]的图片信息:`, {
+  hasFeaturedImage: !!post.FeaturedImage?.Url,
+  hasCover: !!post.Cover?.Url,
+  hasFirstImage: !!post.FirstImage?.Url,
+  finalImage: image || '无图片'
+});
 ---
 
 {
   image && (
     <div class="post-featured-image">
-      <img src={image} alt="Featured image of the post" />
+      <img 
+        src={image} 
+        alt="Featured image of the post"
+        loading="lazy"
+        decoding="async"
+        width="800"
+        height="400"
+        style="aspect-ratio: 2/1"
+      />
     </div>
   )
 }
@@ -67,12 +81,12 @@ console.log(`文章[${post.Title}]最终使用的图片:`, image);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* 确保内容不会溢出 */
+    overflow: hidden;
   }
   .post-featured-image img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 确保图片按最短边比例填充 */
+    object-fit: cover;
   }
 </style>
