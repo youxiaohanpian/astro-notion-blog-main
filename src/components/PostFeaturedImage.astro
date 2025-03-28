@@ -22,20 +22,7 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
     }
   }
 } 
-// 第二优先级：FirstImage（文章内图片）
-else if (post.FirstImage && post.FirstImage.Url) {
-  if (import.meta.env.DEV) {
-    image = post.FirstImage.Url
-  } else {
-    try {
-      image = filePath(new URL(post.FirstImage.Url))
-    } catch (e) {
-      console.error('FirstImage URL处理失败:', e);
-      image = post.FirstImage.Url;
-    }
-  }
-}
-// 第三优先级：Cover（在线图库）
+// 第二优先级：Cover（在线图库）
 else if (post.Cover && post.Cover.Url) {
   if (import.meta.env.DEV) {
     image = post.Cover.Url
@@ -48,12 +35,25 @@ else if (post.Cover && post.Cover.Url) {
     }
   }
 }
+// 第三优先级：FirstImage（文章内图片）
+else if (post.FirstImage && post.FirstImage.Url) {
+  if (import.meta.env.DEV) {
+    image = post.FirstImage.Url
+  } else {
+    try {
+      image = filePath(new URL(post.FirstImage.Url))
+    } catch (e) {
+      console.error('FirstImage URL处理失败:', e);
+      image = post.FirstImage.Url;
+    }
+  }
+}
 
 // 添加详细的日志信息
 console.log(`文章[${post.Title}]的图片信息:`, {
   hasFeaturedImage: !!post.FeaturedImage?.Url,
-  hasFirstImage: !!post.FirstImage?.Url,
   hasCover: !!post.Cover?.Url,
+  hasFirstImage: !!post.FirstImage?.Url,
   finalImage: image || '无图片'
 });
 ---
