@@ -241,6 +241,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     --primary-color: rgba(255,255,255,0.8);
     --text-color: #333;
     --text-light: #666;
+    --text-lighter: hsl(0, 0%, calc(60% + 20%)); /* 更浅的颜色，增加 20% 的亮度 */
     --background-light: #f8f8f8;
     --border-radius: 12px;
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -484,7 +485,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   }
 
   .breadcrumb-separator {
-    color: var(--text-light);
+    color: var(--text-lighter);
   }
 
   .breadcrumb-item.home {
@@ -495,7 +496,6 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     height: 28px;
     position: relative;
     box-sizing: border-box;
-    margin-right: 0.5rem;
   }
 
   .breadcrumb-item.home .home-icon {

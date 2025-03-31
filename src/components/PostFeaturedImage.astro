@@ -9,6 +9,12 @@ export interface Props {
 const { post } = Astro.props
 
 let image = ''
+// 图片获取优先级：
+// 1. FeaturedImage（Notion字段中的图片）
+// 2. Cover（在线图库）
+// 3. FirstImage（文章内第一张图片）
+// 注意：每个优先级都会检查开发环境和生产环境的不同处理方式
+
 // 第一优先级：FeaturedImage（Notion字段中的图片）
 if (post.FeaturedImage && post.FeaturedImage.Url) {
   if (import.meta.env.DEV) {
@@ -49,7 +55,7 @@ else if (post.FirstImage && post.FirstImage.Url) {
   }
 }
 
-// 添加详细的日志信息
+// 添加详细的日志信息，用于调试
 console.log(`文章[${post.Title}]的图片信息:`, {
   hasFeaturedImage: !!post.FeaturedImage?.Url,
   hasCover: !!post.Cover?.Url,
@@ -58,23 +64,30 @@ console.log(`文章[${post.Title}]的图片信息:`, {
 });
 ---
 
-{
-  image && (
-    <div class="post-featured-image">
-      <img 
-        src={image} 
-        alt="Featured image of the post"
-        loading="lazy"
-        decoding="async"
-        width="800"
-        height="400"
-        style="aspect-ratio: 2/1"
-      />
-    </div>
-  )
-}
+{/* 只有在有图片时才渲染图片容器
+ * 注意：这个条件判断很重要，避免渲染空的图片容器
+ */}
+{image && (
+  <div class="post-featured-image">
+    <img 
+      src={image} 
+      alt="Featured image of the post"
+      loading="lazy"
+      decoding="async"
+      width="800"
+      height="400"
+      style="aspect-ratio: 2/1"
+    />
+  </div>
+)}
 
 <style>
+  /* 图片容器样式
+   * 1. 宽度100%填充父容器
+   * 2. 高度100%自适应
+   * 3. 使用flex布局居中图片
+   * 4. 溢出部分隐藏
+   */
   .post-featured-image {
     width: 100%;
     height: 100%;
@@ -83,6 +96,12 @@ console.log(`文章[${post.Title}]的图片信息:`, {
     justify-content: center;
     overflow: hidden;
   }
+
+  /* 图片样式
+   * 1. 块级显示
+   * 2. 宽度和高度100%填充容器
+   * 3. 使用object-fit: cover确保图片填充且不变形
+   */
   .post-featured-image img {
     display: block;
     width: 100%;

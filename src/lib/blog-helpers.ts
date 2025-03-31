@@ -137,6 +137,7 @@ export const getTagLink = (tag: string) => {
   return pathJoin(BASE_PATH, `/posts/tag/${encodeURIComponent(tag)}`)
 }
 
+/* 分页链接，返回到第一页 */
 export const getPageLink = (page: number, tag: string) => {
   if (page === 1) {
     return tag ? getTagLink(tag) : pathJoin(BASE_PATH, '/blog')

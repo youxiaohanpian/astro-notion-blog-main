@@ -108,16 +108,20 @@ const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) 
 
 <style>
   .tag-container {
-    margin: 1.5rem 0;
     text-align: center;
     font-size: 1.2rem;
+    margin-bottom: 2rem;
   }
 
   .tag {
     display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 600;
+    padding: 0.3rem 1.5rem;/* 增加水平内边距 */
+    border-radius: 9999px !important; /* 使用更大的圆角值 */
+    font-weight: 400;
+    min-width: 40px;/* 确保最小宽度 */
+    text-align: center;/* 文字居中 */
+    color: #333 !important; /* 文字颜色统一为深灰色 */
+    background-color: #fefefe
   }
 
   /* 分页容器 */
