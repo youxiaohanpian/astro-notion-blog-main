@@ -294,7 +294,6 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     text-decoration: none;
     display: flex;
     align-items: center;
-    justify-content: center;
   }
 
   .site-title a span,
@@ -329,6 +328,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     flex: 1;
     width: 100%;
     padding: 0;
+    flex-wrap: wrap;
   }
 
   /* 无侧边栏布局 */
@@ -343,16 +343,20 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   main {
     flex: 1;
     order: 1;
+    min-width: 300px;
+    box-sizing: border-box; /* 确保padding不会影响整体宽度 */
   }
 
   aside {
     order: 2;
     width: 300px;
     padding: 0 0 0 2rem;
+    box-sizing: border-box; /* 确保padding不会影响整体宽度 */
   }
 
   .content {
     padding: 0;
+    box-sizing: border-box; /* 确保padding不会影响整体宽度 */
   }
 
   .site-footer {
@@ -409,12 +413,13 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
   .search-wrapper {
     display: flex;
-    justify-content: center;
     margin: -1rem auto 1rem;
     padding: 0;
-    max-width: 100%;
+    width: 100%;
     position: relative;
     z-index: 10;
+    background-color: white;
+    height: 48px;
   }
   
   .nav-container {
@@ -424,18 +429,41 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.6em 1em;
+    padding: 0 1em;
+    padding-top: 0.5em; //增加鼠标滚动时，文字距离顶部的边距
+    height: 100%;
   }
   
   .breadcrumbs {
-    margin-top: 0; /* 确保紧贴 banner */
+    margin: 0;
     position: relative;
     display: flex;
     align-items: center;
     gap: 0.2rem;
     font-size: 0.9rem;
     color: var(--text-light);
-    padding-top: 0.3em; /* 下滚时顶部的距离 */
+    flex: 1;
+    justify-content: flex-start;
+    height: 100%;
+  }
+  
+  .nav-container :global(.search-container) {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    height: 100%;
+    margin-left: auto; /* 确保搜索按钮靠右 */
+  }
+  
+  .nav-container :global(.search-button) {
+    margin: 0;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
   }
   
   .breadcrumb-item {
@@ -444,6 +472,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    height: 100%;
   }
 
   .breadcrumb-item:hover {
@@ -466,6 +495,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     height: 28px;
     position: relative;
     box-sizing: border-box;
+    margin-right: 0.5rem;
   }
 
   .breadcrumb-item.home .home-icon {
@@ -484,17 +514,83 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
   @media (max-width: 768px) {
     .nav-container {
-      padding: 0.6em 0.5em;
+      padding: 0.5em 0.5em 0 0.5em;
     }
 
     .breadcrumbs {
       font-size: 0.8rem;
     }
+
+    /* 侧边栏在小屏幕下的样式 */
+    .content-wrapper {
+      flex-direction: column;
+      padding: 0 1rem; /* 添加整体左右边距 */
+      box-sizing: border-box; /* 确保padding不会影响整体宽度 */
+    }
+
+    aside {
+      width: 100%;
+      padding: 1rem 0; /* 移除左右内边距，只保留上下内边距 */
+      order: 1;
+    }
+
+    main {
+      order: 2;
+      width: 100%;
+      min-width: 100%;
+      padding: 0; /* 移除主内容区域的内边距 */
+    }
+
+    .content {
+      padding: 0; /* 确保内容区域没有内边距 */
+    }
+
+    /* 确保所有内容块左右边距一致 */
+    .content :global(.blog-post-card),
+    .content :global(.post-navigation),
+    .content :global(.blog-post),
+    .content :global(.post-content) {
+      width: 100%;
+      margin: 0;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    /* 让分类和标签换行显示 */
+    aside :global(.post-tags),
+    aside :global(.categories) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0;
+    }
+
+    aside :global(.post-tags a),
+    aside :global(.categories a) {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      background-color: var(--background-light);
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+
+    aside :global(.post-tags a:hover),
+    aside :global(.categories a:hover) {
+      background-color: #e0e0e0;
+    }
   }
 
   @media (max-width: 480px) {
     .nav-container {
-      padding: 0.6em 0.5em;
+      padding: 0.5em 0.5em 0 0.5em;
+    }
+
+    /* 在小屏幕下确保内容区域有合适的边距 */
+    .content-wrapper {
+      padding: 0 0.8rem;
     }
   }
 
@@ -518,87 +614,12 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   }
 
   /* 导航栏固定样式 */
-  .search-wrapper {
-    width: 100%;
-    padding: 0.8rem 0;
-    background-color: white;
-    z-index: 998;
-    transition: all 0.3s ease;
-  }
-  
   .search-wrapper.fixed {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    /* padding: 0; */
-    padding-top: -0.05em; /* 下滚时顶部的距离 */
-  }
-  
-  /* 导航栏内容 */
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  /* 面包屑导航样式 */
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    font-size: 0.95rem;
-  }
-
-  .breadcrumb-item {
-    display: flex;
-    align-items: center;
-    color: #555;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .breadcrumb-item:hover {
-    color: #000;
-  }
-
-  .breadcrumb-item.active {
-    color: #333;
-    font-weight: 500;
-  }
-
-  .breadcrumb-item.home {
-    display: flex;
-    align-items: center;
-  }
-
-  .home-icon {
-    margin-right: 0.2rem;
-  }
-
-  .breadcrumb-separator {
-    margin: 0 0.5rem;
-    color: #aaa;
-  }
-  
-  /* 响应式调整 */
-  @media (max-width: 768px) {
-    .search-wrapper, .search-wrapper.fixed {
-      padding: 0.5rem 0;
-    }
-    
-    .breadcrumb-item.home {
-      margin-right: 0;
-    }
-    
-    .breadcrumb-item:not(.home):not(.active) {
-      display: none;
-    }
-    
-    .breadcrumb-separator {
-      margin: 0 0.3rem;
-    }
+    background-color: white;
   }
 </style>
