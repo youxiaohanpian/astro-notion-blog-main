@@ -6,6 +6,104 @@
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
 
+## 环境要求
+
+### Node.js 版本
+- 推荐使用 Node.js 18.x LTS 版本（如 18.19.1）
+- 最低要求：Node.js >= 18.0.0
+- 注意：Node.js 22.x 版本可能会导致构建问题
+
+### 主要依赖版本
+```json
+{
+  "dependencies": {
+    "astro": "^5.1.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@notionhq/client": "^2.2.15"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "typescript": "^5.0.0",
+    "dotenv-cli": "^8.0.0"  // 用于构建时加载环境变量
+  }
+}
+```
+
+### 环境变量配置
+1. 创建 `.env.local` 文件（不要提交到 Git）：
+```env
+NOTION_API_SECRET=your_notion_api_secret
+DATABASE_ID=your_database_id
+```
+
+2. 环境变量加载说明：
+   - 开发环境（`npm run dev`）：自动加载 `.env.local`
+   - 构建环境（`npm run build`）：使用 dotenv-cli 加载 `.env.local`
+   - 注意：不要使用 `.env` 文件，因为可能会被意外提交到 Git
+
+### 安装步骤
+1. 确保使用正确的 Node.js 版本：
+   ```bash
+   nvm use 18.19.1
+   ```
+
+2. 安装依赖：
+   ```bash
+   npm install
+   npm install --save-dev dotenv-cli  # 用于构建时加载环境变量
+   ```
+
+3. 启动开发服务器：
+   ```bash
+   npm run dev
+   ```
+
+4. 构建生产版本：
+   ```bash
+   npm run build
+   ```
+
+5. 预览构建结果：
+   ```bash
+   npm run preview
+   ```
+   - 这将启动一个本地服务器来预览构建后的网站
+   - 默认地址为 http://localhost:4321
+   - 预览模式会模拟生产环境，可以检查构建后的效果
+
+### 开发与构建环境说明
+1. 开发环境（`npm run dev`）：
+   - 支持热重载
+   - 自动加载 `.env.local` 环境变量
+   - 适合开发和调试
+
+2. 构建环境（`npm run build`）：
+   - 生成静态文件
+   - 使用 dotenv-cli 加载 `.env.local` 环境变量
+   - 优化和压缩资源
+
+3. 预览环境（`npm run preview`）：
+   - 模拟生产环境
+   - 用于测试构建结果
+   - 检查性能和兼容性
+
+### 常见问题
+1. 构建时环境变量问题：
+   - 错误：`API token is invalid`
+   - 原因：构建时没有正确加载 `.env.local` 文件
+   - 解决：确保已安装 `dotenv-cli` 并正确配置构建脚本
+
+2. Node.js 版本兼容性：
+   - 错误：`SyntaxError: missing ) after argument list`
+   - 原因：Node.js 22.x 版本与某些依赖不兼容
+   - 解决：使用 Node.js 18.x LTS 版本
+
+3. PowerShell 环境问题：
+   - 错误：`无法将"node.exe"项识别为 cmdlet`
+   - 原因：PowerShell 中的 Node.js 路径问题
+   - 解决：使用 CMD 而不是 PowerShell 执行命令
+
 ## 主要特性与改进
 
 ### 1. 统一圆角设计

@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import icon from 'astro-icon';
-import { CUSTOM_DOMAIN, BASE_PATH } from './src/server-constants';
+import { env } from './scripts/load-env.js';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
 import CustomIconDownloader from './src/integrations/custom-icon-downloader';
 import FeaturedImageDownloader from './src/integrations/featured-image-downloader';
@@ -12,21 +12,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const getSite = function () {
-  if (CUSTOM_DOMAIN) {
-    return new URL(BASE_PATH, `https://${CUSTOM_DOMAIN}`).toString();
+  if (env.CUSTOM_DOMAIN) {
+    return new URL(env.BASE_PATH, `https://${env.CUSTOM_DOMAIN}`).toString();
   }
 
   if (process.env.VERCEL && process.env.VERCEL_URL) {
-    return new URL(BASE_PATH, `https://${process.env.VERCEL_URL}`).toString();
+    return new URL(env.BASE_PATH, `https://${process.env.VERCEL_URL}`).toString();
   }
 
   if (process.env.CF_PAGES) {
     if (process.env.CF_PAGES_BRANCH !== 'main') {
-      return new URL(BASE_PATH, process.env.CF_PAGES_URL).toString();
+      return new URL(env.BASE_PATH, process.env.CF_PAGES_URL).toString();
     }
 
     return new URL(
-      BASE_PATH,
+      env.BASE_PATH,
       `https://${new URL(process.env.CF_PAGES_URL).host
         .split('.')
         .slice(1)
@@ -34,13 +34,13 @@ const getSite = function () {
     ).toString();
   }
 
-  return new URL(BASE_PATH, 'http://localhost:4321').toString();
+  return new URL(env.BASE_PATH, 'http://localhost:4321').toString();
 };
 
 // https://astro.build/config
 export default defineConfig({
   site: getSite(),
-  base: BASE_PATH,
+  base: env.BASE_PATH,
   output: 'static',
   adapter: vercel(),
   integrations: [
@@ -52,8 +52,8 @@ export default defineConfig({
   ],
   vite: {
     define: {
-      'process.env.NOTION_API_SECRET': JSON.stringify(process.env.NOTION_API_SECRET),
-      'process.env.DATABASE_ID': JSON.stringify(process.env.DATABASE_ID),
+      'process.env.NOTION_API_SECRET': JSON.stringify(env.NOTION_API_SECRET),
+      'process.env.DATABASE_ID': JSON.stringify(env.DATABASE_ID),
     },
   },
 });
