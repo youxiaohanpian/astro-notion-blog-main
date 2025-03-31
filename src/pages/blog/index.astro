@@ -6,83 +6,88 @@ import {
   getNumberOfPages,
   getDatabase,
   getAllBlocksByBlockId
-} from '../../../lib/notion/client.ts'
+} from '../../lib/notion/client.ts'
 import { 
   getPostLink,
-  extractFirstImage 
-} from '../../../lib/blog-helpers.ts'
-import Layout from '../../../layouts/Layout.astro'
-import NoContents from '../../../components/NoContents.astro'
-import PostDate from '../../../components/PostDate.astro'
-import PostTags from '../../../components/PostTags.astro'
-import PostTitle from '../../../components/PostTitle.astro'
-import PostFeaturedImage from '../../../components/PostFeaturedImage.astro'
-import PostExcerpt from '../../../components/PostExcerpt.astro'
-import Pagination from '../../../components/Pagination.astro'
-import BlogPostsLink from '../../../components/BlogPostsLink.astro'
-import BlogTagsLink from '../../../components/BlogTagsLink.astro'
-import styles from '../../../styles/blog.module.css'
-
-export async function getStaticPaths() {
-  const numberOfPages = await getNumberOfPages()
-
-  let params = []
-  for (let i = 2; i <= numberOfPages; i++) {
-    params.push({ params: { page: i.toString() } })
-  }
-  return params
-}
-
-const { page } = Astro.params
+  extractFirstImage
+} from '../../lib/blog-helpers.ts'
+import Layout from '../../layouts/Layout.astro'
+import NoContents from '../../components/NoContents.astro'
+import PostDate from '../../components/PostDate.astro'
+import PostTags from '../../components/PostTags.astro'
+import PostTitle from '../../components/PostTitle.astro'
+import PostFeaturedImage from '../../components/PostFeaturedImage.astro'
+import PostExcerpt from '../../components/PostExcerpt.astro'
+import Pagination from '../../components/Pagination.astro'
+import BlogPostsLink from '../../components/BlogPostsLink.astro'
+import BlogTagsLink from '../../components/BlogTagsLink.astro'
+import styles from '../../styles/blog.module.css'
 
 // 获取数据库信息（网站标题和描述）
 const database = await getDatabase()
+console.log('Database:', database)
 
 // 获取文章数据
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
-  getPostsByPage(parseInt(page, 10)),
-  getRankedPosts(),
-  getAllTags(),
-  getNumberOfPages(),
-])
+let posts: any[] = []
+let rankedPosts: any[] = []
+let tags: any[] = []
+let numberOfPages = 0
+
+try {
+  [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+    getPostsByPage(1),
+    getRankedPosts(),
+    getAllTags(),
+    getNumberOfPages(),
+  ])
+  console.log('Posts:', posts)
+  console.log('Tags:', tags)
+  console.log('NumberOfPages:', numberOfPages)
+} catch (error) {
+  console.error('获取数据失败:', error)
+  // 确保在错误情况下设置默认值
+  posts = []
+  rankedPosts = []
+  tags = []
+  numberOfPages = 0
+}
 
 // 为每篇文章提取第一张图片
-await Promise.all(
-  posts.map(async (post) => {
-    // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
-    if (post.FeaturedImage || post.Cover) return;
-    
-    // 获取文章内容块
-    try {
-      const blocks = await getAllBlocksByBlockId(post.PageId);
-      // 提取第一张图片
-      const firstImageObject = extractFirstImage(blocks);
-      if (firstImageObject) {
-        post.FirstImage = firstImageObject;
-        console.log(`文章[${post.Title}]提取到第一张图片`);
+if (posts.length > 0) {
+  await Promise.all(
+    posts.map(async (post) => {
+      // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
+      if (post.FeaturedImage || post.Cover) return;
+      
+      // 获取文章内容块
+      try {
+        const blocks = await getAllBlocksByBlockId(post.PageId);
+        // 提取第一张图片
+        const firstImageObject = extractFirstImage(blocks);
+        if (firstImageObject) {
+          post.FirstImage = firstImageObject;
+          console.log(`文章[${post.Title}]提取到第一张图片`);
+        }
+      } catch (error) {
+        console.error(`获取文章[${post.Title}]内容块失败:`, error);
       }
-    } catch (error) {
-      console.error(`获取文章[${post.Title}]内容块失败:`, error);
-    }
-  })
-)
+    })
+  )
+}
 ---
 
 <Layout 
-  title={`${database.Title} - 第${page}页`} 
-  description={`${database.Description} - 第${page}页`} 
-  path={`/posts/page/${page}`} 
-  ogImage=""
+  title="所有文章" 
+  description={database.Description}
+  path="/blog"
   hideSidebar={true}
-  breadcrumbs={[
-    { label: '所有文章', href: '/blog' }
-  ]}
+  ogImage="/og-image.png"
 >
   <div slot="main" class="blog-posts-container">
     <div class="masonry-container">
       <div class="masonry-grid">
         {posts.length === 0 ? (
-          <NoContents contents={posts} />
+          <NoContents contents={posts} message="暂无文章" />
         ) : (
           posts.map((post) => (
             <article class="blog-post">
@@ -111,13 +116,12 @@ await Promise.all(
       </div>
     </div>
 
-    <div class="pagination-container">
-      <Pagination
-        currentPage={parseInt(page, 10)}
-        numberOfPages={numberOfPages}
-        tag=""
-      />
-    </div>
+    {/* 分页 */}
+    {numberOfPages > 1 && (
+      <div class="pagination-container">
+        <Pagination currentPage={1} numberOfPages={numberOfPages} tag="" />
+      </div>
+    )}
   </div>
 </Layout>
 
@@ -134,15 +138,13 @@ await Promise.all(
 </script>
 
 <style>
-  /* 分页容器 */
-  .pagination-container {
-    display: flex;
-    justify-content: center;
+  .blog-posts-container {
+    padding: 0;
+    box-sizing: border-box;
     width: 100%;
-    margin: 1rem 0 2rem;
   }
-  
-  /* 新增瀑布流布局容器 */
+
+  /* 瀑布流布局容器 */
   .masonry-container {
     display: flex;
     justify-content: center;
@@ -152,17 +154,17 @@ await Promise.all(
     max-width: 100%;
   }
 
-  /* 新增瀑布流布局 */
+  /* 瀑布流布局 */
   .masonry-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 固定3列 */
     gap: 1.5rem;
-    margin: 2rem 0;
+    margin: 1rem 0;
     max-width: 1200px; /* 限制最大宽度 */
     width: 100%;
   }
 
-  /* 调整博客文章卡片样式 */
+  /* 博客文章卡片样式 */
   .blog-post {
     margin: 0;
     width: 100%;
@@ -239,13 +241,21 @@ await Promise.all(
   }
   
   .blog-post-tags {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
   }
   
   .blog-post-body {
     font-size: 14px;
     color: #666;
     line-height: 1.5;
+  }
+
+  /* 分页容器 */
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 1rem 0 2rem;
   }
 
   /* 响应式设计 */
@@ -294,13 +304,6 @@ await Promise.all(
     --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   }
 
-  /* 博客文章容器 */
-  .blog-posts-container {
-    padding: 0;
-    box-sizing: border-box;
-    width: 100%;
-  }
-
   /* 系统字体检测 */
   @supports (font: -apple-system-body) {
     .blog-post-header :global(.post-title), .blog-post-body {
@@ -314,4 +317,3 @@ await Promise.all(
     }
   }
 </style>
-

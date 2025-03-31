@@ -92,85 +92,101 @@ async function throttleRequest(): Promise<void> {
 
 export async function getAllPosts(): Promise<Post[]> {
   if (postsCache !== null) {
+    console.log('使用缓存的文章列表');
     return Promise.resolve(postsCache)
   }
 
-  const params: requestParams.QueryDatabase = {
-    database_id: DATABASE_ID,
-    filter: {
-      and: [
-        {
-          property: 'Published',
-          checkbox: {
-            equals: true,
+  console.log('开始从 Notion API 获取文章列表');
+  console.log('DATABASE_ID:', DATABASE_ID);
+
+  try {
+    const params: requestParams.QueryDatabase = {
+      database_id: DATABASE_ID,
+      filter: {
+        and: [
+          {
+            property: 'Published',
+            checkbox: {
+              equals: true,
+            },
           },
-        },
+          {
+            property: 'Date',
+            date: {
+              on_or_before: new Date().toISOString(),
+            },
+          },
+        ],
+      },
+      sorts: [
         {
           property: 'Date',
-          date: {
-            on_or_before: new Date().toISOString(),
-          },
+          direction: 'descending',
         },
       ],
-    },
-    sorts: [
-      {
-        property: 'Date',
-        direction: 'descending',
-      },
-    ],
-    page_size: 100,
-  }
+      page_size: 100,
+    }
 
-  let results: responses.PageObject[] = []
-  while (true) {
-    const res = await retry(
-      async (bail) => {
-        try {
-          return (await client.databases.query(
-            params as any // eslint-disable-line @typescript-eslint/no-explicit-any
-          )) as responses.QueryDatabaseResponse
-        } catch (error: unknown) {
-          if (error instanceof APIResponseError) {
-            if (error.status && error.status >= 400 && error.status < 500) {
-              bail(error)
+    let results: responses.PageObject[] = []
+    while (true) {
+      console.log('请求 Notion API...');
+      const res = await retry(
+        async (bail) => {
+          try {
+            return (await client.databases.query(
+              params as any // eslint-disable-line @typescript-eslint/no-explicit-any
+            )) as responses.QueryDatabaseResponse
+          } catch (error: unknown) {
+            console.error('Notion API 请求失败:', error);
+            if (error instanceof APIResponseError) {
+              if (error.status && error.status >= 400 && error.status < 500) {
+                bail(error)
+              }
             }
+            throw error
           }
-          throw error
+        },
+        {
+          retries: numberOfRetry,
         }
-      },
-      {
-        retries: numberOfRetry,
+      )
+
+      results = results.concat(res.results)
+      console.log(`获取到 ${res.results.length} 个结果，当前总数: ${results.length}`);
+
+      if (!res.has_more) {
+        break
       }
-    )
 
-    results = results.concat(res.results)
-
-    if (!res.has_more) {
-      break
+      params['start_cursor'] = res.next_cursor as string
     }
 
-    params['start_cursor'] = res.next_cursor as string
-  }
+    console.log(`总共获取到 ${results.length} 个页面对象`);
 
-  // 过滤有效的页面对象
-  const validResults = results.filter((pageObject) => _validPageObject(pageObject));
-  
-  // 处理每个页面对象，生成 Post
-  const posts: Post[] = [];
-  for (const pageObject of validResults) {
-    const post = _buildPost(pageObject);
+    // 过滤有效的页面对象
+    const validResults = results.filter((pageObject) => _validPageObject(pageObject));
+    console.log(`过滤后剩余 ${validResults.length} 个有效页面对象`);
     
-    // 如果 Slug 为空，则异步生成一个
-    if (!post.Slug) {
-      post.Slug = await generateSlugIfNeeded(pageObject);
+    // 处理每个页面对象，生成 Post
+    const posts: Post[] = [];
+    for (const pageObject of validResults) {
+      const post = _buildPost(pageObject);
+      
+      // 如果 Slug 为空，则异步生成一个
+      if (!post.Slug) {
+        post.Slug = await generateSlugIfNeeded(pageObject);
+      }
+      
+      posts.push(post);
     }
     
-    posts.push(post);
+    console.log(`成功生成 ${posts.length} 篇文章`);
+    postsCache = posts;
+    return postsCache;
+  } catch (error) {
+    console.error('获取文章列表失败:', error);
+    return [];
   }
-  
-  postsCache = posts;
-  return postsCache;
 }
 
 export async function getPosts(pageSize = 10): Promise<Post[]> {
@@ -1017,12 +1033,29 @@ async function _getSyncedBlockChildren(block: Block): Promise<Block[]> {
 
 function _validPageObject(pageObject: responses.PageObject): boolean {
   const prop = pageObject.properties
+  console.log('检查页面对象:', {
+    id: pageObject.id,
+    hasTitle: !!prop.Page.title,
+    titleLength: prop.Page.title?.length || 0,
+    hasDate: !!prop.Date.date
+  });
 
-  return (
+  const isValid = (
     !!prop.Page.title &&
     prop.Page.title.length > 0 &&
     !!prop.Date.date
-  )
+  );
+
+  if (!isValid) {
+    console.log('页面对象无效:', {
+      id: pageObject.id,
+      reason: !prop.Page.title ? '缺少标题' :
+              prop.Page.title.length === 0 ? '标题为空' :
+              !prop.Date.date ? '缺少日期' : '未知原因'
+    });
+  }
+
+  return isValid;
 }
 
 async function generateSlugIfNeeded(pageObject: responses.PageObject): Promise<string> {
@@ -1049,6 +1082,10 @@ async function generateSlugIfNeeded(pageObject: responses.PageObject): Promise<s
 
 function _buildPost(pageObject: responses.PageObject): Post {
   const prop = pageObject.properties
+  console.log('开始构建文章:', {
+    id: pageObject.id,
+    title: prop.Page.title?.map((richText) => richText.plain_text).join('') || '无标题'
+  });
 
   let icon: FileObject | Emoji | null = null
   if (pageObject.icon) {
@@ -1124,6 +1161,17 @@ function _buildPost(pageObject: responses.PageObject): Post {
     FirstImage: firstImage,
     Rank: prop.Rank.number ? prop.Rank.number : 0,
   }
+
+  console.log('文章构建完成:', {
+    id: post.PageId,
+    title: post.Title,
+    slug: post.Slug,
+    date: post.Date,
+    tags: post.Tags.length,
+    hasFeaturedImage: !!post.FeaturedImage,
+    hasCover: !!post.Cover,
+    hasFirstImage: !!post.FirstImage
+  });
 
   return post
 }
