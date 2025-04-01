@@ -57,6 +57,7 @@ import type {
 import { Client, APIResponseError } from '@notionhq/client'
 import { generateSlugFromTitleSync, generateSlugFromTitle } from '../slug-helpers'
 import { buildURLToHTMLMap } from '../blog-helpers'
+import * as fsPromises from 'fs/promises'
 
 // 添加调试日志
 console.log('Loading environment variables:')
@@ -538,6 +539,56 @@ export async function downloadFile(url: URL) {
     console.error(`图片处理失败: ${filepath}`, err);
     writeStream.end()
     return Promise.resolve()
+  }
+}
+
+export const downloadPageCover = async (url: string): Promise<void> => {
+  try {
+    const parsedUrl = new URL(url);
+    
+    // 只处理Notion默认封面图片
+    if (parsedUrl.hostname !== 'www.notion.so' || !parsedUrl.pathname.includes('/images/page-cover/')) {
+      return;
+    }
+    
+    const filename = parsedUrl.pathname.split('/').pop();
+    if (!filename) {
+      console.error('无法从URL中提取文件名:', url);
+      return;
+    }
+    
+    const directory = 'public/notion/page-cover';
+    const savePath = `${directory}/${filename}`;
+    
+    // 检查目录是否存在，不存在则创建
+    try {
+      await fsPromises.mkdir(directory, { recursive: true });
+    } catch (error) {
+      console.error('创建目录失败:', error);
+      return;
+    }
+    
+    // 检查文件是否已存在
+    try {
+      await fsPromises.access(savePath, fsPromises.constants.F_OK);
+      console.log(`封面图片已存在: ${savePath}`);
+      return;
+    } catch (e) {
+      // 文件不存在，继续下载
+    }
+    
+    // 下载图片
+    console.log(`开始下载Notion默认封面图片: ${url}`);
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.status} ${response.statusText}`);
+    }
+    
+    const buffer = await response.arrayBuffer();
+    await fsPromises.writeFile(savePath, Buffer.from(buffer));
+    console.log(`Notion默认封面图片下载完成: ${savePath}`);
+  } catch (error) {
+    console.error(`下载Notion默认封面图片失败:`, error);
   }
 }
 

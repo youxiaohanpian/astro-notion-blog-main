@@ -19,6 +19,7 @@ export interface Props {
   path: string
   ogImage: string
   hideSidebar?: boolean
+  hideHeader?: boolean
   breadcrumbs?: { label: string; href: string }[]
   postCover?: string | null
 }
@@ -29,6 +30,7 @@ const {
   path = '/', 
   ogImage = '', 
   hideSidebar = false,
+  hideHeader = false,
   breadcrumbs = [],
   postCover = null
 } = Astro.props
@@ -44,22 +46,37 @@ const siteOGImage = new URL(
   Astro.site
 )
 
+// 是否为文章详情页
+const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
+// 是否为所有文章列表页
+const isBlogListPage = path === '/blog' || path.startsWith('/blog/') || path.startsWith('/posts/page/') || path.startsWith('/posts/tag/');
+
+// 首先检查是否有文章封面图
 let coverImageURL = ''
 let isPostCover = false
 
 if (postCover) {
-  coverImageURL = postCover
+  // 使用文章封面图 - 检查是否为Notion默认封面
+  if (postCover.includes('www.notion.so') && postCover.includes('/images/page-cover/')) {
+    coverImageURL = postCover // 直接使用原始URL
+  } else {
+    coverImageURL = postCover
+  }
   isPostCover = true
 } else if (database.Cover) {
-  if (database.Cover.Type === 'external') {
-    coverImageURL = database.Cover.Url || ''
-  } else if (database.Cover.Type === 'file') {
-    try {
-      const url = new URL(database.Cover.Url || '')
-      coverImageURL = filePath(url)
-    } catch {
-      console.log('Invalid DB cover image URL: ', database.Cover?.Url)
-      coverImageURL = ''
+  // 如果没有文章封面图，则使用数据库封面图
+  // 文章详情页且没有自己的封面时使用默认渐变背景，其他页面使用数据库封面
+  if (!isPostDetail || isBlogListPage) {
+    if (database.Cover.Type === 'external') {
+      coverImageURL = database.Cover.Url || ''
+    } else if (database.Cover.Type === 'file') {
+      try {
+        const url = new URL(database.Cover.Url || '')
+        coverImageURL = filePath(url)
+      } catch {
+        console.log('Invalid DB cover image URL: ', database.Cover?.Url)
+        coverImageURL = ''
+      }
     }
   }
 }
@@ -83,8 +100,6 @@ const isEmoji = (icon: FileObject | Emoji | null): icon is Emoji => {
 const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   return icon !== null && (icon.Type === 'external' || icon.Type === 'file');
 };
-
-const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
 ---
 
 <!DOCTYPE html>
@@ -116,57 +131,61 @@ const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !
     />
   </head>
   <body>
-    <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />
+    {PUBLIC_GA_TRACKING_ID && <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />}
     <div class="container">
-      <header class={`site-header ${!coverImageURL ? 'no-cover' : ''}`}>
-        {coverImageURL && (
-          <div class="cover">
-            <img src={coverImageURL} alt={isPostCover ? title + " cover image" : "Site cover image"} loading="lazy" />
-          </div>
-        )}
-        {coverImageURL && (
-          <div class="site-title-container">
-            <h1 class="site-title">
-              <a href={isPostCover ? getNavLink(path) : getNavLink('/')}>
-                {isPostCover ? (
-                  title
-                ) : (
-                  <>
-                    {isEmoji(database.Icon) && (
-                      <>
-                        <span>{database.Icon.Emoji}</span>
-                        {database.Title}
-                      </>
-                    )}
-                    {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
-                      <>
-                        <img src={database.Icon.Url} alt="Site icon image" />
-                        {database.Title}
-                      </>
-                    )}
-                    {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
-                      <>
-                        <img
-                          src={customIconURL}
-                          class="custom-icon"
-                          alt="Site icon image"
-                        />
-                        {database.Title}
-                      </>
-                    )}
-                    {!database.Icon && database.Title}
-                  </>
-                )}
-              </a>
-            </h1>
-            {!isPostCover && (
-              <div class="site-description">{database.Description}</div>
-            )}
-          </div>
-        )}
-      </header>
+      {!hideHeader && (
+        <header class={`site-header ${(!coverImageURL && !isPostDetail) ? 'no-cover' : isPostDetail ? 'post-header' : ''}`}>
+          {(coverImageURL || isPostDetail) && (
+            <div class={`cover ${!coverImageURL && isPostDetail ? 'default-cover' : ''}`}>
+              {coverImageURL ? (
+                <img src={coverImageURL} alt={isPostCover ? title + " cover image" : "Site cover image"} loading="lazy" />
+              ) : null}
+            </div>
+          )}
+          {(coverImageURL || isPostDetail) && (
+            <div class="site-title-container">
+              <h1 class="site-title">
+                <a href={isPostDetail ? getNavLink(path) : getNavLink('/')}>
+                  {isPostDetail ? (
+                    title
+                  ) : (
+                    <>
+                      {isEmoji(database.Icon) && (
+                        <>
+                          <span>{database.Icon.Emoji}</span>
+                          {database.Title}
+                        </>
+                      )}
+                      {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
+                        <>
+                          <img src={database.Icon.Url} alt="Site icon image" />
+                          {database.Title}
+                        </>
+                      )}
+                      {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
+                        <>
+                          <img
+                            src={customIconURL}
+                            class="custom-icon"
+                            alt="Site icon image"
+                          />
+                          {database.Title}
+                        </>
+                      )}
+                      {!database.Icon && database.Title}
+                    </>
+                  )}
+                </a>
+              </h1>
+              {!isPostDetail && (
+                <div class="site-description">{database.Description}</div>
+              )}
+            </div>
+          )}
+        </header>
+      )}
 
-      <div class="search-wrapper">
+      <div class={`search-wrapper ${hideHeader ? 'hidden-search' : ''}`}>
         <div class="nav-container">
           <div class="breadcrumbs">
             <a href="/" class="breadcrumb-item home" aria-label="首页" title="回到首页">
@@ -282,14 +301,37 @@ const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !
     margin-bottom: 0;
   }
 
+  .site-header.post-header {
+    margin-bottom: 2rem;
+  }
+
   .cover {
     position: relative;
+  }
+  
+  .cover.default-cover {
+    height: 25vh;
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 添加细微波浪效果 */
+  .cover.default-cover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
+    mix-blend-mode: overlay;
   }
 
   .cover img {
     display: block;
     width: 100%;
-    height: 30vh;
+    height: 25vh;
     object-fit: cover;
     object-position: center 35%;
   }
@@ -300,7 +342,8 @@ const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !
     left: 0;
     right: 0;
     padding: 2rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    /* 更改默认渐变色 */
+    background: linear-gradient(to top, rgba(55, 55, 86, 0.7), transparent);
     color: white;
     display: flex;
     flex-direction: column;
@@ -590,5 +633,55 @@ const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !
     right: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: white;
+  }
+
+  .search-wrapper.hidden-search {
+    margin-top: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  
+  .search-wrapper.hidden-search .nav-container {
+    padding-top: 1.5rem;
+  }
+  
+  .search-wrapper.hidden-search .breadcrumbs {
+    color: white;
+  }
+  
+  .search-wrapper.hidden-search .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .search-wrapper.hidden-search .breadcrumb-separator {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .search-wrapper.hidden-search .breadcrumb-item.home .home-icon {
+    opacity: 0.9;
+  }
+  
+  .search-wrapper.hidden-search .breadcrumb-item:hover {
+    color: white;
+  }
+  
+  .search-wrapper.hidden-search :global(.search-button) {
+    color: white;
+  }
+  
+  .search-wrapper.hidden-search :global(.search-button:hover) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .search-wrapper.hidden-search.fixed {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 </style>

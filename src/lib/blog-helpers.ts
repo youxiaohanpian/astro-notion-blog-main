@@ -11,6 +11,32 @@ import { pathJoin } from './utils'
 
 export const filePath = (url: URL): string => {
   try {
+    // 检测是否为Notion默认封面图片
+    if (url.hostname === 'www.notion.so' && url.pathname.includes('/images/page-cover/')) {
+      const filename = url.pathname.split('/').pop() || '';
+      const localPath = pathJoin(BASE_PATH, `/notion/page-cover/${filename}`);
+      
+      // 验证文件是否已下载到本地
+      try {
+        // 这里不实际检查文件，而是记录日志，服务器端会处理文件下载
+        console.log('处理Notion默认封面图片:', { 
+          original: url.toString(), 
+          processed: localPath,
+          needsDownload: true
+        });
+        
+        // 如果是开发环境，可以在这里提醒用户需要下载默认封面
+        console.log('提示: Notion默认封面图片需要手动下载到public/notion/page-cover/目录');
+        
+        // 返回原始URL作为备选方案，确保图片可以显示
+        return url.toString();
+      } catch (error) {
+        console.log('无法访问本地封面图片，使用原始URL:', url.toString());
+        return url.toString();
+      }
+    }
+    
+    // 常规上传图片的处理逻辑
     const [dir, filename] = url.pathname.split('/').slice(-2)
     if (!dir || !filename) {
       console.error('无效的图片URL路径:', url.pathname);

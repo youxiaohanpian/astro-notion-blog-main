@@ -10,6 +10,7 @@ import {
   getAllTags,
   getAllBlocksByBlockId,
   downloadFile,
+  downloadPageCover,
 } from '../../lib/notion/client.ts'
 import {
   getPostLink,
@@ -143,9 +144,15 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
 else if (post.Cover && post.Cover.Url) {
   try {
     const url = new URL(post.Cover.Url);
+    
+    // 如果是Notion默认封面图片，尝试下载
+    if (url.hostname === 'www.notion.so' && url.pathname.includes('/images/page-cover/')) {
+      await downloadPageCover(url.toString());
+    }
+    
     const processedPath = filePath(url);
     ogImage = new URL(processedPath, Astro.site).toString();
-    postCoverURL = ogImage; // 使用Cover作为postCoverURL
+    postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
   } catch (error) {
     console.log('Invalid Cover URL: ', post.Cover.Url);
   }
