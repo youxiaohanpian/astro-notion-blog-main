@@ -28,6 +28,19 @@ const headings = blocks.filter((b: Block) =>
     word-break: break-word;
   }
   
+  .post-body :global(pre),
+  .post-body :global(code),
+  .post-body :global(table) {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+  
+  .post-body :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+  
   /* 响应式调整 */
   @media (max-width: 768px) {
     .post-body {

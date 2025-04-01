@@ -78,11 +78,11 @@ const hasHeadings = headings.length > 0
 <style>
   .table-of-contents {
     position: fixed;
-    top: 80px;
-    left: 20px;
+    bottom: 80px;
+    left: 10px;
     z-index: 100;
     transition: all 0.3s ease;
-    max-width: 280px;
+    max-width: 250px;
   }
   
   .table-of-contents.collapsed .toc-container {
@@ -226,8 +226,8 @@ const hasHeadings = headings.length > 0
       position: fixed;
       top: auto;
       bottom: 20px;
-      left: 20px;
-      max-width: 50px;
+      left: 10px;
+      max-width: 40px;
       opacity: 0.8;
     }
     
@@ -245,6 +245,17 @@ const hasHeadings = headings.length > 0
     
     .table-of-contents.expanded .toc-container {
       max-height: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .table-of-contents {
+      bottom: 20px;
+      left: 10px;
+    }
+    
+    .toc-container {
+      max-width: 220px;
     }
   }
 </style>

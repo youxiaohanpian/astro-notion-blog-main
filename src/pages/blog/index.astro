@@ -67,7 +67,7 @@ await Promise.all(
   ogImage="/default-og-image.png"
   hideSidebar={true}
 >
-  <div slot="main" class="blog-posts-container">
+  <div class="blog-posts-container">
     <div class="posts-grid">
       {posts.length === 0 ? (
         <NoContents contents={posts} />
@@ -75,12 +75,6 @@ await Promise.all(
         posts.map((post: Post) => (
           <article class="blog-post">
             <a href={getPostLink(post.Slug)} class="blog-post-link">
-              {/* 图片显示优先级：
-               * 1. FeaturedImage（Notion字段中的图片）
-               * 2. Cover（在线图库）
-               * 3. FirstImage（文章内第一张图片）
-               * 只有在有图片时才显示图片容器
-               */}
               {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
                 <div class="blog-post-image">
                   <PostFeaturedImage post={post} />
@@ -103,12 +97,6 @@ await Promise.all(
         ))
       )}
     </div>
-    {/* 分页组件
-     * 注意：
-     * 1. 只有在总页数大于1时才显示分页
-     * 2. tag属性必须提供，即使为空字符串
-     * 3. 这是为了保持与标签页分页的一致性
-     */}
     {numberOfPages > 1 && (
       <div class="pagination-container">
         <Pagination currentPage={1} numberOfPages={numberOfPages} tag="" />
@@ -146,7 +134,10 @@ await Promise.all(
 
   /* 分页容器样式 */
   .pagination-container {
-    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 2rem 0;
     padding: 0 1rem;
   }
 

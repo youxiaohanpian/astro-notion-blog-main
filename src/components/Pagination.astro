@@ -38,9 +38,10 @@ for (let i = startPage; i <= endPage; i++) {
   .pagination {
     display: flex;
     width: 100%;
-    margin: 2rem auto;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
   }
   
   .pagination a {
@@ -49,7 +50,6 @@ for (let i = startPage; i <= endPage; i++) {
     justify-content: center;
     width: 36px;
     height: 36px;
-    margin: 0 0.3rem;
     border-radius: 8px;
     background: #ffffff;
     color: #666;
@@ -92,13 +92,12 @@ for (let i = startPage; i <= endPage; i++) {
   
   @media (max-width: 480px) {
     .pagination {
-      margin: 1.5rem auto;
+      gap: 0.3rem;
     }
     
     .pagination a {
-      width: 36px;
-      height: 36px;
-      margin: 0 0.2rem;
+      width: 32px;
+      height: 32px;
       font-size: 0.8rem;
     }
   }

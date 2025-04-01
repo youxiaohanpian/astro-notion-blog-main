@@ -167,9 +167,9 @@ else if (post.FirstImage && post.FirstImage.Url) {
     { label: post.Title, href: getPostLink(post.Slug) }
   ]}
 >
-  <TableOfContents headings={headingBlocks} />
-  
-  <div slot="main" class={styles.main}>
+  <div class="blog-post-detail">
+    <TableOfContents headings={headingBlocks} />
+    
     <div class="blog-posts-container">
       <PostTags post={post} enableLink={true} />
       <PostTitle post={post} enableLink={false} />
@@ -203,19 +203,17 @@ else if (post.FirstImage && post.FirstImage.Url) {
     </div>
   </div>
 
-  <div slot="aside">
-    <div class={styles.aside}>
-      <BlogPostsLink
-        heading="同类文章"
-        posts={
-          relatedPosts.length > 0
-            ? relatedPosts
-            : recentPosts.filter(p => p.Slug !== post.Slug)
-        }
-      />
-      <BlogPostsLink heading="最新文章" posts={recentPosts} />
-      <BlogTagsLink heading="分类" tags={tags} />
-    </div>
+  <div slot="aside" class={styles.aside}>
+    <BlogPostsLink
+      heading="同类文章"
+      posts={
+        relatedPosts.length > 0
+          ? relatedPosts
+          : recentPosts.filter(p => p.Slug !== post.Slug)
+      }
+    />
+    <BlogPostsLink heading="最新文章" posts={recentPosts} />
+    <BlogTagsLink heading="分类" tags={tags} />
   </div>
 </Layout>
 
@@ -300,6 +298,13 @@ else if (post.FirstImage && post.FirstImage.Url) {
 </script>
 
 <style>
+  .blog-post-detail {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .post-actions {
     display: flex;
     gap: 1rem;
@@ -351,11 +356,46 @@ else if (post.FirstImage && post.FirstImage.Url) {
     padding: 0;
     box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  /* 处理代码块和长文本溢出 */
+  .blog-posts-container :global(pre),
+  .blog-posts-container :global(code),
+  .blog-posts-container :global(table) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* 处理图片溢出 */
+  .blog-posts-container :global(img) {
+    max-width: 100%;
+    height: auto;
   }
   
   @media (max-width: 1220px) {
     .blog-posts-container {
-      padding: 0;
+      padding: 0 0.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .blog-posts-container {
+      padding: 0 0.5rem;
+    }
+    
+    .post-actions {
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .share-button, .like-button {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
     }
   }
 </style>
@@ -410,3 +450,4 @@ else if (post.FirstImage && post.FirstImage.Url) {
     }
   }
 </style>
+

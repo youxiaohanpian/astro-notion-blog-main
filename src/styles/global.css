@@ -208,4 +208,28 @@ mark {
   .main-container {
     padding: 0 0.8rem;
   }
+}
+
+.breadcrumb-item.home {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.breadcrumb-item.home:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.home-icon {
+  width: 18px;
+  height: 18px;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.breadcrumb-item.home:hover .home-icon {
+  color: #333;
 } 
