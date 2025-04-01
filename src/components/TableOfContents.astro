@@ -1,19 +1,12 @@
 ---
 import type { Block } from '../lib/interfaces.ts'
+import { buildHeadingId } from '../lib/blog-helpers.ts'
 
 export interface Props {
   headings: Block[]
 }
 
 const { headings } = Astro.props
-
-// 生成唯一的ID，用于目录锚点
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\u4e00-\u9fa5]+/g, '-') // 支持中文
-    .replace(/^-+|-+$/g, '')
-}
 
 // 获取标题文本
 function getHeadingText(block: Block): string {
@@ -26,6 +19,18 @@ function getHeadingText(block: Block): string {
     text = block.Heading3.RichTexts.map(rt => rt.Text?.Content || '').join('')
   }
   return text
+}
+
+// 获取标题对象
+function getHeadingObject(block: Block) {
+  if (block.Type === 'heading_1' && block.Heading1) {
+    return block.Heading1
+  } else if (block.Type === 'heading_2' && block.Heading2) {
+    return block.Heading2
+  } else if (block.Type === 'heading_3' && block.Heading3) {
+    return block.Heading3
+  }
+  return null
 }
 
 // 获取标题级别
@@ -58,7 +63,8 @@ const hasHeadings = headings.length > 0
         <ul class="toc-list">
           {headings.map(heading => {
             const text = getHeadingText(heading)
-            const slug = slugify(text)
+            const headingObj = getHeadingObject(heading)
+            const slug = headingObj ? buildHeadingId(headingObj) : ''
             const level = getHeadingLevel(heading)
             
             return (
@@ -296,6 +302,21 @@ const hasHeadings = headings.length > 0
           tocElement.classList.remove('fixed');
         }
       });
+
+      // 检查URL中是否有锚点，如果有，滚动到对应位置
+      setTimeout(() => {
+        if (window.location.hash) {
+          const targetId = window.location.hash.substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }, 300);
       
       // 点击目录链接时平滑滚动
       const tocLinks = tocElement.querySelectorAll('.toc-link');
@@ -306,6 +327,9 @@ const hasHeadings = headings.length > 0
           const targetElement = document.getElementById(targetId || '');
           
           if (targetElement) {
+            // 修改浏览器URL显示锚点，但不触发默认滚动行为
+            history.pushState(null, '', `#${targetId}`);
+            
             window.scrollTo({
               top: targetElement.offsetTop - 100,
               behavior: 'smooth'
@@ -333,7 +357,7 @@ const hasHeadings = headings.length > 0
       }, { rootMargin: '-80px 0px -80% 0px' });
     
       // 观察所有标题元素
-      document.querySelectorAll('h1[id], h2[id], h3[id]').forEach(heading => {
+      document.querySelectorAll('h3[id], h4[id], h5[id]').forEach(heading => {
         observer.observe(heading);
       });
     }

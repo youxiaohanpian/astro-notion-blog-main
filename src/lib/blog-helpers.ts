@@ -186,8 +186,10 @@ export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
     }
     return richText.Text.Content
   })
-    .join()
-    .trim()
+    .join('')
+    .toLowerCase()
+    .replace(/[^\w\u4e00-\u9fa5]+/g, '-') // 支持中文和英文，将特殊字符替换为连字符
+    .replace(/^-+|-+$/g, '') // 移除首尾的连字符
 }
 
 export const isTweetURL = (url: URL): boolean => {
