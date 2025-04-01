@@ -79,17 +79,63 @@
   padding-bottom: 0.5rem;
 }
 
-/* 移动端响应式 */
-@media (max-width: 768px) {
-  /* 调整卡片间距 */
+/* 修复720-768像素重叠问题 */
+@media (max-width: 720px) {
   .aside {
-    gap: 1.5rem;
+    gap: 1rem;
+    padding-right: 0;
+    margin-top: 1.5rem;
   }
   
   :global(.blog-posts-link),
   :global(.blog-tags-link) {
-    /* padding: 1rem; 缩小图片不需要间距 */
+    padding: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  :global(.blog-posts-link h2),
+  :global(.blog-tags-link h2) {
+    margin-bottom: 0.6rem !important;
+    font-size: 0.95rem !important;
+    padding-bottom: 0.4rem;
+  }
+  
+  :global(.blog-posts-link ul li),
+  :global(.blog-tags-link ul li) {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+  }
+  
+  .post footer {
+    margin-bottom: 0;
+  }
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  /* 调整卡片间距 */
+  .aside {
+    gap: 1rem;
+    padding-right: 0;
+  }
+  
+  :global(.blog-posts-link),
+  :global(.blog-tags-link) {
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  :global(.blog-posts-link h2),
+  :global(.blog-tags-link h2) {
+    margin-bottom: 0.6rem !important;
+    font-size: 0.95rem !important;
+    padding-bottom: 0.4rem;
+  }
+  
+  :global(.blog-posts-link ul li),
+  :global(.blog-tags-link ul li) {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
   }
 }
 

@@ -396,6 +396,17 @@ else if (post.FirstImage && post.FirstImage.Url) {
     }
   }
   
+  /* 添加新的媒体查询，处理中等屏幕布局问题 */
+  @media (max-width: 720px) {
+    .blog-posts-container {
+      padding: 0 0.8rem;
+    }
+    
+    .post-actions {
+      margin: 1.5rem 0 1rem;
+    }
+  }
+  
   @media (max-width: 768px) {
     .blog-posts-container {
       padding: 0 0.5rem;
