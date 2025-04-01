@@ -127,6 +127,9 @@ const relatedPosts = postsHavingSameTag.filter((p: interfaces.Post) => p.Slug !=
 
 // 准备 OG 图片
 let ogImage = '';
+// 文章封面图URL
+let postCoverURL: string | null = null;
+
 // 优先使用 FeaturedImage
 if (post.FeaturedImage && post.FeaturedImage.Url) {
   try {
@@ -140,7 +143,9 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
 else if (post.Cover && post.Cover.Url) {
   try {
     const url = new URL(post.Cover.Url);
-    ogImage = new URL(filePath(url), Astro.site).toString();
+    const processedPath = filePath(url);
+    ogImage = new URL(processedPath, Astro.site).toString();
+    postCoverURL = ogImage; // 使用Cover作为postCoverURL
   } catch (error) {
     console.log('Invalid Cover URL: ', post.Cover.Url);
   }
@@ -162,6 +167,7 @@ else if (post.FirstImage && post.FirstImage.Url) {
   description={post.Excerpt}
   path={getPostLink(post.Slug)}
   ogImage={ogImage}
+  postCover={postCoverURL}
   breadcrumbs={[
     { label: '所有文章', href: '/' },
     { label: post.Title, href: getPostLink(post.Slug) }

@@ -20,6 +20,7 @@ export interface Props {
   ogImage: string
   hideSidebar?: boolean
   breadcrumbs?: { label: string; href: string }[]
+  postCover?: string | null
 }
 
 const { 
@@ -28,7 +29,8 @@ const {
   path = '/', 
   ogImage = '', 
   hideSidebar = false,
-  breadcrumbs = [] 
+  breadcrumbs = [],
+  postCover = null
 } = Astro.props
 
 const database = await getDatabase()
@@ -42,29 +44,38 @@ const siteOGImage = new URL(
   Astro.site
 )
 
-let coverImageURL: string | undefined
-if (database.Cover) {
+let coverImageURL = ''
+let isPostCover = false
+
+if (postCover) {
+  coverImageURL = postCover
+  isPostCover = true
+} else if (database.Cover) {
   if (database.Cover.Type === 'external') {
-    coverImageURL = database.Cover.Url
+    coverImageURL = database.Cover.Url || ''
   } else if (database.Cover.Type === 'file') {
     try {
-      coverImageURL = filePath(new URL(database.Cover.Url))
+      const url = new URL(database.Cover.Url || '')
+      coverImageURL = filePath(url)
     } catch {
       console.log('Invalid DB cover image URL: ', database.Cover?.Url)
+      coverImageURL = ''
     }
   }
 }
 
-let customIconURL: string | undefined
+let customIconURL = ''
 if (database.Icon && database.Icon.Type === 'file') {
   try {
-    customIconURL = filePath(new URL((database.Icon as FileObject).Url))
+    const fileIcon = database.Icon as FileObject
+    const url = new URL(fileIcon.Url || '')
+    customIconURL = filePath(url)
   } catch {
     console.log('Invalid DB custom icon URL: ', (database.Icon as FileObject)?.Url)
+    customIconURL = ''
   }
 }
 
-// 类型保护函数
 const isEmoji = (icon: FileObject | Emoji | null): icon is Emoji => {
   return icon !== null && icon.Type === 'emoji';
 };
@@ -72,6 +83,8 @@ const isEmoji = (icon: FileObject | Emoji | null): icon is Emoji => {
 const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   return icon !== null && (icon.Type === 'external' || icon.Type === 'file');
 };
+
+const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
 ---
 
 <!DOCTYPE html>
@@ -105,42 +118,52 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   <body>
     <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />
     <div class="container">
-      <header class="site-header">
+      <header class={`site-header ${!coverImageURL ? 'no-cover' : ''}`}>
         {coverImageURL && (
           <div class="cover">
-            <img src={coverImageURL} alt="Site cover image" loading="lazy" />
+            <img src={coverImageURL} alt={isPostCover ? title + " cover image" : "Site cover image"} loading="lazy" />
           </div>
         )}
-        <div class="site-title-container">
-          <h1 class="site-title">
-            <a href={getNavLink('/')}>
-              {isEmoji(database.Icon) && (
-                <>
-                  <span>{database.Icon.Emoji}</span>
-                  {database.Title}
-                </>
-              )}
-              {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
-                <>
-                  <img src={database.Icon.Url} alt="Site icon image" />
-                  {database.Title}
-                </>
-              )}
-              {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
-                <>
-                  <img
-                    src={customIconURL}
-                    class="custom-icon"
-                    alt="Site icon image"
-                  />
-                  {database.Title}
-                </>
-              )}
-              {!database.Icon && database.Title}
-            </a>
-          </h1>
-          <div class="site-description">{database.Description}</div>
-        </div>
+        {coverImageURL && (
+          <div class="site-title-container">
+            <h1 class="site-title">
+              <a href={isPostCover ? getNavLink(path) : getNavLink('/')}>
+                {isPostCover ? (
+                  title
+                ) : (
+                  <>
+                    {isEmoji(database.Icon) && (
+                      <>
+                        <span>{database.Icon.Emoji}</span>
+                        {database.Title}
+                      </>
+                    )}
+                    {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
+                      <>
+                        <img src={database.Icon.Url} alt="Site icon image" />
+                        {database.Title}
+                      </>
+                    )}
+                    {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
+                      <>
+                        <img
+                          src={customIconURL}
+                          class="custom-icon"
+                          alt="Site icon image"
+                        />
+                        {database.Title}
+                      </>
+                    )}
+                    {!database.Icon && database.Title}
+                  </>
+                )}
+              </a>
+            </h1>
+            {!isPostCover && (
+              <div class="site-description">{database.Description}</div>
+            )}
+          </div>
+        )}
       </header>
 
       <div class="search-wrapper">
@@ -155,8 +178,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
             <span class="breadcrumb-separator">/</span>
             <a href="/blog" class="breadcrumb-item">所有文章</a>
             
-            {/* 如果是文章详情页面，显示文章标题 */}
-            {path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0 && (
+            {isPostDetail && (
               <>
                 <span class="breadcrumb-separator">/</span>
                 <span class="breadcrumb-item active">{breadcrumbs[breadcrumbs.length - 1].label}</span>
@@ -205,14 +227,12 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // 处理标签链接的点击事件，防止触发卡片链接
         document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
           tag.addEventListener('click', (e) => {
             e.stopPropagation();
           });
         });
 
-        // 导航栏滚动固定效果
         const header = document.querySelector('.site-header');
         const searchWrapper = document.querySelector('.search-wrapper');
         
@@ -241,7 +261,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     --primary-color: rgba(255,255,255,0.8);
     --text-color: #333;
     --text-light: #666;
-    --text-lighter: hsl(0, 0%, calc(60% + 20%)); /* 更浅的颜色，增加 20% 的亮度 */
+    --text-lighter: hsl(0, 0%, calc(60% + 20%));
     --background-light: #f8f8f8;
     --border-radius: 12px;
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -256,6 +276,10 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
   .site-header {
     position: relative;
     margin-bottom: 2rem;
+  }
+
+  .site-header.no-cover {
+    margin-bottom: 0;
   }
 
   .cover {
@@ -382,7 +406,6 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     box-sizing: border-box;
   }
   
-  /* 统一所有图标的默认样式 */
   .site-footer a :global(svg),
   .home-icon {
     position: absolute;
@@ -391,13 +414,12 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     transform: translate(-50%, -50%);
     width: 18px;
     height: 18px;
-    opacity: 0.6;  /* 统一默认透明度 */
+    opacity: 0.6;
   }
 
-  /* 统一悬停效果 */
   .site-footer a:hover :global(svg),
   .site-footer a:hover .home-icon {
-    opacity: 0.8;  /* 统一悬停时的透明度 */
+    opacity: 0.8;
   }
 
   .search-wrapper {
@@ -411,6 +433,10 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     height: 48px;
   }
   
+  .site-header.no-cover + .search-wrapper {
+    margin-top: 0;
+  }
+  
   .nav-container {
     display: flex;
     align-items: center;
@@ -419,7 +445,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0;
-    padding-top: 0.5em; //增加鼠标滚动时，文字距离顶部的边距
+    padding-top: 0.5em;
     height: 100%;
   }
   
@@ -442,7 +468,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     display: flex;
     align-items: center;
     height: 100%;
-    margin-left: auto; /* 确保搜索按钮靠右 */
+    margin-left: auto;
     padding-right: 1rem;
   }
   
@@ -534,13 +560,11 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       padding: 0.5em 0.5em 0 0.5em;
     }
 
-    /* 在小屏幕下确保内容区域有合适的边距 */
     .content-wrapper {
       padding: 0 0.8rem;
     }
   }
 
-  /* 系统字体检测 */
   @supports (font: -apple-system-body) {
     :root {
       --font-family-chinese: "PingFang SC", var(--font-family-sans);
@@ -559,7 +583,6 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     color: inherit;
   }
 
-  /* 导航栏固定样式 */
   .search-wrapper.fixed {
     position: fixed;
     top: 0;
