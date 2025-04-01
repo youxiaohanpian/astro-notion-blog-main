@@ -17,7 +17,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   hideHeader={true}
 >
   <div class="home-page">
-    <!-- 全屏视频背景英雄区域 -->
+    <!-- 英雄区域 -->
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">自由探索无限可能</h1>
@@ -36,24 +36,19 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       <div class="hero-overlay"></div>
     </section>
 
-    <!-- 正文内容区域 -->
+    <!-- 内容区域 -->
     <div class="content-area">
-      <!-- 平滑过渡层 -->
-      <div class="content-transition"></div>
-      
       <!-- 关于我 -->
-      <section class="about">
-        <div class="container">
-          <div class="about-content">
-            <h2>关于我</h2>
-            <p>热爱技术，热爱生活。在这里，我会分享我的技术学习心得、项目经验以及生活感悟。</p>
-          </div>
+      <section class="content-section about">
+        <div class="glass-container">
+          <h2>关于我</h2>
+          <p>热爱技术，热爱生活。在这里，我会分享我的技术学习心得、项目经验以及生活感悟。</p>
         </div>
       </section>
 
       <!-- 最新文章 -->
-      <section class="latest-posts">
-        <div class="container">
+      <section class="content-section latest-posts">
+        <div class="glass-container">
           <h2>最新文章</h2>
           <div class="posts-grid">
             {latestPosts.map((post: Post) => (
@@ -74,21 +69,24 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
             ))}
           </div>
           <div class="view-more">
-            <a href="/blog" class="button">查看所有文章</a>
+            <a href="/blog" class="cta-button">浏览所有文章
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
           </div>
         </div>
       </section>
 
       <!-- 标签云 -->
-      <section class="tags-section">
-        <div class="container">
-          <div class="tags-content">
-            <h2>标签</h2>
-            <div class="tag-cloud">
-              {allTags.map(tag => (
-                <a href={`/posts/tag/${tag}`} class="tag">{tag}</a>
-              ))}
-            </div>
+      <section class="content-section tags-section">
+        <div class="glass-container">
+          <h2>标签</h2>
+          <div class="tag-cloud">
+            {allTags.map(tag => (
+              <a href={`/posts/tag/${tag}`} class="tag">{tag}</a>
+            ))}
           </div>
         </div>
       </section>
@@ -97,13 +95,17 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
 </Layout>
 
 <style>
-  /* 全局重置和变量 */
   :root {
     --content-max-width: 1200px;
     --font-size-base: 18px;
     --font-family-english: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --primary-color: #4776E6;
     --secondary-color: #8E54E9;
+    --glass-background: rgba(20, 20, 30, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.01;
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --text-light: rgba(255, 255, 255, 0.9);
+    --text-lighter: rgba(255, 255, 255, 0.7);
   }
 
   /* 页面容器 */
@@ -113,23 +115,15 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     padding: 0;
     font-size: var(--font-size-base);
     font-family: var(--font-family-english), "Microsoft YaHei", "微软雅黑", sans-serif;
-    overflow-x: hidden; /* 防止水平溢出 */
-    position: relative; /* 确保定位正确 */
-    min-height: 100vh; /* 至少占满视口高度 */
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    color: var(--text-light);
   }
 
-  /* 通用容器 */
-  .container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* 英雄区域 - 确保全屏无边距 */
+  /* 英雄区域 */
   .hero {
-    position: relative; /* 改为相对定位 */
+    position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -137,12 +131,12 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     justify-content: center;
     text-align: center;
     color: #fff;
-    overflow: hidden; /* 添加溢出隐藏 */
+    overflow: hidden;
   }
 
   /* 视频背景 */
   .hero-video {
-    position: fixed; /* 视频固定到窗口 */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -153,12 +147,12 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
 
   /* 遮罩层 */
   .hero-overlay {
-    position: fixed; /* 遮罩层也固定到窗口 */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     z-index: -1;
   }
 
@@ -167,7 +161,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     max-width: 800px;
     padding: 2rem;
     position: relative;
-    z-index: 5; /* 确保内容在前面 */
+    z-index: 5;
   }
 
   .hero-title {
@@ -204,7 +198,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     transition: all 0.3s ease;
     animation: fadeInUp 1s ease-out 0.4s backwards;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    cursor: pointer; /* 添加指针样式 */
+    cursor: pointer;
   }
 
   .cta-button:hover {
@@ -213,106 +207,90 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   }
 
-  /* 内容区域 - 确保在视频后滚动显示 */
+  /* 内容区域 - 无背景，直接显示在视频上 */
   .content-area {
     position: relative;
-    z-index: 2; /* 保持内容区域在前面 */
-    background-color: #fff;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-    padding-bottom: 2rem; /* 确保底部有足够的填充 */
-    border-radius: 25px 25px 0 0; /* 添加上方圆角 */
-    margin-top: 95vh; /* 稍微提前开始显示内容区域 */
-  }
-  
-  /* 平滑过渡层 */
-  .content-transition {
-    position: absolute;
-    top: -100px; /* 向上延伸 */
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-    border-radius: 25px 25px 0 0;
-    z-index: 1;
+    z-index: 2;
+    padding-bottom: 4rem;
   }
 
-  /* 关于我 */
-  .about {
-    padding: 6rem 0;
-    background: #fff;
+  /* 内容部分通用样式 */
+  .content-section {
+    padding: 2.5rem 0;
     text-align: center;
-    position: relative; /* 确保定位正确 */
-    z-index: 2; /* 确保位于过渡层上方 */
   }
 
-  .about-content {
+  /* 磨砂玻璃容器 */
+  .glass-container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: var(--glass-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 内容标题 */
+  .content-section h2 {
+    font-size: 2.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 关于我部分 */
+  .about p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-lighter);
     max-width: 800px;
     margin: 0 auto;
   }
 
-  .about h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-
-  .about p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
-  }
-
-  /* 最新文章 */
-  .latest-posts {
-    padding: 6rem 0;
-    background: #f8f9fa;
-  }
-
-  .latest-posts h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 3rem;
-    color: #333;
-  }
-
+  /* 最新文章部分 */
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 0 auto;
+    gap: 1.5rem;
+    margin: 2rem 0;
   }
 
   .post-card {
-    background: #fff;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--glass-border);
   }
 
   .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .post-card a {
     text-decoration: none;
     color: inherit;
     display: block;
-    padding: 1.8rem;
+    padding: 1.5rem;
   }
 
   .post-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-light);
     line-height: 1.4;
   }
 
   .post-excerpt {
-    color: #666;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    color: var(--text-lighter);
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
     font-size: 0.95rem;
   }
 
@@ -320,27 +298,26 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #888;
+    color: var(--text-lighter);
     font-size: 0.85rem;
   }
 
   .category-tag {
-    background: #f0f0f0;
+    background: rgba(255, 255, 255, 0.15);
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.8rem;
-    color: #555;
+    color: var(--text-light);
     margin-left: 0.5rem;
     transition: background 0.2s ease;
   }
 
   .category-tag:hover {
-    background: #e0e0e0;
+    background: rgba(255, 255, 255, 0.25);
   }
 
   .view-more {
-    text-align: center;
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
   }
 
   .button {
@@ -353,33 +330,15 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     font-weight: 500;
     font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 
   .button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   }
 
   /* 标签区域 */
-  .tags-section {
-    padding: 6rem 0;
-    background: #fff;
-    position: relative; /* 确保定位正确 */
-    margin-bottom: -1px; /* 消除底部可能的缝隙 */
-  }
-
-  .tags-content {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .tags-section h2 {
-    font-size: 2rem;
-    margin-bottom: 2.5rem;
-    color: #333;
-  }
-
   .tag-cloud {
     display: flex;
     flex-wrap: wrap;
@@ -388,22 +347,21 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   }
 
   .tag {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.1);
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    color: #555;
+    color: var(--text-light);
     font-weight: 500;
     font-size: 0.9rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--glass-border);
   }
 
   .tag:hover {
-    background: #eaecef;
-    color: #333;
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   /* 动画 */
@@ -428,9 +386,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       font-size: 1.2rem;
     }
 
-    .about h2,
-    .latest-posts h2,
-    .tags-section h2 {
+    .content-section h2 {
       font-size: 1.8rem;
     }
 
@@ -438,8 +394,13 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       grid-template-columns: 1fr;
     }
     
-    .about, .tags-section {
-      padding: 4rem 0;
+    .content-section {
+      padding: 3rem 0;
+    }
+    
+    .glass-container {
+      margin: 0 1rem;
+      padding: 1.5rem;
     }
   }
   
@@ -456,12 +417,16 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       padding: 0.7rem 1.3rem;
       font-size: 0.9rem;
     }
+    
+    .glass-container {
+      padding: 1rem;
+    }
   }
   
   /* Safari浏览器特殊处理 */
   @supports (-webkit-touch-callout: none) {
     .hero-video {
-      position: absolute;
+      position: fixed;
       width: 100%;
       height: 100%;
       object-fit: cover;

@@ -425,6 +425,19 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     margin-top: 3rem;
     color: var(--text-light);
     font-size: 0.9rem;
+  }
+  
+  /* 首页特殊处理footer */
+  :global(.home-page) .site-footer {
+    background-color: transparent; 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* 非首页的footer */
+  :global(body:not(:has(.home-page))) .site-footer {
     background-color: var(--background-light);
   }
   
@@ -452,6 +465,15 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     position: relative;
     box-sizing: border-box;
   }
+
+  /* 首页特殊处理footer链接 */
+  :global(.home-page) .site-footer a {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  :global(.home-page) .site-footer a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
   
   .site-footer a :global(svg),
   .home-icon {
@@ -464,9 +486,19 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     opacity: 0.6;
   }
 
+  :global(.home-page) .site-footer a :global(svg),
+  :global(.home-page) .site-footer a .home-icon {
+    opacity: 0.8;
+  }
+
   .site-footer a:hover :global(svg),
   .site-footer a:hover .home-icon {
     opacity: 0.8;
+  }
+
+  :global(.home-page) .site-footer a:hover :global(svg),
+  :global(.home-page) .site-footer a:hover .home-icon {
+    opacity: 1;
   }
 
   .search-wrapper {
