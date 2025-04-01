@@ -30,6 +30,10 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
           </svg>
         </a>
       </div>
+      <div class="video-loading-container">
+        <div class="video-loading-spinner"></div>
+        <p class="loading-text">视频加载中...</p>
+      </div>
       <video class="hero-video" autoplay muted loop playsinline>
         <source src="/banner.mp4" type="video/mp4">
       </video>
@@ -143,6 +147,12 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     height: 100%;
     object-fit: cover;
     z-index: -2;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .hero-video.loaded {
+    opacity: 1;
   }
 
   /* 遮罩层 */
@@ -432,4 +442,77 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       object-fit: cover;
     }
   }
+
+  .video-loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .video-loading-container.visible {
+    opacity: 1;
+  }
+  
+  .video-loading-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 1rem;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+    margin: 0;
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('.hero-video');
+    const loadingContainer = document.querySelector('.video-loading-container');
+    
+    if (video && loadingContainer) {
+      // 显示加载指示器
+      loadingContainer.classList.add('visible');
+      
+      // 视频可以播放时
+      video.addEventListener('canplay', () => {
+        // 隐藏加载指示器
+        loadingContainer.classList.remove('visible');
+        video.classList.add('loaded');
+      });
+      
+      // 如果视频加载失败或超时
+      video.addEventListener('error', () => {
+        loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
+      });
+      
+      // 设置超时处理
+      const timeout = setTimeout(() => {
+        if (!video.classList.contains('loaded')) {
+          // 超过10秒仍未加载完成，更新加载状态提示
+          loadingContainer.innerHTML = '<p>视频加载较慢，请稍候...</p>';
+        }
+      }, 10000);
+      
+      // 清理超时定时器
+      video.addEventListener('canplay', () => {
+        clearTimeout(timeout);
+      });
+    }
+  });
+</script>
