@@ -491,6 +491,7 @@ export async function getAllTags(): Promise<SelectProperty[]> {
 export async function downloadFile(url: URL) {
   let res!: AxiosResponse
   try {
+    console.log(`开始下载图片: ${url.toString()}`);
     res = await axios({
       method: 'get',
       url: url.toString(),
@@ -498,22 +499,29 @@ export async function downloadFile(url: URL) {
       responseType: 'stream',
     })
   } catch (err) {
-    console.log(err)
+    console.error(`下载图片失败: ${url.toString()}`, err);
     return Promise.resolve()
   }
 
   if (!res || res.status != 200) {
-    console.log(res)
+    console.error(`图片下载响应异常: ${url.toString()}`, res);
     return Promise.resolve()
   }
 
   const dir = './public/notion/' + url.pathname.split('/').slice(-2)[0]
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
+  try {
+    if (!fs.existsSync(dir)) {
+      console.log(`创建目录: ${dir}`);
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (err) {
+    console.error(`创建目录失败: ${dir}`, err);
+    return Promise.resolve()
   }
 
   const filename = decodeURIComponent(url.pathname.split('/').slice(-1)[0])
   const filepath = `${dir}/${filename}`
+  console.log(`保存图片到: ${filepath}`);
 
   const writeStream = createWriteStream(filepath)
   const rotate = sharp().rotate()
@@ -524,9 +532,10 @@ export async function downloadFile(url: URL) {
     stream = stream.pipe(rotate)
   }
   try {
-    return pipeline(stream, new ExifTransformer(), writeStream)
+    await pipeline(stream, new ExifTransformer(), writeStream)
+    console.log(`图片下载完成: ${filepath}`);
   } catch (err) {
-    console.log(err)
+    console.error(`图片处理失败: ${filepath}`, err);
     writeStream.end()
     return Promise.resolve()
   }

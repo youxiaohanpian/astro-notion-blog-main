@@ -10,8 +10,19 @@ import type {
 import { pathJoin } from './utils'
 
 export const filePath = (url: URL): string => {
-  const [dir, filename] = url.pathname.split('/').slice(-2)
-  return pathJoin(BASE_PATH, `/notion/${dir}/${filename}`)
+  try {
+    const [dir, filename] = url.pathname.split('/').slice(-2)
+    if (!dir || !filename) {
+      console.error('无效的图片URL路径:', url.pathname);
+      return url.toString();
+    }
+    const path = pathJoin(BASE_PATH, `/notion/${dir}/${filename}`);
+    console.log('处理图片路径:', { original: url.toString(), processed: path });
+    return path;
+  } catch (error) {
+    console.error('处理图片路径失败:', error);
+    return url.toString();
+  }
 }
 
 export const extractTargetBlocks = (

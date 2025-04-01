@@ -5,6 +5,7 @@ import { env } from './scripts/load-env.js';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
 import CustomIconDownloader from './src/integrations/custom-icon-downloader';
 import FeaturedImageDownloader from './src/integrations/featured-image-downloader';
+import FirstImageDownloader from './src/integrations/first-image-downloader';
 import PublicNotionCopier from './src/integrations/public-notion-copier';
 
 // 加载环境变量
@@ -48,6 +49,7 @@ export default defineConfig({
     CoverImageDownloader(),
     CustomIconDownloader(),
     FeaturedImageDownloader(),
+    FirstImageDownloader(),
     PublicNotionCopier(),
   ],
   vite: {

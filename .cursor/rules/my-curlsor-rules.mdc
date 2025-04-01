@@ -119,3 +119,4 @@ alwaysApply: true
 - You cannot delete my code comments
 - For each new feature added, code comments need to be added.
 - 重要内容更新，需要同步到README.md
+- !!!每一步改动都需要很小心，我不想改动其他已经调试好的功能和样式，不可以随意删除我的注释
