@@ -137,6 +137,8 @@
       const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
       if (modalContainer) {
         modalContainer.style.display = 'block';
+        // 禁止背景滚动
+        document.body.style.overflow = 'hidden';
       }
       
       const searchInput = document.querySelector('.search-prompt input') as HTMLInputElement;
@@ -154,6 +156,8 @@
       const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
       if (modalContainer) {
         modalContainer.style.display = 'none';
+        // 恢复背景滚动
+        document.body.style.overflow = '';
       }
     }
 

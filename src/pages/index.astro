@@ -16,13 +16,13 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   hideSidebar={true}
   hideHeader={true}
 >
-  <div class="home-container">
-    {/* Hero Section */}
-    <section class="heroSection">
-      <div class="heroContent">
-        <h1 class="heroTitle">自由探索无限可能</h1>
-        <p class="heroSubtitle">探索、创造、分享</p>
-        <a href="/blog" class="ctaButton">
+  <div class="home-page">
+    <!-- 全屏视频背景英雄区域 -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">自由探索无限可能</h1>
+        <p class="hero-subtitle">探索、创造、分享</p>
+        <a href="/blog" class="cta-button">
           浏览所有文章
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -30,148 +30,147 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
           </svg>
         </a>
       </div>
-      <div class="heroBackground">
-        <video autoplay muted loop playsinline>
-          <source src="/banner.mp4" type="video/mp4">
-        </video>
-        <div class="overlay"></div>
-      </div>
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="/banner.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
     </section>
 
-    {/* 个人介绍 */}
-    <section class="about">
-      <div class="content-wrapper">
-        <div class="about-content">
-          <h2>关于我</h2>
-          <p>热爱技术，热爱生活。在这里，我会分享我的技术学习心得、项目经验以及生活感悟。</p>
-        </div>
-      </div>
-    </section>
-
-    {/* 最新文章 */}
-    <section class="latest-posts">
-      <div class="content-wrapper">
-        <h2>最新文章</h2>
-        <div class="posts-grid">
-          {latestPosts.map((post: Post) => (
-            <article class="post-card">
-              <a href={`/posts/${post.Slug}`}>
-                <h3>{post.Title}</h3>
-                <p class="post-excerpt">{post.Excerpt}</p>
-                <div class="post-meta">
-                  <span class="post-date">{new Date(post.Date).toLocaleDateString()}</span>
-                  <span class="post-categories">
-                    {post.Tags.map(tag => (
-                      <span class="category-tag">{tag.name}</span>
-                    ))}
-                  </span>
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-        <div class="view-more">
-          <a href="/blog" class="button">查看所有文章</a>
-        </div>
-      </div>
-    </section>
-
-    {/* 标签云 */}
-    <section class="categories-tags">
-      <div class="content-wrapper">
-        <div class="tags">
-          <h2>标签</h2>
-          <div class="tag-cloud">
-            {allTags.map(tag => (
-              <a href={`/posts/tag/${tag}`} class="tag">{tag}</a>
-            ))}
+    <!-- 正文内容区域 -->
+    <div class="content-area">
+      <!-- 平滑过渡层 -->
+      <div class="content-transition"></div>
+      
+      <!-- 关于我 -->
+      <section class="about">
+        <div class="container">
+          <div class="about-content">
+            <h2>关于我</h2>
+            <p>热爱技术，热爱生活。在这里，我会分享我的技术学习心得、项目经验以及生活感悟。</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- 最新文章 -->
+      <section class="latest-posts">
+        <div class="container">
+          <h2>最新文章</h2>
+          <div class="posts-grid">
+            {latestPosts.map((post: Post) => (
+              <article class="post-card">
+                <a href={`/posts/${post.Slug}`}>
+                  <h3>{post.Title}</h3>
+                  <p class="post-excerpt">{post.Excerpt}</p>
+                  <div class="post-meta">
+                    <span class="post-date">{new Date(post.Date).toLocaleDateString()}</span>
+                    <span class="post-categories">
+                      {post.Tags.map(tag => (
+                        <span class="category-tag">{tag.name}</span>
+                      ))}
+                    </span>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+          <div class="view-more">
+            <a href="/blog" class="button">查看所有文章</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 标签云 -->
+      <section class="tags-section">
+        <div class="container">
+          <div class="tags-content">
+            <h2>标签</h2>
+            <div class="tag-cloud">
+              {allTags.map(tag => (
+                <a href={`/posts/tag/${tag}`} class="tag">{tag}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>
 
 <style>
+  /* 全局重置和变量 */
   :root {
     --content-max-width: 1200px;
     --font-size-base: 18px;
     --font-family-english: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --primary-color: #4776E6;
+    --secondary-color: #8E54E9;
   }
 
-  .home-container {
+  /* 页面容器 */
+  .home-page {
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
     font-size: var(--font-size-base);
     font-family: var(--font-family-english), "Microsoft YaHei", "微软雅黑", sans-serif;
+    overflow-x: hidden; /* 防止水平溢出 */
+    position: relative; /* 确保定位正确 */
+    min-height: 100vh; /* 至少占满视口高度 */
   }
 
-  .content-wrapper {
+  /* 通用容器 */
+  .container {
     max-width: var(--content-max-width);
     margin: 0 auto;
     padding: 0 1rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .heroSection {
-    position: relative;
+  /* 英雄区域 - 确保全屏无边距 */
+  .hero {
+    position: relative; /* 改为相对定位 */
+    width: 100%;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: #fff;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    overflow: hidden; /* 添加溢出隐藏 */
   }
 
-  .heroBackground {
-    position: absolute;
+  /* 视频背景 */
+  .hero-video {
+    position: fixed; /* 视频固定到窗口 */
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -2;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    z-index: -2;
   }
 
-  .overlay {
-    position: absolute;
+  /* 遮罩层 */
+  .hero-overlay {
+    position: fixed; /* 遮罩层也固定到窗口 */
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.4);
     z-index: -1;
   }
 
-  .heroBackground video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    transform: translateX(-50%) translateY(-50%);
-  }
-
-  .heroContent {
+  /* 英雄区域内容 */
+  .hero-content {
     max-width: 800px;
     padding: 2rem;
     position: relative;
-    z-index: 1;
+    z-index: 5; /* 确保内容在前面 */
   }
 
-  .heroTitle {
+  .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -180,7 +179,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     animation: fadeInUp 1s ease-out;
   }
 
-  .heroSubtitle {
+  .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 2rem;
     color: rgba(255, 255, 255, 0.95);
@@ -188,7 +187,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     animation: fadeInUp 1s ease-out 0.2s backwards;
   }
 
-  .ctaButton {
+  .cta-button {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -205,18 +204,45 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     transition: all 0.3s ease;
     animation: fadeInUp 1s ease-out 0.4s backwards;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer; /* 添加指针样式 */
   }
 
-  .ctaButton:hover {
+  .cta-button:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   }
 
+  /* 内容区域 - 确保在视频后滚动显示 */
+  .content-area {
+    position: relative;
+    z-index: 2; /* 保持内容区域在前面 */
+    background-color: #fff;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+    padding-bottom: 2rem; /* 确保底部有足够的填充 */
+    border-radius: 25px 25px 0 0; /* 添加上方圆角 */
+    margin-top: 95vh; /* 稍微提前开始显示内容区域 */
+  }
+  
+  /* 平滑过渡层 */
+  .content-transition {
+    position: absolute;
+    top: -100px; /* 向上延伸 */
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    border-radius: 25px 25px 0 0;
+    z-index: 1;
+  }
+
+  /* 关于我 */
   .about {
     padding: 6rem 0;
     background: #fff;
     text-align: center;
+    position: relative; /* 确保定位正确 */
+    z-index: 2; /* 确保位于过渡层上方 */
   }
 
   .about-content {
@@ -236,15 +262,10 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     color: #555;
   }
 
+  /* 最新文章 */
   .latest-posts {
     padding: 6rem 0;
     background: #f8f9fa;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    position: relative;
   }
 
   .latest-posts h2 {
@@ -325,7 +346,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   .button {
     display: inline-block;
     padding: 0.8rem 2rem;
-    background: linear-gradient(135deg, #4776E6, #8E54E9);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: #fff;
     text-decoration: none;
     border-radius: 30px;
@@ -340,17 +361,20 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 
-  .categories-tags {
+  /* 标签区域 */
+  .tags-section {
     padding: 6rem 0;
     background: #fff;
+    position: relative; /* 确保定位正确 */
+    margin-bottom: -1px; /* 消除底部可能的缝隙 */
   }
 
-  .tags {
+  .tags-content {
     margin: 0 auto;
     text-align: center;
   }
 
-  .tags h2 {
+  .tags-section h2 {
     font-size: 2rem;
     margin-bottom: 2.5rem;
     color: #333;
@@ -382,6 +406,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
+  /* 动画 */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -393,18 +418,19 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     }
   }
 
+  /* 响应式调整 */
   @media (max-width: 768px) {
-    .heroTitle {
+    .hero-title {
       font-size: 2.2rem;
     }
 
-    .heroSubtitle {
+    .hero-subtitle {
       font-size: 1.2rem;
     }
 
     .about h2,
     .latest-posts h2,
-    .tags h2 {
+    .tags-section h2 {
       font-size: 1.8rem;
     }
 
@@ -412,23 +438,33 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       grid-template-columns: 1fr;
     }
     
-    .about, .categories-tags {
+    .about, .tags-section {
       padding: 4rem 0;
     }
   }
   
   @media (max-width: 480px) {
-    .heroTitle {
+    .hero-title {
       font-size: 1.8rem;
     }
     
-    .heroSubtitle {
+    .hero-subtitle {
       font-size: 1rem;
     }
     
-    .ctaButton {
+    .cta-button {
       padding: 0.7rem 1.3rem;
       font-size: 0.9rem;
+    }
+  }
+  
+  /* Safari浏览器特殊处理 */
+  @supports (-webkit-touch-callout: none) {
+    .hero-video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 </style>
