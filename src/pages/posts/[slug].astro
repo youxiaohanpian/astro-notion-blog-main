@@ -170,14 +170,14 @@ else if (post.FirstImage && post.FirstImage.Url) {
 ---
 
 <Layout
-  title={post.Title}
-  description={post.Excerpt}
-  path={getPostLink(post.Slug)}
+  title={post.Title || ''}
+  description={post.Excerpt || ''}
+  path={getPostLink(post.Slug || '')}
   ogImage={ogImage}
   postCover={postCoverURL}
   breadcrumbs={[
     { label: '所有文章', href: '/' },
-    { label: post.Title, href: getPostLink(post.Slug) }
+    { label: post.Title || '文章详情', href: getPostLink(post.Slug || '') }
   ]}
 >
   <div class="blog-post-detail">
@@ -206,7 +206,7 @@ else if (post.FirstImage && post.FirstImage.Url) {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
           <span>点赞</span>
-          <!-- <span class="like-count">0</span> -->
+          <span class="like-count" id="likeCount"></span>
         </button>
       </div>
 
@@ -258,11 +258,14 @@ else if (post.FirstImage && post.FirstImage.Url) {
 
     // 点赞按钮功能
     const likeButton = document.getElementById('likeButton');
+    const likeCount = document.getElementById('likeCount');
+    
     if (likeButton) {
-      // 从localStorage获取点赞状态，点赞功能暂未实现，先忽略，只有点赞本地记录的效果
+      // 获取文章slug
       const postSlug = window.location.pathname.split('/').pop();
       const likeKey = `post_like_${postSlug}`;
       
+      // 从localStorage获取点赞状态
       let isLiked = localStorage.getItem(likeKey) === 'true';
       
       // 更新初始状态
@@ -334,6 +337,7 @@ else if (post.FirstImage && post.FirstImage.Url) {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    justify-content: center;
   }
   
   .share-button,
@@ -363,6 +367,21 @@ else if (post.FirstImage && post.FirstImage.Url) {
     width: 18px;
     height: 18px;
   }
+
+  .liked {
+    background-color: rgba(255, 162, 32, 0.15);
+    color: var(--accent-color);
+  }
+
+  .liked svg {
+    fill: var(--accent-color);
+    stroke: var(--accent-color);
+  }
+
+  .like-count {
+    font-size: 0.8rem;
+    margin-left: 3px;
+  }
   
   /* 响应式调整 */
   @media (max-width: 1220px) {
@@ -382,12 +401,15 @@ else if (post.FirstImage && post.FirstImage.Url) {
     
     .post-actions {
       margin-top: 1.5rem;
+      justify-content: space-around;
     }
     
     .share-button,
     .like-button {
       padding: 0.4rem 0.8rem;
       font-size: 0.85rem;
+      flex: 1;
+      justify-content: center;
     }
   }
 </style>
