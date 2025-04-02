@@ -2,23 +2,14 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
+  "outputDirectory": "dist",
   "framework": "astro",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "regions": ["hkg1"],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
         {
-          "key": "cache-control",
+          "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
         }
       ]
@@ -27,7 +18,7 @@
       "source": "/blog/(.*)",
       "headers": [
         {
-          "key": "cache-control",
+          "key": "Cache-Control",
           "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
@@ -36,7 +27,7 @@
       "source": "/",
       "headers": [
         {
-          "key": "cache-control",
+          "key": "Cache-Control",
           "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
@@ -55,10 +46,11 @@
       ]
     }
   ],
+  "regions": ["hkg1"],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/$1"
+      "destination": "/index.html"
     }
   ]
 } 
