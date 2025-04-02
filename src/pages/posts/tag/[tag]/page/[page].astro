@@ -71,13 +71,21 @@ const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) 
 const encodedTag = encodeURIComponent(tag);
 const pageNum = parseInt(page, 10);
 
+// 服务器端重定向检查，避免显示空页面
+// 如果页面无内容或页码超出范围，直接重定向到标签首页
+if ((posts.length === 0 && pageNum > 1) || pageNum > numberOfPages) {
+  console.log(`服务器端重定向: 标签 "${tag}" 第 ${page} 页无内容或页码超出范围，重定向到标签首页`);
+  return Astro.redirect(getTagLink(tag));
+}
+
 // 检查页面有效性并在客户端重定向
 const isValidPage = posts.length > 0 || pageNum <= 1;
 const redirectInfo = {
   shouldRedirect: !isValidPage,
   encodedTag,
   pageCount: numberOfPages,
-  currentPage: pageNum
+  currentPage: pageNum,
+  postsCount: posts.length
 };
 ---
 
@@ -142,9 +150,17 @@ const redirectInfo = {
   </div>
 </Layout>
 
-<script define:vars={{ redirectInfo }}>
+<script define:vars={{ redirectInfo, posts }}>
   // 页面加载完成后检查是否需要重定向
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('页面加载完成，标签页信息:', {
+      tag: redirectInfo.encodedTag,
+      currentPage: redirectInfo.currentPage,
+      totalPages: redirectInfo.pageCount,
+      postsCount: posts.length,
+      shouldRedirect: redirectInfo.shouldRedirect
+    });
+    
     // 检查是否需要重定向（当前页面无内容且不是第一页，或页码超出有效范围）
     if (redirectInfo.shouldRedirect || redirectInfo.currentPage > redirectInfo.pageCount) {
       console.log('需要重定向: 当前页面无内容或页码超出范围');
@@ -156,11 +172,15 @@ const redirectInfo = {
     
     // 检查内容是否为空，如果为空并且不是第一页，也进行重定向
     const container = document.getElementById('tag-posts-container');
-    if (!container) return;
+    if (!container) {
+      console.error('找不到文章容器元素！');
+      return;
+    }
     
-    const posts = container.querySelectorAll('.blog-post');
+    const postElements = container.querySelectorAll('.blog-post');
+    console.log(`DOM中找到了 ${postElements.length} 篇文章，服务端数据有 ${posts.length} 篇文章`);
     
-    if (posts.length === 0 && redirectInfo.currentPage > 1) {
+    if (postElements.length === 0 && redirectInfo.currentPage > 1) {
       console.log('需要重定向: 内容为空且不是第一页');
       window.location.href = `/posts/tag/${redirectInfo.encodedTag}`;
       return;

@@ -122,26 +122,28 @@
 </style>
 
 <script>
-  interface FeedItem {
-    title: string;
-    link: string;
-    description?: string;
-    pubDate?: string;
-  }
+  /**
+   * @typedef {Object} FeedItem
+   * @property {string} title - 文章标题
+   * @property {string} link - 文章链接
+   * @property {string} [description] - 文章描述（可选）
+   * @property {string} [pubDate] - 发布日期（可选）
+   */
 
   document.addEventListener('DOMContentLoaded', async () => {
-    let feedItems: FeedItem[] = [];
+    /** @type {Array<FeedItem>} */
+    let feedItems = [];
     let fetched = false;
 
-    async function openModal(): Promise<void> {
-      const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
+    async function openModal() {
+      const modalContainer = document.querySelector('.search-modal-container');
       if (modalContainer) {
         modalContainer.style.display = 'block';
         // 禁止背景滚动
         document.body.style.overflow = 'hidden';
       }
       
-      const searchInput = document.querySelector('.search-prompt input') as HTMLInputElement;
+      const searchInput = document.querySelector('.search-prompt input');
       if (searchInput) {
         searchInput.focus();
       }
@@ -152,8 +154,8 @@
       searchAndRender();
     }
 
-    function closeModal(): void {
-      const modalContainer = document.querySelector('.search-modal-container') as HTMLDivElement;
+    function closeModal() {
+      const modalContainer = document.querySelector('.search-modal-container');
       if (modalContainer) {
         modalContainer.style.display = 'none';
         // 恢复背景滚动
@@ -161,7 +163,7 @@
       }
     }
 
-    function handleKeydown(event: KeyboardEvent): void {
+    function handleKeydown(event) {
       if (event.keyCode === 13) {
         // Enter
         select();
@@ -179,21 +181,21 @@
       }
     }
 
-    function select(): void {
-      const a = document.querySelector('.search-result ul > li.selected a') as HTMLAnchorElement;
+    function select() {
+      const a = document.querySelector('.search-result ul > li.selected a');
       if (a) {
         a.click();
       }
     }
 
-    function selectFirst(): void {
+    function selectFirst() {
       const li = document.querySelector('.search-result ul > li:first-child');
       if (li) {
         li.classList.add('selected');
       }
     }
 
-    function selectUp(event: KeyboardEvent): void {
+    function selectUp(event) {
       event.preventDefault();
 
       const ul = document.querySelector('.search-result ul');
@@ -219,7 +221,7 @@
       }
     }
 
-    function selectDown(event: KeyboardEvent): void {
+    function selectDown(event) {
       event.preventDefault();
 
       const ul = document.querySelector('.search-result ul');
@@ -245,8 +247,8 @@
       }
     }
 
-    function handleMouseover(event: MouseEvent): void {
-      const target = event.target as HTMLElement;
+    function handleMouseover(event) {
+      const target = event.target;
       const ul = target.closest('ul');
       if (!ul) return;
       
@@ -260,8 +262,8 @@
       }
     }
 
-    function searchAndRender(): void {
-      const searchInput = document.querySelector('.search-prompt input') as HTMLInputElement;
+    function searchAndRender() {
+      const searchInput = document.querySelector('.search-prompt input');
       if (!searchInput) return;
       
       const text = searchInput.value.trim();
@@ -276,9 +278,10 @@
       selectFirst();
     }
 
-    function search(query: string): FeedItem[] {
-      const results: FeedItem[] = [];
-      feedItems.forEach((item: FeedItem) => {
+    function search(query) {
+      /** @type {Array<FeedItem>} */
+      const results = [];
+      feedItems.forEach((item) => {
         if (item.title.includes(query) || item?.description?.includes(query)) {
           results.push(item);
         }
@@ -286,13 +289,13 @@
       return results;
     }
 
-    function renderResults(results: FeedItem[]): void {
+    function renderResults(results) {
       const ul = document.querySelector('.search-result ul');
       if (!ul) return;
       
       ul.innerHTML = '';
 
-      results.forEach((item: FeedItem) => {
+      results.forEach((item) => {
         const li = document.createElement('li');
         const a = document.createElement('a');
         const title = document.createElement('div');
@@ -313,14 +316,12 @@
       });
     }
 
-    async function fetchRSS(): Promise<void> {
+    async function fetchRSS() {
       const url = new URL(location.href);
       const port = url.port ? `:${url.port}` : '';
 
       try {
-        const res = await fetch(
-          `${url.protocol}//${url.hostname}${port}/feed`
-        );
+        const res = await fetch(`/feed`);
         if (res.status !== 200) {
           console.log(res.status);
           throw new Error('Failed to fetch RSS feed');
@@ -353,7 +354,6 @@
       }
     }
 
-    // 添加事件监听器
     const searchButtons = document.getElementsByClassName('open-search-modal');
     Array.from(searchButtons).forEach((element) => {
       element.addEventListener('click', openModal);

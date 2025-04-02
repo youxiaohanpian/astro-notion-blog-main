@@ -43,13 +43,18 @@ const {
   headings: rawHeadings = [],
 } = Astro.props
 
-const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
+// 扩展List类型同时包含Block必需的属性
+interface ExtendedList extends interfaces.List {
+  Id: string
+  HasChildren: boolean
+}
+
+const blocks = rawBlocks.reduce<(interfaces.Block | ExtendedList)[]>((arr, block: interfaces.Block, i: number) => {
   const isBulletedListItem = block.Type === 'bulleted_list_item'
   const isNumberedListItem = block.Type === 'numbered_list_item'
   const isToDo = block.Type === 'to_do'
-
   if (!isBulletedListItem && !isNumberedListItem && !isToDo) {
-    return arr.concat(block)
+    return [...arr, block]
   }
 
   let listType = ''
@@ -62,47 +67,57 @@ const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
   }
 
   if (i === 0) {
-    const list: interfaces.List = {
+    const list: ExtendedList = {
       Type: listType,
       ListItems: [block],
+      Id: `list-${block.Id}`,
+      HasChildren: true
     }
-    return arr.concat(list)
+    return [...arr, list]
   }
 
-  const prevList = arr[arr.length - 1]
-
-  if (
-    (isBulletedListItem && prevList.Type !== 'bulleted_list') ||
-    (isNumberedListItem && prevList.Type !== 'numbered_list') ||
-    (isToDo && prevList.Type !== 'to_do_list')
+  const prevItem = arr[arr.length - 1]
+  
+  // 检查前一项是否是列表类型
+  if (!('ListItems' in prevItem) || 
+    (isBulletedListItem && prevItem.Type !== 'bulleted_list') ||
+    (isNumberedListItem && prevItem.Type !== 'numbered_list') ||
+    (isToDo && prevItem.Type !== 'to_do_list')
   ) {
-    const list: interfaces.List = {
+    const list: ExtendedList = {
       Type: listType,
       ListItems: [block],
+      Id: `list-${block.Id}`,
+      HasChildren: true
     }
-    return arr.concat(list)
+    return [...arr, list]
   }
 
-  prevList.ListItems.push(block)
+  // 此时我们知道prevItem有ListItems属性
+  (prevItem as ExtendedList).ListItems.push(block)
 
   return arr
 }, [])
 
 let headings = rawHeadings
 if (isRoot) {
-  headings = blocks.filter((b: interfaces.Block) =>
-    ['heading_1', 'heading_2', 'heading_3'].includes(b.Type)
-  )
+  headings = blocks.filter((b) => 
+    b.Type === 'heading_1' || b.Type === 'heading_2' || b.Type === 'heading_3'
+  ) as interfaces.Block[]
 }
 
-const bookmarkURLs = blocks
-  .filter((b: interfaces.Block) =>
-    ['bookmark', 'link_preview', 'embed'].includes(b.Type)
-  )
-  .map((b: interfaces.Block) => {
-    const urlString = (b.Bookmark || b.LinkPreview || b.Embed).Url
+// 获取可能含有URL的块
+const bookmarkBlocks = blocks
+  .filter((b) => 
+    b.Type === 'bookmark' || b.Type === 'link_preview' || b.Type === 'embed'
+  ) as interfaces.Block[]
 
-    let url: URL
+// 从块中提取URL
+const bookmarkURLs = bookmarkBlocks
+  .map((b: interfaces.Block) => {
+    const urlString = (b.Bookmark || b.LinkPreview || b.Embed)?.Url || ''
+
+    let url: URL | undefined
     try {
       url = new URL(urlString)
     } catch (err) {
@@ -110,64 +125,62 @@ const bookmarkURLs = blocks
     }
     return url
   })
-  .filter((url: URL) => url && !isTweetURL(url) && !isAmazonURL(url))
+  .filter((url): url is URL => url !== undefined && !isTweetURL(url) && !isAmazonURL(url))
 
 const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs)
 ---
 
-{
-  blocks.map((block: interfaces.Block) => {
+{blocks.map((block) => {
     switch (block.Type) {
       case 'paragraph':
-        return <Paragraph block={block} headings={headings} />
+        return <Paragraph block={block as interfaces.Block} headings={headings} />
       case 'heading_1':
-        return <Heading1 block={block} headings={headings} />
+        return <Heading1 block={block as interfaces.Block} headings={headings} />
       case 'heading_2':
-        return <Heading2 block={block} headings={headings} />
+        return <Heading2 block={block as interfaces.Block} headings={headings} />
       case 'heading_3':
-        return <Heading3 block={block} headings={headings} />
+        return <Heading3 block={block as interfaces.Block} headings={headings} />
       case 'table_of_contents':
-        return <TableOfContents block={block} headings={headings} />
+        return <TableOfContents block={block as interfaces.Block} headings={headings} />
       case 'image':
-        return <Image block={block} />
+        return <Image block={block as interfaces.Block} />
       case 'video':
-        return <Video block={block} />
+        return <Video block={block as interfaces.Block} />
       case 'code':
-        return <Code block={block} />
+        return <Code block={block as interfaces.Block} />
       case 'quote':
-        return <Quote block={block} headings={headings} />
+        return <Quote block={block as interfaces.Block} headings={headings} />
       case 'equation':
-        return <Equation block={block} />
+        return <Equation block={block as interfaces.Block} />
       case 'callout':
-        return <Callout block={block} headings={headings} />
+        return <Callout block={block as interfaces.Block} headings={headings} />
       case 'embed':
-        return <Embed block={block} urlMap={bookmarkURLMap} />
+        return <Embed block={block as interfaces.Block} urlMap={bookmarkURLMap} />
       case 'bookmark':
       case 'link_preview':
-        return <Bookmark block={block} urlMap={bookmarkURLMap} />
+        return <Bookmark block={block as interfaces.Block} urlMap={bookmarkURLMap} />
       case 'divider':
         return <Divider />
       case 'table':
-        return <Table block={block} />
+        return <Table block={block as interfaces.Block} />
       case 'column_list':
-        return <ColumnList block={block} headings={headings} />
+        return <ColumnList block={block as interfaces.Block} headings={headings} />
       case 'bulleted_list':
-        return <BulletedListItems block={block} headings={headings} />
+        return <BulletedListItems block={block as unknown as interfaces.Block} headings={headings} />
       case 'numbered_list':
         return (
-          <NumberedListItems block={block} level={level} headings={headings} />
+          <NumberedListItems block={block as unknown as interfaces.Block} level={level} headings={headings} />
         )
       case 'to_do_list':
-        return <ToDo block={block} headings={headings} />
+        return <ToDo block={block as unknown as interfaces.Block} headings={headings} />
       case 'synced_block':
-        return <SyncedBlock block={block} headings={headings} />
+        return <SyncedBlock block={block as interfaces.Block} headings={headings} />
       case 'toggle':
-        return <Toggle block={block} headings={headings} />
+        return <Toggle block={block as interfaces.Block} headings={headings} />
       case 'file':
-        return <File block={block} />
+        return <File block={block as interfaces.Block} />
       case 'link_to_page':
-        return <LinkToPage block={block} />
+        return <LinkToPage block={block as interfaces.Block} />
     }
     return null
-  })
-}
+  })}

@@ -59,11 +59,6 @@ import { generateSlugFromTitleSync, generateSlugFromTitle } from '../slug-helper
 import { buildURLToHTMLMap } from '../blog-helpers'
 import * as fsPromises from 'fs/promises'
 
-// 添加调试日志
-console.log('Loading environment variables:')
-console.log('NOTION_API_SECRET:', NOTION_API_SECRET)
-console.log('DATABASE_ID:', DATABASE_ID)
-
 const client = new Client({
   auth: NOTION_API_SECRET,
 })
@@ -251,6 +246,9 @@ export async function getPostsByTag(
     post.Tags.find((tag) => tag.name === tagName)
   )
   
+  console.log(`标签 "${tagName}" 下共有 ${filteredPosts.length} 篇文章`)
+  console.log(`页面大小为 ${pageSize}，返回 ${Math.min(filteredPosts.length, pageSize)} 篇文章`)
+  
   // 确保返回数量不超过要求的pageSize
   return filteredPosts.slice(0, pageSize)
 }
@@ -283,10 +281,17 @@ export async function getPostsByTagAndPage(
     post.Tags.find((tag) => tag.name === tagName)
   )
 
+  console.log(`标签 "${tagName}" 第 ${page} 页: 总共找到 ${posts.length} 篇文章`)
+  
   const startIndex = (page - 1) * NUMBER_OF_POSTS_PER_PAGE
   const endIndex = startIndex + NUMBER_OF_POSTS_PER_PAGE
+  
+  console.log(`计算索引: 从 ${startIndex} 到 ${endIndex}，每页 ${NUMBER_OF_POSTS_PER_PAGE} 篇`)
+  
+  const pageArticles = posts.slice(startIndex, endIndex)
+  console.log(`标签 "${tagName}" 第 ${page} 页实际返回 ${pageArticles.length} 篇文章`)
 
-  return posts.slice(startIndex, endIndex)
+  return pageArticles
 }
 
 export async function getNumberOfPages(): Promise<number> {
@@ -305,6 +310,8 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
   
   // 确保页数计算是准确的
   const pageCount = Math.ceil(posts.length / NUMBER_OF_POSTS_PER_PAGE)
+  
+  console.log(`标签 "${tagName}" 总共有 ${posts.length} 篇文章，每页 ${NUMBER_OF_POSTS_PER_PAGE} 篇，计算出 ${pageCount} 页`)
   
   // 如果没有文章，至少返回1页，否则返回计算的页数
   return pageCount > 0 ? pageCount : 1
