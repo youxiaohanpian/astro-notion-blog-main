@@ -291,4 +291,86 @@ await Promise.all(
       font-family: "Microsoft YaHei", var(--font-family-sans);
     }
   }
+
+  /* 博客列表项样式 */
+  .blog-post-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .blog-post-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  /* 文章标题样式 */
+  .blog-post-title {
+    font-size: 1.6rem;
+    font-weight: var(--font-semibold);
+    margin: 0.5rem 0;
+    color: var(--text-primary);
+  }
+  
+  .blog-post-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .blog-post-title a:hover {
+    color: var(--secondary-color);
+  }
+  
+  /* 文章摘要样式 */
+  .blog-post-excerpt {
+    color: var(--text-secondary);
+    font-weight: var(--font-normal);
+    line-height: 1.6;
+    margin: 0.8rem 0;
+  }
+  
+  /* 文章元信息样式 */
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    font-weight: var(--font-normal);
+  }
+  
+  /* 标签筛选区域样式 */
+  .tags-filter {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .tags-filter h2 {
+    font-size: 1.2rem;
+    font-weight: var(--font-medium);
+    margin: 0 0 1rem;
+    color: var(--text-primary);
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .blog-post-title {
+      font-size: 1.4rem;
+    }
+    
+    .blog-post-excerpt {
+      font-size: 0.95rem;
+    }
+    
+    .blog-post-meta {
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
 </style>

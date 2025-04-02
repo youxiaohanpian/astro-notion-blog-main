@@ -50,7 +50,7 @@
   flex-direction: column;
   gap: 2rem;
   margin-bottom: 2rem;
-  padding-right: 1rem;
+  margin-right: 0 rem; /* 右侧margin负值使侧边栏向右移动，确保与顶部搜索按钮对齐 - 重要：不要随意修改此值 */
 }
 
 /* 目录样式 */

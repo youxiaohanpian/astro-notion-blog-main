@@ -174,16 +174,31 @@ export const getTagLink = (tag: string) => {
   return pathJoin(BASE_PATH, `/posts/tag/${encodeURIComponent(tag)}`)
 }
 
-/* 分页链接，返回到第一页 */
+/**
+ * 获取分页链接
+ * 
+ * 重要提示：标签分页的URL结构是固定的，必须与路由文件结构匹配
+ * - 不带标签的分页: /posts/page/{page}
+ * - 带标签的分页: /posts/tag/{tag}/page/{page}
+ * 
+ * @param page 页码，从1开始
+ * @param tag 可选的标签名称
+ * @returns 完整的分页URL路径
+ */
 export const getPageLink = (page: number, tag: string) => {
+  // 第一页有特殊处理，标签页指向标签首页，普通分页指向博客首页
   if (page === 1) {
     return tag ? getTagLink(tag) : pathJoin(BASE_PATH, '/blog')
   }
+  
+  // 确保标签名称被正确编码，防止URL中的特殊字符问题
+  const encodedTag = tag ? encodeURIComponent(tag) : '';
+  
+  // 构造URL，注意保持与文件路由结构一致:
+  // - 对于标签分页：/posts/tag/[tag]/page/[page].astro
+  // - 对于普通分页：/posts/page/[page].astro
   return tag
-    ? pathJoin(
-        BASE_PATH,
-        `/posts/tag/${encodeURIComponent(tag)}/page/${page.toString()}`
-      )
+    ? pathJoin(BASE_PATH, `/posts/tag/${encodedTag}/page/${page.toString()}`)
     : pathJoin(BASE_PATH, `/posts/page/${page.toString()}`)
 }
 

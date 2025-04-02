@@ -26,6 +26,35 @@ const headings = blocks.filter((b: Block) =>
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
+    color: var(--text-primary);
+    line-height: 1.7;
+  }
+  
+  .post-body :global(h1) {
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+  }
+  
+  .post-body :global(h2) {
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 1.8rem 0 0.8rem;
+  }
+  
+  .post-body :global(h3) {
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    margin: 1.6rem 0 0.8rem;
+  }
+  
+  .post-body :global(p) {
+    color: var(--text-primary);
+    margin: 1rem 0;
+    line-height: 1.8;
   }
   
   .post-body :global(pre),
@@ -41,10 +70,41 @@ const headings = blocks.filter((b: Block) =>
     height: auto;
   }
   
+  .post-body :global(blockquote) {
+    border-left: 4px solid var(--text-lighter);
+    padding-left: 1rem;
+    margin-left: 0;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  
+  .post-body :global(ul), 
+  .post-body :global(ol) {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+    color: var(--text-primary);
+  }
+  
+  .post-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  
   /* 响应式调整 */
   @media (max-width: 768px) {
     .post-body {
       padding: 0.3rem 0;
+    }
+    
+    .post-body :global(h1) {
+      font-size: 1.6rem;
+    }
+    
+    .post-body :global(h2) {
+      font-size: 1.4rem;
+    }
+    
+    .post-body :global(h3) {
+      font-size: 1.2rem;
     }
   }
 </style>

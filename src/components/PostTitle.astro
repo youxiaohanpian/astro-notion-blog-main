@@ -58,9 +58,27 @@ let title = post.Title
     font-weight: 600;
     color: var(--text-color);
   }
+  /* 在.site-title-container中显示的文章标题使用白色 */
+  :global(.site-title-container) .post-title,
+  :global(.site-title-container) .post-title a {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  /* 详情页标题样式（无hover效果） */
+  :global(.blog-post-detail) .post-title {
+    color: var(--text-primary);
+    font-weight: var(--font-semibold);
+    /* 移除hover效果相关的样式 */
+  }
   .post-title a {
     font-size: 1.6rem;
     color: inherit;
+    /* 移除博客列表页链接的hover效果，但保留链接样式 */
+    transition: none;
+  }
+  /* 保留列表页的hover效果 */
+  :global(.blog-post) .post-title a:hover {
+    color: var(--secondary-color);
   }
   .post-title span,
   .post-title img {
@@ -82,6 +100,22 @@ let title = post.Title
     }
     .post-title a {
       font-size: 1.2rem;
+    }
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: var(--font-semibold);
+    margin: 0 0 0.6rem;
+    line-height: 1.4;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    h1 {
+      font-size: 1.8rem;
     }
   }
 </style>

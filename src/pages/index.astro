@@ -20,7 +20,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     <!-- 英雄区域 -->
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">自由探索无限可能</h1>
+        <h1 class="hero-title">Explore the infinite possibilities</h1>
         <p class="hero-subtitle">探索、创造、分享</p>
         <a href="/blog" class="cta-button">
           浏览所有文章
@@ -32,10 +32,18 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       </div>
       <div class="video-loading-container">
         <div class="video-loading-spinner"></div>
-        <p class="loading-text">视频加载中...</p>
       </div>
-      <video class="hero-video" autoplay muted loop playsinline>
+      <video 
+        class="hero-video" 
+        poster="/banner-poster.jpg" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+        preload="auto"
+      >
         <source src="/banner.mp4" type="video/mp4">
+        <source src="/banner.webm" type="video/webm">
       </video>
       <div class="hero-overlay"></div>
     </section>
@@ -472,11 +480,6 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   
   @keyframes spin {
     to { transform: rotate(360deg); }
-  }
-  
-  .loading-text {
-    font-size: 1rem;
-    margin: 0;
   }
 </style>
 

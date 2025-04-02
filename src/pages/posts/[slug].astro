@@ -135,7 +135,7 @@ let postCoverURL: string | null = null;
 if (post.FeaturedImage && post.FeaturedImage.Url) {
   try {
     const url = new URL(post.FeaturedImage.Url);
-    ogImage = new URL(filePath(url), Astro.site).toString();
+    ogImage = new URL(filePath(url), Astro.site || '').toString();
   } catch (error) {
     console.log('Invalid FeaturedImage URL: ', post.FeaturedImage.Url);
   }
@@ -151,7 +151,7 @@ else if (post.Cover && post.Cover.Url) {
     }
     
     const processedPath = filePath(url);
-    ogImage = new URL(processedPath, Astro.site).toString();
+    ogImage = new URL(processedPath, Astro.site || '').toString();
     postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
   } catch (error) {
     console.log('Invalid Cover URL: ', post.Cover.Url);
@@ -161,7 +161,7 @@ else if (post.Cover && post.Cover.Url) {
 else if (post.FirstImage && post.FirstImage.Url) {
   try {
     const url = new URL(post.FirstImage.Url);
-    ogImage = new URL(filePath(url), Astro.site).toString();
+    ogImage = new URL(filePath(url), Astro.site || '').toString();
   } catch (error) {
     console.log('Invalid FirstImage URL: ', post.FirstImage.Url);
   }
@@ -312,114 +312,82 @@ else if (post.FirstImage && post.FirstImage.Url) {
 
 <style>
   .blog-post-detail {
-    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: var(--text-primary);
   }
-
+  
+  .blog-posts-container {
+    flex: 1;
+    min-width: 0;
+    padding-right: 1rem;
+  }
+  
   .post-actions {
     display: flex;
     gap: 1rem;
-    margin: 2rem 0 1.5rem;
-    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-
+  
   .share-button,
   .like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    border: 1px solid #eee;
-    background-color: white;
     border-radius: 20px;
-    cursor: pointer;
     font-size: 0.9rem;
+    color: var(--text-secondary);
     transition: all 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.05);
   }
-
+  
   .share-button:hover,
   .like-button:hover {
-    background-color: #f8f8f8;
-    border-color: #ddd;
-  }
-
-  .share-button:active,
-  .like-button:active {
-    transform: scale(0.98);
-  }
-
-  .like-button.liked {
-    color: #ff4b4b;
-  }
-
-  .like-button.liked svg {
-    fill: #ff4b4b;
-    stroke: #ff4b4b;
-  }
-
-  .like-count {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #666;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
   }
   
-  .blog-posts-container {
-    padding: 0;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
+  .share-button svg,
+  .like-button svg {
+    width: 18px;
+    height: 18px;
   }
   
-  /* 处理代码块和长文本溢出 */
-  .blog-posts-container :global(pre),
-  .blog-posts-container :global(code),
-  .blog-posts-container :global(table) {
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-  /* 处理图片溢出 */
-  .blog-posts-container :global(img) {
-    max-width: 100%;
-    height: auto;
-  }
-  
+  /* 响应式调整 */
   @media (max-width: 1220px) {
     .blog-posts-container {
       padding: 0 0.5rem;
     }
   }
   
-  /* 添加新的媒体查询，处理中等屏幕布局问题 */
-  @media (max-width: 720px) {
-    .blog-posts-container {
-      padding: 0 0.8rem;
+  @media (max-width: 768px) {
+    .blog-post-detail {
+      flex-direction: column;
     }
     
-    .post-actions {
-      margin: 1.5rem 0 1rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
     .blog-posts-container {
       padding: 0 0.5rem;
     }
     
     .post-actions {
-      flex-wrap: wrap;
-      gap: 0.8rem;
+      margin-top: 1.5rem;
     }
     
-    .share-button, .like-button {
-      font-size: 0.85rem;
+    .share-button,
+    .like-button {
       padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
     }
   }
 </style>
