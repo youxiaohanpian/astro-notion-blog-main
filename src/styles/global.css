@@ -1,5 +1,11 @@
 /* 全局样式 */
 
+/* 文本选择样式 */
+::selection {
+  background-color: #FFA220; /* 橙色背景 */
+  color: white; /* 白色文字 */
+}
+
 /* 修复标题链接样式 */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   color: inherit !important;
@@ -7,7 +13,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-  color: var(--primary-color) !important;
+  color: #FFA220 !important; /* 更改为橙色强调色 */
   text-decoration: none !important;
 }
 
@@ -75,7 +81,7 @@ p {
 }
 
 a {
-  color: #87a3c4;
+  color: #FFA220; /* 橙色链接 */
   text-decoration: none;
 }
 
@@ -107,7 +113,7 @@ li {
 blockquote {
   margin: 1.5em 0;
   padding: 0.5em 1em;
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid #FFA220; /* 橙色边框 */
   background-color: rgba(0, 0, 0, 0.03);
   color: var(--text-light);
 }
