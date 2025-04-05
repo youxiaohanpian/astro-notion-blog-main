@@ -6,7 +6,7 @@ import {
   getAllTags,
   getNumberOfPagesByTag,
 } from '../../../../../lib/notion/client.ts'
-import { getPostLink } from '../../../../../lib/blog-helpers.ts'
+import { getPostLink, getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
 import Layout from '../../../../../layouts/Layout.astro'
 import NoContents from '../../../../../components/NoContents.astro'
 import PostDate from '../../../../../components/PostDate.astro'
@@ -48,18 +48,20 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
 ])
 
 const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
+const encodedTag = encodeURIComponent(tag);
+const pageNum = parseInt(page, 10);
 ---
 
 <Layout 
   title={`分类: ${tag} - 第${page}页`} 
   description={`${tag}分类下的文章列表 - 第${page}页`} 
-  path={`/posts/tag/${tag}/page/${page}`} 
+  path={`/posts/tag/${encodedTag}/page/${page}`} 
   ogImage=""
   hideSidebar={true}
   breadcrumbs={[
     { label: '所有文章', href: '/' },
-    { label: `分类: ${tag}`, href: `/posts/tag/${tag}` },
-    { label: `第${page}页`, href: `/posts/tag/${tag}/page/${page}` }
+    { label: `分类: ${tag}`, href: getTagLink(tag) },
+    { label: `第${page}页`, href: getPageLink(pageNum, tag) }
   ]}
 >
   <div slot="main" class={`${styles.main} blog-posts-container`}>

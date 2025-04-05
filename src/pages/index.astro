@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getDatabase, getAllPosts } from '../lib/notion/client';
+import { getTagLink } from '../lib/blog-helpers';
 import type { Post } from '../lib/interfaces';
 
 const [database, posts] = await Promise.all([getDatabase(), getAllPosts()]);
@@ -101,7 +102,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
           <h2>标签</h2>
           <div class="tag-cloud">
             {allTags.map(tag => (
-              <a href={`/posts/tag/${tag}`} class="tag">{tag}</a>
+              <a href={getTagLink(tag)} class="tag">{tag}</a>
             ))}
           </div>
         </div>
@@ -120,8 +121,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     --glass-background: rgba(20, 20, 30, 0.5);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-highlight: rgba(255, 255, 255, 0.15);
-    --text-light: rgba(255, 255, 255, 0.9);
-    --text-lighter: rgba(255, 255, 255, 0.7);
+    --text-lighter: rgba(255, 255, 255, 0.9);
   }
 
   /* 页面容器 */
@@ -134,7 +134,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
-    color: var(--text-light);
+    color: #ffffff;
   }
 
   /* 英雄区域 */
@@ -167,14 +167,14 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     opacity: 1;
   }
 
-  /* 遮罩层 */
+  /* 遮罩层 - 增强对比度 */
   .hero-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background:  rgba(0, 0, 0, 0.5); /* 添加深色背景，这是视频加载前显示的颜色 */
+    background: rgba(0, 0, 0, 0.7); /* 增加不透明度 */
     z-index: -1;
   }
 
@@ -186,54 +186,59 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     z-index: 5;
   }
 
+  /* 英雄区域标题 - 增强阴影 */
   .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
     color: #ffffff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.3); /* 双层阴影效果 */
     animation: fadeInUp 1s ease-out;
   }
 
   .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3); /* 双层阴影效果 */
     animation: fadeInUp 1s ease-out 0.2s backwards;
   }
 
+  /* 水晶按钮样式 - 恢复水晶感觉 */
   .cta-button {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.8rem 1.8rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.15); /* 恢复水晶感觉的透明度 */
+    backdrop-filter: blur(15px); /* 增强模糊效果 */
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px;
-    color: #fff;
+    color: #ffffff; /* 保持文字为纯白色，增强可见度 */
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600; /* 增加字重 */
     text-decoration: none;
     transition: all 0.3s ease;
     animation: fadeInUp 1s ease-out 0.4s backwards;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* 增强文字阴影 */
   }
 
   .cta-button:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.25); /* 恢复悬停时的水晶效果 */
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5); /* 增强边框可见度 */
   }
 
-  /* 内容区域 - 无背景，直接显示在视频上 */
+  /* 内容区域 - 增强背景渐变 */
   .content-area {
     position: relative;
     z-index: 2;
     padding-bottom: 4rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%); /* 增强背景渐变 */
   }
 
   /* 内容部分通用样式 */
@@ -242,17 +247,17 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     text-align: center;
   }
 
-  /* 磨砂玻璃容器 */
+  /* 磨砂玻璃容器 - 增强对比度 */
   .glass-container {
     max-width: var(--content-max-width);
     margin: 0 auto;
     padding: 1.5rem;
-    background: var(--glass-background);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(15, 15, 25, 0.85); /* 更暗的背景色 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 16px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 增强边框可见度 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); /* 增强阴影 */
   }
 
   /* 内容标题 */
@@ -260,20 +265,21 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     font-size: 2.2rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
-    color: var(--text-light);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   }
 
   /* 关于我部分 */
   .about p {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: var(--text-lighter);
+    color: #ffffff;
     max-width: 800px;
     margin: 0 auto;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
-  /* 最新文章部分 */
+  /* 最新文章部分 - 恢复水晶感 */
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -282,17 +288,21 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   }
 
   .post-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* 恢复水晶感觉 */
+    backdrop-filter: blur(12px); /* 添加模糊效果 */
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 保持阴影效果 */
   }
 
   .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.15); /* 恢复悬停时的水晶效果 */
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .post-card a {
@@ -305,37 +315,44 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   .post-card h3 {
     font-size: 1.2rem;
     margin-bottom: 0.8rem;
-    color: var(--text-light);
+    color: #ffffff;
     line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 保持文字阴影增强 */
+    font-weight: 600; /* 保持字重 */
   }
 
   .post-excerpt {
-    color: var(--text-lighter);
+    color: #ffffff;
     margin-bottom: 1.2rem;
     line-height: 1.5;
     font-size: 0.95rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   .post-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--text-lighter);
+    color: #ffffff;
     font-size: 0.85rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
+  /* 类别标签样式 */
   .category-tag {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2); /* 恢复水晶感觉 */
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.8rem;
-    color: var(--text-light);
+    color: #ffffff;
     margin-left: 0.5rem;
     transition: background 0.2s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* 增强文字阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* 添加边框 */
   }
 
   .category-tag:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.3);
   }
 
   .view-more {
@@ -360,7 +377,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   }
 
-  /* 标签区域 */
+  /* 标签区域 - 恢复水晶感觉 */
   .tag-cloud {
     display: flex;
     flex-wrap: wrap;
@@ -369,21 +386,26 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   }
 
   .tag {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15); /* 恢复水晶感觉 */
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    color: var(--text-light);
-    font-weight: 500;
+    color: #ffffff; /* 保持文字为纯白色 */
+    font-weight: 600; /* 增加字重 */
     font-size: 0.9rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 保持透明边框 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 增强文字阴影 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 保持阴影效果 */
+    backdrop-filter: blur(10px); /* 添加模糊效果 */
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .tag:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25); /* 恢复悬停时的水晶效果 */
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4); /* 保持悬停时边框更亮 */
   }
 
   /* 动画 */
@@ -509,6 +531,11 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+
+  /* 确保所有文字都有足够的阴影 */
+  h1, h2, h3, p, a {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 </style>
 

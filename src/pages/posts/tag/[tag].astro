@@ -7,7 +7,7 @@ import {
   getAllTags,
   getNumberOfPagesByTag,
 } from '../../../lib/notion/client.ts'
-import { getPostLink } from '../../../lib/blog-helpers.ts'
+import { getPostLink, getTagLink } from '../../../lib/blog-helpers.ts'
 import Layout from '../../../layouts/Layout.astro'
 import NoContents from '../../../components/NoContents.astro'
 import PostDate from '../../../components/PostDate.astro'
@@ -23,7 +23,11 @@ import '../../../styles/notion-color.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
-  return allTags.map((tag: SelectProperty) => ({ params: { tag: tag.name } }))
+  return allTags.map((tag: SelectProperty) => ({ 
+    params: { 
+      tag: tag.name 
+    } 
+  }))
 }
 
 const { tag } = Astro.params
@@ -36,17 +40,18 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
 ])
 
 const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
+const encodedTag = encodeURIComponent(tag);
 ---
 
 <Layout 
   title={`分类: ${tag}`} 
   description={`${tag}分类下的文章列表`} 
-  path={`/posts/tag/${tag}`} 
+  path={`/posts/tag/${encodedTag}`} 
   ogImage=""
   hideSidebar={true}
   breadcrumbs={[
     { label: '所有文章', href: '/' },
-    { label: `分类: ${tag}`, href: `/posts/tag/${tag}` }
+    { label: `分类: ${tag}`, href: getTagLink(tag) }
   ]}
 >
   <div class="blog-posts-container">
