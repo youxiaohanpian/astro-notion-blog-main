@@ -40,6 +40,10 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
         muted 
         loop 
         playsinline
+        webkit-playsinline
+        x5-playsinline
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
         preload="auto"
       >
         <source src="/banner.mp4" type="video/mp4">
@@ -451,6 +455,31 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     }
   }
 
+  /* 问题浏览器特殊处理 */
+  .hero-overlay.fallback {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 1;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* 确保在微信等浏览器中图片正确显示 */
+  @media screen and (max-width: 768px) {
+    .hero-overlay.fallback {
+      background-attachment: scroll;
+      height: 100%;
+      position: fixed;
+    }
+  }
+
   .video-loading-container {
     position: absolute;
     top: 50%;
@@ -487,35 +516,109 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   document.addEventListener('DOMContentLoaded', () => {
     const video = document.querySelector('.hero-video');
     const loadingContainer = document.querySelector('.video-loading-container');
+    const heroOverlay = document.querySelector('.hero-overlay');
     
-    if (video && loadingContainer) {
-      // 显示加载指示器
-      loadingContainer.classList.add('visible');
-      
-      // 视频可以播放时
-      video.addEventListener('canplay', () => {
-        // 隐藏加载指示器
-        loadingContainer.classList.remove('visible');
-        video.classList.add('loaded');
-      });
-      
-      // 如果视频加载失败或超时
-      video.addEventListener('error', () => {
-        loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
-      });
-      
-      // 设置超时处理
-      const timeout = setTimeout(() => {
-        if (!video.classList.contains('loaded')) {
-          // 超过10秒仍未加载完成，更新加载状态提示
-          loadingContainer.innerHTML = '<p>loading</p>';
-        }
-      }, 10000);
-      
-      // 清理超时定时器
-      video.addEventListener('canplay', () => {
-        clearTimeout(timeout);
-      });
+    // 检测问题浏览器
+    function isProblematicBrowser() {
+      const ua = navigator.userAgent.toLowerCase();
+      return (
+        /micromessenger/i.test(ua) ||       // 微信
+        /qq/i.test(ua) ||                   // QQ浏览器
+        /ucbrowser/i.test(ua) ||            // UC浏览器
+        /alipay/i.test(ua) ||               // 支付宝
+        /baiduboxapp/i.test(ua)             // 百度浏览器
+      );
     }
+    
+    // 设置背景图并保持比例
+    function setupBackgroundImage(element) {
+      if (!element) return;
+      
+      // 获取图片的宽高比
+      const posterImage = new Image();
+      posterImage.src = '/banner-poster.jpg';
+      posterImage.onload = function() {
+        const imageRatio = this.width / this.height;
+        element.style.backgroundImage = "url('/banner-poster.jpg')";
+        element.classList.add('fallback');
+        
+        // 检测设备方向并调整
+        function adjustBackground() {
+          const windowRatio = window.innerWidth / window.innerHeight;
+          if (windowRatio > imageRatio) {
+            // 宽屏设备
+            element.style.backgroundSize = '100vw auto';
+            element.style.backgroundPosition = 'center center';
+          } else {
+            // 窄屏设备
+            element.style.backgroundSize = 'auto 100vh';
+            element.style.backgroundPosition = 'center center';
+          }
+        }
+        
+        // 初始调整
+        adjustBackground();
+        
+        // 当窗口大小改变时重新调整
+        window.addEventListener('resize', adjustBackground);
+      };
+    }
+    
+    // 处理视频加载
+    function handleVideoLoading() {
+      if (video && loadingContainer) {
+        if (isProblematicBrowser()) {
+          // 如果是问题浏览器，直接显示封面图
+          if (video) {
+            video.style.display = 'none';
+          }
+          
+          // 设置背景图为视频封面
+          setupBackgroundImage(heroOverlay);
+          
+          // 隐藏加载指示器
+          loadingContainer.classList.remove('visible');
+          return;
+        }
+        
+        // 显示加载指示器
+        loadingContainer.classList.add('visible');
+        
+        // 视频可以播放时
+        video.addEventListener('canplay', () => {
+          // 隐藏加载指示器
+          loadingContainer.classList.remove('visible');
+          video.classList.add('loaded');
+        });
+        
+        // 如果视频加载失败或超时
+        video.addEventListener('error', () => {
+          // 显示错误信息
+          loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
+          
+          // 显示封面图
+          setupBackgroundImage(heroOverlay);
+        });
+        
+        // 设置超时处理
+        const timeout = setTimeout(() => {
+          if (!video.classList.contains('loaded')) {
+            // 超过8秒仍未加载完成
+            loadingContainer.innerHTML = '<p>加载中...</p>';
+            
+            // 显示封面图作为备选
+            setupBackgroundImage(heroOverlay);
+          }
+        }, 8000);
+        
+        // 清理超时定时器
+        video.addEventListener('canplay', () => {
+          clearTimeout(timeout);
+        });
+      }
+    }
+    
+    // 初始化
+    handleVideoLoading();
   });
 </script>
