@@ -111,7 +111,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     --content-max-width: 1200px;
     --font-size-base: 18px;
     --font-family-english: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    --primary-color: #4776E6;
+    --primary-color: #252525;
     --secondary-color: #8E54E9;
     --glass-background: rgba(20, 20, 30, 0.5);
     --glass-border: rgba(255, 255, 255, 0.1);
@@ -508,7 +508,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       const timeout = setTimeout(() => {
         if (!video.classList.contains('loaded')) {
           // 超过10秒仍未加载完成，更新加载状态提示
-          loadingContainer.innerHTML = '<p>视频加载较慢，请稍候...</p>';
+          loadingContainer.innerHTML = '<p>loading</p>';
         }
       }, 10000);
       

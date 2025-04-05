@@ -45,7 +45,7 @@ DATABASE_ID=your_database_id
 ### 安装步骤
 1. 确保使用正确的 Node.js 版本：
    ```bash
-   nvm use 18.19.1
+   nvm use 18.20.8
    ```
 
 2. 安装依赖：
