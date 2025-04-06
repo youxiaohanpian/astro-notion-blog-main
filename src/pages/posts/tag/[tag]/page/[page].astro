@@ -1,10 +1,12 @@
 ---
 import type { SelectProperty } from '../../../../../lib/interfaces.ts'
+import { NUMBER_OF_POSTS_PER_PAGE } from '../../../../../server-constants.ts'
 import {
   getPostsByTagAndPage,
   getRankedPosts,
   getAllTags,
   getNumberOfPagesByTag,
+  getAllPosts,
 } from '../../../../../lib/notion/client.ts'
 import { getPostLink, getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
 import Layout from '../../../../../layouts/Layout.astro'
@@ -22,16 +24,34 @@ import '../../../../../styles/notion-color.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
-
+  const allPosts = await getAllPosts()
+  
   let params: { params: { tag: string, page: string } }[] = []
 
   await Promise.all(
     allTags.map((tag: SelectProperty) => {
-      return getNumberOfPagesByTag(tag.name).then((numberOfPages: number) => {
+      // 先过滤出该标签下的所有文章
+      const tagPosts = allPosts.filter(post => 
+        post.Tags.find(t => t.name === tag.name)
+      )
+      
+      // 计算该标签下的页数
+      const numberOfPages = Math.ceil(tagPosts.length / NUMBER_OF_POSTS_PER_PAGE)
+      
+      // 为每个有足够文章的标签创建分页路径
+      if (numberOfPages > 1) {
+        // 计算每一页应该显示的文章
         for (let i = 2; i <= numberOfPages; i++) {
-          params.push({ params: { tag: tag.name, page: i.toString() } })
+          const startIndex = (i - 1) * NUMBER_OF_POSTS_PER_PAGE
+          const endIndex = startIndex + NUMBER_OF_POSTS_PER_PAGE
+          const pageArticles = tagPosts.slice(startIndex, endIndex)
+          
+          // 只有当该页确实有文章时才创建路径
+          if (pageArticles.length > 0) {
+            params.push({ params: { tag: tag.name, page: i.toString() } })
+          }
         }
-      })
+      }
     })
   )
 
@@ -50,6 +70,15 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
 const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
 const encodedTag = encodeURIComponent(tag);
 const pageNum = parseInt(page, 10);
+
+// 检查页面有效性并在客户端重定向
+const isValidPage = posts.length > 0 || pageNum <= 1;
+const redirectInfo = {
+  shouldRedirect: !isValidPage,
+  encodedTag,
+  pageCount: numberOfPages,
+  currentPage: pageNum
+};
 ---
 
 <Layout 
@@ -64,7 +93,7 @@ const pageNum = parseInt(page, 10);
     { label: `第${page}页`, href: getPageLink(pageNum, tag) }
   ]}
 >
-  <div slot="main" class={`${styles.main} blog-posts-container`}>
+  <div slot="main" class={`${styles.main} blog-posts-container`} id="tag-posts-container">
     <header>
       <div class="tag-container">
         <span class={`tag ${currentTag?.color}`}>{tag}</span>
@@ -113,9 +142,30 @@ const pageNum = parseInt(page, 10);
   </div>
 </Layout>
 
-<script>
-  // 处理标签链接的点击事件，防止触发卡片链接
+<script define:vars={{ redirectInfo }}>
+  // 页面加载完成后检查是否需要重定向
   document.addEventListener('DOMContentLoaded', () => {
+    // 检查是否需要重定向（当前页面无内容且不是第一页，或页码超出有效范围）
+    if (redirectInfo.shouldRedirect || redirectInfo.currentPage > redirectInfo.pageCount) {
+      console.log('需要重定向: 当前页面无内容或页码超出范围');
+      
+      // 重定向到标签的第一页
+      window.location.href = `/posts/tag/${redirectInfo.encodedTag}`;
+      return;
+    }
+    
+    // 检查内容是否为空，如果为空并且不是第一页，也进行重定向
+    const container = document.getElementById('tag-posts-container');
+    if (!container) return;
+    
+    const posts = container.querySelectorAll('.blog-post');
+    
+    if (posts.length === 0 && redirectInfo.currentPage > 1) {
+      console.log('需要重定向: 内容为空且不是第一页');
+      window.location.href = `/posts/tag/${redirectInfo.encodedTag}`;
+      return;
+    }
+    
     // 为所有标签链接添加点击事件，阻止事件冒泡
     document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
       tag.addEventListener('click', (e) => {

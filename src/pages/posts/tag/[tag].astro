@@ -39,6 +39,9 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
   getNumberOfPagesByTag(tag),
 ])
 
+// 确保分页信息正确
+const tagPosts = posts.filter(post => post.Tags.find(t => t.name === tag))
+const hasMorePages = tagPosts.length < NUMBER_OF_POSTS_PER_PAGE ? false : numberOfPages > 1
 const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
 const encodedTag = encodeURIComponent(tag);
 ---

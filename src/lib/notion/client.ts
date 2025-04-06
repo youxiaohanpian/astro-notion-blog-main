@@ -247,9 +247,12 @@ export async function getPostsByTag(
   if (!tagName) return []
 
   const allPosts = await getAllPosts()
-  return allPosts
-    .filter((post) => post.Tags.find((tag) => tag.name === tagName))
-    .slice(0, pageSize)
+  const filteredPosts = allPosts.filter((post) => 
+    post.Tags.find((tag) => tag.name === tagName)
+  )
+  
+  // 确保返回数量不超过要求的pageSize
+  return filteredPosts.slice(0, pageSize)
 }
 
 // page starts from 1 not 0
@@ -299,10 +302,12 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
   const posts = allPosts.filter((post) =>
     post.Tags.find((tag) => tag.name === tagName)
   )
-  return (
-    Math.floor(posts.length / NUMBER_OF_POSTS_PER_PAGE) +
-    (posts.length % NUMBER_OF_POSTS_PER_PAGE > 0 ? 1 : 0)
-  )
+  
+  // 确保页数计算是准确的
+  const pageCount = Math.ceil(posts.length / NUMBER_OF_POSTS_PER_PAGE)
+  
+  // 如果没有文章，至少返回1页，否则返回计算的页数
+  return pageCount > 0 ? pageCount : 1
 }
 
 export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
@@ -509,7 +514,11 @@ export async function downloadFile(url: URL) {
     return Promise.resolve()
   }
 
-  const dir = './public/notion/' + url.pathname.split('/').slice(-2)[0]
+  // 创建有效的目录名
+  const pathParts = url.pathname.split('/').filter(part => part.length > 0);
+  const dirName = pathParts.length >= 2 ? pathParts[pathParts.length - 2] : 'external';
+  const dir = `./public/notion/${dirName}`;
+  
   try {
     if (!fs.existsSync(dir)) {
       console.log(`创建目录: ${dir}`);
@@ -520,8 +529,12 @@ export async function downloadFile(url: URL) {
     return Promise.resolve()
   }
 
-  const filename = decodeURIComponent(url.pathname.split('/').slice(-1)[0])
-  const filepath = `${dir}/${filename}`
+  // 安全获取文件名
+  const filename = pathParts.length > 0 
+    ? decodeURIComponent(pathParts[pathParts.length - 1]) 
+    : `image-${Date.now()}.jpg`;
+    
+  const filepath = `${dir}/${filename}`;
   console.log(`保存图片到: ${filepath}`);
 
   const writeStream = createWriteStream(filepath)

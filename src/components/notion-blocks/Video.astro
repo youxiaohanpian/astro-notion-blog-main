@@ -9,9 +9,19 @@ export interface Props {
 
 const { block } = Astro.props
 
-let url: URL
+// 初始化URL和缩略图
+let url: URL | null = null;
+let thumbnail: string = '';
+
+// 安全获取URL
 try {
-  url = new URL(block.Video.External?.Url)
+  if (block.Video?.External?.Url) {
+    url = new URL(block.Video.External.Url);
+  }
+  // 尝试获取缩略图
+  if (block.Video?.External && 'Thumbnail' in block.Video.External) {
+    thumbnail = (block.Video.External as any).Thumbnail || '';
+  }
 } catch (err) {
   console.log(err)
 }
@@ -20,18 +30,36 @@ try {
 <div class="video">
   <div>
     {
-      isYouTubeURL(url) && (
+      url && isYouTubeURL(url) && (
         <iframe
           src={`https://www.youtube.com/embed/${parseYouTubeVideoId(url)}`}
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
         />
       )
     }
+    {
+      url && !isYouTubeURL(url) && (
+        <video 
+          controls 
+          preload="metadata" 
+          poster={thumbnail} 
+          playsinline={true}
+          width="100%"
+        >
+          <source src={url.toString()} type="video/mp4" />
+          <p>您的浏览器不支持HTML5视频。<a href={url.toString()}>下载视频</a>观看。</p>
+        </video>
+      )
+    }
   </div>
-  <Caption richTexts={block.Video.Caption} />
+  {block.Video?.Caption && (
+    <Caption richTexts={block.Video.Caption} />
+  )}
 </div>
 
 <style>
@@ -43,8 +71,99 @@ try {
     height: 340px;
   }
   @media (max-width: 640px) {
-    .video div:first-child iframe {
+    .video div:first-child iframe,
+    .video div:first-child video {
       height: 220px;
     }
+  }
+</style>
+
+<script>
+  // 检测问题浏览器
+  function isProblematicBrowser() {
+    const ua = navigator.userAgent.toLowerCase();
+    return (
+      /micromessenger/i.test(ua) ||       // 微信
+      /qq/i.test(ua) ||                   // QQ浏览器
+      /ucbrowser/i.test(ua) ||            // UC浏览器
+      /alipay/i.test(ua) ||               // 支付宝
+      /baiduboxapp/i.test(ua) ||          // 百度浏览器
+      /msie|trident|edge/i.test(ua) ||    // IE和早期Edge
+      (/safari/i.test(ua) && !/chrome/i.test(ua) && !/firefox/i.test(ua)) // 某些版本的Safari
+    );
+  }
+
+  // 处理视频加载问题
+  document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('video');
+    
+    if (isProblematicBrowser()) {
+      videos.forEach(video => {
+        // 创建一个链接来替代视频
+        const source = video.querySelector('source');
+        if (source) {
+          const container = video.parentElement;
+          const poster = video.getAttribute('poster');
+          
+          if (container && poster) {
+            // 创建一个点击后跳转到视频的链接
+            const link = document.createElement('a');
+            link.href = source.src;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            
+            // 创建一个显示海报的图像
+            const img = document.createElement('img');
+            img.src = poster;
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.alt = '视频缩略图';
+            
+            // 创建播放按钮覆盖层
+            const playButton = document.createElement('div');
+            playButton.className = 'play-button-overlay';
+            
+            // 添加所有元素
+            link.appendChild(img);
+            link.appendChild(playButton);
+            
+            // 替换视频元素
+            video.style.display = 'none';
+            container.appendChild(link);
+          }
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .play-button-overlay:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-left: 20px solid white;
+    border-bottom: 12px solid transparent;
+    margin-left: 5px;
+  }
+  
+  a {
+    position: relative;
+    display: block;
   }
 </style>

@@ -5,6 +5,10 @@
   background-color: #FFA220; /* 橙色背景 */
   color: white; /* 白色文字 */
 }
+::-moz-selection {
+  background-color: #FFA220; /* Firefox浏览器兼容 */
+  color: white;
+}
 
 /* 修复标题链接样式 */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -176,6 +180,8 @@ img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
 }
 
 /* 禁止所有图片悬浮效果，除非明确指定 */

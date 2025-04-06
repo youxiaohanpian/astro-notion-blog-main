@@ -1,7 +1,6 @@
 ---
 import type { Post, Emoji, FileObject } from '../lib/interfaces.ts'
 import { getPostLink } from '../lib/blog-helpers.ts'
-import NoContents from './NoContents.astro'
 
 export interface Props {
   heading: string
@@ -11,12 +10,12 @@ export interface Props {
 const { heading, posts } = Astro.props
 
 // 类型保护函数
-const isEmoji = (icon: any): icon is Emoji => {
-  return icon && icon.Type === 'emoji';
+const isEmoji = (icon: Emoji | FileObject | null): icon is Emoji => {
+  return icon !== null && icon.Type === 'emoji';
 }
 
-const isFileObject = (icon: any): icon is FileObject => {
-  return icon && (icon.Type === 'external' || icon.Type === 'file');
+const isFileObject = (icon: Emoji | FileObject | null): icon is FileObject => {
+  return icon !== null && (icon.Type === 'external' || icon.Type === 'file');
 }
 ---
 

@@ -1,10 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getDatabase, getAllPosts } from '../lib/notion/client';
+import { getAllPosts } from '../lib/notion/client';
 import { getTagLink } from '../lib/blog-helpers';
 import type { Post } from '../lib/interfaces';
 
-const [database, posts] = await Promise.all([getDatabase(), getAllPosts()]);
+const posts = await getAllPosts();
 const latestPosts = posts.slice(0, 6); // 只显示最新的6篇文章
 const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => tag.name)))];
 ---
@@ -49,6 +49,8 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       >
         <source src="/banner.mp4" type="video/mp4">
         <source src="/banner.webm" type="video/webm">
+        <source src="/banner.ogv" type="video/ogg">
+        <p>您的浏览器不支持HTML5视频。<a href="/banner.mp4">下载视频</a>观看。</p>
       </video>
       <div class="hero-overlay"></div>
     </section>
@@ -59,7 +61,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       <section class="content-section about">
         <div class="glass-container">
           <h2>关于我</h2>
-          <p>热爱技术，热爱生活。在这里，我会分享我的技术学习心得、项目经验以及生活感悟。</p>
+          <p>热爱技术，热爱生活。在这里，会分享我的技术学习心得、项目经验以及生活感悟。</p>
         </div>
       </section>
 
@@ -541,7 +543,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const video = document.querySelector('.hero-video');
+    const video = document.querySelector('.hero-video') as HTMLVideoElement;
     const loadingContainer = document.querySelector('.video-loading-container');
     const heroOverlay = document.querySelector('.hero-overlay');
     
@@ -553,32 +555,53 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
         /qq/i.test(ua) ||                   // QQ浏览器
         /ucbrowser/i.test(ua) ||            // UC浏览器
         /alipay/i.test(ua) ||               // 支付宝
-        /baiduboxapp/i.test(ua)             // 百度浏览器
+        /baiduboxapp/i.test(ua) ||          // 百度浏览器
+        /msie|trident|edge/i.test(ua) ||    // IE和早期Edge
+        (/safari/i.test(ua) && !/chrome/i.test(ua) && !/firefox/i.test(ua)) // 某些版本的Safari
       );
     }
+    
+    // 检测视频支持情况
+    function checkVideoSupport() {
+      // 创建测试视频元素
+      const testVideo = document.createElement('video');
+      
+      // 检测MP4支持
+      const mp4Support = testVideo.canPlayType('video/mp4');
+      
+      // 检测WebM支持
+      const webmSupport = testVideo.canPlayType('video/webm');
+      
+      // 如果两种主要格式都不支持，认为视频不受支持
+      return !(mp4Support === '' && webmSupport === '');
+    }
+    
     // 设置背景图并保持比例
-    function setupBackgroundImage(element: HTMLElement) {
+    function setupBackgroundImage(element: HTMLElement | null) {
       if (!element) return;
       
       // 获取图片的宽高比
       const posterImage = new Image();
       posterImage.src = '/banner-poster.jpg';
       posterImage.onload = function() {
-        const imageRatio = this.width / this.height;
-        element.style.backgroundImage = "url('/banner-poster.jpg')";
-        element.classList.add('fallback');
+        // 使用正确的类型
+        const imageRatio = posterImage.width / posterImage.height;
+        // element已在最上面检查过null，这里不可能为null
+        const el = element as HTMLElement;
+        el.style.backgroundImage = "url('/banner-poster.jpg')";
+        el.classList.add('fallback');
         
         // 检测设备方向并调整
         function adjustBackground() {
           const windowRatio = window.innerWidth / window.innerHeight;
           if (windowRatio > imageRatio) {
             // 宽屏设备
-            element.style.backgroundSize = '100vw auto';
-            element.style.backgroundPosition = 'center center';
+            el.style.backgroundSize = '100vw auto';
+            el.style.backgroundPosition = 'center center';
           } else {
             // 窄屏设备
-            element.style.backgroundSize = 'auto 100vh';
-            element.style.backgroundPosition = 'center center';
+            el.style.backgroundSize = 'auto 100vh';
+            el.style.backgroundPosition = 'center center';
           }
         }
         
@@ -593,19 +616,52 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     // 处理视频加载
     function handleVideoLoading() {
       if (video && loadingContainer) {
-        if (isProblematicBrowser()) {
-          // 如果是问题浏览器，直接显示封面图
+        // 如果是问题浏览器或不支持视频，直接显示封面图
+        if (isProblematicBrowser() || !checkVideoSupport()) {
           if (video) {
             video.style.display = 'none';
           }
           
           // 设置背景图为视频封面
-          setupBackgroundImage(heroOverlay);
+          if (heroOverlay instanceof HTMLElement) {
+            setupBackgroundImage(heroOverlay);
+          }
           
           // 隐藏加载指示器
           loadingContainer.classList.remove('visible');
           return;
         }
+        
+        // 添加视频播放错误处理
+        video.addEventListener('stalled', () => {
+          if (heroOverlay instanceof HTMLElement) {
+            setupBackgroundImage(heroOverlay);
+          }
+        });
+        
+        // 添加自动重试机制
+        video.addEventListener('error', (e) => {
+          console.error('视频加载错误:', e);
+          
+          // 尝试重新加载视频（最多尝试2次）
+          let retryCount = parseInt(video.getAttribute('data-retry') || '0');
+          if (retryCount < 2) {
+            setTimeout(() => {
+              video.setAttribute('data-retry', (retryCount + 1).toString());
+              video.load();
+            }, 1000);
+          } else {
+            // 显示错误信息
+            if (loadingContainer instanceof HTMLElement) {
+              loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
+            }
+            
+            // 显示封面图
+            if (heroOverlay instanceof HTMLElement) {
+              setupBackgroundImage(heroOverlay);
+            }
+          }
+        });
         
         // 显示加载指示器
         loadingContainer.classList.add('visible');
@@ -615,31 +671,6 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
           // 隐藏加载指示器
           loadingContainer.classList.remove('visible');
           video.classList.add('loaded');
-        });
-        
-        // 如果视频加载失败或超时
-        video.addEventListener('error', () => {
-          // 显示错误信息
-          loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
-          
-          // 显示封面图
-          setupBackgroundImage(heroOverlay);
-        });
-        
-        // 设置超时处理
-        const timeout = setTimeout(() => {
-          if (!video.classList.contains('loaded')) {
-            // 超过8秒仍未加载完成
-            loadingContainer.innerHTML = '<p>加载中...</p>';
-            
-            // 显示封面图作为备选
-            setupBackgroundImage(heroOverlay);
-          }
-        }, 8000);
-        
-        // 清理超时定时器
-        video.addEventListener('canplay', () => {
-          clearTimeout(timeout);
         });
       }
     }
