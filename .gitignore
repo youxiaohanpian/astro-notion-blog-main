@@ -3,7 +3,7 @@ dist/
 .output/
 .astro/
 .nx/
-
+.vercel/output
 # dependencies
 node_modules/
 
@@ -29,3 +29,4 @@ tmp/
 
 public/notion/*
 !public/notion/.gitkeep
+.vercel
