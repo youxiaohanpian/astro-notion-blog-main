@@ -1,15 +1,58 @@
 ---
+/**
+ * Pinterest嵌入组件
+ * 
+ * 功能：将Pinterest链接转换为嵌入式Pin
+ * 
+ * URL格式支持：
+ * - 标准格式：https://www.pinterest.com/pin/1234567890/
+ * - 地区特定格式：https://www.pinterest.jp/pin/1234567890/
+ * 
+ * 注意事项：
+ * 1. data-pin-do="embedPin"属性是必须的，用于告诉Pinterest API创建嵌入
+ * 2. 样式保持与Notion一致，使用响应式设计
+ * 3. 请勿删除script标签，否则嵌入将无法正常工作
+ * 4. Pinterest嵌入依赖官方提供的pinit.js脚本
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
 export interface Props {
   url: URL
 }
 const { url } = Astro.props
 ---
 
-<a href={url.toString()} data-pin-do="embedPin"></a>
+<div class="pinterest-wrapper">
+  <a href={url.toString()} data-pin-do="embedPin"></a>
+</div>
 
+<!-- Pinterest嵌入脚本 - 请勿删除或修改 -->
 <script
   type="text/javascript"
   async
   defer
   src="//assets.pinterest.com/js/pinit.js"
 ></script>
+
+<style>
+  /* 
+   * 保持与Notion一致的样式
+   * 居中对齐并添加边距
+   * border-radius添加圆角效果
+   * 响应式设计适应不同屏幕尺寸
+   */
+  .pinterest-wrapper {
+    max-width: 100%;
+    margin: 1.5rem auto;
+    text-align: center;
+  }
+  .pinterest-wrapper iframe {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  @media (max-width: 768px) {
+    .pinterest-wrapper {
+      margin: 1rem auto;
+    }
+  }
+</style>

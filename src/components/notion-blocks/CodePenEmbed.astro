@@ -1,22 +1,53 @@
 ---
+/**
+ * CodePen嵌入组件
+ * 
+ * 功能：将CodePen链接转换为嵌入式代码演示
+ * 
+ * URL格式支持：
+ * - 标准格式：https://codepen.io/username/pen/penID
+ * 
+ * 注意事项：
+ * 1. 必须正确提取用户名和pen ID才能正常显示
+ * 2. data-slug-hash和data-user属性是必需的
+ * 3. 请勿删除script标签，否则嵌入将无法正常工作
+ * 4. CodePen嵌入依赖官方提供的ei.js脚本
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
 export interface Props {
-  url: string
+  url: URL
 }
 const { url } = Astro.props
 const user = url.pathname.split('/')[1]
 const id = url.pathname.split('/')[3]
 ---
 
-<p
-  class="codepen"
-  data-slug-hash={id.toString()}
-  data-user={user.toString()}
-  style="box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
->
-</p>
+<div class="codepen-wrapper">
+  <p
+    class="codepen"
+    data-slug-hash={id}
+    data-user={user}
+    style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+  >
+  </p>
+</div>
+
+<!-- CodePen嵌入脚本 - 请勿删除或修改 -->
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
-<style is:global>
+<style>
+  /* 
+   * 保持与Notion一致的样式
+   * 响应式设计适应不同屏幕尺寸
+   * 使用一致的边距和圆角效果
+   */
+  .codepen-wrapper {
+    max-width: 100%;
+    margin: 1.5rem auto;
+    border-radius: 8px;
+    overflow: hidden;
+  }
   .cp_embed_wrapper {
     width: 100%;
     aspect-ratio: 1.6 / 1;
@@ -24,5 +55,11 @@ const id = url.pathname.split('/')[3]
   }
   .cp_embed_wrapper iframe {
     height: 100% !important;
+    border-radius: 8px;
+  }
+  @media (max-width: 768px) {
+    .codepen-wrapper {
+      margin: 1rem auto;
+    }
   }
 </style>

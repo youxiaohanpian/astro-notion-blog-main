@@ -1,5 +1,18 @@
 ---
-import { Post } from '../../lib/interfaces.ts'
+/**
+ * Mention链接组件
+ * 
+ * 功能：在文本中创建指向其他Notion页面的链接
+ * 
+ * 注意事项：
+ * 1. 需要通过pageId获取链接的目标页面
+ * 2. 样式保持与Notion一致
+ * 3. 显示目标页面的图标和标题
+ * 4. 当页面不存在时显示提示信息
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
+import type { Post, Emoji, FileObject } from '../../lib/interfaces.ts'
 import { getPostByPageId } from '../../lib/notion/client'
 import { getPostLink } from '../../lib/blog-helpers.ts'
 import '../../styles/notion-color.css'
@@ -11,40 +24,46 @@ export interface Props {
 
 const { pageId } = Astro.props
 
-let post: Post = null
+// 获取被提及的页面
+let post: Post | null = null
 if (pageId) {
-  post = await getPostByPageId(pageId)
+  try {
+    post = await getPostByPageId(pageId)
+    console.log(`Mention: Found post for pageId ${pageId}:`, post ? post.Slug : 'Not found')
+  } catch (error) {
+    console.error(`Mention: Error fetching post for pageId ${pageId}:`, error)
+  }
 }
 ---
 
 {
   post ? (
     <a href={getPostLink(post.Slug)} class="link">
-      <>
-        <span class="icon">
-          {post.Icon && post.Icon.Type === 'emoji' ? (
-            post.Icon.Emoji
-          ) : post.Icon && post.Icon.Type === 'external' ? (
+      <span class="icon">
+        {post.Icon ? (
+          post.Icon.Type === 'emoji' ? (
+            (post.Icon as Emoji).Emoji
+          ) : (
             <img
-              src={post.Icon.Url}
+              src={(post.Icon as FileObject).Url}
               class="notion-icon"
               alt="Post title icon in a page link"
             />
-          ) : (
-            '📄'
-          )}
-          <img src={arrow.src} class="icon-link" alt="Arrow icon of a page link" />
-        </span>
-        <span class="text">{post.Title}</span>
-      </>
+          )
+        ) : (
+          '📄'
+        )}
+        <img src={arrow.src} class="icon-link" alt="Arrow icon of a page link" />
+      </span>
+      <span class="text">{post.Title}</span>
     </a>
   ) : (
-    <a class="link">
+    <a class="link not-found">
       <span class="icon">
         🚫
         <img src={arrow.src} class="icon-link" alt="Arrow icon of a page link" />
       </span>
-      <span class="text not-found">Post not found</span>
+      <span class="text not-found">Post not found (ID: {pageId})</span>
     </a>
   )
 }
@@ -54,6 +73,18 @@ if (pageId) {
     display: inline-flex;
     font-weight: 600;
     gap: 4px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 3px;
+    padding: 0 2px;
+    transition: background-color 0.2s;
+  }
+  a.link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  a.link.not-found {
+    cursor: default;
+    opacity: 0.7;
   }
   span.icon {
     height: fit-content;

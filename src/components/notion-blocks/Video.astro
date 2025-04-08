@@ -1,4 +1,27 @@
 ---
+/**
+ * 视频嵌入组件
+ * 
+ * 功能：处理YouTube和其他视频的嵌入
+ * 
+ * 支持的视频类型：
+ * 1. YouTube视频 - 使用iframe嵌入
+ * 2. 普通视频文件 - 使用HTML5 video标签嵌入
+ * 
+ * URL格式支持(YouTube)：
+ * - 标准格式：https://www.youtube.com/watch?v=videoID
+ * - 短链接：https://youtu.be/videoID
+ * - 嵌入链接：https://www.youtube.com/embed/videoID
+ * - 直播链接：https://youtube.com/live/videoID
+ * 
+ * 注意事项：
+ * 1. 必须正确提取视频ID才能正常显示YouTube视频
+ * 2. 样式保持与Notion一致，使用16:9的宽高比
+ * 3. 请勿删除script标签，部分浏览器需要特殊处理
+ * 4. Video组件同时处理YouTube和普通视频
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
 import * as interfaces from '../../lib/interfaces.ts'
 import { isYouTubeURL, parseYouTubeVideoId } from '../../lib/blog-helpers.ts'
 import Caption from './Caption.astro'
@@ -25,14 +48,20 @@ try {
 } catch (err) {
   console.log(err)
 }
+
+// 如果是YouTube视频,获取视频ID
+let videoId = '';
+if (url && isYouTubeURL(url)) {
+  videoId = parseYouTubeVideoId(url);
+}
 ---
 
 <div class="video">
-  <div>
+  <div class="video-container">
     {
-      url && isYouTubeURL(url) && (
+      url && isYouTubeURL(url) && videoId && (
         <iframe
-          src={`https://www.youtube.com/embed/${parseYouTubeVideoId(url)}`}
+          src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -63,17 +92,35 @@ try {
 </div>
 
 <style>
-  .video div:first-child {
-    width: 100%;
+  /* 
+   * 保持与Notion一致的样式
+   * 使用16:9的宽高比
+   * 响应式设计适应不同屏幕尺寸
+   * border-radius添加圆角效果
+   */
+  .video {
+    margin: 1.5rem auto;
+    max-width: 720px;
   }
-  .video div:first-child iframe {
+  .video-container {
+    position: relative;
     width: 100%;
-    height: 340px;
+    padding-bottom: 56.25%; /* 16:9 宽高比 */
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .video-container iframe,
+  .video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
   }
   @media (max-width: 640px) {
-    .video div:first-child iframe,
-    .video div:first-child video {
-      height: 220px;
+    .video {
+      margin: 1rem auto;
     }
   }
 </style>

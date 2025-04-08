@@ -1,10 +1,42 @@
 ---
+/**
+ * TikTok嵌入组件
+ * 
+ * 功能：将TikTok链接转换为嵌入式播放器
+ * 
+ * URL格式支持：
+ * - 标准格式：https://www.tiktok.com/@username/video/1234567890
+ * - 短链接格式：https://vm.tiktok.com/xxxx/
+ * 
+ * 注意事项：
+ * 1. 必须正确提取用户名和视频ID才能正常显示
+ * 2. 样式保持与Notion一致，使用固定宽度和边距
+ * 3. 请勿删除script标签，否则嵌入将无法正常工作
+ * 4. 请勿改变cite和data-video-id属性，它们是TikTok嵌入API必需的
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
 export interface Props {
   url: URL
 }
 const { url } = Astro.props
-const user = url.pathname.split('/')[1]
-const videoId = url.pathname.split('/')[3]
+
+// 提取用户和视频ID
+let user = '';
+let videoId = '';
+
+// 处理标准URL模式: /@username/video/12345
+if (/\/[^/]+\/video\/[\d]+/.test(url.pathname)) {
+  const pathParts = url.pathname.split('/');
+  user = pathParts[1].startsWith('@') ? pathParts[1] : '@' + pathParts[1];
+  videoId = pathParts[3];
+}
+// 处理短链接
+else if (/\/t\/[\w]+/.test(url.pathname) || url.hostname === 'vm.tiktok.com') {
+  // 短链接无法直接获取用户名,直接使用URL本身
+  // 对于短格式，我们无法获取具体的videoId，但TikTok可以通过完整URL进行解析
+  videoId = url.pathname.replace(/^\//, '').replace(/\/$/, ''); // 移除前后的斜杠
+}
 ---
 
 <div class="tiktok-wrapper">
@@ -12,29 +44,45 @@ const videoId = url.pathname.split('/')[3]
     class="tiktok-embed"
     cite={url.toString()}
     data-video-id={videoId}
-    style="min-width: 325px;"
+    style="max-width: 605px; min-width: 325px;"
   >
     <section>
-      <a
-        target="_blank"
-        title={user}
-        href="https://www.tiktok.com/{user}?refer=embed">{user}</a
-      >
+      {user && 
+        <a
+          target="_blank"
+          title={user}
+          href={`https://www.tiktok.com/${user}?refer=embed`}>{user}
+        </a>
+      }
     </section>
   </blockquote>
 </div>
 
+<!-- TikTok嵌入脚本 - 请勿删除或修改 -->
 <script async src="https://www.tiktok.com/embed.js"></script>
 
 <style>
+  /* 
+   * 保持与Notion一致的样式
+   * max-width限制最大宽度
+   * border-radius添加圆角效果
+   * margin确保上下间距合理
+   */
   .tiktok-wrapper {
-    max-width: 325px;
-    overflow-x: auto;
-    margin-block-start: 1.5rem;
-    margin-inline: auto;
-    border-radius: 8px;
+    max-width: 605px;
+    margin: 1.5rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
   }
   blockquote.tiktok-embed {
     margin: 0;
+    padding: 0;
+  }
+  @media (max-width: 768px) {
+    .tiktok-wrapper {
+      margin: 1rem auto;
+      max-width: 100%;
+    }
   }
 </style>

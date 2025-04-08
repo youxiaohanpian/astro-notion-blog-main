@@ -246,10 +246,27 @@ export const isTweetURL = (url: URL): boolean => {
 }
 
 export const isTikTokURL = (url: URL): boolean => {
-  if (url.hostname !== 'tiktok.com' && url.hostname !== 'www.tiktok.com') {
+  if (url.hostname !== 'tiktok.com' && url.hostname !== 'www.tiktok.com' && 
+      url.hostname !== 'vm.tiktok.com') {
     return false
   }
-  return /\/[^/]+\/video\/[\d]+/.test(url.pathname)
+  
+  // 支持常规格式 /@username/video/videoId
+  if (/\/[^/]+\/video\/[\d]+/.test(url.pathname)) {
+    return true;
+  }
+  
+  // 支持短链接格式 /t/videoId
+  if (/\/t\/[\w]+/.test(url.pathname)) {
+    return true;
+  }
+  
+  // vm.tiktok.com短链接
+  if (url.hostname === 'vm.tiktok.com' && url.pathname.length > 1) {
+    return true;
+  }
+  
+  return false;
 }
 
 export const isInstagramURL = (url: URL): boolean => {

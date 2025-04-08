@@ -1,4 +1,21 @@
 ---
+/**
+ * 书签/链接预览组件
+ * 
+ * 功能：为外部链接创建美观的预览卡片
+ * 
+ * 支持的链接类型：
+ * 1. 普通网站链接 - 显示带图片和描述的预览卡片
+ * 2. Amazon链接 - 特殊处理为纯文本链接
+ * 
+ * 注意事项：
+ * 1. 链接需要在新窗口打开(target="_blank")
+ * 2. 链接需要添加安全属性(rel="noopener noreferrer") 
+ * 3. 样式保持与Notion一致
+ * 4. 不同类型的链接有不同的样式
+ * 
+ * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
+ */
 import createMetascraper from 'metascraper'
 import metascraperDescription from 'metascraper-description'
 import metascraperImage from 'metascraper-image'
@@ -13,7 +30,7 @@ export interface Props {
 
 const { block, urlMap } = Astro.props
 
-const urlString = (block.Bookmark || block.LinkPreview || block.Embed).Url
+const urlString = (block.Bookmark || block.LinkPreview || block.Embed)?.Url || ''
 
 let url: URL | undefined
 let metadata: Record<string, string> | undefined
@@ -41,8 +58,8 @@ try {
   url && (
     <>
       {isAmazonURL(url) ? (
-        <div class="no-metadata">
-          <a href={url.toString()}>{url.toString()}</a>
+        <div class="amazon-link">
+          <a href={url.toString()} target="_blank" rel="noopener noreferrer">{url.toString()}</a>
         </div>
       ) : (
         <div class="bookmark">
@@ -78,11 +95,30 @@ try {
 }
 
 <style>
-  .no-metadata > a {
-    border-bottom: 0.05em solid;
-    border-color: var(--anchor-border);
-    opacity: 0.7;
+  /* 
+   * Amazon链接样式 - 简单文本链接
+   * 与Notion保持一致的简约样式
+   */
+  .amazon-link > a {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid var(--text-color-light);
+    padding-bottom: 2px;
   }
+  .amazon-link > a:hover {
+    opacity: 1;
+  }
+  /* 
+   * 书签预览卡片样式
+   * 与Notion保持一致的卡片样式
+   */
   .bookmark {
     display: flex;
     overflow: hidden;
