@@ -3,10 +3,8 @@ import type { SelectProperty } from '../../../../../lib/interfaces.ts'
 import { NUMBER_OF_POSTS_PER_PAGE } from '../../../../../server-constants.ts'
 import {
   getPostsByTagAndPage,
-  getRankedPosts,
-  getAllTags,
   getNumberOfPagesByTag,
-  getAllPosts,
+  getAllTags,
 } from '../../../../../lib/notion/client.ts'
 import { getPostLink, getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
 import Layout from '../../../../../layouts/Layout.astro'
@@ -24,75 +22,72 @@ import '../../../../../styles/notion-color.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
-  const allPosts = await getAllPosts()
-  
-  let params: { params: { tag: string, page: string } }[] = []
+  const paths = []
 
-  await Promise.all(
-    allTags.map((tag: SelectProperty) => {
-      // 先过滤出该标签下的所有文章
-      const tagPosts = allPosts.filter(post => 
-        post.Tags.find(t => t.name === tag.name)
-      )
-      
-      // 计算该标签下的页数
-      const numberOfPages = Math.ceil(tagPosts.length / NUMBER_OF_POSTS_PER_PAGE)
-      
-      // 为每个有足够文章的标签创建分页路径
-      if (numberOfPages > 1) {
-        // 计算每一页应该显示的文章
-        for (let i = 2; i <= numberOfPages; i++) {
-          const startIndex = (i - 1) * NUMBER_OF_POSTS_PER_PAGE
-          const endIndex = startIndex + NUMBER_OF_POSTS_PER_PAGE
-          const pageArticles = tagPosts.slice(startIndex, endIndex)
-          
-          // 只有当该页确实有文章时才创建路径
-          if (pageArticles.length > 0) {
-            params.push({ params: { tag: tag.name, page: i.toString() } })
-          }
-        }
-      }
-    })
-  )
+  for (const tag of allTags) {
+    const numberOfPages = await getNumberOfPagesByTag(tag.name)
+    console.log(`标签 "${tag.name}" 共有 ${numberOfPages} 页`)
 
-  return params
+    // 为每个标签生成所有可能的页码路径
+    for (let page = 1; page <= numberOfPages; page++) {
+      paths.push({
+        params: {
+          tag: tag.name,
+          page: page.toString(),
+        },
+      })
+    }
+  }
+
+  console.log(`生成了 ${paths.length} 个静态路径`)
+  return paths
 }
 
 const { tag, page } = Astro.params
+const pageNum = parseInt(page, 10)
+const encodedTag = encodeURIComponent(tag)
 
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
-  getPostsByTagAndPage(tag, parseInt(page, 10)),
-  getRankedPosts(),
-  getAllTags(),
+// 获取文章和分页信息
+const [posts, numberOfPages, tags] = await Promise.all([
+  getPostsByTagAndPage(tag, pageNum),
   getNumberOfPagesByTag(tag),
+  getAllTags(),
 ])
 
-const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
-const encodedTag = encodeURIComponent(tag);
-const pageNum = parseInt(page, 10);
+// 检查页面是否有效
+const isValidPage = pageNum >= 1 && pageNum <= numberOfPages
+const shouldRedirect = !isValidPage || (posts.length === 0 && pageNum > 1)
 
-// 服务器端重定向检查，避免显示空页面
-// 如果页面无内容或页码超出范围，直接重定向到标签首页
-if ((posts.length === 0 && pageNum > 1) || pageNum > numberOfPages) {
-  console.log(`服务器端重定向: 标签 "${tag}" 第 ${page} 页无内容或页码超出范围，重定向到标签首页`);
-  return Astro.redirect(getTagLink(tag));
+console.log('页面信息:', {
+  tag,
+  page: pageNum,
+  totalPages: numberOfPages,
+  postsCount: posts.length,
+  isValidPage,
+  shouldRedirect
+})
+
+// 如果需要重定向，返回重定向信息
+if (shouldRedirect) {
+  console.log('需要重定向到标签首页')
+  return Astro.redirect(getTagLink(tag))
 }
 
-// 检查页面有效性并在客户端重定向
-const isValidPage = posts.length > 0 || pageNum <= 1;
+const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null
+
+// 准备客户端重定向信息
 const redirectInfo = {
-  shouldRedirect: !isValidPage,
   encodedTag,
-  pageCount: numberOfPages,
   currentPage: pageNum,
-  postsCount: posts.length
-};
+  pageCount: numberOfPages,
+  shouldRedirect
+}
 ---
 
-<Layout 
-  title={`分类: ${tag} - 第${page}页`} 
-  description={`${tag}分类下的文章列表 - 第${page}页`} 
-  path={`/posts/tag/${encodedTag}/page/${page}`} 
+<Layout
+  title={`分类: ${tag} - 第${page}页`}
+  description={`${tag}分类下的文章列表 - 第${page}页`}
+  path={`/posts/tag/${encodedTag}/page/${page}`}
   ogImage=""
   hideSidebar={true}
   breadcrumbs={[
@@ -101,50 +96,59 @@ const redirectInfo = {
     { label: `第${page}页`, href: getPageLink(pageNum, tag) }
   ]}
 >
-  <div slot="main" class={`${styles.main} blog-posts-container`} id="tag-posts-container">
+  <div class="blog-posts-container" id="tag-posts-container">
     <header>
       <div class="tag-container">
         <span class={`tag ${currentTag?.color}`}>{tag}</span>
       </div>
     </header>
 
-    <div class="masonry-container">
-      <div class="masonry-grid">
-        {posts.length === 0 ? (
-          <NoContents contents={posts} />
-        ) : (
-          posts.map((post) => (
-            <article class="blog-post">
-              <a href={getPostLink(post.Slug)} class="blog-post-link">
-                {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
-                  <div class="blog-post-image">
-                    <PostFeaturedImage post={post} />
-                  </div>
-                )}
-                <div class="blog-post-content">
-                  <div class="blog-post-header">
-                    <PostTitle post={post} enableLink={false} />
-                    <PostDate post={post} />
-                  </div>
-                  <div class="blog-post-tags">
-                    <PostTags post={post} enableLink={true} />
-                  </div>
-                  <div class="blog-post-body">
-                    <PostExcerpt post={post} />
-                  </div>
+    <div class="posts-grid">
+      {console.log('渲染文章列表，文章数量:', posts.length)}
+      {console.log('文章数据:', JSON.stringify(posts.map(post => ({
+        title: post.Title,
+        slug: post.Slug,
+        date: post.Date,
+        tags: post.Tags,
+        excerpt: post.Excerpt,
+        hasFeaturedImage: !!post.FeaturedImage,
+        hasCover: !!post.Cover,
+        hasFirstImage: !!post.FirstImage
+      })), null, 2))}
+      {posts.length === 0 ? (
+        <NoContents contents={posts} />
+      ) : (
+        posts.map((post) => (
+          <article class="blog-post">
+            <a href={getPostLink(post.Slug)} class="blog-post-link">
+              {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
+                <div class="blog-post-image">
+                  <PostFeaturedImage post={post} />
                 </div>
-              </a>
-            </article>
-          ))
-        )}
-      </div>
+              )}
+              <div class="blog-post-content">
+                <div class="blog-post-header">
+                  <PostTitle post={post} enableLink={false} />
+                  <PostDate post={post} />
+                </div>
+                <div class="blog-post-tags">
+                  <PostTags post={post} enableLink={true} />
+                </div>
+                <div class="blog-post-body">
+                  <PostExcerpt post={post} />
+                </div>
+              </div>
+            </a>
+          </article>
+        ))
+      )}
     </div>
 
     <div class="pagination-container">
-      <Pagination 
-        currentPage={parseInt(page, 10)} 
-        numberOfPages={numberOfPages} 
-        tag={tag} 
+      <Pagination
+        currentPage={parseInt(page, 10)}
+        numberOfPages={numberOfPages}
+        tag={tag}
       />
     </div>
   </div>
@@ -160,42 +164,75 @@ const redirectInfo = {
       postsCount: posts.length,
       shouldRedirect: redirectInfo.shouldRedirect
     });
-    
+
     // 检查是否需要重定向（当前页面无内容且不是第一页，或页码超出有效范围）
     if (redirectInfo.shouldRedirect || redirectInfo.currentPage > redirectInfo.pageCount) {
       console.log('需要重定向: 当前页面无内容或页码超出范围');
-      
-      // 重定向到标签的第一页
       window.location.href = `/posts/tag/${redirectInfo.encodedTag}`;
       return;
     }
-    
+
     // 检查内容是否为空，如果为空并且不是第一页，也进行重定向
     const container = document.getElementById('tag-posts-container');
     if (!container) {
       console.error('找不到文章容器元素！');
       return;
     }
-    
+
     const postElements = container.querySelectorAll('.blog-post');
     console.log(`DOM中找到了 ${postElements.length} 篇文章，服务端数据有 ${posts.length} 篇文章`);
-    
+
     if (postElements.length === 0 && redirectInfo.currentPage > 1) {
       console.log('需要重定向: 内容为空且不是第一页');
       window.location.href = `/posts/tag/${redirectInfo.encodedTag}`;
       return;
     }
-    
+
     // 为所有标签链接添加点击事件，阻止事件冒泡
     document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
       tag.addEventListener('click', (e) => {
         e.stopPropagation();
       });
     });
+
+    // 检查分页链接是否正确
+    const paginationLinks = document.querySelectorAll('.pagination a');
+    paginationLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href) {
+        console.log('分页链接:', href);
+      }
+    });
   });
 </script>
 
 <style>
+  .blog-posts-container {
+    padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    padding: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .tag-container {
     margin: 1.5rem 0;
     text-align: center;
@@ -205,6 +242,7 @@ const redirectInfo = {
   .tag {
     display: inline-block;
     padding: 0.5rem 1rem;
+    border-radius: 4px;
     font-weight: 600;
   }
 
@@ -215,7 +253,7 @@ const redirectInfo = {
     width: 100%;
     margin: 1rem 0 2rem;
   }
-  
+
   /* 新增瀑布流布局容器 */
   .masonry-container {
     display: flex;
@@ -246,7 +284,7 @@ const redirectInfo = {
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   }
-  
+
   .blog-post:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -260,7 +298,7 @@ const redirectInfo = {
     color: inherit;
     text-decoration: none;
   }
-  
+
   /* 图片区域 */
   .blog-post-image {
     width: 100%;
@@ -268,12 +306,12 @@ const redirectInfo = {
     overflow: hidden;
     border-radius: 12px 12px 0 0; /* 只保留上边两个圆角 */
   }
-  
+
   .blog-post-image :global(.post-featured-image) {
     border-radius: 12px 12px 0 0; /* 确保内部容器也有相同的圆角 */
     overflow: hidden;
   }
-  
+
   .blog-post-image :global(img) {
     width: 100%;
     height: 100%;
@@ -281,41 +319,41 @@ const redirectInfo = {
     transition: transform 0.3s ease;
     border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
   }
-  
+
   .blog-post:hover .blog-post-image :global(img) {
     transform: scale(1.05);
   }
-  
+
   /* 内容区域 */
   .blog-post-content {
     padding: 1rem 1.2rem;
   }
-  
+
   .blog-post-header {
     margin-bottom: 0.4rem;
   }
-  
+
   .blog-post-header :global(.post-title) {
     font-size: 16px;
     font-weight: 600;
     line-height: 1.4;
     margin: 0 0 0.2rem 0;
   }
-  
+
   .blog-post-header :global(.post-title a) {
     color: #333;
     transition: color 0.3s ease;
   }
-  
+
   .blog-post:hover .blog-post-header :global(.post-title a) {
     color: #000;
     text-shadow: 0 0 1px rgba(0,0,0,0.1);
   }
-  
+
   .blog-post-tags {
     margin-bottom: 0.4rem;
   }
-  
+
   .blog-post-body {
     font-size: 14px;
     color: #666;
@@ -334,11 +372,11 @@ const redirectInfo = {
       grid-template-columns: 1fr;
       max-width: 500px;
     }
-    
+
     .blog-posts-container {
       padding: 0 0.5rem;
     }
-    
+
     .blog-post-image {
       height: 160px;
     }
@@ -348,15 +386,15 @@ const redirectInfo = {
     .blog-post-image {
       height: 140px;
     }
-    
+
     .blog-post-content {
       padding: 1rem;
     }
-    
+
     .blog-post-header :global(.post-title) {
       font-size: 15px;
     }
-    
+
     .blog-post-body {
       font-size: 13px;
     }

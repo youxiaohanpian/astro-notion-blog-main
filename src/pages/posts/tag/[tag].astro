@@ -3,7 +3,6 @@ import type { SelectProperty } from '../../../lib/interfaces.ts'
 import { NUMBER_OF_POSTS_PER_PAGE } from '../../../server-constants.ts'
 import {
   getPostsByTag,
-  getRankedPosts,
   getAllTags,
   getNumberOfPagesByTag,
 } from '../../../lib/notion/client.ts'
@@ -23,33 +22,41 @@ import '../../../styles/notion-color.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
-  return allTags.map((tag: SelectProperty) => ({ 
-    params: { 
-      tag: tag.name 
-    } 
+  return allTags.map((tag: SelectProperty) => ({
+    params: {
+      tag: tag.name
+    }
   }))
 }
 
 const { tag } = Astro.params
+const encodedTag = encodeURIComponent(tag)
 
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+// 获取文章和分页信息
+const [posts, numberOfPages] = await Promise.all([
   getPostsByTag(tag, NUMBER_OF_POSTS_PER_PAGE),
-  getRankedPosts(),
-  getAllTags(),
   getNumberOfPagesByTag(tag),
 ])
 
-// 确保分页信息正确
-const tagPosts = posts.filter(post => post.Tags.find(t => t.name === tag))
-const hasMorePages = tagPosts.length < NUMBER_OF_POSTS_PER_PAGE ? false : numberOfPages > 1
-const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null;
-const encodedTag = encodeURIComponent(tag);
+console.log('标签页首页信息:', {
+  tag,
+  totalPages: numberOfPages,
+  postsCount: posts.length
+})
+
+// 检查是否有文章
+if (posts.length === 0) {
+  console.log(`标签 "${tag}" 下没有文章，重定向到首页`)
+  return Astro.redirect('/')
+}
+
+const currentTag = posts[0].Tags.find((t) => t.name === tag)
 ---
 
-<Layout 
-  title={`分类: ${tag}`} 
-  description={`${tag}分类下的文章列表`} 
-  path={`/posts/tag/${encodedTag}`} 
+<Layout
+  title={`分类: ${tag}`}
+  description={`${tag}分类下的文章列表`}
+  path={`/posts/tag/${encodedTag}`}
   ogImage=""
   hideSidebar={true}
   breadcrumbs={[
@@ -57,7 +64,7 @@ const encodedTag = encodeURIComponent(tag);
     { label: `分类: ${tag}`, href: getTagLink(tag) }
   ]}
 >
-  <div class="blog-posts-container">
+  <div class="blog-posts-container" id="tag-posts-container">
     <header>
       <div class="tag-container">
         <span class={`tag ${currentTag?.color}`}>{tag}</span>
@@ -65,6 +72,17 @@ const encodedTag = encodeURIComponent(tag);
     </header>
 
     <div class="posts-grid">
+      {console.log('渲染文章列表，文章数量:', posts.length)}
+      {console.log('文章数据:', JSON.stringify(posts.map(post => ({
+        title: post.Title,
+        slug: post.Slug,
+        date: post.Date,
+        tags: post.Tags,
+        excerpt: post.Excerpt,
+        hasFeaturedImage: !!post.FeaturedImage,
+        hasCover: !!post.Cover,
+        hasFirstImage: !!post.FirstImage
+      })), null, 2))}
       {posts.length === 0 ? (
         <NoContents contents={posts} />
       ) : (
@@ -109,6 +127,15 @@ const encodedTag = encodeURIComponent(tag);
         e.stopPropagation();
       });
     });
+
+    // 检查分页链接是否正确
+    const paginationLinks = document.querySelectorAll('.pagination a');
+    paginationLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href) {
+        console.log('分页链接:', href);
+      }
+    });
   });
 </script>
 
@@ -149,7 +176,7 @@ const encodedTag = encodeURIComponent(tag);
     margin: 2rem 0;
     padding: 0 1rem;
   }
-  
+
   /* 重要：文章网格布局
    * 1. 固定三列布局，不要使用 auto-fit
    * 2. 内边距 1rem 确保与导航栏图标对齐
@@ -206,11 +233,11 @@ const encodedTag = encodeURIComponent(tag);
     transition: transform 0.3s ease;
     border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
   }
-  
+
   .blog-post:hover .blog-post-image :global(img) {
     transform: scale(1.05);
   }
-  
+
   /* 内容区域 */
   .blog-post-content {
     padding: 1.5rem;
