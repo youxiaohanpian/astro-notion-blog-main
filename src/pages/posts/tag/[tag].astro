@@ -119,14 +119,8 @@ const currentTag = posts[0].Tags.find((t) => t.name === tag)
 </Layout>
 
 <script>
+  // 处理标签链接的点击事件，防止触发卡片链接
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('页面加载完成，标签页首页信息:', {
-      tag,
-      currentPage: 1,
-      totalPages: numberOfPages,
-      postsCount: posts.length
-    });
-
     // 为所有标签链接添加点击事件，阻止事件冒泡
     document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
       tag.addEventListener('click', (e) => {
@@ -146,20 +140,179 @@ const currentTag = posts[0].Tags.find((t) => t.name === tag)
 </script>
 
 <style>
+  /* 重要：容器不要设置内边距，让内部的 posts-grid 来控制边距
+   * 这样可以确保文章网格与导航栏的图标对齐
+   * 修改时注意不要随意添加 padding
+   */
   .blog-posts-container {
     padding: 0;
     max-width: 1200px;
     margin: 0 auto;
   }
 
+  .tag-container {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.3rem 1.5rem;/* 增加水平内边距 */
+    border-radius: 9999px !important; /* 使用更大的圆角值 */
+    font-weight: 400;
+    min-width: 40px;/* 确保最小宽度 */
+    text-align: center;/* 文字居中 */
+    color: #333 !important; /* 文字颜色统一为深灰色 */
+    background-color: #fefefe
+  }
+
+  /* 分页容器样式 */
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 2rem 0;
+    padding: 0 1rem;
+  }
+
+  /* 重要：文章网格布局
+   * 1. 固定三列布局，不要使用 auto-fit
+   * 2. 内边距 1rem 确保与导航栏图标对齐
+   * 3. 响应式断点：
+   *    - 1024px 以下：两列
+   *    - 768px 以下：单列
+   * 修改时注意保持这些布局规则
+   */
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 0;
     padding: 0;
   }
 
+  /* 文章卡片样式
+   * 1. 保持圆角和阴影效果
+   * 2. 悬停效果：轻微上浮
+   */
+  .blog-post {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-post:hover {
+    transform: translateY(-4px);
+  }
+
+  .blog-post-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* 图片容器固定高度，保持一致性 */
+  .blog-post-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .blog-post-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
+  }
+
+  .blog-post:hover .blog-post-image :global(img) {
+    transform: scale(1.05);
+  }
+
+  /* 内容区域 */
+  .blog-post-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .blog-post-header {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* 重要：文章标题样式
+   * 1. 固定字体大小 16px
+   * 2. 保持字体粗细和行高
+   * 3. 悬停效果：颜色加深和文字阴影
+   * 修改时注意保持这些字体规范
+   */
+  .blog-post-header :global(.post-title) {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 0.2rem 0;
+  }
+
+  .blog-post-header :global(.post-title a) {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .blog-post:hover .blog-post-header :global(.post-title a) {
+    color: #000;
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+  }
+
+  /* 标签样式调整 */
+  .blog-post-tags {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -0.6em; /*圆角看起来偏右，所以改一下左间距达到视觉平衡 */
+  }
+
+  .blog-post-tags :global(.post-tag) {
+    margin: 0;
+    font-size: 12px;
+    padding: 0.25rem 0.75rem;
+    background: #f5f5f5;
+    border-radius: 50%;
+    color: #666;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem; /* 确保最小宽度 */
+    height: 1.5rem; /* 固定高度 */
+  }
+
+  /* 重要：文章内容样式
+   * 1. 固定字体大小 14px
+   * 2. 保持行高和颜色
+   * 修改时注意保持这些字体规范
+   */
+  .blog-post-body {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-top: auto;
+  }
+
+  /* 响应式布局断点
+   * 注意：不要随意修改这些断点值
+   */
   @media (max-width: 1024px) {
     .posts-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -172,82 +325,22 @@ const currentTag = posts[0].Tags.find((t) => t.name === tag)
     }
   }
 
-  .tag-container {
-    margin: 1.5rem 0;
-    text-align: center;
+  /* 系统字体设置 */
+  :root {
+    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   }
 
-  .tag {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-weight: 600;
+  /* 系统字体检测 */
+  @supports (font: -apple-system-body) {
+    .blog-post-header :global(.post-title), .blog-post-body {
+      font-family: "PingFang SC", var(--font-family-sans);
+    }
   }
 
-  .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-  }
-
-  .blog-post {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
-
-  .blog-post:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  }
-
-  .blog-post-link {
-    display: block;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .blog-post-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .blog-post-image :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  .blog-post:hover .blog-post-image :global(img) {
-    transform: scale(1.05);
-  }
-
-  .blog-post-content {
-    padding: 1.5rem;
-  }
-
-  .blog-post-header {
-    margin-bottom: 1rem;
-  }
-
-  .blog-post-header :global(.post-title) {
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.4;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .blog-post-tags {
-    margin-bottom: 1rem;
-  }
-
-  .blog-post-body {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.6;
+  @supports (-ms-ime-align: auto) {
+    .blog-post-header :global(.post-title), .blog-post-body {
+      font-family: "Microsoft YaHei", var(--font-family-sans);
+    }
   }
 </style>
