@@ -1,8 +1,8 @@
 name: Deploy
 
 on:
-  #schedule:
-  #  - cron: '5 23 * * 0' # 08:05(Mon) JST
+  schedule:
+    -   cron: '30 2 * * 0' # # 对应 分 时 日 月 星期，30 23 * * *：每天 23:30 UTC（北京时间 7:30 第二天）北京时间 = UTC 时间 + 8 小时23 + 8 = 31-24=7
   workflow_dispatch:
 
 jobs:
