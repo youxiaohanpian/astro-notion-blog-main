@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   schedule:
-    -   cron: '30 2 * * 0' # # 对应 分 时 日 月 星期，30 23 * * *：每天 23:30 UTC（北京时间 7:30 第二天）北京时间 = UTC 时间 + 8 小时23 + 8 = 31-24=7
+    - cron: '00 23 * * 1,3,5'  # UTC 每周一、三、五 23:00 → 北京时间每周二、四、六 7:00
   workflow_dispatch:
 
 jobs:
@@ -11,4 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: curl
-        run: curl -X POST '${{ secrets.DEPLOY_HOOK_URL }}'
+        run: |
+          curl -X POST \
+          -H "Content-Type: application/json" \
+          -d '{}' \
+          '${{ secrets.DEPLOY_HOOK_URL }}'
