@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /404
+Disallow: /secret-page
+# 可根据实际情况添加更多需要禁止的路径
+# Disallow: /admin
+# Disallow: /tmp
+
+# 如果有sitemap，建议添加
+Sitemap: https://www.ai233.top/api/sitemap.xml

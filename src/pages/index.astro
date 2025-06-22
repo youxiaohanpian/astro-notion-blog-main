@@ -5,7 +5,7 @@ import { getTagLink } from '../lib/blog-helpers';
 import type { Post } from '../lib/interfaces';
 
 const posts = await getAllPosts();
-const latestPosts = posts.slice(0, 6); // 只显示最新的6篇文章
+const latestPosts = posts.slice(0, 6); // 只显示最新的6篇日志
 const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => tag.name)))];
 ---
 
@@ -24,7 +24,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
         <h1 class="hero-title">Explore The Infinite Possibilities</h1>
         <p class="hero-subtitle">探索、创造、分享</p>
         <a href="/blog" class="cta-button">
-          浏览所有文章
+          浏览所有日志
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -60,15 +60,17 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       <!-- 关于我 -->
       <section class="content-section about">
         <div class="glass-container">
-          <h2>关于我</h2>
-          <p>热爱技术，热爱生活。在这里，会分享我的技术学习心得、项目经验以及生活感悟。</p>
+          <h2>「云端邮局」星际广播</h2>
+          <p>🎨 欢迎收听第 233 号飞船站传来的讯息</p>
+          <p>🤖 由设计师亲手改造的 Notion 星际飞船日志舱</p>
+          <p>🚀 设计生存指南 / AI魔法咒语 / 以及如何在数字宇宙避免被 BUG 外星人绑架的实战手册 </p>
         </div>
       </section>
 
-      <!-- 最新文章 -->
+      <!-- 最新日志 -->
       <section class="content-section latest-posts">
         <div class="glass-container">
-          <h2>最新文章</h2>
+          <h2>最新日志</h2>
           <div class="posts-grid">
             {latestPosts.map((post: Post) => (
               <article class="post-card">
@@ -88,7 +90,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
             ))}
           </div>
           <div class="view-more">
-            <a href="/blog" class="cta-button">浏览所有文章
+            <a href="/blog" class="cta-button">浏览所有日志
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -275,7 +277,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   .about p {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: #ffffff;
+    color: #ffffff99;
     max-width: 800px;
     margin: 0 auto;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -296,15 +298,15 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 保持阴影效果 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 保持阴影效果 */
   }
 
   .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     background: rgba(255, 255, 255, 0.15); /* 恢复悬停时的水晶效果 */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .post-card a {
@@ -316,17 +318,17 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
 
   .post-card h3 {
     font-size: 1.2rem;
-    margin-bottom: 0.8rem;
+    margin-top: 0.85rem;
     color: #ffffff;
     line-height: 1.4;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 保持文字阴影增强 */
-    font-weight: 600; /* 保持字重 */
+    font-weight: 400; /* 保持字重 */
   }
 
   .post-excerpt {
-    color: #ffffff;
+    color: #ffffff99;
     margin-bottom: 1.2rem;
-    line-height: 1.5;
+    line-height: 1.05;
     font-size: 0.95rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
