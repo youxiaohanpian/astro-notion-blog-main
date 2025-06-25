@@ -48,7 +48,7 @@ const siteOGImage = new URL(
 
 // 是否为文章详情页
 const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
-// 是否为所有文章列表页
+// 是否为所有日志列表页
 const isBlogListPage = path === '/blog' || path.startsWith('/blog/') || path.startsWith('/posts/page/') || path.startsWith('/posts/tag/');
 
 // 首先检查是否有文章封面图
@@ -201,7 +201,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
               </a>
               
               <span class="breadcrumb-separator">/</span>
-              <a href="/blog" class="breadcrumb-item">所有文章</a>
+              <a href="/blog" class="breadcrumb-item">所有日志</a>
               
               {isPostDetail && (
                 <>

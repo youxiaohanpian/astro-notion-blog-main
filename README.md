@@ -239,7 +239,7 @@ class PinyinTranslationService implements TranslationService {
 ```astro
 <Layout 
   title="文章分类" 
-  description="查看所有文章分类" 
+  description="查看所有日志分类" 
   path="/categories" 
   ogImage="" 
   breadcrumbs={[
