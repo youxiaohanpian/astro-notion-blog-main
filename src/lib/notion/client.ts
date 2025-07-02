@@ -1220,12 +1220,16 @@ function _buildPost(pageObject: responses.PageObject): Post {
     slug = generateSlugFromTitleSync(title);
   }
 
+  const safeSlug = slug
+    ? encodeURIComponent(slug)
+    : (pageObject.id ? `post-${pageObject.id}` : `post-unknown`);
+
   const post: Post = {
     PageId: pageObject.id,
     Title: title,
     Icon: icon,
     Cover: cover,
-    Slug: slug,
+    Slug: safeSlug,
     Date: prop.Date.date ? prop.Date.date.start : '',
     Tags: prop.Tags.multi_select ? prop.Tags.multi_select : [],
     Excerpt:
