@@ -1,5 +1,13 @@
 # 构建指南
 
+根目录 .env / .env.local 的配置环境：
+```
+# CUSTOM_DOMAIN=www.ai233.top  #此条在本地时隐藏，但需要在vercel和github中配置原因是更适合seo的优化，否则会默认抓取vercel为首页地址
+# BASE_PATH=/ #此条同上
+NOTION_API_SECRET=ntn_XXXXXXXXXXXXXXXXXXXXXXXXXXX #替换成你的
+DATABASE_ID=XXXXXXXXXXXXXXXXXXXXXXXXXXX #替换成你的
+```
+
 ## 环境要求
 - Node.js 18.0.0 或更高版本
 - npm 8.0.0 或更高版本

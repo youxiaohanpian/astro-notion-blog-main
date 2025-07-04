@@ -7,7 +7,7 @@ on:
 
 jobs:
   curl:
-    name: Kick deploy hook
+    name: Kick Vercel Deploy Hook
     runs-on: ubuntu-latest
     steps:
       - name: curl
@@ -15,4 +15,4 @@ jobs:
           curl -X POST \
           -H "Content-Type: application/json" \
           -d '{}' \
-          '${{ secrets.DEPLOY_HOOK_URL }}'
+          "${{ secrets.DEPLOY_HOOK_URL }}" # 即使没有特殊字符也建议统一使用双引号

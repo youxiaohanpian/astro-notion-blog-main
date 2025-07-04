@@ -84,9 +84,22 @@ p {
   color: var(--text-color);
 }
 
-a {
-  color: #FFA220; /* 橙色链接 */
-  text-decoration: none;
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea,
+[tabindex] {
+    -ms-touch-action: manipulation; /* 兼容 IE/Edge 旧版 */
+    touch-action: manipulation;     /* 兼容现代浏览器（Firefox 52+、Safari 13+、Chrome等） */
+}
+
+.immersive-translate-link {
+    user-select: none;              /* 标准写法，现代浏览器 */
+    -webkit-user-select: none;      /* 兼容 Safari 3+、iOS Safari */
 }
 
 /* 默认链接悬停效果 */

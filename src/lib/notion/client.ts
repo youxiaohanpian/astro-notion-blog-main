@@ -1371,3 +1371,17 @@ export async function getPostLikes(pageId: string): Promise<number> {
     throw error;
   }
 }
+
+export async function getAllPostsSorted(): Promise<Post[]> {
+  const allPosts = await getAllPosts();
+  return allPosts.sort((a, b) => {
+    if (a.Rank !== b.Rank) {
+      // Rank大的优先，Rank=0的排后面
+      if (a.Rank === 0) return 1;
+      if (b.Rank === 0) return -1;
+      return b.Rank - a.Rank;
+    }
+    // Rank相同按时间倒序
+    return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+  });
+}

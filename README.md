@@ -2,9 +2,18 @@
 
 [中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
 
+# Astro Notion Blog 增强版
+
+[中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
+
 ## 快速开始
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
+
+修改：verson.json 的 CSP 内容
+自身、Notion 资源、Google Analytics 域名、Vercel Insights 域名
+其它第三方如有用到（比如评论、CDN），后续可随时补充
+用浏览器 F12 → Network → Response Headers 检查 CSP 是否生效
 
 ## 环境要求
 
@@ -32,10 +41,7 @@
 
 ### 环境变量配置
 1. 创建 `.env.local` 文件（不要提交到 Git）：
-```env
-NOTION_API_SECRET=your_notion_api_secret
-DATABASE_ID=your_database_id
-```
+
 
 2. 环境变量加载说明：
    - 开发环境（`npm run dev`）：自动加载 `.env.local`
@@ -106,12 +112,12 @@ DATABASE_ID=your_database_id
 
 ## 主要特性与改进
 
-### 1. 统一圆角设计
+### 统一圆角设计
 - 所有组件圆角统一为4px（表格、引用、Callout、代码块、图片和书签）
 - 添加轻微阴影效果，提升视觉层次感
 - 优化悬停状态，增强交互体验
 
-### 2. 博客卡片优化
+### 博客卡片优化
 - 移除"阅读更多"按钮，整个卡片可点击
 - 优化标签布局与样式
 - 改进响应式设计，提升移动端体验
@@ -129,48 +135,52 @@ DATABASE_ID=your_database_id
   - 可以删除 Cover 字段，系统会自动降级使用 FirstImage
   - 建议至少上传一张图片，以提升文章展示效果
 
-### 3. 文章导航改进
+### 文章导航改进
 - 优化导航布局：上一篇在左侧，下一篇在右侧
 - 添加精美悬停效果（微弱上浮与阴影增强）
 - 优化文本对齐（上一篇左对齐，下一篇右对齐）
 - 确保在所有设备上均有良好显示效果
 
-### 4. 文章详情页优化
+### 文章详情页优化
 - 调整时间显示位置至标题下方，与首页保持一致
 - 统一标签样式与交互效果
 - 优化移动端菜单按钮，滚动时保持固定位置
 
-### 5. Notion 块样式优化
+### Notion 块样式优化
 - Callout块添加圆角效果，提升视觉美感
 - Quote块增加右侧圆角与轻微背景色
 - Code块增强复制按钮悬停效果与自定义滚动条
 - Image块添加圆角与阴影效果，提升整体质感
 
-### 6. 类型安全增强
+### 类型安全增强
 - 为所有组件添加类型检查，确保Notion块存在
 - 添加类型保护函数，提高代码健壮性
 - 修复多处类型错误，符合TypeScript最佳实践
 
-### 7. 本地化优化
+### 本地化优化
 - 界面文本中文化，提升中文用户体验
 - 优化字体配置，完美支持中文显示
 
-### 8. 面包屑导航
+### 面包屑导航
 - 在搜索按钮旁添加面包屑导航，清晰指示当前位置
 - 提供简单API允许每个页面定义自己的面包屑路径
 - 小屏幕上自动隐藏首页文本，仅显示图标，节省空间
 - 设计风格与整体UI一致，包括悬停效果和圆角设计
 
-### 9. 自动生成 Slug
-- 自动从标题生成Slug，无需手动设置
-- 支持中文标题自动翻译为英文并生成适当Slug
-- 实现多种翻译服务支持，失败时自动切换备用服务
-- 本地拼音转换作为最终备用方案，确保离线时也能生成有意义的Slug
-- 优化Slug长度，确保URL简洁易读
-- 允许删除Notion数据表中的Slug字段，系统会自动处理
+### Slug 必填选项
+- 尝试自动构建Slug，但中文的支持不是很好
+- 需要手动在 notion 里填写英文
+
+### 日志置顶排序规则
+- 支持 Notion 数据库的 Rank 字段实现日志置顶排序。
+- Rank 填写大于 0 的数字，数字越大越靠前（更置顶）。
+- 没填 Rank 或 Rank=0 的文章，排在所有有 Rank 的文章后面，按发布时间倒序排列。
+- 例如：Rank=3 > Rank=2 > Rank=1 > 没填/Rank=0。
+- 只填一篇 Rank=1，其它都不填，则该篇置顶；有 Rank=2、Rank=1，则 2 置顶、1 次之，其它按时间倒序。
 
 ## notion 表格字段
 Page、Tags、Date、Excerpt、FeaturedImage、Published、Rank、Slug
+
 ## 扩展与自定义指南
 
 ### 如何修改或扩展翻译服务
@@ -283,6 +293,7 @@ class PinyinTranslationService implements TranslationService {
 
 与原项目保持一致，本项目采用 [MIT 许可证](LICENSE)。
 
+
 ---
 
 # Astro Notion Blog Enhanced Version
@@ -348,13 +359,18 @@ This project is an enhanced and optimized version based on the original [Astro N
 - Automatically hides homepage text on small screens, showing only icons to save space
 - Design style consistent with overall UI, including hover effects and border radius
 
-### 9. Automatic Slug Generation
-- Automatically generates slugs from titles, eliminating manual setup
-- Supports automatic translation of Chinese titles to English for appropriate slugs
-- Implements multiple translation services with automatic fallback when one fails
-- Local Pinyin conversion as final fallback, ensuring meaningful slugs even offline
-- Optimized slug length for concise, readable URLs
-- Allows removal of Slug field in Notion database as system handles it automatically
+### 9. Slug Requirement
+- Attempts to auto-generate slugs, but Chinese support is not perfect
+- **You need to manually fill in the English slug in Notion**
+- If the slug is empty, the system will use the Notion page ID as a fallback to ensure valid links
+- Other features remain unchanged
+
+### 10. Post Pinning & Sorting Rules
+- Supports pinning posts using the Rank field in your Notion database.
+- Posts with a Rank greater than 0 are pinned to the top; higher numbers appear first (higher priority).
+- Posts without a Rank or with Rank=0 are listed after all pinned posts, sorted by publish date (newest first).
+- Example: Rank=3 > Rank=2 > Rank=1 > no Rank/Rank=0.
+- If only one post has Rank=1 and others are empty, that post is pinned; if there are posts with Rank=2 and Rank=1, 2 is pinned first, then 1, then the rest by date.
 
 ## Extension & Customization Guide
 
@@ -521,13 +537,18 @@ Consistent with the original project, this project is licensed under the [MIT Li
 - 小さな画面ではホームページテキストを自動的に非表示にし、スペースを節約するためにアイコンのみを表示
 - ホバー効果や角丸を含む全体的なUIと一貫したデザインスタイル
 
-### 9. 自動スラグ生成
-- タイトルから自動的にスラグを生成し、手動設定を不要に
-- 中国語タイトルを英語に自動翻訳し、適切なスラグを生成
-- 複数の翻訳サービスを実装し、一つが失敗すると自動的にフォールバック
-- 最終的なフォールバックとしてのローカルピンイン変換により、オフラインでも意味のあるスラグを確保
-- 簡潔で読みやすいURLのためのスラグ長の最適化
-- システムが自動的に処理するため、NotionデータベースのSlugフィールドの削除が可能
+### 9. スラグ必須項目
+- スラグの自動生成を試みますが、中国語のサポートは完全ではありません
+- **Notionで英語のスラグを手動で入力する必要があります**
+- スラグが空の場合は、NotionページIDを使って有効なリンクを保証します
+- その他の機能は変更ありません
+
+### 10. 記事のピン留め・並び替えルール
+- Notion データベースの Rank フィールドで記事のピン留め（上部表示）が可能です。
+- Rank に 0 より大きい数字を入力すると、その記事が上部に表示され、数字が大きいほど優先度が高くなります。
+- Rank を入力しない、または Rank=0 の記事は、すべてのピン留め記事の後ろに公開日（新しい順）で表示されます。
+- 例: Rank=3 > Rank=2 > Rank=1 > 未入力/Rank=0。
+- 1件だけ Rank=1 を入力し他は空欄の場合、その記事がピン留めされます。Rank=2 と Rank=1 の記事がある場合は、2が最上位、次に1、残りは公開日順です。
 
 ## 拡張とカスタマイズガイド
 

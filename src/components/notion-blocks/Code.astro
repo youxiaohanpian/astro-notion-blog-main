@@ -42,20 +42,16 @@ const grammer =
 
 <div class="code">
   <div>
+    <!-- 使 mermaid 代码块支持 copy -->
+    <div>
+      <button class="copy" data-code={code} data-done-text="Copied!">
+        Copy
+      </button>
+    </div>
     {
-      /* prettier-ignore */
-      language === 'mermaid' ? (
-        <pre class="mermaid">{code}</pre>
-      ) : (
-        <>
-          <div>
-            <button class="copy" data-code={code} data-done-text="Copied!">
-              Copy
-            </button>
-          </div>
-          <pre><code set:html={Prism.highlight(code, grammer, language)} /></pre>
-        </>
-      )
+      language === 'mermaid'
+        ? <pre class="mermaid">{code}</pre>
+        : <pre><code set:html={Prism.highlight(code, grammer, language)} /></pre>
     }
   </div>
   <Caption richTexts={block.Code.Caption} />

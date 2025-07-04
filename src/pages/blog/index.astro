@@ -1,7 +1,7 @@
 ---
 import type { Post, SelectProperty } from '../../lib/interfaces'
 import {
-  getPostsByPage,
+  getAllPostsSorted,
   getRankedPosts,
   getAllTags,
   getNumberOfPages,
@@ -31,7 +31,7 @@ const database = await getDatabase()
 // 3. 获取所有标签
 // 4. 获取总页数
 const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
-  getPostsByPage(1),
+  getAllPostsSorted(),
   getRankedPosts(),
   getAllTags(),
   getNumberOfPages(),
