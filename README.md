@@ -2,10 +2,6 @@
 
 [中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
 
-# Astro Notion Blog 增强版
-
-[中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
-
 ## 快速开始
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
