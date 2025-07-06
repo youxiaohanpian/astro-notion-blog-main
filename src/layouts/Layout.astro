@@ -255,8 +255,9 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     {ENABLE_LIGHTBOX && (
       <script src={getStaticFilePath('/scripts/fslightbox.js')} />
     )}
-
+    <script type="module" src="/scripts/sw-register.js"></script>
     <script>
+      //处理界面交互
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
           tag.addEventListener('click', (e) => {
@@ -592,8 +593,8 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
   /* "/"分隔符的颜色设置得更浅了。 */
   .breadcrumb-separator {
-    color: rgba(0, 0, 0, 0.08);/* 分隔符的颜色设置得更浅了。 */
-    margin: 0 0.2rem;
+    color: rgba(0, 0, 0, 0.2);/* 分隔符的颜色设置得更浅了。 */
+    margin: 0;
   }
 
   .breadcrumb-item.home {

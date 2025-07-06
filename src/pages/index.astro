@@ -36,7 +36,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       </div>
       <video 
         class="hero-video" 
-        poster="/banner-poster.jpg" 
+        poster="/banner-poster.webp" 
         autoplay 
         muted 
         loop 
@@ -47,10 +47,9 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
         x5-video-player-fullscreen="true"
         preload="auto"
       >
-        <source src="/banner.mp4" type="video/mp4">
         <source src="/banner.webm" type="video/webm">
-        <source src="/banner.ogv" type="video/ogg">
-        <p>您的浏览器不支持HTML5视频。<a href="/banner.mp4">下载视频</a>观看。</p>
+        <source src="/banner.mp4" type="video/mp4">
+
       </video>
       <div class="hero-overlay"></div>
     </section>
@@ -568,13 +567,10 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     function checkVideoSupport() {
       // 创建测试视频元素
       const testVideo = document.createElement('video');
-      
-      // 检测MP4支持
-      const mp4Support = testVideo.canPlayType('video/mp4');
-      
       // 检测WebM支持
       const webmSupport = testVideo.canPlayType('video/webm');
-      
+      // 检测MP4支持
+      const mp4Support = testVideo.canPlayType('video/mp4');      
       // 如果两种主要格式都不支持，认为视频不受支持
       return !(mp4Support === '' && webmSupport === '');
     }

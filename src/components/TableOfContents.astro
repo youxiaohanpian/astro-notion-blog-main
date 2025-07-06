@@ -55,10 +55,9 @@ const hasHeadings = headings.length > 0
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </span>
-      <span class="toc-text">目录</span>
     </div>
     <div class="toc-container">
-      <div class="toc-header">目录</div>
+      <span class="toc-text">目录</span>
       <nav class="toc-nav">
         <ul class="toc-list">
           {headings.map(heading => {
@@ -88,6 +87,7 @@ const hasHeadings = headings.length > 0
     left: 10px;
     z-index: 100;
     transition: all 0.3s ease;
+    min-width: 200px;
     max-width: 250px;
   }
   
@@ -107,7 +107,7 @@ const hasHeadings = headings.length > 0
   }
   
   .table-of-contents.fixed {
-    top: 20px;
+    top: 50px;
   }
   
   .toc-toggle {
