@@ -121,7 +121,7 @@ vercel cache clean api/blocks/*
 | **HTTPS证书** | 完全正常 | 无警告 |
 
 ### 你的缓存方案价值（国内视角）
-```mermaid
+```
 pie
     title 国内用户图片加载来源
     "Cloudflare缓存" ： 75
