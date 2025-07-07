@@ -21,9 +21,11 @@ if (!block.Table) {
         block.Table.Rows.map((tableRow: interfaces.TableRow, j: number) => (
           <tr>
             {tableRow.Cells.map((cell: interfaces.TableCell, i: number) => {
+              // 修复：提前解构 block.Table，避免多次访问和类型警告
+              const { HasRowHeader, HasColumnHeader } = block.Table!;
               if (
-                (block.Table.HasRowHeader && i === 0) ||
-                (block.Table.HasColumnHeader && j === 0)
+                (HasRowHeader && i === 0) ||
+                (HasColumnHeader && j === 0)
               ) {
                 return (
                   <th>
