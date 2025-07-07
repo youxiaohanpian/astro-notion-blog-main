@@ -1,7 +1,7 @@
 /* 全局样式 */
 
 html {
-  scroll-padding-top: 80px; /* 等于导航栏高度 */
+  scroll-padding-top: 50px; /* 等于导航栏高度 */
   scroll-behavior: smooth; /* 平滑滚动 */
 }
 
