@@ -6,27 +6,26 @@
   "framework": "astro",
   "headers": [
     {
-      "source": "/(.*)", // 对所有路径生效的基础安全头
+      "source": "/(.*)", 
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" }, // 统一设置，避免重复
+        { "key": "X-Content-Type-Options", "value": "nosniff" }, 
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        // 合并 CSP 规则，保留必要的外部资源（Notion、Vercel 等）
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self' vercel.com ai233.top notion.so www.notion.so; " +
                    "script-src 'self' 'unsafe-inline' cdn.vercel-insights.com www.googletagmanager.com www.google-analytics.com; " +
                    "style-src 'self' 'unsafe-inline' notion.so www.notion.so; " +
-                   "img-src 'self' data: https: *.notion.so www.notion.so icons.notion.so images.notion.so www.google-analytics.com; " + // 新增自己网站+内联notion+所有 HTTPS 协议的外部域名（包括 Unsplash、AI 网站等可信平台）
+                   "img-src 'self' data: https: *.notion.so www.notion.so icons.notion.so images.notion.so www.google-analytics.com; " + 
                    "font-src 'self' data:; " +
                    "connect-src 'self' api.vercel.com vitals.vercel-insights.com notion.so www.notion.so www.google-analytics.com; " +
-                   "frame-ancestors 'none'; " + // 替代 X-Frame-Options: sameorigin，如需允许同域嵌入可改为 'self'
+                   "frame-ancestors 'none'; " + 
                    "object-src 'none'"
         }
       ]
     },
     {
-      "source": "/blog/(.*)", // 博客页面缓存策略
+      "source": "/blog/(.*)", 
       "headers": [
         {
           "key": "Cache-Control",
@@ -35,7 +34,7 @@
       ]
     },
     {
-      "source": "/", // 首页缓存策略（如果需要和全局不同）
+      "source": "/", 
       "headers": [
         {
           "key": "Cache-Control",
