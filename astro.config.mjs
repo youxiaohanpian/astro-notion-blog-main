@@ -7,7 +7,7 @@ import CustomIconDownloader from './src/integrations/custom-icon-downloader';
 import FeaturedImageDownloader from './src/integrations/featured-image-downloader';
 import FirstImageDownloader from './src/integrations/first-image-downloader';
 import PublicNotionCopier from './src/integrations/public-notion-copier';
-
+import securityHeaders from './src/middleware.js'; // 导入安全头集成
 // 加载环境变量
 import dotenv from 'dotenv';
 dotenv.config();
@@ -51,6 +51,7 @@ export default defineConfig({
     FeaturedImageDownloader(),
     FirstImageDownloader(),
     PublicNotionCopier(),
+    securityHeaders, // 直接引用，不需要括号
   ],
   vite: {
     define: {

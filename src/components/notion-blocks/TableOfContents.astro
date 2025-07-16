@@ -29,15 +29,13 @@ const { block, headings } = Astro.props
       return (
         <a
           href={heading ? `#${buildHeadingId(heading)}` : undefined}
-          class={`table-of-contents ${snakeToKebab(
+          className={`table-of-contents ${snakeToKebab(
             block?.TableOfContents?.Color ?? 'default'
           )} ${indentClass}`}
         >
-        >
           {heading?.RichTexts?.map(
-            (richText: interfaces.RichText) => richText.PlainText
+            (richText) => richText.PlainText
           ).join('') ?? ''}
-          ).join('')}
         </a>
       )
     })

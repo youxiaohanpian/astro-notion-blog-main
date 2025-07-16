@@ -94,7 +94,6 @@ export async function getAllPosts(): Promise<Post[]> {
 
   console.log('开始从 Notion API 获取文章列表');
   console.log('DATABASE_ID:', DATABASE_ID);
-
   const params: requestParams.QueryDatabase = {
     database_id: DATABASE_ID,
     filter: {
@@ -761,19 +760,19 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
       break
     case 'video':
       if (blockObject.video) {
-        const video: Video = {
+         const video: Video = {
           Caption: blockObject.video.caption?.map(_buildRichText) || [],
           Type: blockObject.video.type,
         }
         if (
           blockObject.video.type === 'external' &&
-          blockObject.video.external
-        ) {
+           blockObject.video.external
+         ) {
           video.External = { Url: blockObject.video.external.url }
-        }
+         }
         block.Video = video
-      }
-      break
+     }
+     break
     case 'image':
       if (blockObject.image) {
         const image: Image = {
@@ -816,16 +815,16 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
         block.File = file
       }
       break
-    case 'code':
-      if (blockObject.code) {
-        const code: Code = {
-          Caption: blockObject.code.caption?.map(_buildRichText) || [],
-          RichTexts: blockObject.code.rich_text.map(_buildRichText),
-          Language: blockObject.code.language,
+      case 'code':
+        if (blockObject.code) {
+          const code: Code = {
+            Caption: blockObject.code.caption?.map(_buildRichText) || [],
+            RichTexts: blockObject.code.rich_text.map(_buildRichText),
+            Language: blockObject.code.language,
+          }
+          block.Code = code
         }
-        block.Code = code
-      }
-      break
+        break
     case 'quote':
       if (blockObject.quote) {
         const quote: Quote = {
@@ -1134,25 +1133,34 @@ function _validPageObject(pageObject: responses.PageObject): boolean {
 }
 
 async function generateSlugIfNeeded(pageObject: responses.PageObject): Promise<string> {
-  const prop = pageObject.properties;
-  
-  // 获取标题
-  const title = prop.Page.title
-    ? prop.Page.title.map((richText) => richText.plain_text).join('')
-    : '';
+  try {
+    // 安全获取标题文本，只支持 english 标题
+    const title = pageObject.properties?.Page?.title
+      ?.map(richText => richText.plain_text)
+      .join('') || '';
     
-  // 如果 Slug 已存在，则使用现有的
-  if (prop.Slug.rich_text && prop.Slug.rich_text.length > 0) {
-    return prop.Slug.rich_text.map((richText) => richText.plain_text).join('');
-  } 
-  
-  // 否则，根据标题生成 slug
-  if (title) {
-    return await generateSlugFromTitle(title);
+    // 安全获取现有 Slug
+    const existingSlug = pageObject.properties?.Slug?.rich_text
+      ?.filter(rt => rt.plain_text.trim()) // 过滤空文本
+      .map(rt => rt.plain_text)
+      .join('');
+    
+    // 如果存在有效 Slug 则直接返回
+    if (existingSlug) {
+      return existingSlug;
+    }
+    
+    // 如果有标题则生成 Slug
+    if (title.trim()) {
+      return await generateSlugFromTitle(title);
+    }
+    
+    // 否则返回空字符串
+    return '';
+  } catch (error) {
+    console.error('生成 Slug 失败:', error);
+    return ''; // 发生错误时返回空字符串或根据需要处理
   }
-  
-  // 如果没有标题，返回空字符串
-  return '';
 }
 
 function _buildPost(pageObject: responses.PageObject): Post {
