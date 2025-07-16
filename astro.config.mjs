@@ -42,7 +42,7 @@ export default defineConfig({
   site: getSite(),
   base: env.BASE_PATH,
   output: 'static',
-  adapter: vercel(),
+  // adapter: vercel(), // ❌ 移除
   integrations: [
     icon(),
     CoverImageDownloader(),
