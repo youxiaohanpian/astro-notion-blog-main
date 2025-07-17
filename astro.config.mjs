@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
 import vercel from '@astrojs/vercel';
 import icon from 'astro-icon';
 import { env } from './scripts/load-env.js';
@@ -42,10 +41,10 @@ const getSite = function () {
 export default defineConfig({
   site: getSite(),
   base: env.BASE_PATH,
-  //output: 'static',
-  output: 'server', // 关键！必须是 server
-  adapter: node({ mode: 'standalone' }),  // 推荐用 standalone，适合大多数场景,中间件必须用SSR适配器
-  // adapter: vercel(), // ❌ 移除
+  output: 'static',
+  //output: 'server', // 关键！有中间件必须是 server
+  //adapter: node({ mode: 'standalone' }),  // 推荐用 standalone，适合大多数场景,中间件必须用SSR适配器
+  adapter: vercel(), // ❌ 移除
   integrations: [
     icon(),
     CoverImageDownloader(),
