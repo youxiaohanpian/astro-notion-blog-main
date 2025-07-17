@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 import vercel from '@astrojs/vercel';
 import icon from 'astro-icon';
 import { env } from './scripts/load-env.js';
@@ -41,7 +42,9 @@ const getSite = function () {
 export default defineConfig({
   site: getSite(),
   base: env.BASE_PATH,
-  output: 'static',
+  //output: 'static',
+  output: 'server', // 关键！必须是 server
+  adapter: node({ mode: 'standalone' }),  // 推荐用 standalone，适合大多数场景,中间件必须用SSR适配器
   // adapter: vercel(), // ❌ 移除
   integrations: [
     icon(),
@@ -51,6 +54,9 @@ export default defineConfig({
     FirstImageDownloader(),
     PublicNotionCopier(),
   ],
+  experimental: {
+    session: true, //新版 Astro 对 session 功能是实验性质，必须手动开启
+  },
   vite: {
     define: {
       'process.env.NOTION_API_SECRET': JSON.stringify(env.NOTION_API_SECRET),

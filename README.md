@@ -6,6 +6,9 @@
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
 
+20250717 增加中间件，导致静态无法部署，需要执行安装命令
+`npm install @astrojs/node`
+
 修改：verson.json 的 CSP 内容
 自身、Notion 资源、Google Analytics 域名、Vercel Insights 域名
 其它第三方如有用到（比如评论、CDN），后续可随时补充
