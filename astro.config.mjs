@@ -54,7 +54,7 @@ export default defineConfig({
     PublicNotionCopier(),
   ],
   experimental: {
-    session: true, //新版 Astro 对 session 功能是实验性质，必须手动开启
+    session: false, //新版 Astro 对 session 功能是实验性质，必须手动开启
   },
   vite: {
     define: {
