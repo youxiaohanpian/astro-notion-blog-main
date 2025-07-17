@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel/static';
 import icon from 'astro-icon';
 import { env } from './scripts/load-env.js';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
