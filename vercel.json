@@ -6,39 +6,46 @@
   "framework": "astro",
   "headers": [
     {
-      "source": "/(.*)", 
+      "source": "/assets/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" }, 
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/blog/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' vercel.com ai233.top notion.so www.notion.so; " +
-                   "script-src 'self' 'unsafe-inline' cdn.vercel-insights.com www.googletagmanager.com www.google-analytics.com; " +
-                   "style-src 'self' 'unsafe-inline' notion.so www.notion.so; " +
-                   "img-src 'self' data: https: *.notion.so www.notion.so icons.notion.so images.notion.so www.google-analytics.com; " + 
-                   "font-src 'self' data:; " +
-                   "connect-src 'self' api.vercel.com vitals.vercel-insights.com notion.so www.notion.so www.google-analytics.com; " +
-                   "frame-ancestors 'none'; " + 
-                   "object-src 'none'"
-        }
-      ]
-    },
-    {
-      "source": "/blog/(.*)", 
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/", 
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
+          "value": "default-src 'self' vercel.com ai233.top notion.so www.notion.so; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.vercel-insights.com www.googletagmanager.com www.google-analytics.com; style-src 'self' 'unsafe-inline' notion.so www.notion.so; img-src 'self' data: https: *.notion.so www.google-analytics.com; font-src 'self' data:; connect-src 'self' api.vercel.com vitals.vercel-insights.com notion.so www.notion.so www.google-analytics.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
         }
       ]
     }
@@ -50,4 +57,4 @@
       "destination": "/index.html"
     }
   ]
-}
+} 
