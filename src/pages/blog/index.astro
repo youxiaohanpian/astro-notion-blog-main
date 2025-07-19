@@ -30,12 +30,15 @@ const database = await getDatabase()
 // 2. 获取热门文章（用于侧边栏）
 // 3. 获取所有标签
 // 4. 获取总页数
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+const PAGE_SIZE = 12;
+const currentPage = 1;
+const [allPosts, rankedPosts, tags, numberOfPages] = await Promise.all([
   getAllPostsSorted(),
   getRankedPosts(),
   getAllTags(),
   getNumberOfPages(),
-])
+]);
+const posts = allPosts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
 // 为每篇文章提取第一张图片
 // 注意：这个步骤只在文章没有特色图片或封面图片时执行
