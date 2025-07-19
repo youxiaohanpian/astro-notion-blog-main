@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-// import vercel from '@astrojs/vercel'; // 移除 Vercel 适配器
+// import vercel from '@astrojs/vercel/static'; // 移除 Vercel 适配器
 import icon from 'astro-icon';
 import { env } from './scripts/load-env.js';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
@@ -7,7 +7,6 @@ import CustomIconDownloader from './src/integrations/custom-icon-downloader';
 import FeaturedImageDownloader from './src/integrations/featured-image-downloader';
 import FirstImageDownloader from './src/integrations/first-image-downloader';
 import PublicNotionCopier from './src/integrations/public-notion-copier';
-
 // 加载环境变量
 import dotenv from 'dotenv';
 dotenv.config();
@@ -43,7 +42,9 @@ export default defineConfig({
   site: getSite(),
   base: env.BASE_PATH,
   output: 'static', // 改为静态输出
-  // adapter: vercel(), // 移除适配器
+  //output: 'server', // 关键！有中间件必须是 server
+  //adapter: node({ mode: 'standalone' }),  // 推荐用 standalone，适合大多数场景,中间件必须用SSR适配器
+  // adapter: vercel(), // 移除适配器 // ❌ 移除
   integrations: [
     icon(),
     CoverImageDownloader(),
@@ -52,6 +53,9 @@ export default defineConfig({
     FirstImageDownloader(),
     PublicNotionCopier(),
   ],
+  experimental: {
+    session: false, //新版 Astro 对 session 功能是实验性质，必须手动开启
+  },
   vite: {
     define: {
       'process.env.NOTION_API_SECRET': JSON.stringify(env.NOTION_API_SECRET),

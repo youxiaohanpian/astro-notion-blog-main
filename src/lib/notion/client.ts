@@ -94,7 +94,6 @@ export async function getAllPosts(): Promise<Post[]> {
 
   console.log('开始从 Notion API 获取文章列表');
   console.log('DATABASE_ID:', DATABASE_ID);
-
   const params: requestParams.QueryDatabase = {
     database_id: DATABASE_ID,
     filter: {
@@ -761,19 +760,19 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
       break
     case 'video':
       if (blockObject.video) {
-        const video: Video = {
+         const video: Video = {
           Caption: blockObject.video.caption?.map(_buildRichText) || [],
           Type: blockObject.video.type,
         }
         if (
           blockObject.video.type === 'external' &&
-          blockObject.video.external
-        ) {
+           blockObject.video.external
+         ) {
           video.External = { Url: blockObject.video.external.url }
-        }
+         }
         block.Video = video
-      }
-      break
+     }
+     break
     case 'image':
       if (blockObject.image) {
         const image: Image = {
@@ -816,16 +815,16 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
         block.File = file
       }
       break
-    case 'code':
-      if (blockObject.code) {
-        const code: Code = {
-          Caption: blockObject.code.caption?.map(_buildRichText) || [],
-          RichTexts: blockObject.code.rich_text.map(_buildRichText),
-          Language: blockObject.code.language,
+      case 'code':
+        if (blockObject.code) {
+          const code: Code = {
+            Caption: blockObject.code.caption?.map(_buildRichText) || [],
+            RichTexts: blockObject.code.rich_text.map(_buildRichText),
+            Language: blockObject.code.language,
+          }
+          block.Code = code
         }
-        block.Code = code
-      }
-      break
+        break
     case 'quote':
       if (blockObject.quote) {
         const quote: Quote = {

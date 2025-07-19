@@ -99,7 +99,7 @@ summary,
 textarea,
 [tabindex] {
     -ms-touch-action: manipulation; /* 兼容 IE/Edge 旧版 */
-    touch-action: manipulation;     /* 兼容现代浏览器（Firefox 52+、Safari 13+、Chrome等） */
+    touch-action: manipulation;     /*'touch-action' to support Firefox 52+, Safari 13+.（Firefox 52+、Safari 13+、Chrome等） */
 }
 
 .immersive-translate-link {

@@ -1,10 +1,24 @@
-# Astro Notion Blog 增强版
+# Astro Notion Blog Enhanced
 
 [中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
 
 ## 快速开始
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
+
+### Update informations
+
+2025.07.19
+
+1. 将网站改回静态部署，回滚中间件，无需中间件
+2. 修复部分 css 兼容的问题
+3. 文章中插入目录问题的修正
+4. 移除like.ts，目前无需这个功能，点赞功能为假
+5. 分享改为复制链接+标题的形式
+6. searchModal 中修复中文搜索匹配问题，绑定在input上【重要】
+7. 网站语言改为：lang="zh-CN"
+8. 增加github建议的SECURITY.md
+
 
 修改：verson.json 的 CSP 内容
 自身、Notion 资源、Google Analytics 域名、Vercel Insights 域名
