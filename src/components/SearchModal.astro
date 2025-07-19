@@ -131,6 +131,8 @@
    * @property {string} [pubDate] - 发布日期（可选）
    */
 
+  let isComposing = false;
+
   document.addEventListener('DOMContentLoaded', async () => {
     /** @type {Array<FeedItem>} */
     let feedItems = [];
@@ -266,28 +268,23 @@
     function searchAndRender() {
       const searchInput = document.querySelector('.search-prompt input');
       if (!searchInput) return;
-      
-      const text = searchInput.value.trim();
 
+      const text = searchInput.value.trim().toLowerCase();
+
+      let results;
       if (text !== '') {
-        const results = search(text);
-        renderResults(results);
+        results = feedItems.filter(item =>
+          (item.title && item.title.toLowerCase().includes(text)) ||
+          (item.description && item.description.toLowerCase().includes(text))
+        );
+        console.log('搜索关键词:', text, '搜索结果数量:', results.length);
       } else {
-        renderResults(feedItems);
+        results = feedItems;
+        console.log('显示所有文章，数量:', feedItems.length);
       }
 
+      renderResults(results);
       selectFirst();
-    }
-
-    function search(query) {
-      /** @type {Array<FeedItem>} */
-      const results = [];
-      feedItems.forEach((item) => {
-        if (item.title.includes(query) || item?.description?.includes(query)) {
-          results.push(item);
-        }
-      });
-      return results;
     }
 
     function renderResults(results) {
@@ -318,22 +315,44 @@
     }
 
     async function fetchRSS() {
-      const url = new URL(location.href);
-      const port = url.port ? `:${url.port}` : '';
-
       try {
-        const res = await fetch(`/feed`);
+        console.log('正在获取 RSS feed...');
+        const res = await fetch(`/feed.xml`);
+        console.log('RSS feed 响应状态:', res.status);
+        
         if (res.status !== 200) {
-          console.log(res.status);
-          throw new Error('Failed to fetch RSS feed');
+          console.log('RSS feed 获取失败，状态码:', res.status);
+          // 尝试备用路径
+          const res2 = await fetch(`/feed`);
+          if (res2.status !== 200) {
+            throw new Error('Failed to fetch RSS feed from both paths');
+          }
+          const body = await res2.text();
+          console.log('使用备用路径成功获取 RSS feed');
+          parseRSSContent(body);
+          return;
         }
 
         const body = await res.text();
+        console.log('RSS feed 内容长度:', body.length);
+        parseRSSContent(body);
+        
+      } catch (error) {
+        console.error('Error fetching RSS feed:', error);
+        // 显示错误信息给用户
+        showErrorMessage('搜索功能暂时不可用，请稍后再试');
+      }
+    }
 
+    function parseRSSContent(body) {
+      try {
         const parser = new DOMParser();
         const xml = parser.parseFromString(body, 'text/xml');
 
-        Array.from(xml.getElementsByTagName('item')).forEach((item) => {
+        const items = xml.getElementsByTagName('item');
+        console.log('找到 RSS items 数量:', items.length);
+
+        Array.from(items).forEach((item) => {
           const titleElement = item.getElementsByTagName('title')[0];
           const linkElement = item.getElementsByTagName('link')[0];
           const descriptionElement = item.getElementsByTagName('description')[0];
@@ -349,9 +368,18 @@
           }
         });
 
+        console.log('成功加载文章数量:', feedItems.length);
         fetched = true;
       } catch (error) {
-        console.error('Error fetching RSS feed:', error);
+        console.error('解析 RSS 内容失败:', error);
+        showErrorMessage('解析搜索数据失败');
+      }
+    }
+
+    function showErrorMessage(message) {
+      const ul = document.querySelector('.search-result ul');
+      if (ul) {
+        ul.innerHTML = `<li><div style="padding: 1rem; text-align: center; color: #666;">${message}</div></li>`;
       }
     }
 
@@ -365,6 +393,42 @@
       overlay.addEventListener('click', closeModal);
     }
     
-    document.addEventListener('keydown', handleKeydown);
+    // 监听 composition 事件，保证中文输入体验
+    const searchInput = document.querySelector('.search-prompt input');
+    if (searchInput) {
+      searchInput.addEventListener('compositionstart', () => {
+        isComposing = true;
+      });
+      searchInput.addEventListener('compositionend', () => {
+        isComposing = false;
+        searchAndRender();
+      });
+      searchInput.addEventListener('input', () => {
+        if (!isComposing) {
+          searchAndRender();
+        }
+      });
+    }
+
+    // 移除原有 document.addEventListener('keydown', handleKeydown);
+    // 并将回车、上下键等事件绑定到 input 上
+    if (searchInput) {
+      searchInput.addEventListener('keydown', (event) => {
+        if (isComposing) return;
+        if (event.keyCode === 13) {
+          // Enter
+          select();
+        } else if (event.keyCode === 27) {
+          // ESC
+          closeModal();
+        } else if (event.keyCode === 38) {
+          // Up
+          selectUp(event);
+        } else if (event.keyCode === 40) {
+          // Down
+          selectDown(event);
+        }
+      });
+    }
   });
 </script>

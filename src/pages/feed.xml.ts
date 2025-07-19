@@ -16,4 +16,4 @@ export async function GET() {
       pubDate: new Date(post.Date),
     })),
   })
-}
+} 

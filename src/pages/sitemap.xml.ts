@@ -1,4 +1,4 @@
-import { getAllPosts } from '../../lib/notion/client';
+import { getAllPosts } from '../lib/notion/client';
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async () => {

@@ -9,63 +9,455 @@ export interface Props {
   headings: interfaces.Block[]
 }
 
-const { block, headings } = Astro.props
+const { headings } = Astro.props
+
+// 获取标题文本
+function getHeadingText(block: Block): string {
+  let text = ''
+  if (block.Type === 'heading_1' && block.Heading1) {
+    text = block.Heading1.RichTexts.map(rt => rt.Text?.Content || '').join('')
+  } else if (block.Type === 'heading_2' && block.Heading2) {
+    text = block.Heading2.RichTexts.map(rt => rt.Text?.Content || '').join('')
+  } else if (block.Type === 'heading_3' && block.Heading3) {
+    text = block.Heading3.RichTexts.map(rt => rt.Text?.Content || '').join('')
+  }
+  return text
+}
+
+// 获取标题对象
+function getHeadingObject(block: Block) {
+  if (block.Type === 'heading_1' && block.Heading1) {
+    return block.Heading1
+  } else if (block.Type === 'heading_2' && block.Heading2) {
+    return block.Heading2
+  } else if (block.Type === 'heading_3' && block.Heading3) {
+    return block.Heading3
+  }
+  return null
+}
+
+// 获取标题级别
+function getHeadingLevel(block: Block): number {
+  if (block.Type === 'heading_1') return 1
+  if (block.Type === 'heading_2') return 2
+  if (block.Type === 'heading_3') return 3
+  return 0
+}
+
+// 检查是否有标题
+const hasHeadings = headings.length > 0
 ---
 
-<div class="table-of-contents">
-  {
-    headings.map((headingBlock: interfaces.Block) => {
-      const heading =
-        headingBlock.Heading1 || headingBlock.Heading2 || headingBlock.Heading3
-
-      let indentClass = ''
-      if (headingBlock.Type === 'heading_2') {
-        indentClass = 'indent-1'
-      } else if (headingBlock.Type === 'heading_3') {
-        indentClass = 'indent-2'
-      }
-
-      // Render anchor for each heading in the table of contents
-      return (
-        <a
-          href={heading ? `#${buildHeadingId(heading)}` : undefined}
-          class={`table-of-contents ${snakeToKebab(
-            block?.TableOfContents?.Color ?? 'default'
-          )} ${indentClass}`}
-        >
-        >
-          {heading?.RichTexts?.map(
-            (richText: interfaces.RichText) => richText.PlainText
-          ).join('') ?? ''}
-          ).join('')}
-        </a>
-      )
-    })
-  }
-</div>
+{hasHeadings && (
+  <div id="table-of-contents" class="table-of-contents collapsed">
+    <div class="toc-toggle">
+      <span class="toc-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </span>
+    </div>
+    <div class="toc-container">
+      <span class="toc-text">目录</span>
+      <nav class="toc-nav">
+        <ul class="toc-list">
+          {headings.map(heading => {
+            const text = getHeadingText(heading)
+            const headingObj = getHeadingObject(heading)
+            const slug = headingObj ? buildHeadingId(headingObj) : ''
+            const level = getHeadingLevel(heading)
+            
+            return (
+              <li class={`toc-item toc-level-${level}`}>
+                <a href={`#${slug}`} class="toc-link">
+                  {text}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+    </div>
+  </div>
+)}
 
 <style>
-  .table-of-contents {
-    top: 50px; 
-  }
-  .table-of-contents > a {
-    top: 50px;
-    display: block;
-    line-height: 1.8rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: underline;
-    background: rgba(249, 249, 249, 0); /* 默认透明背景 */
-    transition: background 0.2s ease; /*  添加过渡效果 */
-    --indent-size: 1.5rem;
+.table-of-contents {
+  position: fixed;
+  top: 50px;
+  left: 10px;
+  z-index: 100;
+  transition: all 0.3s ease;
+  max-width: 250px;
 }
-  .table-of-contents > a:hover {
-    outline: 2px solid rgba(240, 240, 240, 1);
+
+/* 折叠状态（JS控制添加/移除此类） */
+.table-of-contents.collapsed .toc-container {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-20px);
+}
+
+.table-of-contents.collapsed .toc-toggle {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.table-of-contents.collapsed .toc-text {
+  display: none;
+}
+
+/* 固定状态（JS滚动时添加） */
+.table-of-contents.fixed {
+  top: 50px;
+}
+
+/* 切换按钮 */
+.toc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(230, 230, 230, 0.8);
+  width: fit-content;
+  min-width: 16px;
+}
+
+.toc-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+.toc-toggle:hover .toc-text {
+  display: inline-block;
+}
+
+.toc-icon {
+  display: flex;
+  align-items: center;
+  color: #555;
+}
+
+.toc-text {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #444;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+}
+
+/* 鼠标悬停时显示文本（配合JS的mouseenter事件） */
+.table-of-contents:not(.collapsed) .toc-text {
+  opacity: 1;
+  transform: translateX(0);
+  display: inline-block;
+}
+
+/* 目录容器（默认隐藏，通过JS移除collapsed类显示） */
+.toc-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(230, 230, 230, 0.8);
+  padding: 1rem;
+  transition: all 0.3s ease;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  min-width: 200px;
+  /* 默认隐藏，由JS通过移除collapsed类控制显示 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-20px);
+}
+
+/* 移除collapsed类时显示目录（与JS的mouseenter事件配合） */
+.table-of-contents:not(.collapsed) .toc-container {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* 目录内容样式 */
+.toc-header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #eee;
+  color: #444;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  margin: 0.4rem 0;
+  padding-left: 0!important; 
+}
+
+/* 原生CSS写法 */
+.toc-level-1 {
+  font-weight: 500;
+  padding-left: 0; /* 一级目录无缩进 */
+  margin-top: 0.3rem; /* 一级目录间的垂直间距 */*/
+}
+
+.toc-level-1:first-child {
+  margin-top: 0; /* 第一个目录项移除顶部间距 */
+}
+
+.toc-level-2 {
+  padding-left: 1rem;
+  font-size: 0.85rem;
+  margin-top: 0.2rem; /* 新增：子项顶部轻微间距，保持层级感 */
+}
+
+.toc-level-3 {
+  padding-left: 1.5rem;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.1rem; /* 新增：孙项顶部更小间距 */
+}
+
+.toc-link {
+  display: block;
+  color: #555;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-link:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: #111;
+}
+
+.toc-link.active {
+  color:#ffa220;
+  background-color: rgba(249, 249, 249);
+}
+
+/* 自定义滚动条 */
+.toc-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.toc-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.toc-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* 响应式设计（与JS的window.innerWidth判断配合） */
+@media (max-width: 1200px) {
+  .table-of-contents {
+    position: fixed;
+    top: 50px;
+    left: 10px;
+    max-width: 36px;
+    opacity: 0.7;
   }
-  .table-of-contents > a.indent-1 {
-    padding-left: var(--indent-size);
+  
+  .table-of-contents:not(.collapsed) {
+    opacity: 1;
   }
-  .table-of-contents > a.indent-2 {
-    padding-left: calc(var(--indent-size) * 2);
+  
+  .table-of-contents:not(.collapsed) .toc-container {
+    max-width: 250px;
+    max-height: 300px;
+    
   }
+  
+  .table-of-contents.expanded .toc-container {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-of-contents {
+    top: 50px;
+    left: 10px;
+  }
+  
+  .toc-container {
+    max-width: 220px;
+  }
+}
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const tocElement = document.getElementById('table-of-contents');
+  const tocToggle = tocElement?.querySelector('.toc-toggle');
+
+  if (tocElement) {
+      // 1. 设备类型判断
+      const isDesktop = () => window.innerWidth > 1200;
+      const isMobile = () => !isDesktop();
+
+      // 2. 初始化目录状态（展开/收起）
+      const initTocState = () => {
+          if (isDesktop()) {
+              tocElement.classList.remove('collapsed');
+          } else {
+              tocElement.classList.add('collapsed');
+          }
+      };
+      initTocState();
+      window.addEventListener('resize', initTocState);
+
+      // 3. 桌面端 hover 展开/收起
+      if (isDesktop()) {
+          tocElement.addEventListener('mouseenter', () => {
+              tocElement.classList.remove('collapsed');
+          });
+          tocElement.addEventListener('mouseleave', () => {
+              tocElement.classList.add('collapsed');
+          });
+      }
+
+      // 4. 移动端点击切换目录状态
+      if (tocToggle) {
+          tocToggle.addEventListener('click', () => {
+              tocElement.classList.toggle('collapsed');
+              tocElement.classList.toggle('expanded');
+          });
+      }
+
+      // 5. 工具函数：计算元素到文档顶部的绝对距离（解决嵌套定位问题）
+      const getElementTop = (element) => {
+          let top = 0;
+          while (element) {
+              top += element.offsetTop;
+              element = element.offsetParent;
+              if (element && element.tagName === 'BODY') {
+                  top -= element.clientTop; // 修正body边框影响
+              }
+          }
+          return top;
+      };
+
+      // 6. 工具函数：获取头部实际高度（用于滚动偏移）
+      const getHeaderHeight = () => {
+          const header = document.querySelector('.site-header');
+          return header ? header.offsetHeight : 0;
+      };
+
+      // 7. 目录链接点击逻辑（核心）
+      const tocLinks = tocElement.querySelectorAll('.toc-link');
+      let currentActiveLink = null; // 全局跟踪当前激活项
+      
+      tocLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetId = link.getAttribute('href')?.substring(1);
+              const targetElement = document.getElementById(targetId || '');
+
+              if (targetElement) {
+                  // 清除所有激活状态，激活当前点击项
+                  tocLinks.forEach(l => l.classList.remove('active'));
+                  link.classList.add('active');
+                  currentActiveLink = link;
+
+                  // 计算正确的滚动位置（绝对距离 - 头部高度）
+                  const targetTop = getElementTop(targetElement) - getHeaderHeight();
+                  window.scrollTo({
+                      top: targetTop,
+                      behavior: 'smooth'
+                  });
+
+                  // 更新URL
+                  history.pushState(null, '', `#${targetId}`);
+
+                  // 移动端点击后关闭目录
+                  if (isMobile()) {
+                      tocElement.classList.add('collapsed');
+                      tocElement.classList.remove('expanded');
+                  }
+              }
+          });
+      });
+
+      // 8. 滚动时固定目录位置
+      const header = document.querySelector('.site-header');
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+
+      const handleScroll = () => {
+          if (window.scrollY > headerHeight) {
+              tocElement.classList.add('fixed');
+          } else {
+              tocElement.classList.remove('fixed');
+          }
+      };
+      window.addEventListener('scroll', handleScroll);
+
+      // 9. 页面加载时处理锚点（如URL含#xxx）
+      setTimeout(() => {
+          if (window.location.hash) {
+              const targetId = window.location.hash.substring(1);
+              const targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                  // 滚动到锚点位置
+                  const targetTop = getElementTop(targetElement) - getHeaderHeight();
+                  window.scrollTo({
+                      top: targetTop,
+                      behavior: 'smooth'
+                  });
+                  // 激活对应目录项
+                  const targetLink = document.querySelector(`.toc-link[href="#${targetId}"]`);
+                  if (targetLink) {
+                      tocLinks.forEach(l => l.classList.remove('active'));
+                      targetLink.classList.add('active');
+                      currentActiveLink = targetLink;
+                  }
+              }
+          }
+      }, 300);
+
+      // 10. 滚动时自动高亮当前可见标题
+      const observer = new IntersectionObserver((entries) => {
+          const visibleEntry = entries.find(entry => entry.isIntersecting);
+          if (visibleEntry) {
+              const id = visibleEntry.target.getAttribute('id');
+              const targetLink = document.querySelector(`.toc-link[href="#${id}"]`);
+              if (targetLink && targetLink !== currentActiveLink) {
+                  tocLinks.forEach(l => l.classList.remove('active'));
+                  targetLink.classList.add('active');
+                  currentActiveLink = targetLink;
+              }
+          }
+      }, { 
+          rootMargin: '0px 0px -60% 0px', // 标题进入视口上40%区域即触发
+          threshold: 0.2
+      });
+
+      // 观察所有带ID的标题元素
+      document.querySelectorAll('h3[id], h4[id], h5[id]').forEach(heading => {
+          observer.observe(heading);
+      });
+  }
+});
+</script> 

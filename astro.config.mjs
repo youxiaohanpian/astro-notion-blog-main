@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel';
+// import vercel from '@astrojs/vercel'; // 移除 Vercel 适配器
 import icon from 'astro-icon';
 import { env } from './scripts/load-env.js';
 import CoverImageDownloader from './src/integrations/cover-image-downloader';
@@ -42,8 +42,8 @@ const getSite = function () {
 export default defineConfig({
   site: getSite(),
   base: env.BASE_PATH,
-  output: 'static',
-  adapter: vercel(),
+  output: 'static', // 改为静态输出
+  // adapter: vercel(), // 移除适配器
   integrations: [
     icon(),
     CoverImageDownloader(),

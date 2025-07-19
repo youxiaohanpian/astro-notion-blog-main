@@ -239,20 +239,9 @@ else if (post.FirstImage && post.FirstImage.Url) {
         const url = window.location.href;
         const title = document.title;
         
-        // 尝试使用现代分享API
-        if (navigator.share) {
-          navigator.share({
-            title: title,
-            url: url
-          }).catch(err => {
-            console.error('分享失败:', err);
-            // 如果分享API失败，回退到复制链接
-            copyToClipboard(url);
-          });
-        } else {
-          // 回退到复制链接
-          copyToClipboard(url);
-        }
+        // 复制网站标题+链接到剪贴板
+        const shareText = `${title}\n${url}`;
+        copyToClipboard(shareText, title);
       });
     }
 
@@ -294,22 +283,64 @@ else if (post.FirstImage && post.FirstImage.Url) {
   });
 
   // 复制到剪贴板的辅助函数
-  function copyToClipboard(text: string) {
+  function copyToClipboard(text: string, title: string) {
     navigator.clipboard.writeText(text).then(() => {
-      // 显示复制成功提示
+      // 显示复制成功提示，包含网站标题
       const tooltip = document.createElement('div');
       tooltip.className = 'copy-tooltip';
-      tooltip.textContent = '链接已复制到剪贴板';
+      tooltip.innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-weight: bold; margin-bottom: 4px;">链接已复制</div>
+          <div style="font-size: 12px; opacity: 0.9;">${title}</div>
+        </div>
+      `;
       document.body.appendChild(tooltip);
       
       // 3秒后移除提示
       setTimeout(() => {
         tooltip.classList.add('fade-out');
         setTimeout(() => document.body.removeChild(tooltip), 300);
-      }, 2000);
+      }, 3000);
     }).catch(err => {
       console.error('复制失败:', err);
+      // 回退方案：使用传统的复制方法
+      fallbackCopyToClipboard(text, title);
     });
+  }
+
+  // 回退复制方案
+  function fallbackCopyToClipboard(text: string, title: string) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      // 显示复制成功提示
+      const tooltip = document.createElement('div');
+      tooltip.className = 'copy-tooltip';
+      tooltip.innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-weight: bold; margin-bottom: 4px;">链接已复制</div>
+          <div style="font-size: 12px; opacity: 0.9;">${title}</div>
+        </div>
+      `;
+      document.body.appendChild(tooltip);
+      
+      setTimeout(() => {
+        tooltip.classList.add('fade-out');
+        setTimeout(() => document.body.removeChild(tooltip), 300);
+      }, 3000);
+    } catch (err) {
+      console.error('回退复制也失败了:', err);
+    }
+    
+    document.body.removeChild(textArea);
   }
 </script>
 
@@ -420,13 +451,17 @@ else if (post.FirstImage && post.FirstImage.Url) {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 12px 20px;
+    border-radius: 8px;
     font-size: 14px;
     z-index: 1000;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 200px;
   }
   
   .fade-out {
