@@ -10,7 +10,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics.astro'
 import SearchModal from '../components/SearchModal.astro'
 import SearchButton from '../components/SearchButton.astro'
 import BackToTop from '../components/BackToTop.astro'
-import GitHubIcon from '../components/GitHubIcon.astro'
+
 // 主要改进点
 // 错误处理: 在 URL 处理和异步操作中添加了错误处理，以确保在数据获取失败时不会导致页面崩溃。
 // 代码格式: 确保代码格式一致，易于阅读和维护
@@ -45,6 +45,9 @@ const siteOGImage = new URL(
   getStaticFilePath('/default-og-image.png'),
   Astro.site
 )
+const siteLaunchDate = new Date("2025-04-05"); // 你的网站上线日期
+const today = new Date();
+const daysOnline = Math.floor((today.getTime() - siteLaunchDate.getTime()) / (1000 * 60 * 60 * 24));
 
 // 是否为文章详情页
 const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
@@ -131,6 +134,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     <meta name="twitter:image" content={ogImage || siteOGImage} />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
@@ -234,16 +238,19 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         )}
       </div>
 
-      <footer class="site-footer">
+      <footer class={`site-footer ${path === '/' ? 'home-footer' : 'blog-footer'}`}>
         <div>
           <span>
-            &copy; {new Date().getFullYear()} {database.Title} All rights
-            reserved.
-            <a href="https://github.com/youxiaohanpian/" target="_blank" rel="noopener noreferrer" title="GitHub Repository"><GitHubIcon /></a>
+            &copy; {new Date().getFullYear()} {database.Title} · 轨道航行第 {daysOnline} 天 · All rights
+            reserved. 
+            <a href="https://github.com/youxiaohanpian/" target="_blank" rel="noopener noreferrer" title="GitHub Repository"class="github-link">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6c-3.3.3-5.6-1.3-5.6-3.6c0-2 2.3-3.6 5.2-3.6c3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9c2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9c.3 2 2.9 3.3 5.9 2.6c2.9-.7 4.9-2.6 4.6-4.6c-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2c12.8 2.3 17.3-5.6 17.3-12.1c0-6.2-.3-40.4-.3-61.4c0 0-70 15-84.7-29.8c0 0-11.4-29.1-27.8-36.6c0 0-22.9-15.7 1.6-15.4c0 0 24.9 2 38.6 25.8c21.9 38.6 58.6 27.5 72.9 20.9c2.3-16 8.8-27.1 16-33.7c-55.9-6.2-112.3-14.3-112.3-110.5c0-27.5 7.6-41.3 23.6-58.9c-2.6-6.5-11.1-33.3 2.6-67.9c20.9-6.5 69 27 69 27c20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27c13.7 34.7 5.2 61.4 2.6 67.9c16 17.7 25.8 31.5 25.8 58.9c0 96.5-58.9 104.2-114.8 110.5c9.2 7.9 17 22.9 17 46.4c0 33.7-.3 75.4-.3 83.6c0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252C496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2c1.6 1.6 3.9 2.3 5.2 1c1.3-1 1-3.3-.7-5.2c-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9c1.6 1 3.6.7 4.3-.7c.7-1.3-.3-2.9-2.3-3.9c-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2c2.3 2.3 5.2 2.6 6.5 1c1.3-1.3.7-4.3-1.3-6.2c-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9c1.6 2.3 4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2c-1.4-2.3-4-3.3-5.6-2z" fill="currentColor"></path></svg>
             <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" title="网站地图" class="sitemap-link">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 12 12"><g fill="none"><path d="M6 .5A4.5 4.5 0 0 1 10.5 5c0 1.863-1.42 3.815-4.2 5.9a.5.5 0 0 1-.6 0C2.92 8.815 1.5 6.863 1.5 5A4.5 4.5 0 0 1 6 .5zm0 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3z" fill="currentColor"></path></g></svg>
+
+            </a>
+            <a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="RSS订阅" class="rss-link">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18" fill="currentColor"></circle><path d="M4 10.1v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9zm0-5.66v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56z" fill="currentColor"></path></svg>
             </a>
           </span>
         </div>
@@ -439,29 +446,66 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     font-size: 0.9rem;
   }
   
-  /* 首页特殊处理footer */
-  :global(.home-page) .site-footer {
-    background-color: transparent; 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: rgba(255, 255, 255, 0.85); /* 改为更浅的颜色 */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  /* 首页footer样式 - Dark模式 */
+  .site-footer.home-footer {
+    background-color: transparent !important; 
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 2rem !important;
   }
 
-  /* 非首页的footer */
-  :global(body:not(:has(.home-page))) .site-footer {
-    background-color: var(--background-light);
+  /* 首页footer文字样式 - 白色 */
+  .site-footer.home-footer p {
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin: 0 0 0.5rem 0 !important;
+    font-size: 0.9rem !important;
+    font-weight: normal !important;
+  }
+
+  /* 首页footer链接样式 - 白色 */
+  .site-footer.home-footer a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    background-color: transparent !important;
+    border-radius: 6px !important;
+    padding: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    margin: 0 0.25rem !important;
+    font-weight: normal !important;
   }
   
+  .site-footer.home-footer a:hover {
+    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 1) !important;
+  }
+
+  /* 首页footer图标样式 - 白色 */
+  .site-footer.home-footer a svg {
+    opacity: 0.9 !important;
+    transition: opacity 0.3s ease !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    fill: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .site-footer.home-footer a:hover svg {
+    opacity: 1 !important;
+    color: rgba(255, 255, 255, 1) !important;
+    fill: rgba(255, 255, 255, 1) !important;
+  }
   .site-footer div {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   
   .site-footer span {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .site-footer a {
@@ -477,15 +521,6 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     box-sizing: border-box;
   }
 
-  /* 首页特殊处理footer链接 */
-  :global(.home-page) .site-footer a {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  :global(.home-page) .site-footer a:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-  
   .site-footer a :global(svg),
   .home-icon {
     position: absolute;
@@ -497,21 +532,11 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     opacity: 0.6;
   }
 
-  :global(.home-page) .site-footer a :global(svg),
-  :global(.home-page) .site-footer a .home-icon {
-    opacity: 0.8;
-  }
-
   .site-footer a:hover :global(svg),
   .site-footer a:hover .home-icon {
     opacity: 0.8;
   }
-
-  :global(.home-page) .site-footer a:hover :global(svg),
-  :global(.home-page) .site-footer a:hover .home-icon {
-    opacity: 1;
-  }
-
+  
   .search-wrapper {
     display: flex;
     margin: -1rem auto 1rem;
@@ -785,5 +810,38 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
   .sitemap-link:hover {
     color: var(--primary-color);
+  }
+
+  /* 博客页面footer - Lighter模式 */
+  .site-footer.blog-footer {
+    background-color: var(--background-light);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    color: #555;
+  }
+  
+  /* 博客页面footer文字样式 - 深灰色 */
+  .site-footer.blog-footer p {
+    color: #555;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: normal;
+  }
+  
+  /* 博客页面footer链接样式 - 深灰色 */
+  .site-footer.blog-footer a {
+    color: #555;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 0.4rem;
+    transition: all 0.2s ease;
+    margin: 0 0.25rem;
+    font-weight: normal;
+  }
+  
+  .site-footer.blog-footer a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 </style>

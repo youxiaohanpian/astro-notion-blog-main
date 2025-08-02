@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getAllPosts } from '../lib/notion/client';
 import { getTagLink } from '../lib/blog-helpers';
 import type { Post } from '../lib/interfaces';
-import Analytics from '@vercel/analytics/astro'
+import Analytics from '@vercel/analytics/astro'// 安装vercel分析
 
 const posts = await getAllPosts();
 const latestPosts = posts.slice(0, 6); // 只显示最新的6篇日志
@@ -542,6 +542,17 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   h1, h2, h3, p, a {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
+
+  /* 排除footer中的文字阴影 */
+  :global(.home-page) .site-footer h1,
+  :global(.home-page) .site-footer h2,
+  :global(.home-page) .site-footer h3,
+  :global(.home-page) .site-footer p,
+  :global(.home-page) .site-footer a {
+    text-shadow: none !important;
+  }
+
+  /* 动画 */
 </style>
 
 <script>
