@@ -84,8 +84,8 @@ h6 {
 
 /* 内容样式 */
 p {
-  margin: 1em 0;
-  line-height: 1.7;
+  margin: 0.5em 0;
+  line-height: 1.6;
   color: var(--text-color);
 }
 
