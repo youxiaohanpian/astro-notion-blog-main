@@ -10,6 +10,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics.astro'
 import SearchModal from '../components/SearchModal.astro'
 import SearchButton from '../components/SearchButton.astro'
 import BackToTop from '../components/BackToTop.astro'
+import Analytics from '@vercel/analytics/astro'
 
 // 主要改进点
 // 错误处理: 在 URL 处理和异步操作中添加了错误处理，以确保在数据获取失败时不会导致页面崩溃。
@@ -226,6 +227,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         <main>
           <div class="content">
             <slot />
+            <Analytics /> 
           </div>
         </main>
 
