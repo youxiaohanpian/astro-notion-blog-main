@@ -34,7 +34,7 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
       <div class="video-loading-container">
         <div class="video-loading-spinner"></div>
       </div>
-      <video 
+      <video id="heroVideo" 
         class="hero-video" 
         poster="/banner-poster.webp" 
         autoplay 
@@ -45,12 +45,23 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
         x5-playsinline
         x5-video-player-type="h5"
         x5-video-player-fullscreen="true"
-        preload="auto"
+        preload="none"
       >
         <source src="/banner.webm" type="video/webm">
         <source src="/banner.mp4" type="video/mp4">
 
       </video>
+      <script>
+        window.addEventListener("load", () => {
+          const video = document.getElementById("heroVideo");
+          if (video) {
+            video.innerHTML = `
+              <source src="/banner.webm" type="video/webm">
+              <source src="/banner.mp4" type="video/mp4">
+            `;
+          }
+        });
+      </script>
       <div class="hero-overlay"></div>
     </section>
 
@@ -650,11 +661,6 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
               video.load();
             }, 1000);
           } else {
-            // 显示错误信息
-            if (loadingContainer instanceof HTMLElement) {
-              loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
-            }
-            
             // 显示封面图
             if (heroOverlay instanceof HTMLElement) {
               setupBackgroundImage(heroOverlay);
