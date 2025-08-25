@@ -76,7 +76,6 @@ console.log(`文章[${post.Title}]的图片信息:`, {
       decoding="async"
       width="800"
       height="400"
-      style="aspect-ratio: 2/1"
     />
   </div>
 )}
@@ -90,11 +89,13 @@ console.log(`文章[${post.Title}]的图片信息:`, {
    */
   .post-featured-image {
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
   }
 
   /* 图片样式
@@ -107,5 +108,9 @@ console.log(`文章[${post.Title}]的图片信息:`, {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: bottom;
   }
 </style>

@@ -1,33 +1,31 @@
 # Astro Notion Blog Enhanced
 
-[中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
+[中文](#astro-notion-blog-增强版) | [English](README.en.md) | [日本語](README.ja.md)
+
+## 项目简介
+
+Astro Notion Blog Enhanced 是一个基于原始 [Astro Notion Blog](https://github.com/otoyo/astro-notion-blog) 的增强优化版本。在保留原始功能的同时，我们对界面和用户体验进行了多项改进，使其更加美观、易用和高效。
 
 ## 快速开始
 
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
 
-### Update informations
-20250804
-因为在搞别的项目->安装了nvm->切换nodejs
-可能要运行`npm run dev -- --host`才能启动项目
+## 更新日志
 
+### 2025-08-04
+- 因项目切换，更新了 Node.js 版本要求
+- 启动命令更新：可能需要运行 `npm run dev -- --host` 才能启动项目
 
-20250719
-
+### 2025-07-19
 1. 将网站改回静态部署，回滚中间件，无需中间件
-2. 修复部分 css 兼容的问题
-3. 文章中插入目录问题的修正
-4. 移除like.ts，目前无需这个功能，点赞功能为假
-5. 分享改为复制链接+标题的形式
-6. searchModal 中修复中文搜索匹配问题，绑定在input上【重要】
+2. 修复部分 CSS 兼容问题
+3. 修正文章中插入目录的问题
+4. 移除 like.ts，目前无需此功能，点赞功能为模拟
+5. 分享功能改为复制链接+标题的形式
+6. 修复 searchModal 中中文搜索匹配问题，绑定在 input 上【重要】
 7. 网站语言改为：lang="zh-CN"
-8. 增加github建议的SECURITY.md
-
-
-修改：verson.json 的 CSP 内容
-自身、Notion 资源、Google Analytics 域名、Vercel Insights 域名
-其它第三方如有用到（比如评论、CDN），后续可随时补充
-用浏览器 F12 → Network → Response Headers 检查 CSP 是否生效
+8. 增加 GitHub 建议的 SECURITY.md
+9. 更新 version.json 的 CSP 内容，包含自身、Notion 资源、Google Analytics 域名、Vercel Insights 域名
 
 ## 环境要求
 
@@ -56,6 +54,25 @@
 ### 环境变量配置
 1. 创建 `.env.local` 文件（不要提交到 Git）：
 
+```
+# Notion API 密钥
+NOTION_API_SECRET=your_notion_api_secret
+
+# Notion 数据库 ID
+DATABASE_ID=your_database_id
+
+# 博客基础路径（如果部署在子目录下）
+BASE_PATH=/
+
+# 自定义域名（可选）
+CUSTOM_DOMAIN=your_custom_domain.com
+
+# 每页文章数量
+NUMBER_OF_POSTS_PER_PAGE=10
+
+# 请求超时时间（毫秒）
+REQUEST_TIMEOUT_MS=30000
+```
 
 2. 环境变量加载说明：
    - 开发环境（`npm run dev`）：自动加载 `.env.local`
@@ -74,17 +91,21 @@
    npm install --save-dev dotenv-cli  # 用于构建时加载环境变量
    ```
 
-3. 启动开发服务器：
+3. 配置环境变量：
+   - 复制上面的环境变量模板到 `.env.local` 文件
+   - 填写你的 Notion API 密钥和数据库 ID
+
+4. 启动开发服务器：
    ```bash
    npm run dev
    ```
 
-4. 构建生产版本：
+5. 构建生产版本：
    ```bash
    npm run build
    ```
 
-5. 预览构建结果：
+6. 预览构建结果：
    ```bash
    npm run preview
    ```
@@ -92,37 +113,88 @@
    - 默认地址为 http://localhost:4321
    - 预览模式会模拟生产环境，可以检查构建后的效果
 
-### 开发与构建环境说明
-1. 开发环境（`npm run dev`）：
-   - 支持热重载
-   - 自动加载 `.env.local` 环境变量
-   - 适合开发和调试
+## Notion 数据库配置
 
-2. 构建环境（`npm run build`）：
-   - 生成静态文件
-   - 使用 dotenv-cli 加载 `.env.local` 环境变量
-   - 优化和压缩资源
+### 必需字段
+1. **Page**：标题字段，用于文章标题
+2. **Tags**：多选字段，用于文章分类
+3. **Date**：日期字段，用于文章发布日期
+4. **Excerpt**：文本字段，用于文章摘要
+5. **FeaturedImage**：文件字段，用于文章特色图片
+6. **Published**：复选框字段，用于控制文章是否发布
+7. **Rank**：数字字段，用于控制文章置顶顺序
+8. **Slug**：文本字段，用于文章 URL 路径（建议手动填写英文）
 
-3. 预览环境（`npm run preview`）：
-   - 模拟生产环境
-   - 用于测试构建结果
-   - 检查性能和兼容性
+### 配置步骤
+1. 在 Notion 中创建一个新数据库
+2. 添加上述所有必需字段
+3. 获取数据库 ID（从数据库 URL 中提取）
+4. 将数据库 ID 添加到 `.env.local` 文件中
+5. 共享数据库给你的 Notion 集成应用
 
-### 常见问题
-1. 构建时环境变量问题：
-   - 错误：`API token is invalid`
-   - 原因：构建时没有正确加载 `.env.local` 文件
-   - 解决：确保已安装 `dotenv-cli` 并正确配置构建脚本
+## 开发与构建环境说明
 
-2. Node.js 版本兼容性：
-   - 错误：`SyntaxError: missing ) after argument list`
-   - 原因：Node.js 22.x 版本与某些依赖不兼容
-   - 解决：使用 Node.js 18.x LTS 版本
+### 开发环境（`npm run dev`）
+- 支持热重载
+- 自动加载 `.env.local` 环境变量
+- 适合开发和调试
 
-3. PowerShell 环境问题：
-   - 错误：`无法将"node.exe"项识别为 cmdlet`
-   - 原因：PowerShell 中的 Node.js 路径问题
-   - 解决：使用 CMD 而不是 PowerShell 执行命令
+### 构建环境（`npm run build`）
+- 生成静态文件
+- 使用 dotenv-cli 加载 `.env.local` 环境变量
+- 优化和压缩资源
+
+### 预览环境（`npm run preview`）
+- 模拟生产环境
+- 用于测试构建结果
+- 检查性能和兼容性
+
+## 部署指南
+
+### Vercel 部署
+1. 注册或登录 Vercel 账号
+2. 点击 "New Project" 按钮
+3. 导入你的 GitHub 仓库
+4. 配置环境变量（与 `.env.local` 相同）
+5. 点击 "Deploy" 按钮
+6. 等待部署完成
+
+### Netlify 部署
+1. 注册或登录 Netlify 账号
+2. 点击 "New site from Git" 按钮
+3. 选择你的 GitHub 仓库
+4. 配置构建命令：`npm run build`
+5. 配置发布目录：`dist`
+6. 配置环境变量（与 `.env.local` 相同）
+7. 点击 "Deploy site" 按钮
+8. 等待部署完成
+
+## 常见问题
+
+### 1. 构建时环境变量问题
+- 错误：`API token is invalid`
+- 原因：构建时没有正确加载 `.env.local` 文件
+- 解决：确保已安装 `dotenv-cli` 并正确配置构建脚本
+
+### 2. Node.js 版本兼容性
+- 错误：`SyntaxError: missing ) after argument list`
+- 原因：Node.js 22.x 版本与某些依赖不兼容
+- 解决：使用 Node.js 18.x LTS 版本
+
+### 3. PowerShell 环境问题
+- 错误：`无法将"node.exe"项识别为 cmdlet`
+- 原因：PowerShell 中的 Node.js 路径问题
+- 解决：使用 CMD 而不是 PowerShell 执行命令
+
+### 4. Notion API 访问问题
+- 错误：`Unauthorized` 或 `Invalid database ID`
+- 原因：Notion API 密钥无效或数据库未共享给集成应用
+- 解决：检查 API 密钥是否正确，并确保数据库已共享给集成应用
+
+### 5. 图片不显示问题
+- 错误：图片无法加载
+- 原因：可能是图片链接无效或权限问题
+- 解决：确保 Notion 中的图片是公开的，或使用本地图片
 
 ## 主要特性与改进
 
@@ -184,16 +256,14 @@
 ### Slug 必填选项
 - 尝试自动构建Slug，但中文的支持不是很好
 - 需要手动在 notion 里填写英文
+- 如果Slug为空，系统会使用Notion页面ID作为后备，确保链接有效
 
 ### 日志置顶排序规则
-- 支持 Notion 数据库的 Rank 字段实现日志置顶排序。
-- Rank 填写大于 0 的数字，数字越大越靠前（更置顶）。
-- 没填 Rank 或 Rank=0 的文章，排在所有有 Rank 的文章后面，按发布时间倒序排列。
-- 例如：Rank=3 > Rank=2 > Rank=1 > 没填/Rank=0。
-- 只填一篇 Rank=1，其它都不填，则该篇置顶；有 Rank=2、Rank=1，则 2 置顶、1 次之，其它按时间倒序。
-
-## notion 表格字段
-Page、Tags、Date、Excerpt、FeaturedImage、Published、Rank、Slug
+- 支持 Notion 数据库的 Rank 字段实现日志置顶排序
+- Rank 填写大于 0 的数字，数字越大越靠前（更置顶）
+- 没填 Rank 或 Rank=0 的文章，排在所有有 Rank 的文章后面，按发布时间倒序排列
+- 例如：Rank=3 > Rank=2 > Rank=1 > 没填/Rank=0
+- 只填一篇 Rank=1，其它都不填，则该篇置顶；有 Rank=2、Rank=1，则 2 置顶、1 次之，其它按时间倒序
 
 ## 扩展与自定义指南
 
@@ -293,397 +363,45 @@ class PinyinTranslationService implements TranslationService {
 
 面包屑导航会自动添加首页链接，不需要手动添加。在小屏幕上，首页文字会自动隐藏，只显示图标，以节省空间。
 
+## 项目结构
+
+```
+astro-notion-blog/
+├── .cursor/               # Cursor IDE 配置
+├── .github/               # GitHub 配置
+├── .vscode/               # VS Code 配置
+├── cline_docs/            # 项目文档
+├── public/                # 静态资源
+├── scripts/               # 脚本文件
+├── src/                   # 源代码
+│   ├── components/        # 组件
+│   ├── content/           # 内容
+│   ├── images/            # 图片资源
+│   ├── integrations/      # Astro 集成
+│   ├── layouts/           # 布局
+│   ├── lib/               # 工具函数
+│   ├── pages/             # 页面
+│   └── styles/            # 样式
+├── astro.config.mjs       # Astro 配置
+├── package.json           # 依赖配置
+├── README.md              # 项目说明
+└── ...                    # 其他配置文件
+```
+
+## 贡献指南
+
+1. Fork 本仓库
+2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启一个 Pull Request
+
 ## 致谢
 
 特别感谢原作者 [otoyo](https://github.com/otoyo) 提供的优秀项目框架和思路。原项目为我们提供了一个将 Notion 作为 CMS 的绝佳解决方案，使我们能够专注于内容创作而不必担心后端管理。
 
 本增强版在原有基础上进行了界面和用户体验的优化，希望能为更多中文用户提供更好的博客体验。
 
-## 使用方法
-
-请参考原项目的 [使用文档](https://github.com/otoyo/astro-notion-blog#readme)，设置过程与原项目相同。
-
 ## 许可证
 
 与原项目保持一致，本项目采用 [MIT 许可证](LICENSE)。
-
-
----
-
-# Astro Notion Blog Enhanced Version
-
-[中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
-
-This project is an enhanced and optimized version based on the original [Astro Notion Blog](https://github.com/otoyo/astro-notion-blog). While preserving the original functionality, we have made several improvements to the interface and user experience.
-
-## Major Features & Enhancements
-
-### 1. Unified Border Radius Design
-- Standardized 4px border radius for all components (tables, quotes, callouts, code blocks, images, and bookmarks)
-- Added subtle shadow effects to enhance visual hierarchy
-- Optimized hover states for better interaction experience
-
-### 2. Blog Card Optimization
-- Removed "Read More" button, making entire cards clickable
-- Optimized tag layout and styling
-- Improved responsive design for better mobile experience
-- Enhanced image display logic supporting three image sources:
-  1. FeaturedImage (first priority): images from Notion fields, optimized
-  2. Cover (second priority): online library images, suitable for articles needing high-quality covers
-  3. FirstImage (third priority): first image in article, suitable for temporary use
-- Image loading optimization:
-  - Lazy loading for performance
-  - Asynchronous decoding to reduce blocking
-  - Fixed aspect ratio to avoid layout shift
-  - Supports different processing methods for development and production environments
-- Image display rules:
-  - If none of the three image sources are uploaded, only the article title and content are displayed
-  - The Cover field can be deleted, and the system will automatically downgrade to use FirstImage
-  - It is recommended to upload at least one image to improve article display effect
-
-### 3. Article Navigation Improvements
-- Optimized navigation layout: previous article on left, next on right
-- Added elegant hover effects (slight elevation and shadow enhancement)
-- Optimized text alignment (previous left-aligned, next right-aligned)
-- Ensured proper display across all devices
-
-### 4. Article Detail Page Optimization
-- Adjusted time display position to below title, consistent with homepage
-- Unified tag styles and interaction effects
-- Optimized mobile menu button to remain fixed during scrolling
-
-### 5. Notion Block Style Optimization
-- Added border radius to Callout blocks for visual appeal
-- Enhanced Quote blocks with right-side border radius and subtle background
-- Improved Code blocks with enhanced copy button hover effects and custom scrollbars
-- Added border radius and shadow effects to Image blocks, enhancing overall quality
-
-### 6. Type Safety Enhancements
-- Added type checking for all components to ensure Notion blocks exist
-- Added type guard functions to improve code robustness
-- Fixed multiple type errors to comply with TypeScript best practices
-
-### 7. Localization Optimization
-- Chinese interface text for improved Chinese user experience
-- Optimized font configuration for perfect Chinese display
-
-### 8. Breadcrumb Navigation
-- Added breadcrumb navigation next to search button for clear position indication
-- Provided simple API allowing each page to define its own breadcrumb path
-- Automatically hides homepage text on small screens, showing only icons to save space
-- Design style consistent with overall UI, including hover effects and border radius
-
-### 9. Slug Requirement
-- Attempts to auto-generate slugs, but Chinese support is not perfect
-- **You need to manually fill in the English slug in Notion**
-- If the slug is empty, the system will use the Notion page ID as a fallback to ensure valid links
-- Other features remain unchanged
-
-### 10. Post Pinning & Sorting Rules
-- Supports pinning posts using the Rank field in your Notion database.
-- Posts with a Rank greater than 0 are pinned to the top; higher numbers appear first (higher priority).
-- Posts without a Rank or with Rank=0 are listed after all pinned posts, sorted by publish date (newest first).
-- Example: Rank=3 > Rank=2 > Rank=1 > no Rank/Rank=0.
-- If only one post has Rank=1 and others are empty, that post is pinned; if there are posts with Rank=2 and Rank=1, 2 is pinned first, then 1, then the rest by date.
-
-## Extension & Customization Guide
-
-### How to Modify or Extend Translation Services
-
-Edit the `src/lib/slug-helpers.ts` file:
-
-1. **Create a new translation service class**:
-```typescript
-class YourTranslationService implements TranslationService {
-  async translate(text: string, targetLang: string): Promise<string> {
-    // Implement your translation logic
-    return translatedText;
-  }
-}
-```
-
-2. **Add the new service to TranslationServiceFactory**:
-```typescript
-static getService(type: 'google' | 'pinyin' | 'your-service' = 'google'): TranslationService {
-  switch (type) {
-    case 'your-service':
-      return new YourTranslationService();
-    // ... other services
-  }
-}
-```
-
-3. **Update service priority in translateWithFallback function**:
-```typescript
-const serviceTypes: Array<'google' | 'pinyin' | 'your-service'> = ['google', 'your-service', 'pinyin'];
-```
-
-### About the Pinyin Conversion Service
-
-The current Pinyin conversion service only includes a limited number of common Chinese characters. The Table of General Standard Chinese Characters includes 8,105 characters, with 3,500 commonly used characters (Level 1).
-
-**Recommended: Use a professional Pinyin library**:
-
-1. Install a professional Pinyin library:
-```bash
-npm install pinyin
-```
-
-2. Modify the `PinyinTranslationService` class:
-```typescript
-import pinyin from 'pinyin';
-
-class PinyinTranslationService implements TranslationService {
-  async translate(text: string, targetLang: string): Promise<string> {
-    const result = pinyin(text, {
-      style: pinyin.STYLE_NORMAL,
-      heteronym: false
-    }).flat().join('');
-    
-    return result;
-  }
-}
-```
-
-This provides complete support for all Chinese characters, not just a limited set of examples.
-
-## Breadcrumb Navigation Usage Guide
-
-In any page component, add breadcrumb navigation by passing the breadcrumbs attribute to the Layout component:
-
-```astro
-<Layout 
-  title="Article Categories" 
-  description="View all article categories" 
-  path="/categories" 
-  ogImage="" 
-  breadcrumbs={[
-    { label: 'Categories', href: '/categories' }
-  ]}
->
-  <!-- Page content -->
-</Layout>
-```
-
-For deeper pages, add multiple breadcrumb items:
-
-```astro
-<Layout 
-  title="Technical Articles" 
-  description="All articles about technology" 
-  path="/categories/tech" 
-  ogImage="" 
-  breadcrumbs={[
-    { label: 'Categories', href: '/categories' },
-    { label: 'Technology', href: '/categories/tech' }
-  ]}
->
-  <!-- Page content -->
-</Layout>
-```
-
-Breadcrumb navigation automatically adds the homepage link. On small screens, homepage text is hidden, showing only icons to save space.
-
-## Acknowledgements
-
-Special thanks to [otoyo](https://github.com/otoyo) for providing the excellent original project framework. The original project offers a great solution for using Notion as a CMS, allowing us to focus on content creation without backend management concerns.
-
-This enhanced version builds upon the original foundation with interface and user experience optimizations, aiming to provide a better blogging experience for more users.
-
-## Usage
-
-Please refer to the original project's [documentation](https://github.com/otoyo/astro-notion-blog#readme) for setup instructions, as the process remains the same.
-
-## License
-
-Consistent with the original project, this project is licensed under the [MIT License](LICENSE).
-
----
-
-# Astro Notion Blog 強化版
-
-[中文](#astro-notion-blog-增强版) | [English](#astro-notion-blog-enhanced-version) | [日本語](#astro-notion-blog-強化版)
-
-このプロジェクトは、オリジナルの [Astro Notion Blog](https://github.com/otoyo/astro-notion-blog) をベースに強化・最適化したバージョンです。元の機能を保持しながら、インターフェースとユーザーエクスペリエンスに多くの改善を加えました。
-
-## 主な機能と改善点
-
-### 1. 統一された角丸デザイン
-- すべてのコンポーネントの角丸を4pxに統一（テーブル、引用、Callout、コードブロック、画像、ブックマーク）
-- 視覚的な階層を強化する微妙な影効果を追加
-- ホバー状態を最適化し、インタラクション体験を向上
-
-### 2. ブログカードの最適化
-- "もっと読む"ボタンを削除し、カード全体をクリック可能に
-- タグのレイアウトとスタイルを最適化
-- レスポンシブデザインを改善し、モバイル体験を向上
-- 画像表示ロジックを強化し、FeaturedImageとCoverの両フィールドをサポート（FeaturedImageを優先）
-
-### 3. 記事ナビゲーションの改善
-- ナビゲーションレイアウトを最適化：前の記事は左側、次の記事は右側に配置
-- エレガントなホバー効果を追加（わずかな浮上と影の強化）
-- テキスト配置を最適化（前の記事は左揃え、次の記事は右揃え）
-- すべてのデバイスで適切に表示されることを確認
-
-### 4. 記事詳細ページの最適化
-- 時間表示位置をタイトルの下に調整し、ホームページと一貫性を持たせる
-- タグのスタイルとインタラクション効果を統一
-- スクロール中も固定されるようにモバイルメニューボタンを最適化
-
-### 5. Notionブロックスタイルの最適化
-- Calloutブロックに角丸を追加し、視覚的な魅力を向上
-- Quote（引用）ブロックに右側の角丸と微妙な背景を追加
-- Codeブロックを改善し、コピーボタンのホバー効果とカスタムスクロールバーを強化
-- 画像ブロックに角丸と影効果を追加し、全体的な品質を向上
-
-### 6. 型安全性の強化
-- すべてのコンポーネントに型チェックを追加し、Notionブロックの存在を確認
-- コードの堅牢性を向上させる型ガード関数を追加
-- TypeScriptのベストプラクティスに準拠するために複数の型エラーを修正
-
-### 7. ローカライゼーションの最適化
-- 中国語ユーザー向けに中国語インターフェーステキストを採用
-- 完璧な中国語表示のためのフォント設定を最適化
-
-### 8. パンくずナビゲーション
-- 検索ボタンの隣にパンくずナビゲーションを追加し、位置を明確に示す
-- 各ページが独自のパンくずパスを定義できるシンプルなAPIを提供
-- 小さな画面ではホームページテキストを自動的に非表示にし、スペースを節約するためにアイコンのみを表示
-- ホバー効果や角丸を含む全体的なUIと一貫したデザインスタイル
-
-### 9. スラグ必須項目
-- スラグの自動生成を試みますが、中国語のサポートは完全ではありません
-- **Notionで英語のスラグを手動で入力する必要があります**
-- スラグが空の場合は、NotionページIDを使って有効なリンクを保証します
-- その他の機能は変更ありません
-
-### 10. 記事のピン留め・並び替えルール
-- Notion データベースの Rank フィールドで記事のピン留め（上部表示）が可能です。
-- Rank に 0 より大きい数字を入力すると、その記事が上部に表示され、数字が大きいほど優先度が高くなります。
-- Rank を入力しない、または Rank=0 の記事は、すべてのピン留め記事の後ろに公開日（新しい順）で表示されます。
-- 例: Rank=3 > Rank=2 > Rank=1 > 未入力/Rank=0。
-- 1件だけ Rank=1 を入力し他は空欄の場合、その記事がピン留めされます。Rank=2 と Rank=1 の記事がある場合は、2が最上位、次に1、残りは公開日順です。
-
-## 拡張とカスタマイズガイド
-
-### 翻訳サービスの修正または拡張方法
-
-`src/lib/slug-helpers.ts` ファイルを編集します：
-
-1. **新しい翻訳サービスクラスを作成**：
-```typescript
-class YourTranslationService implements TranslationService {
-  async translate(text: string, targetLang: string): Promise<string> {
-    // 翻訳ロジックを実装
-    return translatedText;
-  }
-}
-```
-
-2. **TranslationServiceFactoryに新しいサービスを追加**：
-```typescript
-static getService(type: 'google' | 'pinyin' | 'your-service' = 'google'): TranslationService {
-  switch (type) {
-    case 'your-service':
-      return new YourTranslationService();
-    // ... 他のサービス
-  }
-}
-```
-
-3. **translateWithFallback関数でサービスの優先順位を更新**：
-```typescript
-const serviceTypes: Array<'google' | 'pinyin' | 'your-service'> = ['google', 'your-service', 'pinyin'];
-```
-
-### ピンイン変換サービスについて
-
-現在のピンイン変換サービスには限られた数の一般的な中国語文字のみが含まれています。中国の一般標準漢字表には8,105文字があり、そのうち一般的に使用される文字（レベル1）は3,500文字です。
-
-**推奨：プロフェッショナルなピンインライブラリを使用**：
-
-1. プロフェッショナルなピンインライブラリをインストール：
-```bash
-npm install pinyin
-```
-
-2. `PinyinTranslationService` クラスを修正：
-```typescript
-import pinyin from 'pinyin';
-
-class PinyinTranslationService implements TranslationService {
-  async translate(text: string, targetLang: string): Promise<string> {
-    const result = pinyin(text, {
-      style: pinyin.STYLE_NORMAL,
-      heteronym: false
-    }).flat().join('');
-    
-    return result;
-  }
-}
-```
-
-これにより、限られた例だけでなく、すべての中国語文字の完全なサポートが提供されます。
-
-## パンくずナビゲーション使用ガイド
-
-任意のページコンポーネントで、Layoutコンポーネントにbreadcrumbs属性を渡してパンくずナビゲーションを追加します：
-
-```astro
-<Layout 
-  title="記事カテゴリ" 
-  description="すべての記事カテゴリを表示" 
-  path="/categories" 
-  ogImage="" 
-  breadcrumbs={[
-    { label: 'カテゴリ', href: '/categories' }
-  ]}
->
-  <!-- ページコンテンツ -->
-</Layout>
-```
-
-より深いページでは、複数のパンくず項目を追加します：
-
-```astro
-<Layout 
-  title="技術記事" 
-  description="技術に関するすべての記事" 
-  path="/categories/tech" 
-  ogImage="" 
-  breadcrumbs={[
-    { label: 'カテゴリ', href: '/categories' },
-    { label: '技術', href: '/categories/tech' }
-  ]}
->
-  <!-- ページコンテンツ -->
-</Layout>
-```
-
-パンくずナビゲーションは自動的にホームページリンクを追加します。小さな画面では、スペースを節約するためにホームページテキストは非表示になり、アイコンのみが表示されます。
-
-## 謝辞
-
-優れたオリジナルプロジェクトのフレームワークを提供してくださった[otoyo](https://github.com/otoyo)氏に特別な感謝を捧げます。オリジナルプロジェクトはNotionをCMSとして使用するための素晴らしいソリューションを提供し、バックエンド管理の心配なしにコンテンツ作成に集中できるようにしています。
-
-この強化版はオリジナルの基盤の上に、インターフェースとユーザーエクスペリエンスの最適化を構築し、より多くのユーザーにより良いブログ体験を提供することを目指しています。
-
-## 使用方法
-
-セットアップ手順は同じですので、オリジナルプロジェクトの[ドキュメント](https://github.com/otoyo/astro-notion-blog#readme)を参照してください。
-
-## ライセンス
-
-オリジナルプロジェクトと一貫して、このプロジェクトは[MITライセンス](LICENSE)の下でライセンスされています。
-
-{
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ]
-} 
