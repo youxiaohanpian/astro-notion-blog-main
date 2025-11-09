@@ -26,18 +26,25 @@ const { pageId } = Astro.props
 
 // 获取被提及的页面
 let post: Post | null = null
-if (pageId) {
+if (pageId && pageId.trim() !== '') {
   try {
     post = await getPostByPageId(pageId)
-    console.log(`Mention: Found post for pageId ${pageId}:`, post ? post.Slug : 'Not found')
+    // 验证 post 对象是否完整
+    if (post && (!post.Slug || !post.PageId)) {
+      console.warn(`Mention: Post对象不完整, pageId: ${pageId}, Slug: ${post.Slug}, PageId: ${post.PageId}`)
+      post = null
+    } else {
+      console.log(`Mention: Found post for pageId ${pageId}:`, post ? post.Slug : 'Not found')
+    }
   } catch (error) {
     console.error(`Mention: Error fetching post for pageId ${pageId}:`, error)
+    post = null
   }
 }
 ---
 
 {
-  post ? (
+  post && post.Slug && post.Slug.trim() !== '' ? (
     <a href={getPostLink(post.Slug)} class="link">
       <span class="icon">
         {post.Icon ? (

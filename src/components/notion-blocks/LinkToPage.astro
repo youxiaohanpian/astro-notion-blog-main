@@ -7,8 +7,17 @@ export interface Props {
 }
 
 const { block } = Astro.props
+
+// 安全获取 PageId
+const pageId = block.LinkToPage?.PageId;
 ---
 
-<p>
-  <Mention pageId={block.LinkToPage.PageId} />
-</p>
+{
+  pageId && pageId.trim() !== '' ? (
+    <p>
+      <Mention pageId={pageId} />
+    </p>
+  ) : (
+    <p class="link-not-found">链接页面不存在</p>
+  )
+}

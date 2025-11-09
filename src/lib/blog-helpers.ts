@@ -172,6 +172,11 @@ export const getNavLink = (nav: string) => {
 }
 
 export const getPostLink = (slug: string) => {
+  // 确保 slug 不为空
+  if (!slug || slug.trim() === '') {
+    console.warn('getPostLink: slug 为空，返回默认路径');
+    return pathJoin(BASE_PATH, '/posts/unknown');
+  }
   return pathJoin(BASE_PATH, `/posts/${slug}`)
 }
 

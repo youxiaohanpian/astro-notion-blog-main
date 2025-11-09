@@ -64,7 +64,7 @@ try {
   throw new Error(`Post not found. slug: ${slug}`);
 }
 
-const [blocks, allPosts, rankedPosts, recentPosts, tags, postsHavingSameTag] = await Promise.all([
+const [blocks, allPostsRaw, rankedPostsRaw, recentPostsRaw, tags, postsHavingSameTagRaw] = await Promise.all([
   getAllBlocksByBlockId(post.PageId),
   getAllPosts(),
   getRankedPosts(),
@@ -72,6 +72,12 @@ const [blocks, allPosts, rankedPosts, recentPosts, tags, postsHavingSameTag] = a
   getAllTags(),
   getPostsByTag(post.Tags[0]?.name, 6),
 ]);
+
+// 过滤掉无效的 post（没有 Slug 或 PageId 的）
+const allPosts = allPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
+const rankedPosts = rankedPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
+const recentPosts = recentPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
+const postsHavingSameTag = postsHavingSameTagRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
 
 // 提取日志的第一张图片并存储到Post对象中
 const firstImageObject = extractFirstImage(blocks);
@@ -127,9 +133,9 @@ await Promise.all(
     .map((promise) => promise.then(downloadFile))
 );
 
-const currentPostIndex = allPosts.findIndex((post) => post.Slug === slug);
-const prevPost = allPosts[currentPostIndex + 1];
-const nextPost = allPosts[currentPostIndex - 1];
+const currentPostIndex = allPosts.findIndex((p) => p && p.Slug === slug);
+const prevPost = currentPostIndex >= 0 && currentPostIndex + 1 < allPosts.length ? allPosts[currentPostIndex + 1] : undefined;
+const nextPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : undefined;
 
 // 筛选出所有标题类型的块
 const headingBlocks = blocks.filter(b => 

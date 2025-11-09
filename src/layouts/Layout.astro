@@ -63,11 +63,28 @@ const siteBaseURL = getValidSiteURL();
 
 const siteTitle = title ? `${title} - ${database.Title}` : database.Title
 const siteDescription = description ? description : database.Description
-const siteURL = new URL(getNavLink(path), siteBaseURL).toString()
-const siteOGImage = new URL(
-  getStaticFilePath('/default-og-image.png'),
-  siteBaseURL
-)
+
+// 安全创建 siteURL
+let siteURL = siteBaseURL;
+try {
+  const navLink = getNavLink(path);
+  if (navLink && navLink.trim() !== '') {
+    siteURL = new URL(navLink, siteBaseURL).toString();
+  }
+} catch (error) {
+  console.error('创建 siteURL 失败:', error);
+}
+
+// 安全创建 siteOGImage
+let siteOGImage = new URL('/default-og-image.png', siteBaseURL).toString();
+try {
+  const staticPath = getStaticFilePath('/default-og-image.png');
+  if (staticPath && staticPath.trim() !== '') {
+    siteOGImage = new URL(staticPath, siteBaseURL).toString();
+  }
+} catch (error) {
+  console.error('创建 siteOGImage 失败:', error);
+}
 
 
 // 是否为文章详情页

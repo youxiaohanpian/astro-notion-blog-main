@@ -48,23 +48,25 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
 
 // 为每篇文章提取第一张图片
 await Promise.all(
-  posts.map(async (post) => {
-    // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
-    if (post.FeaturedImage || post.Cover) return;
-    
-    // 获取文章内容块
-    try {
-      const blocks = await getAllBlocksByBlockId(post.PageId);
-      // 提取第一张图片
-      const firstImageObject = extractFirstImage(blocks);
-      if (firstImageObject) {
-        post.FirstImage = firstImageObject;
-        console.log(`文章[${post.Title}]提取到第一张图片`);
+  posts
+    .filter((post) => post && post.PageId && post.PageId.trim() !== '')
+    .map(async (post) => {
+      // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
+      if (post.FeaturedImage || post.Cover) return;
+      
+      // 获取文章内容块
+      try {
+        const blocks = await getAllBlocksByBlockId(post.PageId);
+        // 提取第一张图片
+        const firstImageObject = extractFirstImage(blocks);
+        if (firstImageObject) {
+          post.FirstImage = firstImageObject;
+          console.log(`文章[${post.Title}]提取到第一张图片`);
+        }
+      } catch (error) {
+        console.error(`获取文章[${post.Title}]内容块失败:`, error);
       }
-    } catch (error) {
-      console.error(`获取文章[${post.Title}]内容块失败:`, error);
-    }
-  })
+    })
 )
 ---
 
