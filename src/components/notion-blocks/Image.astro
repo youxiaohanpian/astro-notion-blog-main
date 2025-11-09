@@ -18,8 +18,14 @@ if (!block.Image) {
 let image = ''
 if (block.Image.External) {
   image = block.Image.External.Url
-} else if (block.Image.File) {
-  image = filePath(new URL(block.Image.File.Url))
+} else if (block.Image.File && block.Image.File.Url) {
+  try {
+    image = filePath(new URL(block.Image.File.Url))
+  } catch (error) {
+    console.error('Invalid Image File URL:', block.Image.File.Url, error)
+    // 如果 URL 无效，尝试使用原始 URL
+    image = block.Image.File.Url
+  }
 }
 ---
 

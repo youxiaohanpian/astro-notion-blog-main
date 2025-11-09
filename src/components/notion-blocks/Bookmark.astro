@@ -35,6 +35,10 @@ const urlString = (block.Bookmark || block.LinkPreview || block.Embed)?.Url || '
 let url: URL | undefined
 let metadata: Record<string, string> | undefined
 try {
+  // 检查 URL 字符串是否为空或无效
+  if (!urlString || urlString.trim() === '') {
+    throw new Error('Empty URL string');
+  }
   url = new URL(urlString)
 
   if (url && !isAmazonURL(url)) {

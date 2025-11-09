@@ -39,12 +39,34 @@ const {
 
 const database = await getDatabase()
 
+// 获取有效的站点URL，如果 Astro.site 无效则使用默认值
+const getValidSiteURL = (): string => {
+  if (Astro.site && typeof Astro.site === 'string' && Astro.site.trim() !== '') {
+    try {
+      // 验证 URL 是否有效
+      new URL(Astro.site);
+      return Astro.site;
+    } catch {
+      // URL 无效，使用默认值
+    }
+  }
+  // 使用默认值，优先从环境变量获取
+  const defaultSite = process.env.CUSTOM_DOMAIN 
+    ? `https://${process.env.CUSTOM_DOMAIN}`
+    : process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}`
+    : 'https://localhost:4321';
+  return defaultSite;
+};
+
+const siteBaseURL = getValidSiteURL();
+
 const siteTitle = title ? `${title} - ${database.Title}` : database.Title
 const siteDescription = description ? description : database.Description
-const siteURL = new URL(getNavLink(path), Astro.site).toString()
+const siteURL = new URL(getNavLink(path), siteBaseURL).toString()
 const siteOGImage = new URL(
   getStaticFilePath('/default-og-image.png'),
-  Astro.site
+  siteBaseURL
 )
 
 

@@ -12,29 +12,48 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const getSite = function () {
-  if (env.CUSTOM_DOMAIN) {
-    return new URL(env.BASE_PATH, `https://${env.CUSTOM_DOMAIN}`).toString();
-  }
-
-  if (process.env.VERCEL && process.env.VERCEL_URL) {
-    return new URL(env.BASE_PATH, `https://${process.env.VERCEL_URL}`).toString();
-  }
-
-  if (process.env.CF_PAGES) {
-    if (process.env.CF_PAGES_BRANCH !== 'main') {
-      return new URL(env.BASE_PATH, process.env.CF_PAGES_URL).toString();
+  try {
+    // 优先使用自定义域名
+    if (env.CUSTOM_DOMAIN && env.CUSTOM_DOMAIN.trim() !== '') {
+      const customDomain = env.CUSTOM_DOMAIN.trim();
+      // 确保域名格式正确（移除可能的协议前缀）
+      const cleanDomain = customDomain.replace(/^https?:\/\//, '');
+      return new URL(env.BASE_PATH || '/', `https://${cleanDomain}`).toString();
     }
 
-    return new URL(
-      env.BASE_PATH,
-      `https://${new URL(process.env.CF_PAGES_URL).host
-        .split('.')
-        .slice(1)
-        .join('.')}`
-    ).toString();
-  }
+    // Vercel 环境
+    if (process.env.VERCEL && process.env.VERCEL_URL) {
+      const vercelUrl = process.env.VERCEL_URL.trim();
+      // 确保 URL 格式正确
+      const cleanVercelUrl = vercelUrl.replace(/^https?:\/\//, '');
+      return new URL(env.BASE_PATH || '/', `https://${cleanVercelUrl}`).toString();
+    }
 
-  return new URL(env.BASE_PATH, 'http://localhost:4321').toString();
+    // Cloudflare Pages 环境
+    if (process.env.CF_PAGES) {
+      if (process.env.CF_PAGES_BRANCH !== 'main' && process.env.CF_PAGES_URL) {
+        const cfUrl = process.env.CF_PAGES_URL.trim();
+        return new URL(env.BASE_PATH || '/', cfUrl).toString();
+      }
+
+      if (process.env.CF_PAGES_URL) {
+        try {
+          const cfUrl = new URL(process.env.CF_PAGES_URL);
+          const host = cfUrl.host.split('.').slice(1).join('.');
+          return new URL(env.BASE_PATH || '/', `https://${host}`).toString();
+        } catch (error) {
+          console.warn('Invalid CF_PAGES_URL:', process.env.CF_PAGES_URL);
+        }
+      }
+    }
+
+    // 默认本地开发环境
+    return new URL(env.BASE_PATH || '/', 'http://localhost:4321').toString();
+  } catch (error) {
+    console.error('Error in getSite():', error);
+    // 如果所有情况都失败，返回一个安全的默认值
+    return 'http://localhost:4321';
+  }
 };
 
 // https://astro.build/config

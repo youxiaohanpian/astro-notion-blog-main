@@ -544,19 +544,44 @@ export async function downloadFile(url: URL) {
   console.log(`保存图片到: ${filepath}`);
 
   const writeStream = createWriteStream(filepath)
-  const rotate = sharp().rotate()
+  const contentType = res.headers['content-type'] || '';
+  const isJpeg = contentType === 'image/jpeg' || filename.toLowerCase().endsWith('.jpg') || filename.toLowerCase().endsWith('.jpeg');
 
   let stream = res.data
 
-  if (res.headers['content-type'] === 'image/jpeg') {
+  // 只对JPEG格式进行旋转和EXIF处理
+  if (isJpeg) {
+    const rotate = sharp().rotate()
     stream = stream.pipe(rotate)
   }
+
   try {
-    await pipeline(stream, new ExifTransformer(), writeStream)
+    // 只对JPEG格式使用ExifTransformer，PNG等其他格式直接保存
+    if (isJpeg) {
+      await pipeline(stream, new ExifTransformer(), writeStream)
+    } else {
+      // PNG、WebP等格式直接保存，不需要EXIF处理
+      await pipeline(stream, writeStream)
+    }
     console.log(`图片下载完成: ${filepath}`);
   } catch (err) {
     console.error(`图片处理失败: ${filepath}`, err);
-    writeStream.end()
+    // 关闭写入流
+    try {
+      writeStream.destroy();
+    } catch (closeErr) {
+      // 忽略关闭错误
+    }
+    // 删除可能损坏的文件
+    try {
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+        console.log(`已删除损坏的文件: ${filepath}`);
+      }
+    } catch (unlinkErr) {
+      // 忽略删除错误
+    }
+    // 记录错误但继续处理其他图片
     return Promise.resolve()
   }
 }

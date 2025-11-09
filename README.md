@@ -11,6 +11,16 @@ Astro Notion Blog Enhanced 是一个基于原始 [Astro Notion Blog](https://git
 详细的构建和部署说明请参考 [BUILD.md](BUILD.md)。
 
 ## 更新日志
+### 2025-11-09
+大的代码更新，用以下命令确保无缓存，方便build测试，缺点是需要等很久
+```
+if (Test-Path .\dist\) { 
+    Remove-Item -Recurse -Force .\dist\ 
+    Write-Host "已删除 dist 目录"
+} else {
+    Write-Host "dist 目录不存在，无需删除"
+}
+```
 
 ### 2025-08-04
 - 因项目切换，更新了 Node.js 版本要求

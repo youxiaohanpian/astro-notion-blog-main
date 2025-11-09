@@ -32,7 +32,15 @@ import styles from '../../styles/blog.module.css'
 export async function getStaticPaths() {
   try {
     const posts = await getAllPosts();
-    return posts.map((post: interfaces.Post) => ({ params: { slug: post.Slug } }));
+    // 过滤掉无效的 post（没有 Slug 或 PageId 的）
+    const validPosts = posts.filter((post: interfaces.Post) => {
+      if (!post.Slug || !post.PageId) {
+        console.warn(`跳过无效文章: ${post.Title || '无标题'}, Slug: ${post.Slug}, PageId: ${post.PageId}`);
+        return false;
+      }
+      return true;
+    });
+    return validPosts.map((post: interfaces.Post) => ({ params: { slug: post.Slug } }));
   } catch (error) {
     console.error('Error fetching posts:', error);
     return [];
@@ -46,6 +54,10 @@ try {
   post = await getPostBySlug(slug);
   if (!post) {
     throw new Error(`Post not found. slug: ${slug}`);
+  }
+  // 验证 post 对象是否完整
+  if (!post.PageId) {
+    throw new Error(`Post object is incomplete. Missing PageId. slug: ${slug}`);
   }
 } catch (error) {
   console.error('Error fetching post:', error);
@@ -131,11 +143,40 @@ let ogImage = '';
 // 日志封面图URL
 let postCoverURL: string | null = null;
 
+// 获取有效的站点URL，如果 Astro.site 无效则使用默认值
+const getValidSiteURL = (): string => {
+  const siteURL = Astro.site;
+  if (siteURL && typeof siteURL === 'string' && siteURL.trim() !== '') {
+    try {
+      // 验证 URL 是否有效
+      new URL(siteURL);
+      return siteURL;
+    } catch {
+      // URL 无效，使用默认值
+    }
+  }
+  // 使用默认值，优先从环境变量获取
+  const defaultSite = process.env.CUSTOM_DOMAIN 
+    ? `https://${process.env.CUSTOM_DOMAIN}`
+    : process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}`
+    : 'https://localhost:4321';
+  return defaultSite;
+};
+
+const siteBaseURL = getValidSiteURL();
+
 // 优先使用 FeaturedImage
 if (post.FeaturedImage && post.FeaturedImage.Url) {
   try {
     const url = new URL(post.FeaturedImage.Url);
-    ogImage = new URL(filePath(url), Astro.site || '').toString();
+    const processedPath = filePath(url);
+    // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
+    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+      ogImage = processedPath;
+    } else {
+      ogImage = new URL(processedPath, siteBaseURL).toString();
+    }
   } catch (error) {
     console.log('Invalid FeaturedImage URL: ', post.FeaturedImage.Url);
   }
@@ -151,7 +192,12 @@ else if (post.Cover && post.Cover.Url) {
     }
     
     const processedPath = filePath(url);
-    ogImage = new URL(processedPath, Astro.site || '').toString();
+    // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
+    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+      ogImage = processedPath;
+    } else {
+      ogImage = new URL(processedPath, siteBaseURL).toString();
+    }
     postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
   } catch (error) {
     console.log('Invalid Cover URL: ', post.Cover.Url);
@@ -161,7 +207,13 @@ else if (post.Cover && post.Cover.Url) {
 else if (post.FirstImage && post.FirstImage.Url) {
   try {
     const url = new URL(post.FirstImage.Url);
-    ogImage = new URL(filePath(url), Astro.site || '').toString();
+    const processedPath = filePath(url);
+    // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
+    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+      ogImage = processedPath;
+    } else {
+      ogImage = new URL(processedPath, siteBaseURL).toString();
+    }
   } catch (error) {
     console.log('Invalid FirstImage URL: ', post.FirstImage.Url);
   }
