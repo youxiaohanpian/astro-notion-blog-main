@@ -673,23 +673,32 @@ export async function getDatabase(): Promise<Database> {
         Emoji: res.icon.emoji,
       }
     } else if (res.icon.type === 'external' && 'external' in res.icon) {
-      icon = {
-        Type: res.icon.type,
-        Url: res.icon.external?.url || '',
+      const iconUrl = res.icon.external?.url
+      if (iconUrl && iconUrl.trim() !== '') {
+        icon = {
+          Type: res.icon.type,
+          Url: iconUrl,
+        }
       }
     } else if (res.icon.type === 'file' && 'file' in res.icon) {
-      icon = {
-        Type: res.icon.type,
-        Url: res.icon.file?.url || '',
+      const iconUrl = res.icon.file?.url
+      if (iconUrl && iconUrl.trim() !== '') {
+        icon = {
+          Type: res.icon.type,
+          Url: iconUrl,
+        }
       }
     }
   }
 
   let cover: FileObject | null = null
   if (res.cover) {
-    cover = {
-      Type: res.cover.type,
-      Url: res.cover.external?.url || res.cover?.file?.url || '',
+    const coverUrl = res.cover.external?.url || res.cover?.file?.url
+    if (coverUrl && coverUrl.trim() !== '') {
+      cover = {
+        Type: res.cover.type,
+        Url: coverUrl,
+      }
     }
   }
 
@@ -1204,35 +1213,41 @@ function _buildPost(pageObject: responses.PageObject): Post {
       }
     } else if (
       pageObject.icon.type === 'external' &&
-      'external' in pageObject.icon
+      'external' in pageObject.icon &&
+      pageObject.icon.external?.url &&
+      pageObject.icon.external.url.trim() !== ''
     ) {
       icon = {
         Type: pageObject.icon.type,
-        Url: pageObject.icon.external?.url || '',
+        Url: pageObject.icon.external.url,
       }
     }
   }
 
   let cover: FileObject | null = null
   if (pageObject.cover) {
-    cover = {
-      Type: pageObject.cover.type,
-      Url: pageObject.cover.external?.url || '',
+    const coverUrl = pageObject.cover.external?.url || pageObject.cover.file?.url
+    if (coverUrl && coverUrl.trim() !== '') {
+      cover = {
+        Type: pageObject.cover.type,
+        Url: coverUrl,
+      }
     }
   }
 
   let featuredImage: FileObject | null = null
   if (prop.FeaturedImage.files && prop.FeaturedImage.files.length > 0) {
-    if (prop.FeaturedImage.files[0].external) {
+    const firstFile = prop.FeaturedImage.files[0]
+    if (firstFile.external && firstFile.external.url && firstFile.external.url.trim() !== '') {
       featuredImage = {
         Type: prop.FeaturedImage.type,
-        Url: prop.FeaturedImage.files[0].external.url,
+        Url: firstFile.external.url,
       }
-    } else if (prop.FeaturedImage.files[0].file) {
+    } else if (firstFile.file && firstFile.file.url && firstFile.file.url.trim() !== '') {
       featuredImage = {
         Type: prop.FeaturedImage.type,
-        Url: prop.FeaturedImage.files[0].file.url,
-        ExpiryTime: prop.FeaturedImage.files[0].file.expiry_time,
+        Url: firstFile.file.url,
+        ExpiryTime: firstFile.file.expiry_time,
       }
     }
   }
