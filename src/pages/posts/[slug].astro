@@ -112,7 +112,7 @@ await Promise.all(
         let url;
         try {
           const fileObj = block.Image || block.File;
-          if (fileObj && fileObj.File && fileObj.File.Url) {
+          if (fileObj && fileObj.File && fileObj.File.Url && fileObj.File.Url.trim() !== '') {
             url = new URL(fileObj.File.Url);
           } else {
             throw new Error('Missing file URL');
@@ -167,22 +167,24 @@ const getValidSiteURL = (): string => {
 const siteBaseURL = getValidSiteURL();
 
 // 优先使用 FeaturedImage
-if (post.FeaturedImage && post.FeaturedImage.Url) {
+if (post.FeaturedImage && post.FeaturedImage.Url && post.FeaturedImage.Url.trim() !== '') {
   try {
     const url = new URL(post.FeaturedImage.Url);
     const processedPath = filePath(url);
     // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
-    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
-      ogImage = processedPath;
-    } else {
-      ogImage = new URL(processedPath, siteBaseURL).toString();
+    if (processedPath && processedPath.trim() !== '') {
+      if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+        ogImage = processedPath;
+      } else {
+        ogImage = new URL(processedPath, siteBaseURL).toString();
+      }
     }
   } catch (error) {
     console.log('Invalid FeaturedImage URL: ', post.FeaturedImage.Url);
   }
 }
 // 如果没有 FeaturedImage，则使用 Cover
-else if (post.Cover && post.Cover.Url) {
+else if (post.Cover && post.Cover.Url && post.Cover.Url.trim() !== '') {
   try {
     const url = new URL(post.Cover.Url);
     
@@ -193,26 +195,30 @@ else if (post.Cover && post.Cover.Url) {
     
     const processedPath = filePath(url);
     // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
-    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
-      ogImage = processedPath;
-    } else {
-      ogImage = new URL(processedPath, siteBaseURL).toString();
+    if (processedPath && processedPath.trim() !== '') {
+      if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+        ogImage = processedPath;
+      } else {
+        ogImage = new URL(processedPath, siteBaseURL).toString();
+      }
+      postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
     }
-    postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
   } catch (error) {
     console.log('Invalid Cover URL: ', post.Cover.Url);
   }
 }
 // 如果既没有FeaturedImage也没有Cover，则使用日志中的第一张图片
-else if (post.FirstImage && post.FirstImage.Url) {
+else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !== '') {
   try {
     const url = new URL(post.FirstImage.Url);
     const processedPath = filePath(url);
     // 如果 processedPath 已经是完整 URL，直接使用；否则拼接站点 URL
-    if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
-      ogImage = processedPath;
-    } else {
-      ogImage = new URL(processedPath, siteBaseURL).toString();
+    if (processedPath && processedPath.trim() !== '') {
+      if (processedPath.startsWith('http://') || processedPath.startsWith('https://')) {
+        ogImage = processedPath;
+      } else {
+        ogImage = new URL(processedPath, siteBaseURL).toString();
+      }
     }
   } catch (error) {
     console.log('Invalid FirstImage URL: ', post.FirstImage.Url);

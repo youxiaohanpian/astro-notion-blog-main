@@ -29,10 +29,12 @@ export const filePath = (url: URL): string => {
         console.log('提示: Notion默认封面图片需要手动下载到public/notion/page-cover/目录');
         
         // 返回原始URL作为备选方案，确保图片可以显示
-        return url.toString();
+        const result = url.toString();
+        return result || '/'; // 确保不返回空字符串
       } catch (error) {
         console.log('无法访问本地封面图片，使用原始URL:', url.toString());
-        return url.toString();
+        const result = url.toString();
+        return result || '/'; // 确保不返回空字符串
       }
     }
     
@@ -40,14 +42,17 @@ export const filePath = (url: URL): string => {
     const [dir, filename] = url.pathname.split('/').slice(-2)
     if (!dir || !filename) {
       console.error('无效的图片URL路径:', url.pathname);
-      return url.toString();
+      const result = url.toString();
+      return result || '/'; // 确保不返回空字符串
     }
     const path = pathJoin(BASE_PATH, `/notion/${dir}/${filename}`);
     console.log('处理图片路径:', { original: url.toString(), processed: path });
-    return path;
+    // 确保返回的路径不为空
+    return path || url.toString() || '/';
   } catch (error) {
     console.error('处理图片路径失败:', error);
-    return url.toString();
+    const result = url.toString();
+    return result || '/'; // 确保不返回空字符串
   }
 }
 
