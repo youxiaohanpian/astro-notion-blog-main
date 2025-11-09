@@ -16,9 +16,9 @@ if (!block.Image) {
 }
 
 let image = ''
-if (block.Image.External) {
+if (block.Image.External && block.Image.External.Url && block.Image.External.Url.trim() !== '') {
   image = block.Image.External.Url
-} else if (block.Image.File && block.Image.File.Url) {
+} else if (block.Image.File && block.Image.File.Url && block.Image.File.Url.trim() !== '') {
   try {
     image = filePath(new URL(block.Image.File.Url))
   } catch (error) {

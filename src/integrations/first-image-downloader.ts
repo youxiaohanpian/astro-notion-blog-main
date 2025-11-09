@@ -21,7 +21,7 @@ export default (): AstroIntegration => ({
             // 提取第一张图片
             const firstImageObject = extractFirstImage(blocks)
             
-            if (firstImageObject?.Url) {
+            if (firstImageObject?.Url && firstImageObject.Url.trim() !== '') {
               let url!: URL
               try {
                 url = new URL(firstImageObject.Url)

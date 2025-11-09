@@ -9,7 +9,7 @@ export default (): AstroIntegration => ({
 
       await Promise.all(
         posts.map((post) => {
-          if (!post.FeaturedImage || !post.FeaturedImage.Url) {
+          if (!post.FeaturedImage || !post.FeaturedImage.Url || post.FeaturedImage.Url.trim() === '') {
             return Promise.resolve()
           }
 

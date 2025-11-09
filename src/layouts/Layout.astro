@@ -95,8 +95,10 @@ if (postCover) {
       coverImageURL = database.Cover.Url || ''
     } else if (database.Cover.Type === 'file') {
       try {
-        const url = new URL(database.Cover.Url || '')
-        coverImageURL = filePath(url)
+        if (database.Cover.Url && database.Cover.Url.trim() !== '') {
+          const url = new URL(database.Cover.Url)
+          coverImageURL = filePath(url)
+        }
       } catch {
         console.log('Invalid DB cover image URL: ', database.Cover?.Url)
         coverImageURL = ''
@@ -109,8 +111,10 @@ let customIconURL = ''
 if (database.Icon && database.Icon.Type === 'file') {
   try {
     const fileIcon = database.Icon as FileObject
-    const url = new URL(fileIcon.Url || '')
-    customIconURL = filePath(url)
+    if (fileIcon.Url && fileIcon.Url.trim() !== '') {
+      const url = new URL(fileIcon.Url)
+      customIconURL = filePath(url)
+    }
   } catch {
     console.log('Invalid DB custom icon URL: ', (database.Icon as FileObject)?.Url)
     customIconURL = ''

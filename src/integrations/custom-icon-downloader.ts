@@ -14,6 +14,11 @@ export default (): AstroIntegration => ({
 
       const icon = database.Icon as FileObject
 
+      if (!icon.Url || icon.Url.trim() === '') {
+        console.log('Empty Icon image URL')
+        return Promise.resolve()
+      }
+
       let url!: URL
       try {
         url = new URL(icon.Url)

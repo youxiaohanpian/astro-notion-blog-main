@@ -38,7 +38,7 @@ let thumbnail: string = '';
 
 // 安全获取URL
 try {
-  if (block.Video?.External?.Url) {
+  if (block.Video?.External?.Url && block.Video.External.Url.trim() !== '') {
     url = new URL(block.Video.External.Url);
   }
   // 尝试获取缩略图

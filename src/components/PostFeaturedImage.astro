@@ -16,7 +16,7 @@ let image = ''
 // 注意：每个优先级都会检查开发环境和生产环境的不同处理方式
 
 // 第一优先级：FeaturedImage（Notion字段中的图片）
-if (post.FeaturedImage && post.FeaturedImage.Url) {
+if (post.FeaturedImage && post.FeaturedImage.Url && post.FeaturedImage.Url.trim() !== '') {
   if (import.meta.env.DEV) {
     image = post.FeaturedImage.Url
   } else {
@@ -29,7 +29,7 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
   }
 } 
 // 第二优先级：Cover（在线图库）
-else if (post.Cover && post.Cover.Url) {
+else if (post.Cover && post.Cover.Url && post.Cover.Url.trim() !== '') {
   if (import.meta.env.DEV) {
     image = post.Cover.Url
   } else {
@@ -42,7 +42,7 @@ else if (post.Cover && post.Cover.Url) {
   }
 }
 // 第三优先级：FirstImage（文章内图片）
-else if (post.FirstImage && post.FirstImage.Url) {
+else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !== '') {
   if (import.meta.env.DEV) {
     image = post.FirstImage.Url
   } else {

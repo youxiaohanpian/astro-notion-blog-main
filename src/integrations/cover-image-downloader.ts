@@ -11,6 +11,11 @@ export default (): AstroIntegration => ({
         return Promise.resolve()
       }
 
+      if (!database.Cover.Url || database.Cover.Url.trim() === '') {
+        console.log('Empty Cover image URL')
+        return Promise.resolve()
+      }
+
       let url!: URL
       try {
         url = new URL(database.Cover.Url)
