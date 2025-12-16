@@ -5,6 +5,7 @@ import {
   getPostsByTagAndPage,
   getNumberOfPagesByTag,
   getAllTags,
+  getAllPosts, // 用于计算该标签在全站范围内的文章总数，保持与首页一致
 } from '../../../../../lib/notion/client.ts'
 import { getPostLink, getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
 import Layout from '../../../../../layouts/Layout.astro'
@@ -48,10 +49,11 @@ const pageNum = parseInt(page, 10)
 const encodedTag = encodeURIComponent(tag)
 
 // 获取文章和分页信息
-const [posts, numberOfPages, tags] = await Promise.all([
+const [posts, numberOfPages, tags, allPosts] = await Promise.all([
   getPostsByTagAndPage(tag, pageNum),
   getNumberOfPagesByTag(tag),
   getAllTags(),
+  getAllPosts(), // 获取所有文章，用于精确统计该标签的文章总数
 ])
 
 // 检查页面是否有效
@@ -74,6 +76,29 @@ if (shouldRedirect) {
 }
 
 const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null
+
+// 当前标签在「全站」范围内的文章总数，用于在标签标题旁显示 (number)，与首页保持一致
+const tagPostCount = allPosts.filter((post) =>
+  post.Tags.find((t) => t.name === tag)
+).length
+
+// 统计所有标签的文章数量，用于在标签云中显示 (number)
+const tagCounts: Record<string, number> = allPosts.reduce((acc, post) => {
+  post.Tags.forEach(t => {
+    const name = t.name;
+    acc[name] = (acc[name] ?? 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// 标签名称列表，用于渲染顶部标签云
+const allTagNames = Object.keys(tagCounts);
+
+// 标签名称到颜色的映射表，用于应用 Notion 标签颜色样式
+const tagColorMap: Record<string, string> = tags.reduce((acc, t: SelectProperty) => {
+  acc[t.name] = t.color;
+  return acc;
+}, {} as Record<string, string>);
 
 // 准备客户端重定向信息
 const redirectInfo = {
@@ -99,7 +124,14 @@ const redirectInfo = {
   <div class="blog-posts-container" id="tag-posts-container">
     <header>
       <div class="tag-container">
-        <span class={`tag ${currentTag?.color}`}>{tag}</span>
+        <div class="blog-tag-cloud">
+          {allTagNames.map((tagName) => (
+            <a href={getTagLink(tagName)} class="blog-tag-pill">
+              <span class="tag-label">{tagName}</span>
+              <span class="tag-count">({tagCounts[tagName]})</span>
+            </a>
+          ))}
+        </div>
       </div>
     </header>
 
@@ -234,16 +266,43 @@ const redirectInfo = {
   }
 
   .tag-container {
-    margin: 1.5rem 0;
-    text-align: center;
-    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+    text-align: left;
+    font-size: 1.1rem;
   }
 
-  .tag {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+  /* 顶部标签云容器：与 /blog 页一致，用于在标签页中也显示可切换的所有标签 */
+  .blog-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* 顶部标签胶囊：在 Notion 标签颜色基础上统一尺寸 */
+  .blog-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
+    padding: 0.35rem 1.2rem; /* 与 /blog 页顶部标签云保持一致的尺寸 */
+    border-radius: 9999px !important;
+    font-weight: 400;
+    font-size: 0.9rem; /* 统一字号到与 /blog 页标签云一致 */
+    color: #333; /* 覆盖全局 a 颜色，统一为深灰 */
+    background-color: #f7f7f7;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  /* 标签名称保持主文字颜色和较高权重 */
+  .tag-label {
     font-weight: 600;
+  }
+
+  /* 标签后的文章数量，使用更淡的颜色弱化视觉权重 */
+  .tag-count {
+    opacity: 0.6;
+    font-weight: 400;
   }
 
   /* 分页容器 */

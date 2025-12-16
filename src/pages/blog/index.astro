@@ -10,7 +10,8 @@ import {
 } from '../../lib/notion/client'
 import { 
   getPostLink,
-  extractFirstImage
+  extractFirstImage,
+  getTagLink, // 用于生成标签链接，保持与首页和标签页一致
 } from '../../lib/blog-helpers'
 import Layout from '../../layouts/Layout.astro'
 import NoContents from '../../components/NoContents.astro'
@@ -21,6 +22,7 @@ import PostFeaturedImage from '../../components/PostFeaturedImage.astro'
 import PostExcerpt from '../../components/PostExcerpt.astro'
 import Pagination from '../../components/Pagination.astro'
 import styles from '../../styles/blog.module.css'
+import '../../styles/notion-color.css'
 
 // 获取数据库信息（网站标题和描述）
 const database = await getDatabase()
@@ -39,6 +41,24 @@ const [allPosts, rankedPosts, tags, numberOfPages] = await Promise.all([
   getNumberOfPages(),
 ]);
 const posts = allPosts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+// 统计每个标签在「所有日志」中的文章数量，用于展示在标签云中
+const tagCounts: Record<string, number> = allPosts.reduce((acc, post: Post) => {
+  post.Tags.forEach(tag => {
+    const name = tag.name;
+    acc[name] = (acc[name] ?? 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// 标签名称列表，用于渲染标签云（与首页和标签页的计数逻辑保持一致）
+const allTagNames = Object.keys(tagCounts);
+
+// 标签名称到颜色的映射表，用于应用 Notion 标签颜色样式
+const tagColorMap: Record<string, string> = tags.reduce((acc, tag: SelectProperty) => {
+  acc[tag.name] = tag.color;
+  return acc;
+}, {} as Record<string, string>);
 
 // 为每篇文章提取第一张图片
 // 注意：这个步骤只在文章没有特色图片或封面图片时执行
@@ -71,6 +91,19 @@ await Promise.all(
   hideSidebar={true}
 >
   <div class="blog-posts-container">
+    <!-- 所有日志页顶部标签云：展示所有标签及其文章数量，与首页和标签详情页保持一致 -->
+    <div class="blog-tag-cloud">
+      {allTagNames.map((tagName) => {
+        const colorClass = tagColorMap[tagName] ?? '';
+        return (
+          <a href={getTagLink(tagName)} class="blog-tag-pill">
+            <span class="blog-tag-label">{tagName}</span>
+            <span class="blog-tag-count">({tagCounts[tagName]})</span>
+          </a>
+        );
+      })}
+    </div>
+
     <div class="posts-grid">
       {posts.length === 0 ? (
         <NoContents contents={posts} />
@@ -117,6 +150,41 @@ await Promise.all(
     padding: 0;
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  /* 顶部标签云：位于面包屑导航和文章卡片之间，展示所有标签及其文章数量 */
+  .blog-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* 标签胶囊样式：在 Notion 标签颜色基础上，统一尺寸与交互 */
+  .blog-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
+    padding: 0.35rem 1.2rem;
+    border-radius: 9999px !important;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #333;
+    background-color: #f7f7f7;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  /* 标签名称文本 */
+  .blog-tag-label {
+    font-weight: 500;
+  }
+
+  /* 标签后的文章数量，使用较低的不透明度弱化视觉权重 */
+  .blog-tag-count {
+    color: rgba(51, 51, 51, 0.6);
+    font-weight: 400;
   }
 
   /* 重要：文章网格布局

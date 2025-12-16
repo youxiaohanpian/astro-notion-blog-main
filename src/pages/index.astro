@@ -7,7 +7,18 @@ import Analytics from '@vercel/analytics/astro'// 安装vercel分析
 
 const posts = await getAllPosts();
 const latestPosts = posts.slice(0, 6); // 只显示最新的6篇日志
-const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => tag.name)))];
+
+// 计算每个标签下有多少文章，用于在标签云中显示数量
+const tagCounts: Record<string, number> = posts.reduce((acc, post: Post) => {
+  post.Tags.forEach(tag => {
+    const name = tag.name;
+    acc[name] = (acc[name] ?? 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// 保持原本的标签列表，用于遍历输出，同时适配上面的数量统计
+const allTags = [...new Set(Object.keys(tagCounts))];
 ---
 
 <Layout 
@@ -106,7 +117,10 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
           <h2>标签</h2>
           <div class="tag-cloud">
             {allTags.map(tag => (
-              <a href={getTagLink(tag)} class="tag">{tag}</a>
+              <a href={getTagLink(tag)} class="tag">
+                <span class="tag-label">{tag}</span>
+                <span class="tag-count">({tagCounts[tag]})</span>
+              </a>
             ))}
           </div>
         </div>
@@ -301,6 +315,9 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 保持阴影效果 */
+    display: flex; /* 让整张卡片参与高度对齐，避免内部内容被外层约束截断 */
+    flex-direction: column;
+    text-align: left; /* 最新日志卡片内标题和摘要左对齐 */
   }
 
   .post-card:hover {
@@ -313,7 +330,9 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   .post-card a {
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex; /* 让卡片内容垂直排列，方便把日期/tag 固定在底部 */
+    flex-direction: column;
+    flex: 1; /* 占满父级卡片可用空间，而不是强制按照外层高度裁切 */
     padding: 1.5rem;
   }
 
@@ -337,20 +356,34 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
   .post-meta {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end; /* 将日期与标签区域的底部对齐，多行标签时日期跟着最底下一行对齐 */
+    column-gap: 0.5rem; /* 控制日期和标签之间的水平间距 */
     color: #ffffff;
     font-size: 0.85rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: auto; /* 关键：把 meta 区域推到卡片内容的最底部，实现整行卡片底部对齐 */
   }
 
-  /* 类别标签样式 */
+  .post-date {
+    white-space: nowrap; /* 保证日期始终在一行显示 */
+  }
+
+  .post-categories {
+    display: flex; /* 让标签行内布局 */
+    flex-wrap: wrap; /* 标签过多时自动换行 */
+    gap: 0.3rem; /* 标签之间的间距，替代单个标签上的 margin */
+    justify-content: flex-end; /* 让标签整体靠右，与当前布局保持一致 */
+    max-width: 70%; /* 限制标签区域宽度，防止占满整行 */
+  }
+
+  /* 类别标签样式：用于展示每篇文章的标签小胶囊 */
   .category-tag {
     background: rgba(255, 255, 255, 0.2); /* 恢复水晶感觉 */
     padding: 0.2rem 0.8rem 0.3rem 0.9em;
     border-radius: 15px;
     font-size: 0.8rem;
     color: #ffffff;
-    margin-left: 0.5rem;
+    /* 原先通过 margin-left 控制间距，改为在 .post-categories 上统一用 gap 管理 */
     transition: background 0.2s ease;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* 增强文字阴影 */
     border: 1px solid rgba(255, 255, 255, 0.15); /* 添加边框 */
@@ -404,6 +437,21 @@ const allTags = [...new Set(posts.flatMap((post: Post) => post.Tags.map(tag => t
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 保持阴影效果 */
     backdrop-filter: blur(10px); /* 添加模糊效果 */
     -webkit-backdrop-filter: blur(10px);
+    display: inline-flex; /* 让文字和数量在同一行，间距更易控制 */
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* 标签名称文本，保持原本的白色和权重 */
+  .tag-label {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* 标签后的文章数量，使用较低的白色透明度弱化视觉权重 */
+  .tag-count {
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 400;
   }
 
   .tag:hover {

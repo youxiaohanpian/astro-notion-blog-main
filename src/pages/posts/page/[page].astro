@@ -5,11 +5,13 @@ import {
   getAllTags,
   getNumberOfPages,
   getDatabase,
-  getAllBlocksByBlockId
+  getAllBlocksByBlockId,
+  getAllPostsSorted, // 用于统计所有文章的标签数量，保持与 /blog 一致
 } from '../../../lib/notion/client.ts'
 import { 
   getPostLink,
-  extractFirstImage 
+  extractFirstImage,
+  getTagLink, // 用于生成标签链接
 } from '../../../lib/blog-helpers.ts'
 import Layout from '../../../layouts/Layout.astro'
 import NoContents from '../../../components/NoContents.astro'
@@ -22,6 +24,7 @@ import Pagination from '../../../components/Pagination.astro'
 import BlogPostsLink from '../../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../../components/BlogTagsLink.astro'
 import styles from '../../../styles/blog.module.css'
+import '../../../styles/notion-color.css'
 
 export async function getStaticPaths() {
   const numberOfPages = await getNumberOfPages()
@@ -39,12 +42,29 @@ const { page } = Astro.params
 const database = await getDatabase()
 
 // 获取文章数据
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+const [posts, rankedPosts, tags, numberOfPages, allPosts] = await Promise.all([
   getPostsByPage(parseInt(page, 10)),
   getRankedPosts(),
   getAllTags(),
   getNumberOfPages(),
+  getAllPostsSorted(), // 与 /blog 页相同的数据源，保证标签数量一致
 ])
+
+// 统计所有已发布文章的标签数量，用于顶部标签云（与 /blog 页逻辑保持一致）
+const allTagCounts: Record<string, number> = allPosts.reduce((acc, post) => {
+  post.Tags.forEach(tag => {
+    const name = tag.name;
+    acc[name] = (acc[name] ?? 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// 标签名称列表和颜色映射
+const allTagNames = Object.keys(allTagCounts);
+const tagColorMap: Record<string, string> = tags.reduce((acc, tag) => {
+  acc[tag.name] = tag.color;
+  return acc;
+}, {} as Record<string, string>);
 
 // 为每篇文章提取第一张图片
 await Promise.all(
@@ -81,6 +101,19 @@ await Promise.all(
   ]}
 >
   <div class="blog-posts-container">
+    <!-- 顶部标签云：与 /blog 和标签页保持一致，用于翻页时也能快速切换标签 -->
+    <div class="blog-tag-cloud">
+      {allTagNames.map((tagName) => {
+        const colorClass = tagColorMap[tagName] ?? '';
+        return (
+          <a href={getTagLink(tagName)} class="blog-tag-pill">
+            <span class="blog-tag-label">{tagName}</span>
+            <span class="blog-tag-count">({allTagCounts[tagName]})</span>
+          </a>
+        );
+      })}
+    </div>
+
     <div class="posts-grid">
       {posts.length === 0 ? (
         <NoContents contents={posts} />
@@ -142,6 +175,41 @@ await Promise.all(
     padding: 0;
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  /* 顶部标签云：与 /blog 页一致，用于在所有日志分页中也显示可切换的所有标签 */
+  .blog-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* 顶部标签胶囊：在 Notion 标签颜色基础上统一尺寸 */
+  .blog-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
+    padding: 0.35rem 1.2rem; /* 与 /blog 页顶部标签云保持一致的尺寸 */
+    border-radius: 9999px !important;
+    font-size: 0.9rem; /* 统一字号到与 /blog 页标签云一致 */
+    text-decoration: none;
+    color: #333;
+    background-color: #f7f7f7;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  /* 标签名称文本 */
+  .blog-tag-label {
+    font-weight: 500;
+  }
+
+  /* 标签后的文章数量，使用较低的不透明度弱化视觉权重 */
+  .blog-tag-count {
+    opacity: 0.6;
+    font-weight: 400;
   }
 
   /* 重要：文章网格布局
