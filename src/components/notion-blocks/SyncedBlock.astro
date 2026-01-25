@@ -11,7 +11,7 @@ const { block, headings } = Astro.props
 ---
 
 <div class="synced-block">
-  <NotionBlocks blocks={block.SyncedBlock.Children} headings={headings} />
+  <NotionBlocks blocks={block?.SyncedBlock?.Children || []} isRoot={false} level={1} headings={headings} />
 </div>
 
 <style>

@@ -152,7 +152,7 @@
 /* 暗色主题下的标签背景色 */
 @media (prefers-color-scheme: dark) {
   .tag.light-gray {
-    background: oklch(25% 0.02 240) !important;
+    background: oklch(35% 0.02 240) !important;
   }
   .tag.gray {
     background: oklch(30% 0.02 240) !important;
@@ -188,39 +188,35 @@ a.tag {
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-a.tag:hover {
-  transform: translateY(-1px);
-}
-
 a.tag.light-gray:hover {
-  background: rgba(227, 226, 224, 0.8) !important;
+  background: rgba(227, 226, 224, 0.5) !important;
 }
 a.tag.gray:hover {
-  background: rgba(227, 226, 224, 0.8) !important;
+  background: rgba(227, 226, 224, 0.5) !important;
 }
 a.tag.brown:hover {
-  background: rgba(238, 224, 218, 0.8) !important;
+  background: rgba(238, 224, 218, 0.5) !important;
 }
 a.tag.orange:hover {
-  background: rgba(250, 222, 201, 0.8) !important;
+  background: rgba(250, 222, 201, 0.5) !important;
 }
 a.tag.yellow:hover {
-  background: rgba(253, 236, 200, 0.8) !important;
+  background: rgba(253, 236, 200, 0.5) !important;
 }
 a.tag.green:hover {
-  background: rgba(219, 237, 219, 0.8) !important;
+  background: rgba(219, 237, 219, 0.5) !important;
 }
 a.tag.blue:hover {
-  background: rgba(211, 229, 239, 0.8) !important;
+  background: rgba(211, 229, 239, 0.5) !important;
 }
 a.tag.purple:hover {
-  background: rgba(232, 222, 238, 0.8) !important;
+  background: rgba(232, 222, 238, 0.5) !important;
 }
 a.tag.pink:hover {
-  background: rgba(245, 224, 233, 0.8) !important;
+  background: rgba(245, 224, 233, 0.5) !important;
 }
 a.tag.red:hover {
-  background: rgba(255, 226, 221, 0.8) !important;
+  background: rgba(255, 226, 221, 0.5) !important;
 }
 
 /* 文章内容中链接样�?*/
