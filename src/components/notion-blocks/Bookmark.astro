@@ -104,7 +104,7 @@ try {
    * 与Notion保持一致的简约样式
    */
   .amazon-link > a {
-    color: var(--text-color);
+    color: var(--text-primary);
     opacity: 0.8;
     font-size: 0.9rem;
     text-decoration: none;
@@ -113,11 +113,12 @@ try {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-bottom: 1px solid var(--text-color-light);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 2px;
   }
   .amazon-link > a:hover {
     opacity: 1;
+    color: var(--link-hover-color);
   }
   /* 
    * 书签预览卡片样式
@@ -135,21 +136,21 @@ try {
     width: 100%;
     box-sizing: border-box;
     text-decoration: none;
-    border: 1px solid rgba(230, 230, 230, 0.8);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     display: flex;
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;//兼容性 support Safari 3+.
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    background: rgba(245, 245, 245, 0.8);
+    background: var(--bg-secondary);
     position: relative;
   }
   .bookmark > a:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    background: rgba(250, 250, 250, 0.98);
-    border-color: rgba(200, 200, 200, 0.6);
+    box-shadow: var(--shadow-md);
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
   }
   .bookmark > a::after {
     display: none;
@@ -159,7 +160,7 @@ try {
     padding: 16px 18px;
     overflow: hidden;
     text-align: left;
-    color: var(--text-color);
+    color: var(--text-primary);
   }
   .bookmark > a > div:first-child > div:first-child {
     width: 120px;
@@ -199,11 +200,11 @@ try {
   .bookmark > a > div:first-child > div:last-child > div:last-child {
     font-size: 12px;
     line-height: 16px;
-    color: var(--text-color);
+    color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    opacity: 0.7;
+    opacity: 0.8;
   }
   .bookmark > a > div:last-child {
     flex: 1 1 180px;

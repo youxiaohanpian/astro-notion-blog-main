@@ -233,7 +233,7 @@ const hasHeadings = headings.length > 0
 
 .toc-link {
   display: block;
-  color: #555;
+  color: var(--link-color);
   text-decoration: none;
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
@@ -245,11 +245,11 @@ const hasHeadings = headings.length > 0
 
 .toc-link:hover {
   background-color: rgba(0, 0, 0, 0.03);
-  color: #111;
+  color: var(--link-hover-color);
 }
 
 .toc-link.active {
-  color:#ffa220;
+  color: var(--link-hover-color);
   background-color: rgba(249, 249, 249);
 }
 

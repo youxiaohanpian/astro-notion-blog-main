@@ -61,22 +61,22 @@
 /* 右侧栏卡片样式 */
 :global(.blog-posts-link),
 :global(.blog-tags-link) {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.2rem;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(230, 230, 230, 0.8);
+  padding: 1.5rem;
   margin: 0;
 }
+
 
 /* 右侧栏卡片标题样式 */
 :global(.blog-posts-link h2),
 :global(.blog-tags-link h2) {
   padding-left: 0 !important;
-  margin-bottom: 0.8rem !important;
-  color: #555 !important;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 1rem !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color); /* Modern thick bottom border */
   padding-bottom: 0.5rem;
+  font-size: 1.1rem !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* 修复720-768像素重叠问题 */

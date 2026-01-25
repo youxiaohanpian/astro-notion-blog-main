@@ -20,9 +20,21 @@ import arrow from '../../images/icon-arrow-link.svg'
 
 export interface Props {
   pageId: string
+  label?: string
 }
 
-const { pageId } = Astro.props
+const { pageId, label } = Astro.props
+
+const buildNotionUrl = (rawId: string): string => {
+  const normalized = rawId.replace(/-/g, '')
+  if (normalized.length !== 32) {
+    return ''
+  }
+  const dashed = `${normalized.slice(0, 8)}-${normalized.slice(8, 12)}-${normalized.slice(12, 16)}-${normalized.slice(16, 20)}-${normalized.slice(20)}`
+  return `https://www.notion.so/${dashed}`
+}
+
+const fallbackLabel = label && label.trim() !== '' ? label : 'Notion page'
 
 // 获取被提及的页面
 let post: Post | null = null
@@ -65,12 +77,17 @@ if (pageId && pageId.trim() !== '') {
       <span class="text">{post.Title}</span>
     </a>
   ) : (
-    <a class="link not-found">
+    <a
+      class="link not-found"
+      href={pageId ? buildNotionUrl(pageId) : undefined}
+      target={pageId ? '_blank' : undefined}
+      rel={pageId ? 'noopener noreferrer' : undefined}
+    >
       <span class="icon">
         🚫
         <img src={arrow.src} class="icon-link" alt="Arrow icon of a page link" />
       </span>
-      <span class="text not-found">Post not found (ID: {pageId})</span>
+      <span class="text not-found">{fallbackLabel}</span>
     </a>
   )
 }

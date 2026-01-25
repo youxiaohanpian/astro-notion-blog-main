@@ -416,7 +416,7 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
     max-width: 100%;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
     color: var(--text-primary);
   }
   
@@ -448,12 +448,12 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
     font-size: 0.9rem;
     color: var(--text-secondary);
     transition: all 0.2s ease;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-tertiary);
   }
   
   .share-button:hover,
   .like-button:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: var(--border-color);
     color: var(--text-primary);
   }
   
@@ -464,8 +464,8 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
   }
 
   .liked {
-    background-color: rgba(255, 162, 32, 0.15);
-    color: var(--accent-color);
+    background-color: var(--bg-tertiary);
+    color: var(--accent-primary);
   }
 
   .liked svg {
@@ -477,6 +477,7 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
     font-size: 0.8rem;
     margin-left: 3px;
   }
+
   
   /* 响应式调整 */
   @media (max-width: 1220px) {
@@ -563,4 +564,3 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
     }
   }
 </style>
-

@@ -18,7 +18,11 @@ const { post, enableLink = true } = Astro.props
       post.Tags.map((tag: SelectProperty) => {
         if (enableLink) {
           return (
-            <a href={getTagLink(tag.name)} class={`tag ${tag.color}`} onclick="event.stopPropagation();">
+            <a
+              href={getTagLink(tag.name)}
+              class={`tag ${tag.color}`}
+              onclick="event.stopPropagation();"
+            >
               {tag.name}
             </a>
           )
@@ -36,7 +40,7 @@ const { post, enableLink = true } = Astro.props
     gap: 10px;
     margin: 0.5rem 0;
   }
-  .post-tags a,
+.post-tags a,
   .post-tags span {
     display: flex;
     align-items: center;
@@ -44,6 +48,6 @@ const { post, enableLink = true } = Astro.props
     min-width: 0;
     padding: 3px 12px;
     line-height: 1.2;
-    border-radius: 9999px !important;
+    border-radius: 9999px !important; /* 改为圆角胶囊样式 */
   }
 </style>

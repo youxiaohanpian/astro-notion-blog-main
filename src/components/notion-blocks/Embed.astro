@@ -1,0 +1,90 @@
+---
+import type * as interfaces from '../../lib/interfaces.ts'
+import {
+  isTweetURL,
+  isTikTokURL,
+  isInstagramURL,
+  isPinterestURL,
+  isCodePenURL,
+  isYouTubeURL,
+  parseYouTubeVideoId,
+} from '../../lib/blog-helpers.ts'
+import TweetEmbed from './TweetEmbed.astro'
+import InstagramEmbed from './InstagramEmbed.astro'
+import TikTokEmbed from './TikTokEmbed.astro'
+import PinterestEmbed from './PinterestEmbed.astro'
+import CodePenEmbed from './CodePenEmbed.astro'
+import Bookmark from './Bookmark.astro'
+
+export interface Props {
+  block: interfaces.Block
+  urlMap: { [key: string]: string }
+}
+
+const { block, urlMap } = Astro.props
+
+const urlString = block.Embed?.Url || ''
+let url: URL | null = null
+try {
+  if (urlString && urlString.trim() !== '') {
+    url = new URL(urlString)
+  }
+} catch (err) {
+  console.log(err)
+}
+
+const youtubeId = url && isYouTubeURL(url) ? parseYouTubeVideoId(url) : ''
+---
+
+{
+  url && isTweetURL(url) ? (
+    <TweetEmbed block={block} />
+  ) : url && isInstagramURL(url) ? (
+    <InstagramEmbed url={url} />
+  ) : url && isTikTokURL(url) ? (
+    <TikTokEmbed url={url} />
+  ) : url && isPinterestURL(url) ? (
+    <PinterestEmbed url={url} />
+  ) : url && isCodePenURL(url) ? (
+    <CodePenEmbed url={url} />
+  ) : url && youtubeId ? (
+    <div class="embed-video">
+      <iframe
+        src={`https://www.youtube.com/embed/${youtubeId}`}
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      />
+    </div>
+  ) : (
+    <Bookmark block={block} urlMap={urlMap} />
+  )
+}
+
+<style>
+  .embed-video {
+    margin: 1.5rem auto;
+    max-width: 720px;
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .embed-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  @media (max-width: 640px) {
+    .embed-video {
+      margin: 1rem auto;
+    }
+  }
+</style>

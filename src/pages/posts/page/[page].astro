@@ -9,22 +9,18 @@ import {
   getAllPostsSorted, // 用于统计所有文章的标签数量，保持与 /blog 一致
 } from '../../../lib/notion/client.ts'
 import { 
-  getPostLink,
   extractFirstImage,
   getTagLink, // 用于生成标签链接
 } from '../../../lib/blog-helpers.ts'
 import Layout from '../../../layouts/Layout.astro'
 import NoContents from '../../../components/NoContents.astro'
-import PostDate from '../../../components/PostDate.astro'
-import PostTags from '../../../components/PostTags.astro'
-import PostTitle from '../../../components/PostTitle.astro'
-import PostFeaturedImage from '../../../components/PostFeaturedImage.astro'
-import PostExcerpt from '../../../components/PostExcerpt.astro'
+import PostCard from '../../../components/PostCard.astro'
 import Pagination from '../../../components/Pagination.astro'
 import BlogPostsLink from '../../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../../components/BlogTagsLink.astro'
 import styles from '../../../styles/blog.module.css'
 import '../../../styles/notion-color.css'
+import '../../../styles/tag-cloud.css'
 
 export async function getStaticPaths() {
   const numberOfPages = await getNumberOfPages()
@@ -118,29 +114,7 @@ await Promise.all(
       {posts.length === 0 ? (
         <NoContents contents={posts} />
       ) : (
-        posts.map((post) => (
-          <article class="blog-post">
-            <a href={getPostLink(post.Slug)} class="blog-post-link">
-              {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
-                <div class="blog-post-image">
-                  <PostFeaturedImage post={post} />
-                </div>
-              )}
-              <div class="blog-post-content">
-                <div class="blog-post-header">
-                  <PostTitle post={post} enableLink={false} />
-                  <PostDate post={post} />
-                </div>
-                <div class="blog-post-tags">
-                  <PostTags post={post} enableLink={true} />
-                </div>
-                <div class="blog-post-body">
-                  <PostExcerpt post={post} />
-                </div>
-              </div>
-            </a>
-          </article>
-        ))
+        posts.map((post) => <PostCard post={post} excerptLines={6} />)
       )}
     </div>
     
@@ -177,40 +151,7 @@ await Promise.all(
     margin: 0 auto;
   }
 
-  /* 顶部标签云：与 /blog 页一致，用于在所有日志分页中也显示可切换的所有标签 */
-  .blog-tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
 
-  /* 顶部标签胶囊：在 Notion 标签颜色基础上统一尺寸 */
-  .blog-tag-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
-    padding: 0.35rem 1.2rem; /* 与 /blog 页顶部标签云保持一致的尺寸 */
-    border-radius: 9999px !important;
-    font-size: 0.9rem; /* 统一字号到与 /blog 页标签云一致 */
-    text-decoration: none;
-    color: #333;
-    background-color: #f7f7f7;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  }
-
-  /* 标签名称文本 */
-  .blog-tag-label {
-    font-weight: 500;
-  }
-
-  /* 标签后的文章数量，使用较低的不透明度弱化视觉权重 */
-  .blog-tag-count {
-    opacity: 0.6;
-    font-weight: 400;
-  }
 
   /* 重要：文章网格布局
    * 1. 固定三列布局，不要使用 auto-fit
@@ -237,121 +178,6 @@ await Promise.all(
     padding: 0 1rem;
   }
 
-  /* 文章卡片样式
-   * 1. 保持圆角和阴影效果
-   * 2. 悬停效果：轻微上浮
-   */
-  .blog-post {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .blog-post:hover {
-    transform: translateY(-4px);
-  }
-
-  .blog-post-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* 图片容器固定高度，保持一致性 */
-  .blog-post-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .blog-post-image :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
-  }
-  
-  .blog-post:hover .blog-post-image :global(img) {
-    transform: scale(1.05);
-  }
-  
-  /* 内容区域 */
-  .blog-post-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .blog-post-header {
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  /* 重要：文章标题样式
-   * 1. 固定字体大小 16px
-   * 2. 保持字体粗细和行高
-   * 3. 悬停效果：颜色加深和文字阴影
-   * 修改时注意保持这些字体规范
-   */
-  .blog-post-header :global(.post-title) {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-    margin: 0 0 0.2rem 0;
-  }
-
-  .blog-post-header :global(.post-title a) {
-    color: #333;
-    transition: color 0.3s ease;
-  }
-
-  .blog-post:hover .blog-post-header :global(.post-title a) {
-    color: #000;
-    text-shadow: 0 0 1px rgba(0,0,0,0.1);
-  }
-
-  /* 标签样式调整 */
-  .blog-post-tags {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -0.6em; /*圆角看起来偏右，所以改一下左间距达到视觉平衡 */
-  }
-
-  .blog-post-tags :global(.post-tag) {
-    margin: 0;
-    font-size: 12px;
-    padding: 0.25rem 0.75rem;
-    background: #f5f5f5;
-    border-radius: 50%;
-    color: #666;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.5rem; /* 确保最小宽度 */
-    height: 1.5rem; /* 固定高度 */
-  }
-
-  /* 重要：文章内容样式
-   * 1. 固定字体大小 14px
-   * 2. 保持行高和颜色
-   * 修改时注意保持这些字体规范
-   */
-  .blog-post-body {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-    margin-top: auto;
-  }
 
   /* 响应式布局断点
    * 注意：不要随意修改这些断点值
@@ -368,23 +194,5 @@ await Promise.all(
     }
   }
 
-  /* 系统字体设置 */
-  :root {
-    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  }
-
-  /* 系统字体检测 */
-  @supports (font: -apple-system-body) {
-    .blog-post-header :global(.post-title), .blog-post-body {
-      font-family: "PingFang SC", var(--font-family-sans);
-    }
-  }
-
-  @supports (-ms-ime-align: auto) {
-    .blog-post-header :global(.post-title), .blog-post-body {
-      font-family: "Microsoft YaHei", var(--font-family-sans);
-    }
-  }
 </style>
 

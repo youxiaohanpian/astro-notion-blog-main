@@ -127,22 +127,22 @@ const formattedTitle = prevPost?.Title?.replace(/·/g, ' · ') || '';
   div.post-relative-link > div > a.colored {
     padding: 0.8rem;
     border-radius: 8px;
-    color: var(--text-color);
-    background: rgba(245, 245, 245, 0.8);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
     transition: all 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(236, 236, 236, 0.8);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
     position: relative;
     overflow: hidden;
   }
   
   div.post-relative-link > div > a.colored:hover {
-    background: rgba(250, 250, 250, 0.98);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-color: rgba(200, 200, 200, 0.6);
+    background: var(--bg-tertiary);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-color);
   }
   
   div.post-relative-link > div > a.colored::after {
@@ -154,12 +154,12 @@ const formattedTitle = prevPost?.Title?.replace(/·/g, ' · ') || '';
     display: flex;
     align-items: center;
     font-size: 0.8rem;
-    color: #999;
+    color: var(--text-tertiary);
     margin-bottom: 0.4rem;
   }
   
   div.post-relative-link > div > a.colored:hover > div.nav-arrow {
-    color: #555;
+    color: var(--text-secondary);
   }
   
   div.post-relative-link > div > a.colored > div.nav-arrow svg {
@@ -208,12 +208,12 @@ const formattedTitle = prevPost?.Title?.replace(/·/g, ' · ') || '';
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.4;
-    color: #333;
+    color: var(--text-primary);
     transition: color 0.3s ease;
   }
   
   div.post-relative-link > div > a.colored:hover > div.title {
-    color: #000;
+    color: var(--link-hover-color);
     text-shadow: 0 0 1px rgba(0,0,0,0.1);
   }
   
@@ -286,8 +286,6 @@ const formattedTitle = prevPost?.Title?.replace(/·/g, ' · ') || '';
   }
   
   .title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-                 "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", 
-                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-family: var(--font-family-chinese), var(--font-family-sans);
   }
 </style>
