@@ -7,19 +7,16 @@ import {
   getAllTags,
   getAllPosts, // 用于计算该标签在全站范围内的文章总数，保持与首页一致
 } from '../../../../../lib/notion/client.ts'
-import { getPostLink, getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
+import { getTagLink, getPageLink } from '../../../../../lib/blog-helpers.ts'
 import Layout from '../../../../../layouts/Layout.astro'
 import NoContents from '../../../../../components/NoContents.astro'
-import PostDate from '../../../../../components/PostDate.astro'
-import PostTags from '../../../../../components/PostTags.astro'
-import PostTitle from '../../../../../components/PostTitle.astro'
-import PostFeaturedImage from '../../../../../components/PostFeaturedImage.astro'
-import PostExcerpt from '../../../../../components/PostExcerpt.astro'
+import PostCard from '../../../../../components/PostCard.astro'
 import Pagination from '../../../../../components/Pagination.astro'
 import BlogPostsLink from '../../../../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../../../../components/BlogTagsLink.astro'
 import styles from '../../../../../styles/blog.module.css'
 import '../../../../../styles/notion-color.css'
+import '../../../../../styles/tag-cloud.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
@@ -127,8 +124,8 @@ const redirectInfo = {
         <div class="blog-tag-cloud">
           {allTagNames.map((tagName) => (
             <a href={getTagLink(tagName)} class="blog-tag-pill">
-              <span class="tag-label">{tagName}</span>
-              <span class="tag-count">({tagCounts[tagName]})</span>
+              <span class="blog-tag-label">{tagName}</span>
+              <span class="blog-tag-count">({tagCounts[tagName]})</span>
             </a>
           ))}
         </div>
@@ -150,29 +147,7 @@ const redirectInfo = {
       {posts.length === 0 ? (
         <NoContents contents={posts} />
       ) : (
-        posts.map((post) => (
-          <article class="blog-post">
-            <a href={getPostLink(post.Slug)} class="blog-post-link">
-              {(post.FeaturedImage?.Url || post.Cover?.Url || post.FirstImage?.Url) && (
-                <div class="blog-post-image">
-                  <PostFeaturedImage post={post} />
-                </div>
-              )}
-              <div class="blog-post-content">
-                <div class="blog-post-header">
-                  <PostTitle post={post} enableLink={false} />
-                  <PostDate post={post} />
-                </div>
-                <div class="blog-post-tags">
-                  <PostTags post={post} enableLink={true} />
-                </div>
-                <div class="blog-post-body">
-                  <PostExcerpt post={post} />
-                </div>
-              </div>
-            </a>
-          </article>
-        ))
+        posts.map((post) => <PostCard post={post} excerptLines={6} />)
       )}
     </div>
 
@@ -271,39 +246,7 @@ const redirectInfo = {
     font-size: 1.1rem;
   }
 
-  /* 顶部标签云容器：与 /blog 页一致，用于在标签页中也显示可切换的所有标签 */
-  .blog-tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
 
-  /* 顶部标签胶囊：在 Notion 标签颜色基础上统一尺寸 */
-  .blog-tag-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
-    padding: 0.35rem 1.2rem; /* 与 /blog 页顶部标签云保持一致的尺寸 */
-    border-radius: 9999px !important;
-    font-weight: 400;
-    font-size: 0.9rem; /* 统一字号到与 /blog 页标签云一致 */
-    color: #333; /* 覆盖全局 a 颜色，统一为深灰 */
-    background-color: #f7f7f7;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-  }
-
-  /* 标签名称保持主文字颜色和较高权重 */
-  .tag-label {
-    font-weight: 600;
-  }
-
-  /* 标签后的文章数量，使用更淡的颜色弱化视觉权重 */
-  .tag-count {
-    opacity: 0.6;
-    font-weight: 400;
-  }
 
   /* 分页容器 */
   .pagination-container {
@@ -333,91 +276,6 @@ const redirectInfo = {
     width: 100%;
   }
 
-  /* 调整博客文章卡片样式 */
-  .blog-post {
-    margin: 0;
-    width: 100%;
-    border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  }
-
-  .blog-post:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    background-color: #fefefe;
-  }
-
-  /* 卡片链接 */
-  .blog-post-link {
-    display: block;
-    width: 100%;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  /* 图片区域 */
-  .blog-post-image {
-    width: 100%;
-    height: 240px;
-    overflow: hidden;
-    border-radius: 12px 12px 0 0; /* 只保留上边两个圆角 */
-  }
-
-  .blog-post-image :global(.post-featured-image) {
-    border-radius: 12px 12px 0 0; /* 确保内部容器也有相同的圆角 */
-    overflow: hidden;
-  }
-
-  .blog-post-image :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    border-radius: 12px 12px 0 0 !important; /* 强制覆盖全局样式，只保留上边圆角 */
-  }
-
-  .blog-post:hover .blog-post-image :global(img) {
-    transform: scale(1.05);
-  }
-
-  /* 内容区域 */
-  .blog-post-content {
-    padding: 1rem 1.2rem;
-  }
-
-  .blog-post-header {
-    margin-bottom: 0.4rem;
-  }
-
-  .blog-post-header :global(.post-title) {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-    margin: 0 0 0.2rem 0;
-  }
-
-  .blog-post-header :global(.post-title a) {
-    color: #333;
-    transition: color 0.3s ease;
-  }
-
-  .blog-post:hover .blog-post-header :global(.post-title a) {
-    color: #000;
-    text-shadow: 0 0 1px rgba(0,0,0,0.1);
-  }
-
-  .blog-post-tags {
-    margin-bottom: 0.4rem;
-  }
-
-  .blog-post-body {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-  }
 
   /* 响应式设计 */
   @media (max-width: 1024px) {
@@ -435,34 +293,6 @@ const redirectInfo = {
     .blog-posts-container {
       padding: 0 0.5rem;
     }
-
-    .blog-post-image {
-      height: 160px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .blog-post-image {
-      height: 140px;
-    }
-
-    .blog-post-content {
-      padding: 1rem;
-    }
-
-    .blog-post-header :global(.post-title) {
-      font-size: 15px;
-    }
-
-    .blog-post-body {
-      font-size: 13px;
-    }
-  }
-
-  /* 系统字体设置 */
-  :root {
-    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   }
 
   /* 博客文章容器 */
@@ -470,18 +300,5 @@ const redirectInfo = {
     padding: 0;
     box-sizing: border-box;
     width: 100%;
-  }
-
-  /* 系统字体检测 */
-  @supports (font: -apple-system-body) {
-    .blog-post-header :global(.post-title), .blog-post-body {
-      font-family: "PingFang SC", var(--font-family-sans);
-    }
-  }
-
-  @supports (-ms-ime-align: auto) {
-    .blog-post-header :global(.post-title), .blog-post-body {
-      font-family: "Microsoft YaHei", var(--font-family-sans);
-    }
   }
 </style>
