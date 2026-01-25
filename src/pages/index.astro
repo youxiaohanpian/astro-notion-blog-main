@@ -1,31 +1,28 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import { getAllPosts } from '../lib/notion/client'
-import { getTagLink } from '../lib/blog-helpers'
-import type { Post } from '../lib/interfaces'
-import Analytics from '@vercel/analytics/astro' // 安装vercel分析
+import Layout from '../layouts/Layout.astro';
+import { getAllPosts } from '../lib/notion/client';
+import { getTagLink } from '../lib/blog-helpers';
+import type { Post } from '../lib/interfaces';
+import Analytics from '@vercel/analytics/astro'// 安装vercel分析
 
-const posts = await getAllPosts()
-const latestPosts = posts.slice(0, 6) // 只显示最新的6篇日志
+const posts = await getAllPosts();
+const latestPosts = posts.slice(0, 6); // 只显示最新的6篇日志
 
 // 计算每个标签下有多少文章，用于在标签云中显示数量
-const tagCounts: Record<string, number> = posts.reduce(
-  (acc, post: Post) => {
-    post.Tags.forEach((tag) => {
-      const name = tag.name
-      acc[name] = (acc[name] ?? 0) + 1
-    })
-    return acc
-  },
-  {} as Record<string, number>
-)
+const tagCounts: Record<string, number> = posts.reduce((acc, post: Post) => {
+  post.Tags.forEach(tag => {
+    const name = tag.name;
+    acc[name] = (acc[name] ?? 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
 
 // 保持原本的标签列表，用于遍历输出，同时适配上面的数量统计
-const allTags = [...new Set(Object.keys(tagCounts))]
+const allTags = [...new Set(Object.keys(tagCounts))];
 ---
 
-<Layout
-  title="AI233 - 个人博客"
+<Layout 
+  title="AI233 - 个人博客" 
   description="欢迎来到我的个人博客，这里记录着我的技术探索和思考。"
   ogImage="/og-image.png"
   path="/"
@@ -40,17 +37,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
         <p class="hero-subtitle">探索、创造、分享</p>
         <a href="/blog" class="cta-button">
           浏览所有日志
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -59,12 +46,12 @@ const allTags = [...new Set(Object.keys(tagCounts))]
       <div class="video-loading-container">
         <div class="video-loading-spinner"></div>
       </div>
-      <video
-        class="hero-video"
-        poster="/banner-poster.webp"
-        autoplay
-        muted
-        loop
+      <video 
+        class="hero-video" 
+        poster="/banner-poster.webp" 
+        autoplay 
+        muted 
+        loop 
         playsinline
         webkit-playsinline
         x5-playsinline
@@ -72,8 +59,9 @@ const allTags = [...new Set(Object.keys(tagCounts))]
         x5-video-player-fullscreen="true"
         preload="auto"
       >
-        <source src="/banner.webm" type="video/webm" />
-        <source src="/banner.mp4" type="video/mp4" />
+        <source src="/banner.webm" type="video/webm">
+        <source src="/banner.mp4" type="video/mp4">
+
       </video>
       <div class="hero-overlay"></div>
     </section>
@@ -86,10 +74,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
           <h2>「云端邮局」星际广播</h2>
           <p>🎨 欢迎收听第 233 号飞船站传来的讯息</p>
           <p>🤖 由设计师 Tia 改造的 Notion 星际飞船日志舱</p>
-          <p>
-            🚀 设计生存指南 / AI魔法咒语 / 以及如何在数字宇宙避免被 BUG
-            外星人绑架的实战手册
-          </p>
+          <p>🚀 设计生存指南 / AI魔法咒语 / 以及如何在数字宇宙避免被 BUG 外星人绑架的实战手册 </p>
         </div>
       </section>
 
@@ -98,41 +83,26 @@ const allTags = [...new Set(Object.keys(tagCounts))]
         <div class="glass-container">
           <h2>最新日志</h2>
           <div class="posts-grid">
-            {
-              latestPosts.map((post: Post) => (
-                <article class="post-card">
-                  <a href={`/posts/${post.Slug}`}>
-                    <h3>{post.Title}</h3>
-                    <p class="post-excerpt">{post.Excerpt}</p>
-                    <div class="post-meta">
-                      <span class="post-date">
-                        {new Date(post.Date).toLocaleDateString()}
-                      </span>
-                      <span class="post-categories">
-                        {post.Tags.map((tag) => (
-                          <span class="category-tag">{tag.name}</span>
-                        ))}
-                      </span>
-                    </div>
-                  </a>
-                </article>
-              ))
-            }
+            {latestPosts.map((post: Post) => (
+              <article class="post-card">
+                <a href={`/posts/${post.Slug}`}>
+                  <h3>{post.Title}</h3>
+                  <p class="post-excerpt">{post.Excerpt}</p>
+                  <div class="post-meta">
+                    <span class="post-date">{new Date(post.Date).toLocaleDateString()}</span>
+                    <span class="post-categories">
+                      {post.Tags.map(tag => (
+                        <span class="category-tag">{tag.name}</span>
+                      ))}
+                    </span>
+                  </div>
+                </a>
+              </article>
+            ))}
           </div>
           <div class="view-more">
-            <a href="/blog" class="cta-button"
-              >浏览所有日志
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+            <a href="/blog" class="cta-button">浏览所有日志
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -146,14 +116,12 @@ const allTags = [...new Set(Object.keys(tagCounts))]
         <div class="glass-container">
           <h2>标签</h2>
           <div class="tag-cloud">
-            {
-              allTags.map((tag) => (
-                <a href={getTagLink(tag)} class="tag">
-                  <span class="tag-label">{tag}</span>
-                  <span class="tag-count">({tagCounts[tag]})</span>
-                </a>
-              ))
-            }
+            {allTags.map(tag => (
+              <a href={getTagLink(tag)} class="tag">
+                <span class="tag-label">{tag}</span>
+                <span class="tag-count">({tagCounts[tag]})</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -165,14 +133,14 @@ const allTags = [...new Set(Object.keys(tagCounts))]
   :root {
     --content-max-width: 1200px;
     --font-size-base: 18px;
-
+    --font-family-english: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --primary-color: #252525;
-    --secondary-color: #8e54e9;
+    --secondary-color: #8E54E9;
     --glass-background: rgba(20, 20, 30, 0.5);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-highlight: rgba(255, 255, 255, 0.15);
     --text-lighter: rgba(255, 255, 255, 0.9);
-    background-color: #212124;
+    background-color: #000;
   }
 
   /* 页面容器 */
@@ -181,17 +149,11 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     margin: 0;
     padding: 0;
     font-size: var(--font-size-base);
-    font-family: var(--font-family-chinese), var(--font-family-sans);
+    font-family: var(--font-family-english), "Microsoft YaHei", "微软雅黑", sans-serif;
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
     color: #ffffff;
-    background-color: oklab(24% 0 0);
-  }
-
-  :global(body) {
-    background-color: oklab(24% 0 0) !important;
-    margin: 0;
   }
 
   /* 英雄区域 */
@@ -205,7 +167,6 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     text-align: center;
     color: #fff;
     overflow: hidden;
-    isolation: isolate;
   }
 
   /* 视频背景 */
@@ -216,7 +177,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 0;
+    z-index: -2;
     opacity: 0;
     transition: opacity 1s ease;
   }
@@ -233,7 +194,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     width: 100%;
     height: 100%;
     /* 这里不要加background，会有色块不好看 */
-    z-index: 1;
+    z-index: -1;
   }
 
   /* 英雄区域内容 */
@@ -241,7 +202,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     max-width: 800px;
     padding: 2rem;
     position: relative;
-    z-index: 2;
+    z-index: 5;
   }
 
   /* 英雄区域标题 - 增强阴影 */
@@ -250,9 +211,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     font-weight: 700;
     margin-bottom: 1rem;
     color: #ffffff;
-    text-shadow:
-      0 2px 15px oklab(24% 0 0),
-      0 0 30px oklab(24% 0 0); /* 双层阴影效果 */
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.3); /* 双层阴影效果 */
     animation: fadeInUp 1s ease-out;
   }
 
@@ -260,9 +219,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     font-size: 1.5rem;
     margin-bottom: 2rem;
     color: #ffffff;
-    text-shadow:
-      0 2px 10px rgba(0, 0, 0, 0.5),
-      0 0 20px rgba(0, 0, 0, 0.3); /* 双层阴影效果 */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3); /* 双层阴影效果 */
     animation: fadeInUp 1s ease-out 0.2s backwards;
   }
 
@@ -300,7 +257,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     position: relative;
     z-index: 2;
     padding-bottom: 4rem;
-    /* 这里不要加background，会有色块，不好看 */
+   /* 这里不要加background，会有色块，不好看 */
   }
 
   /* 内容部分通用样式 */
@@ -355,9 +312,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     -webkit-backdrop-filter: blur(12px);
     border-radius: 12px;
     overflow: hidden;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 保持阴影效果 */
     display: flex; /* 让整张卡片参与高度对齐，避免内部内容被外层约束截断 */
@@ -393,7 +348,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
   .post-excerpt {
     color: #ffffff99;
     margin-bottom: 1.2rem;
-    line-height: 1.4;
+    line-height: 1.05;
     font-size: 0.95rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
@@ -405,7 +360,6 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     column-gap: 0.5rem; /* 控制日期和标签之间的水平间距 */
     color: #ffffff;
     font-size: 0.85rem;
-    line-height: 1.3;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     margin-top: auto; /* 关键：把 meta 区域推到卡片内容的最底部，实现整行卡片底部对齐 */
   }
@@ -429,7 +383,6 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     border-radius: 15px;
     font-size: 0.8rem;
     color: #ffffff;
-    line-height: 1.3;
     /* 原先通过 margin-left 控制间距，改为在 .post-categories 上统一用 gap 管理 */
     transition: background 0.2s ease;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* 增强文字阴影 */
@@ -447,11 +400,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
   .button {
     display: inline-block;
     padding: 0.8rem 2rem;
-    background: linear-gradient(
-      135deg,
-      var(--primary-color),
-      var(--secondary-color)
-    );
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: #fff;
     text-decoration: none;
     border-radius: 30px;
@@ -496,7 +445,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
   /* 标签名称文本，保持原本的白色和权重 */
   .tag-label {
     color: #ffffff;
-    font-weight: 400;
+    font-weight: 600;
   }
 
   /* 标签后的文章数量，使用较低的白色透明度弱化视觉权重 */
@@ -541,36 +490,36 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     .posts-grid {
       grid-template-columns: 1fr;
     }
-
+    
     .content-section {
       padding: 3rem 0;
     }
-
+    
     .glass-container {
       margin: 0 1rem;
       padding: 1.5rem;
     }
   }
-
+  
   @media (max-width: 480px) {
     .hero-title {
       font-size: 1.8rem;
     }
-
+    
     .hero-subtitle {
       font-size: 1rem;
     }
-
+    
     .cta-button {
       padding: 0.7rem 1.3rem;
       font-size: 0.9rem;
     }
-
+    
     .glass-container {
       padding: 1rem;
     }
   }
-
+  
   /* Safari浏览器特殊处理 */
   @supports (-webkit-touch-callout: none) {
     .hero-video {
@@ -618,11 +567,11 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     transition: opacity 0.3s ease;
     pointer-events: none;
   }
-
+  
   .video-loading-container.visible {
     opacity: 1;
   }
-
+  
   .video-loading-spinner {
     width: 36px;
     height: 36px;
@@ -632,19 +581,13 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     border-top-color: white;
     animation: spin 1s ease-in-out infinite;
   }
-
+  
   @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
   }
 
   /* 确保所有文字都有足够的阴影 */
-  h1,
-  h2,
-  h3,
-  p,
-  a {
+  h1, h2, h3, p, a {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
@@ -662,136 +605,136 @@ const allTags = [...new Set(Object.keys(tagCounts))]
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const video = document.querySelector('.hero-video') as HTMLVideoElement
-    const loadingContainer = document.querySelector('.video-loading-container')
-    const heroOverlay = document.querySelector('.hero-overlay')
-
+    const video = document.querySelector('.hero-video') as HTMLVideoElement;
+    const loadingContainer = document.querySelector('.video-loading-container');
+    const heroOverlay = document.querySelector('.hero-overlay');
+    
     // 检测问题浏览器
     function isProblematicBrowser() {
-      const ua = navigator.userAgent.toLowerCase()
+      const ua = navigator.userAgent.toLowerCase();
       return (
-        /micromessenger/i.test(ua) || // 微信
-        /qq/i.test(ua) || // QQ浏览器
-        /ucbrowser/i.test(ua) || // UC浏览器
-        /alipay/i.test(ua) || // 支付宝
-        /baiduboxapp/i.test(ua) || // 百度浏览器
-        /msie|trident|edge/i.test(ua) || // IE和早期Edge
+        /micromessenger/i.test(ua) ||       // 微信
+        /qq/i.test(ua) ||                   // QQ浏览器
+        /ucbrowser/i.test(ua) ||            // UC浏览器
+        /alipay/i.test(ua) ||               // 支付宝
+        /baiduboxapp/i.test(ua) ||          // 百度浏览器
+        /msie|trident|edge/i.test(ua) ||    // IE和早期Edge
         (/safari/i.test(ua) && !/chrome/i.test(ua) && !/firefox/i.test(ua)) // 某些版本的Safari
-      )
+      );
     }
-
+    
     // 检测视频支持情况
     function checkVideoSupport() {
       // 创建测试视频元素
-      const testVideo = document.createElement('video')
+      const testVideo = document.createElement('video');
       // 检测WebM支持
-      const webmSupport = testVideo.canPlayType('video/webm')
+      const webmSupport = testVideo.canPlayType('video/webm');
       // 检测MP4支持
-      const mp4Support = testVideo.canPlayType('video/mp4')
+      const mp4Support = testVideo.canPlayType('video/mp4');      
       // 如果两种主要格式都不支持，认为视频不受支持
-      return !(mp4Support === '' && webmSupport === '')
+      return !(mp4Support === '' && webmSupport === '');
     }
-
+    
     // 设置背景图并保持比例
     function setupBackgroundImage(element: HTMLElement | null) {
-      if (!element) return
-
+      if (!element) return;
+      
       // 获取图片的宽高比
-      const posterImage = new Image()
-      posterImage.src = '/banner-poster.jpg'
-      posterImage.onload = function () {
+      const posterImage = new Image();
+      posterImage.src = '/banner-poster.jpg';
+      posterImage.onload = function() {
         // 使用正确的类型
-        const imageRatio = posterImage.width / posterImage.height
+        const imageRatio = posterImage.width / posterImage.height;
         // element已在最上面检查过null，这里不可能为null
-        const el = element as HTMLElement
-        el.style.backgroundImage = "url('/banner-poster.jpg')"
-        el.classList.add('fallback')
-
+        const el = element as HTMLElement;
+        el.style.backgroundImage = "url('/banner-poster.jpg')";
+        el.classList.add('fallback');
+        
         // 检测设备方向并调整
         function adjustBackground() {
-          const windowRatio = window.innerWidth / window.innerHeight
+          const windowRatio = window.innerWidth / window.innerHeight;
           if (windowRatio > imageRatio) {
             // 宽屏设备
-            el.style.backgroundSize = '100vw auto'
-            el.style.backgroundPosition = 'center center'
+            el.style.backgroundSize = '100vw auto';
+            el.style.backgroundPosition = 'center center';
           } else {
             // 窄屏设备
-            el.style.backgroundSize = 'auto 100vh'
-            el.style.backgroundPosition = 'center center'
+            el.style.backgroundSize = 'auto 100vh';
+            el.style.backgroundPosition = 'center center';
           }
         }
-
+        
         // 初始调整
-        adjustBackground()
-
+        adjustBackground();
+        
         // 当窗口大小改变时重新调整
-        window.addEventListener('resize', adjustBackground)
-      }
+        window.addEventListener('resize', adjustBackground);
+      };
     }
-
+    
     // 处理视频加载
     function handleVideoLoading() {
       if (video && loadingContainer) {
         // 如果是问题浏览器或不支持视频，直接显示封面图
         if (isProblematicBrowser() || !checkVideoSupport()) {
           if (video) {
-            video.style.display = 'none'
+            video.style.display = 'none';
           }
-
+          
           // 设置背景图为视频封面
           if (heroOverlay instanceof HTMLElement) {
-            setupBackgroundImage(heroOverlay)
+            setupBackgroundImage(heroOverlay);
           }
-
+          
           // 隐藏加载指示器
-          loadingContainer.classList.remove('visible')
-          return
+          loadingContainer.classList.remove('visible');
+          return;
         }
-
+        
         // 添加视频播放错误处理
         video.addEventListener('stalled', () => {
           if (heroOverlay instanceof HTMLElement) {
-            setupBackgroundImage(heroOverlay)
+            setupBackgroundImage(heroOverlay);
           }
-        })
-
+        });
+        
         // 添加自动重试机制
         video.addEventListener('error', (e) => {
-          console.error('视频加载错误:', e)
-
+          console.error('视频加载错误:', e);
+          
           // 尝试重新加载视频（最多尝试2次）
-          let retryCount = parseInt(video.getAttribute('data-retry') || '0')
+          let retryCount = parseInt(video.getAttribute('data-retry') || '0');
           if (retryCount < 2) {
             setTimeout(() => {
-              video.setAttribute('data-retry', (retryCount + 1).toString())
-              video.load()
-            }, 1000)
+              video.setAttribute('data-retry', (retryCount + 1).toString());
+              video.load();
+            }, 1000);
           } else {
             // 显示错误信息
             if (loadingContainer instanceof HTMLElement) {
-              loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>'
+              loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>';
             }
-
+            
             // 显示封面图
             if (heroOverlay instanceof HTMLElement) {
-              setupBackgroundImage(heroOverlay)
+              setupBackgroundImage(heroOverlay);
             }
           }
-        })
-
+        });
+        
         // 显示加载指示器
-        loadingContainer.classList.add('visible')
-
+        loadingContainer.classList.add('visible');
+        
         // 视频可以播放时
         video.addEventListener('canplay', () => {
           // 隐藏加载指示器
-          loadingContainer.classList.remove('visible')
-          video.classList.add('loaded')
-        })
+          loadingContainer.classList.remove('visible');
+          video.classList.add('loaded');
+        });
       }
     }
-
+    
     // 初始化
-    handleVideoLoading()
-  })
+    handleVideoLoading();
+  });
 </script>
