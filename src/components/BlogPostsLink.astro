@@ -77,10 +77,9 @@ const isFileObject = (icon: Emoji | FileObject | null): icon is FileObject => {
     font-size: 0.9rem;
     border-radius: 6px;
     transition: background-color 0.2s ease;
-    background-color: transparent;
   }
   .blog-posts-link ul li:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: var(--bg-tertiary);
   }
   .blog-posts-link ul li:last-child {
     margin-bottom: 0;
@@ -89,7 +88,6 @@ const isFileObject = (icon: Emoji | FileObject | null): icon is FileObject => {
     margin-bottom: 0;
   }
   .blog-posts-link ul li a {
-    color: var(--link-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -102,6 +100,9 @@ const isFileObject = (icon: Emoji | FileObject | null): icon is FileObject => {
   }
   .blog-posts-link ul li a span {
     flex-shrink: 0;
+  }
+  .blog-posts-link ul li a:hover {
+    color: var(--text-primary);
   }
   .blog-posts-link ul li a img {
     width: 18px;

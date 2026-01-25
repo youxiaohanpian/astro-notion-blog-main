@@ -24,8 +24,23 @@ const { richText } = Astro.props
     background-color: var(--code-bg);
     color: var(--code-color);
     padding: 0.2em 0.4em;
-    border-radius: 8px;
+    margin: 0 0.5em;
+    border-radius: 4px;
     border: 1px solid var(--code-border);
     font-weight: 500;
+    word-break: break-word; /* 防止长代码溢出 */
+    hyphens: none; /* 避免自动连字符 */
+  }
+  
+  /* 倾斜代码额外样式处理 */
+  code em, code i {
+    font-style: italic; /* 保持倾斜 */
+  }
+  
+  /* 确保代码块在段落中也能正常显示 */
+  p code {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 </style>

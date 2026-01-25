@@ -17,7 +17,7 @@
 
   /* Accents */
   --accent-primary: #111111; /* Primary accent */
-  --accent-secondary: #404040; /* Secondary accent */
+  --accent-secondary: #424ef4; /* Selection highlight - soft blue */
   --accent-soft: #f0f0f0; /* Soft highlight */
 
   /* Links */
@@ -61,6 +61,7 @@
     --text-tertiary: oklch(55% 0.02 240);
 
     --accent-primary: oklch(75% 0.1 240);
+
     --link-color: var(--text-secondary);
     --link-hover-color: var(--text-primary);
     --border-color: oklch(35% 0.02 240);
@@ -72,12 +73,6 @@
     --shadow-sm: 0 2px 8px oklch(0% 0 0 / 20%);
     --shadow-md: 0 8px 24px oklch(0% 0 0 / 30%);
   }
-}
-
-/* 文本选择样式 */
-::selection {
-  background-color: var(--accent-secondary);
-  color: var(--text-primary);
 }
 
 /* 全局文本设置 */
@@ -163,15 +158,7 @@ html {
   scroll-behavior: smooth; /* 平滑滚动 */
 }
 
-/* 文本选择样式 */
-::selection {
-  background-color: var(--accent-secondary); /* 金色背景 */
-  color: var(--text-primary); /* 深色文字 */
-}
-::-moz-selection {
-  background-color: var(--accent-secondary);
-  color: var(--text-primary);
-}
+
 
 /* 修复标题链接样式 */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -179,9 +166,14 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   text-decoration: none !important;
 }
 
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-  color: var(--link-hover-color) !important; /* hover darker gray */
-  text-decoration: none !important;
+/* 文本选择样式 */
+::selection {
+  background-color: var(--accent-secondary);
+  color: #ffffff;
+}
+::-moz-selection {
+  background-color: var(--accent-secondary);
+  color: #ffffff;
 }
 
 /* 标题样式 */
@@ -287,6 +279,7 @@ ul, ol {
 
 li {
   margin: 0.5em 0;
+  padding:0.5em 0;
 }
 
 /* 引用样式 */
