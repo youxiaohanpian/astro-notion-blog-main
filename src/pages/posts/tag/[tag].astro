@@ -16,6 +16,7 @@ import BlogPostsLink from '../../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../../components/BlogTagsLink.astro'
 import styles from '../../../styles/blog.module.css'
 import '../../../styles/notion-color.css'
+import '../../../styles/tag-cloud.css'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
@@ -176,39 +177,7 @@ const tagColorMap: Record<string, string> = allPosts.reduce((acc, post) => {
     margin-bottom: 1.5rem;
   }
 
-  /* 顶部标签胶囊：在 Notion 标签颜色基础上统一尺寸 */
-  .blog-tag-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
-    padding: 0.35rem 1.2rem; /* 与 /blog 页顶部标签云保持一致的尺寸 */
-    border-radius: 9999px !important; /* 保持胶囊形态 */
-    font-weight: 400;
-    min-width: 40px;/* 确保最小宽度 */
-    text-align: center;/* 文字居中 */
-    font-size: 0.9rem; /* 统一字号到与 /blog 页标签云一致 */
-    color: var(--text-primary); /* 覆盖全局 a 颜色，统一为深灰 */
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-  }
 
-  /* 标签名称保持权重，由 Notion 颜色控制具体颜色 */
-  .tag-label {
-    font-weight: 500;
-  }
-
-  /* 标签后的文章数量，使用更淡的深灰色，弱化一点视觉权重 */
-  .tag-count {
-    color: var(--text-tertiary);
-    font-weight: 400;
-  }
-
-  /* 标签胶囊悬停效果 */
-  .blog-tag-pill:hover {
-    background-color: var(--bg-tertiary);
-    transform: translateY(-1px);
-  }
 
   /* 分页容器样式 */
   .pagination-container {

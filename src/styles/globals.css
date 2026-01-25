@@ -24,6 +24,11 @@
   --link-color: var(--text-secondary);
   --link-hover-color: var(--text-primary);
 
+  /* Code */
+  --code-bg: var(--bg-tertiary);
+  --code-color: #d73a49; /* GitHub inline code color */
+  --code-border: var(--border-color);
+
   /* Borders & Shadows */
   --border-color: #f0f0f0;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -59,6 +64,11 @@
     --link-color: var(--text-secondary);
     --link-hover-color: var(--text-primary);
     --border-color: oklch(35% 0.02 240);
+    
+    /* Code */
+    --code-bg: var(--bg-tertiary);
+    --code-color: oklch(70% 0.15 20); /* 暗色主题下的代码颜色 */
+    --code-border: var(--border-color);
     --shadow-sm: 0 2px 8px oklch(0% 0 0 / 20%);
     --shadow-md: 0 8px 24px oklch(0% 0 0 / 30%);
   }

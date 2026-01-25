@@ -1,5 +1,5 @@
 ---
-import { RichText } from '../../../lib/interfaces.ts'
+import type { RichText } from '../../../lib/interfaces.ts'
 
 export interface Props {
   richText: RichText
@@ -19,7 +19,13 @@ const { richText } = Astro.props
 
 <style>
   code {
-    color: #eb5757;
-    padding: 0.25rem;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9em;
+    background-color: var(--code-bg);
+    color: var(--code-color);
+    padding: 0.2em 0.4em;
+    border-radius: 8px;
+    border: 1px solid var(--code-border);
+    font-weight: 500;
   }
 </style>

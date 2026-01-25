@@ -23,7 +23,6 @@
   text-decoration: none;
   color: var(--text-primary);
   background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
@@ -43,6 +42,7 @@
 .blog-tag-pill:hover {
   background-color: var(--bg-tertiary);
   transform: translateY(-1px);
+  text-decoration: none;
 }
 
 /* 响应式调整 */
