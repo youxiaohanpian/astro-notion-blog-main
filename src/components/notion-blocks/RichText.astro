@@ -32,15 +32,16 @@ const { richText } = Astro.props
                         {
                           <Bold richText={richText}>
                             {richText.Text &&
-                              richText.Text.Content.split('\n').map(
+                              richText.Text.Content.replace(/^\s+|\s+$/g, '').split('\n').map(
                                 (content: string, i: number) => {
+                                  const cleanContent = content.replace(/^\s+/, '') // 去除每行开头的空格
                                   if (i === 0) {
-                                    return content
+                                    return cleanContent
                                   }
                                   return (
                                     <>
                                       <br />
-                                      {content}
+                                      {cleanContent}
                                     </>
                                   )
                                 }
@@ -54,7 +55,10 @@ const { richText } = Astro.props
                               />
                             )}
                             {richText.Mention && richText.Mention.Page && (
-                              <Mention pageId={richText.Mention.Page.Id} />
+                              <Mention
+                                pageId={richText.Mention.Page.Id}
+                                label={richText.PlainText}
+                              />
                             )}
                           </Bold>
                         }

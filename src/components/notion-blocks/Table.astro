@@ -60,17 +60,28 @@ if (!block.Table) {
     margin: 0.6rem 0;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     width: 100%;
   }
   .table th,
   .table td {
     font-weight: normal;
     padding: 0.5em;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    text-align: left;
+    text-indent: 0;
+  }
+  
+  /* 强制移除表格内任何可能的前导空格 */
+  .table th > *,
+  .table td > * {
+    text-indent: 0 !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
   }
   .table th {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-tertiary);
     font-weight: 600;
   }
   

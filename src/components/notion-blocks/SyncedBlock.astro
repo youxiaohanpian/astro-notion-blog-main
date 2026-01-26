@@ -10,4 +10,14 @@ export interface Props {
 const { block, headings } = Astro.props
 ---
 
-<NotionBlocks blocks={block.SyncedBlock.Children} headings={headings} />
+<div class="synced-block">
+  <NotionBlocks blocks={block?.SyncedBlock?.Children || []} isRoot={false} level={1} headings={headings} />
+</div>
+
+<style>
+  .synced-block {
+    margin: 0.5rem 0;
+    background-color: var(--bg-secondary);
+    border-radius: 0 4px 4px 0;
+  }
+</style>

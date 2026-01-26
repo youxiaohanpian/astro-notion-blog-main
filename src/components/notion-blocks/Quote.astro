@@ -40,15 +40,22 @@ if (!block.Quote) {
   blockquote {
     margin: 0.6rem 0;
     padding: 0.5rem 0.9rem;
-    border-left: 3px solid var(--text-color);
+    border-left: 3px solid var(--accent-primary);
     border-radius: 0 4px 4px 0; /* 右侧圆角改为4px */
     font-size: 1rem;
     line-height: 1.8rem;
-    background-color: rgba(235, 236, 237, 0.3); /* 添加轻微背景色 */
+    background-color: var(--bg-tertiary); /* 默认背景色 */
     box-sizing: border-box; /* 确保内边距不会增加宽度 */
     overflow: hidden; /* 防止内容溢出 */
     word-wrap: break-word; /* 确保长文本会换行 */
     width: 100%; /* 确保宽度不超过父容器 */
+  }
+
+  /* 在暗色主题下使用与gray-background相同的背景色 */
+  @media (prefers-color-scheme: dark) {
+    blockquote {
+      background-color: oklch(28% 0.02 240);
+    }
   }
   
   /* 响应式调整 */

@@ -15,13 +15,26 @@ try {
   if (!urlString || urlString.trim() === '') {
     throw new Error('Empty file URL')
   }
-  url = new URL(urlString)
+  // 确保URL字符串被正确编码
+  const encodedUrl = urlString.includes('%') ? urlString : encodeURI(urlString);
+  url = new URL(encodedUrl)
+  console.log('File URL processed:', { original: urlString, processed: encodedUrl });
 } catch (err) {
-  console.error(`Invalid file URL. error: ${err}`)
+  console.error(`Invalid file URL. error: ${err}`, 'URL string:', block.File?.External?.Url || block.File?.File?.Url)
   url = undefined
 }
 
-const filename = url ? decodeURIComponent(url.pathname.split('/').slice(-1)[0]) : 'file'
+const filename = url ? (() => {
+  try {
+    const rawFilename = url.pathname.split('/').slice(-1)[0];
+    return decodeURIComponent(rawFilename);
+  } catch (error) {
+    console.error('Error decoding filename:', error, 'URL:', url.toString());
+    // 如果解码失败，尝试返回原始文件名
+    const rawFilename = url.pathname.split('/').slice(-1)[0];
+    return rawFilename || 'file';
+  }
+})() : 'file'
 ---
 
 <div class="file">

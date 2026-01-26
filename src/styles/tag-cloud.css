@@ -1,0 +1,58 @@
+/* 
+   统一的标签云样式
+   支持暗色主题，所有页面共用
+*/
+
+/* 标签云容器 */
+.blog-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 标签胶囊样式：使用 CSS 变量支持主题切换 */
+.blog-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem; /* 控制标签文字和数量之间的间距 */
+  padding: 0.35rem 1.2rem;
+  border-radius: 9999px !important;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+/* 标签名称文本 */
+.blog-tag-label {
+  font-weight: 500;
+}
+
+/* 标签后的文章数量，使用较低的不透明度弱化视觉权重 */
+.blog-tag-count {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+/* 标签胶囊悬停效果 */
+.blog-tag-pill:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .blog-tag-cloud {
+    gap: 0.4rem;
+  }
+  
+  .blog-tag-pill {
+    padding: 0.3rem 1rem;
+    font-size: 0.85rem;
+  }
+}

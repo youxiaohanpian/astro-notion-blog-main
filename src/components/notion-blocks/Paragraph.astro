@@ -6,22 +6,22 @@ import NotionBlocks from '../NotionBlocks.astro'
 import '../../styles/notion-color.css'
 
 export interface Props {
-  block: interfaces.Block
+  block: interfaces.Block | undefined
   headings: interfaces.Block[]
 }
 
 const { block, headings } = Astro.props
 ---
 
-<p class={snakeToKebab(block.Paragraph.Color)}>
+<p class={snakeToKebab(block?.Paragraph?.Color || 'default')}>
   {
-    block.Paragraph.RichTexts.map((richText: interfaces.RichText) => (
+    block?.Paragraph?.RichTexts?.map((richText: interfaces.RichText) => (
       <RichText richText={richText} />
-    ))
+    )) || []
   }
   {
-    block.Paragraph.Children && (
-      <NotionBlocks blocks={block.Paragraph.Children} headings={headings} />
+    block?.Paragraph?.Children && (
+      <NotionBlocks blocks={block.Paragraph.Children} isRoot={false} level={1} headings={headings} />
     )
   }
 </p>
@@ -31,5 +31,19 @@ const { block, headings } = Astro.props
     margin: 0.3rem 0;
     font-size: 1rem;
     min-height: 1.6rem;
+    line-height: 1.6;
+  }
+  
+  /* 包含代码的段落特殊处理 */
+  p:has(code) {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  /* 段落中的代码样式优化 */
+  p code {
+    display: inline;
+    max-width: 100%;
   }
 </style>

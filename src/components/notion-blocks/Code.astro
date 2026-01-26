@@ -59,24 +59,38 @@ const grammer =
 
 <script>
   import mermaid from 'mermaid'
-  mermaid.initialize({ startOnLoad: true, theme: 'neutral' })
+
+  // 根据系统主题设置mermaid主题
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ 
+    startOnLoad: false, 
+    theme: isDarkMode ? 'dark' : 'neutral' 
+  })
+
+  window.addEventListener('load', () => {
+    if (document.querySelector('.mermaid')) {
+      mermaid.run({ querySelector: '.mermaid' })
+    }
+  })
 </script>
 
 <script>
-  document.querySelectorAll('button.copy').forEach((button) => {
-    button.addEventListener('click', (ev) => {
-      const target = ev.currentTarget as HTMLButtonElement;
-      navigator.clipboard
-        .writeText(target.getAttribute('data-code') || '')
-        .then(() => {
-          const originalText = target.innerText;
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('button.copy').forEach((button) => {
+      button.addEventListener('click', (ev) => {
+        const target = ev.currentTarget as HTMLButtonElement;
+        navigator.clipboard
+          .writeText(target.getAttribute('data-code') || '')
+          .then(() => {
+            const originalText = target.innerText;
 
-          target.innerText = target.getAttribute('data-done-text') || '';
+            target.innerText = target.getAttribute('data-done-text') || '';
 
-          setTimeout(() => {
-            target.innerText = originalText;
-          }, 3000);
-        });
+            setTimeout(() => {
+              target.innerText = originalText;
+            }, 3000);
+          });
+      });
     });
   });
 </script>
@@ -85,13 +99,13 @@ const grammer =
   .code {
     display: block;
     width: 100%;
-    margin-bottom: 0.6rem;
+    margin: 1em 0
   }
   .code > div {
-    background: rgb(249, 249, 250);  /*代码块的颜色 */
+    background: var(--bg-secondary);
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
   }
   .code > div div {
     display: flex;
@@ -102,15 +116,15 @@ const grammer =
     width: 4rem;
     border: 0;
     border-radius: 4px;
-    background-color: rgba(227, 226, 224, 0.5);
-    color: var(--text-color);
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
     line-height: 1.2rem;
     cursor: pointer;
     padding: 0.2rem 0;
     transition: background-color 0.2s ease;
   }
   .code button.copy:hover {
-    background-color: rgba(227, 226, 224, 0.8);
+    background-color: var(--border-color);
   }
   .code pre {
     display: block;
@@ -123,14 +137,14 @@ const grammer =
     width: 100%;
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    scrollbar-color: var(--text-tertiary) transparent;
   }
   .code pre::-webkit-scrollbar {
     height: 6px;
     width: 6px;
   }
   .code pre::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--text-tertiary);
     border-radius: 3px;
   }
   .code pre.mermaid {

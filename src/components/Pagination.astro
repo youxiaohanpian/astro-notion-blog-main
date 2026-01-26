@@ -51,13 +51,13 @@ for (let i = startPage; i <= endPage; i++) {
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: #ffffff;
-    color: #666;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     font-size: 0.9rem;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
   }
   
@@ -70,22 +70,22 @@ for (let i = startPage; i <= endPage; i++) {
   }
   
   .pagination a:hover:not(.inactive):not(.active) {
-    background: #fefefe;
+    background: var(--bg-tertiary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    color: #333;
+    box-shadow: var(--shadow-md);
+    color: var(--text-primary);
   }
   
   .pagination a.active {
-    background: #333;
-    color: #ffffff;
+    background: var(--text-primary);
+    color: var(--bg-secondary);
     cursor: default;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-sm);
   }
   
   .pagination a.inactive {
-    color: #aaa;
-    background: #f4f4f4;
+    color: var(--text-tertiary);
+    background: var(--bg-tertiary);
     cursor: not-allowed;
     box-shadow: none;
   }

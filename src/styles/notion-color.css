@@ -62,6 +62,37 @@
   background: rgba(253, 235, 236, 1) !important;
 }
 
+/* 暗色主题下的callout背景色 */
+@media (prefers-color-scheme: dark) {
+  .gray-background {
+    background: oklch(28% 0.02 240) !important;
+  }
+  .brown-background {
+    background: oklch(25% 0.03 30) !important;
+  }
+  .orange-background {
+    background: oklch(30% 0.04 40) !important;
+  }
+  .yellow-background {
+    background: oklch(35% 0.04 70) !important;
+  }
+  .green-background {
+    background: oklch(25% 0.03 150) !important;
+  }
+  .blue-background {
+    background: oklch(28% 0.03 220) !important;
+  }
+  .purple-background {
+    background: oklch(30% 0.03 280) !important;
+  }
+  .pink-background {
+    background: oklch(32% 0.03 340) !important;
+  }
+  .red-background {
+    background: oklch(30% 0.04 20) !important;
+  }
+}
+
 /* 标签文字颜色统一修改 */
 .tag.light-gray, 
 .tag.gray, 
@@ -73,14 +104,15 @@
 .tag.purple, 
 .tag.pink, 
 .tag.red {
-  color: #333 !important; /* 修改为深灰色 */
-  border-radius: 8px !important; /* 统一修改圆角为8px */
+  color: var(--text-primary) !important;
+  border-radius: 9999px !important; /* 改为圆角胶囊样式 */
+  text-shadow: none !important;
 }
 
 /* 全局分割线样式统一 */
 .divider, hr {
-  margin: 1rem 0;
-  background-color: #dedede;
+  margin: 1.5rem 0;
+  background-color: var(--border-color);
   border: none;
   height: 1px;
 }
@@ -117,47 +149,77 @@
   background: rgb(255, 226, 221) !important;
 }
 
+/* 暗色主题下的标签背景色 */
+@media (prefers-color-scheme: dark) {
+  .tag.light-gray {
+    background: oklch(35% 0.02 240) !important;
+  }
+  .tag.gray {
+    background: oklch(30% 0.02 240) !important;
+  }
+  .tag.brown {
+    background: oklch(28% 0.03 30) !important;
+  }
+  .tag.orange {
+    background: oklch(32% 0.04 40) !important;
+  }
+  .tag.yellow {
+    background: oklch(35% 0.04 70) !important;
+  }
+  .tag.green {
+    background: oklch(25% 0.03 150) !important;
+  }
+  .tag.blue {
+    background: oklch(28% 0.03 220) !important;
+  }
+  .tag.purple {
+    background: oklch(30% 0.03 280) !important;
+  }
+  .tag.pink {
+    background: oklch(32% 0.03 340) !important;
+  }
+  .tag.red {
+    background: oklch(30% 0.04 20) !important;
+  }
+}
+
 /* 可点击标签的悬停效果 */
 a.tag {
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-a.tag:hover {
-  transform: translateY(-1px);
-}
-
 a.tag.light-gray:hover {
-  background: rgba(227, 226, 224, 0.8) !important;
+  background: rgba(227, 226, 224, 0.5) !important;
 }
 a.tag.gray:hover {
-  background: rgba(227, 226, 224, 0.8) !important;
+  background: rgba(227, 226, 224, 0.5) !important;
 }
 a.tag.brown:hover {
-  background: rgba(238, 224, 218, 0.8) !important;
+  background: rgba(238, 224, 218, 0.5) !important;
 }
 a.tag.orange:hover {
-  background: rgba(250, 222, 201, 0.8) !important;
+  background: rgba(250, 222, 201, 0.5) !important;
 }
 a.tag.yellow:hover {
-  background: rgba(253, 236, 200, 0.8) !important;
+  background: rgba(253, 236, 200, 0.5) !important;
 }
 a.tag.green:hover {
-  background: rgba(219, 237, 219, 0.8) !important;
+  background: rgba(219, 237, 219, 0.5) !important;
 }
 a.tag.blue:hover {
-  background: rgba(211, 229, 239, 0.8) !important;
+  background: rgba(211, 229, 239, 0.5) !important;
 }
 a.tag.purple:hover {
-  background: rgba(232, 222, 238, 0.8) !important;
+  background: rgba(232, 222, 238, 0.5) !important;
 }
 a.tag.pink:hover {
-  background: rgba(245, 224, 233, 0.8) !important;
+  background: rgba(245, 224, 233, 0.5) !important;
 }
 a.tag.red:hover {
-  background: rgba(255, 226, 221, 0.8) !important;
+  background: rgba(255, 226, 221, 0.5) !important;
 }
 
-/* 文章内容中链接样式 */
+/* 文章内容中链接样�?*/
 .post-body a:not(.tag) {
   margin-right: 0.3em; /* 链接右侧间距 */
   display: inline-block; /* 确保间距生效 */
@@ -165,10 +227,11 @@ a.tag.red:hover {
 
 /* 书签卡片全局样式 */
 .post-body .bookmark {
-  margin: 1.5rem 0; /* 确保书签上下有足够间距 */
+  margin: 1.5rem 0; /* 确保书签上下有足够间�?*/
 }
 
-/* 连续书签之间的额外间距 */
+/* 连续书签之间的额外间�?*/
 .post-body .bookmark + .bookmark {
   margin-top: 2rem; /* 连续书签之间增加更多间距 */
 }
+

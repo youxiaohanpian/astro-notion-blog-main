@@ -20,6 +20,7 @@
     "_fetch-notion-blocks": "node scripts/retrieve-block-children.cjs"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
     "@astrojs/node": "^9.3.0",
     "@astrojs/react": "^4.1.2",
     "@astrojs/rss": "^4.0.11",
@@ -43,7 +44,8 @@
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@nrwl/nx-cloud": "^19.1.0",

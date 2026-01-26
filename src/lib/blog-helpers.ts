@@ -45,7 +45,18 @@ export const filePath = (url: URL): string => {
       const result = url.toString();
       return result || '/'; // 确保不返回空字符串
     }
-    const path = pathJoin(BASE_PATH, `/notion/${dir}/${filename}`);
+    
+    // 处理包含中文的文件名
+    let processedFilename = filename;
+    try {
+      // 尝试解码文件名，如果失败则使用原始文件名
+      processedFilename = decodeURIComponent(filename);
+      console.log('处理文件名:', { original: filename, decoded: processedFilename });
+    } catch (error) {
+      console.warn('文件名解码失败，使用原始文件名:', error);
+    }
+    
+    const path = pathJoin(BASE_PATH, `/notion/${dir}/${processedFilename}`);
     console.log('处理图片路径:', { original: url.toString(), processed: path });
     // 确保返回的路径不为空
     return path || url.toString() || '/';
@@ -286,7 +297,7 @@ export const isInstagramURL = (url: URL): boolean => {
   ) {
     return false
   }
-  return /\/p\/[^/]+/.test(url.pathname)
+  return /\/(p|reel|tv)\/[^/]+/.test(url.pathname)
 }
 
 export const isPinterestURL = (url: URL): boolean => {

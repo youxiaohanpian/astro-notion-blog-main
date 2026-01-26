@@ -2,44 +2,97 @@
    全局变量定义，优化文字颜色和字重 
 */
 :root {
-  /* 主题颜色 */
-  --primary-color: #252525;
-  --secondary-color: #555555;
-  --accent-color: #FFA220; /* 橙色强调色 */
-  
-  /* 文字颜色 */
-  --text-primary: #252525;   /* 主文本颜色，深灰色而非纯黑 */
-  --text-secondary: #505055; /* 次要文本颜色 */
-  --text-tertiary: #73737c;  /* 辅助文本颜色 */
-  --text-light: rgba(255, 255, 255, 0.85); /* 亮色背景上的文字 */
-  --text-lighter: rgba(255, 255, 255, 0.65); /* 更浅的文字颜色 */
-  
-  /* 字体粗细 */
+  /* OKLCH Design System - Elegant Theme */
+
+  /* Backgrounds */
+  --bg-primary: #fafafa; /* Page background */
+  --bg-secondary: #fefefe; /* Card/background surface */
+  --bg-tertiary: #f0f0f0; /* Subtle dividers */
+
+  /* Text */
+  --text-primary: #111111; /* Headings */
+  --text-secondary: #606060; /* Body text */
+  --text-tertiary: #808080; /* Muted text */
+  --text-inverse: #fefefe; /* Text on dark */
+
+  /* Accents */
+  --accent-primary: #111111; /* Primary accent */
+  --accent-secondary: #424ef4; /* Selection highlight - soft blue */
+  --accent-soft: #f0f0f0; /* Soft highlight */
+
+  /* Links */
+  --link-color: var(--text-secondary);
+  --link-hover-color: var(--text-primary);
+
+  /* Code */
+  --code-bg: var(--bg-tertiary);
+  --code-color: #d73a49; /* GitHub inline code color */
+  --code-border: var(--border-color);
+
+  /* Borders & Shadows */
+  --border-color: #f0f0f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Typography */
+  --font-family-english: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-sans: var(--font-family-english);
+  --font-family-serif: 'Georgia', 'Times New Roman', serif;
+  --font-family-chinese: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'WenQuanYi Micro Hei', sans-serif;
+
   --font-light: 300;
   --font-normal: 400;
-  --font-medium: 500; 
-  --font-semibold: 600;  /* 取代700，更和谐 */
-  
-  /* 字体家族 */
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
 }
 
-/* 文本选择样式 */
-::selection {
-  background-color: #FFA220; /* 橙色背景 */
-  color: white; /* 白色文字 */
+/* Dark Mode Overrides (Optional, keeping it simple first) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: oklch(18% 0.02 240);
+    --bg-secondary: oklch(22% 0.02 240);
+    --bg-tertiary: oklch(28% 0.03 240);
+
+    --text-primary: oklch(94% 0.01 240);
+    --text-secondary: oklch(70% 0.03 240);
+    --text-tertiary: oklch(55% 0.02 240);
+
+    --accent-primary: oklch(75% 0.1 240);
+
+    --link-color: var(--text-secondary);
+    --link-hover-color: var(--text-primary);
+    --border-color: oklch(35% 0.02 240);
+    
+    /* Code */
+    --code-bg: var(--bg-tertiary);
+    --code-color: oklch(70% 0.15 20); /* 暗色主题下的代码颜色 */
+    --code-border: var(--border-color);
+    --shadow-sm: 0 2px 8px oklch(0% 0 0 / 20%);
+    --shadow-md: 0 8px 24px oklch(0% 0 0 / 30%);
+  }
 }
 
 /* 全局文本设置 */
 body {
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-weight: var(--font-normal);
-  font-family: var(--font-family-sans), var(--font-family-chinese);
+  font-family: var(--font-family-chinese), var(--font-family-sans);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 标题样式统一 */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text-primary);
   font-weight: var(--font-semibold);
   line-height: 1.4;
@@ -66,13 +119,14 @@ p {
 
 /* 链接样式 */
 a {
-  color: var(--accent-color); /* 使用橙色作为链接颜色 */
-  font-weight: var(--font-normal);
+  color: var(--link-color);
+  font-weight: var(--font-medium);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 a:hover {
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
@@ -82,13 +136,283 @@ a:hover {
 }
 
 /* 文章摘要和元信息 */
-.post-excerpt, .post-meta, .post-date {
+.post-excerpt,
+.post-meta,
+.post-date {
   color: var(--text-secondary);
   font-weight: var(--font-normal);
 }
 
 /* 时间、标签等辅助信息 */
-.post-date, .category-tag, .meta-text {
+.post-date,
+.category-tag,
+.meta-text {
   color: var(--text-tertiary);
   font-weight: var(--font-normal);
-} 
+}
+
+/* 全局样式 */
+
+html {
+  scroll-padding-top: 50px; /* 等于导航栏高度 */
+  scroll-behavior: smooth; /* 平滑滚动 */
+}
+
+
+
+/* 修复标题链接样式 */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* 文本选择样式 */
+::selection {
+  background-color: var(--accent-secondary);
+  color: #ffffff;
+}
+::-moz-selection {
+  background-color: var(--accent-secondary);
+  color: #ffffff;
+}
+
+/* 标题样式 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-chinese), var(--font-family-sans);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.3rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* 响应式标题 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  h5, h6 {
+    font-size: 1rem;
+  }
+}
+
+/* 内容样式 */
+p {
+  margin: 0.8em 0;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea,
+[tabindex] {
+    -ms-touch-action: manipulation; /* 兼容 IE/Edge 旧版 */
+    touch-action: manipulation;     /*'touch-action' to support Firefox 52+, Safari 13+.（Firefox 52+、Safari 13+、Chrome等） */
+}
+
+.immersive-translate-link {
+    user-select: none;              /* 标准写法，现代浏览器 */
+    -webkit-user-select: none;      /* 兼容 Safari 3+、iOS Safari */
+}
+
+/* 默认链接悬停效果 */
+a:hover {
+  text-decoration: underline;
+}
+
+/* 确保侧边栏链接不受全局样式影响 */
+.blog-tags-link a:hover,
+.blog-posts-link a:hover,
+.tag:hover,
+.post-relative-link a:hover {
+  text-decoration: none !important;
+}
+
+/* 列表样式 */
+ul, ol {
+  margin: 1em 0;
+  padding-left: 2em;
+  line-height: 1.7;
+}
+
+li {
+  margin: 0.5em 0;
+  padding:0.35m 0;
+}
+
+/* 引用样式 */
+blockquote {
+  margin: 2em 0;
+  padding: 0.8em 1.5em;
+  border-left: 3px solid var(--accent-secondary); /* 金色边框 */
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+}
+
+/* 代码样式 */
+code {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 8px;
+}
+
+pre {
+  margin: 1.5em 0;
+  padding: 1em;
+  overflow-x: auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+/* 确保代码块组件内的代码样式不受全局样式影响 */
+.code pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.code pre {
+  margin: 0;
+  background-color: transparent;
+}
+
+/* 表格样式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+th, td {
+  padding: 0.5em;
+  border: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--bg-tertiary);
+  font-weight: 600;
+}
+
+/* 水平线样式 */
+hr {
+  margin: 2em 0;
+  border: 0;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+/* 图片样式 */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+}
+
+/* 禁止所有图片悬浮效果，除非明确指定 */
+.post-body img, 
+.post-body figure img, 
+.post-body .image img,
+img:not([class*="clickable"]):not(a img) {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* 覆盖所有可能的图片容器悬浮效果 */
+.post-body figure:not(.clickable):hover,
+.post-body .image:not(.clickable):hover,
+.post-body div:not(.clickable) > img:hover,
+.post-body p > img:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 其他元素样式 */
+mark {
+  background-color: rgba(255, 255, 0, 0.3);
+  padding: 0.1em 0.3em;
+  border-radius: 8px;
+}
+
+/* 移动设备适配 */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding: 0 0.8rem;
+  }
+}
+
+.breadcrumb-item.home {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.breadcrumb-item.home:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.home-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.breadcrumb-item.home:hover .home-icon {
+  color: var(--text-primary);
+}

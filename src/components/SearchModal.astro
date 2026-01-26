@@ -45,8 +45,8 @@
     left: 20%;
     width: 60%;
     border-radius: 12px;
-    background-color: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-secondary);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
   }
   @media (max-width: 640px) {
@@ -63,20 +63,20 @@
   div.search-prompt input {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
     padding: 1rem 1.5rem;
-    background-color: #ffffff;
-    color: #333;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-family: var(--font-family-chinese), var(--font-family-sans);
   }
   div.search-prompt input:focus {
     outline: none;
-    border-bottom-color: var(--primary-color);
+    border-bottom-color: var(--accent-primary);
   }
   div.search-prompt input::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
   }
 
   div.search-result {
@@ -98,16 +98,17 @@
     transition: background-color 0.2s ease;
   }
   div.search-result ul > :global(li > a:hover) {
-    background-color: #f5f5f5;
+    background-color: var(--bg-tertiary);
+    text-decoration: none !important;
   }
   div.search-result ul > :global(li.selected > a) {
-    background-color: #f0f7ff;
-    border-left: 3px solid var(--primary-color);
+    background-color: var(--bg-tertiary);
+    border-left: 3px solid var(--accent-primary);
   }
 
   div.search-result :global(div.search-result-title) {
     padding: 0.1rem 0;
-    color: #333;
+    color: var(--text-primary);
     font-size: 1.1rem;
     line-height: 1.4rem;
     font-weight: 600;
@@ -115,7 +116,7 @@
   }
   div.search-result :global(div.search-result-description) {
     margin: 0.3rem 0 0;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.4rem;
     font-family: var(--font-family-chinese), var(--font-family-sans);
@@ -354,7 +355,7 @@
     function showErrorMessage(message: string) {
       const ul = document.querySelector('.search-result ul') as HTMLUListElement | null;
       if (ul) {
-        ul.innerHTML = `<li><div style="padding: 1rem; text-align: center; color: #666;">${message}</div></li>`;
+        ul.innerHTML = `<li><div style="padding: 1rem; text-align: center; color: var(--text-secondary);">${message}</div></li>`;
       }
     }
 

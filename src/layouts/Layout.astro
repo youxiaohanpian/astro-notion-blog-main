@@ -3,9 +3,8 @@ import { PUBLIC_GA_TRACKING_ID, ENABLE_LIGHTBOX } from '../server-constants.ts'
 import { getDatabase } from '../lib/notion/client.ts'
 import { getNavLink, getStaticFilePath, filePath } from '../lib/blog-helpers.ts'
 import type { FileObject, Emoji } from '../lib/interfaces.ts'
-import '../styles/syntax-coloring.css'
-import '../styles/global.css'
-import '../styles/globals.css'
+  import '../styles/syntax-coloring.css'
+  import '../styles/globals.css'
 import GoogleAnalytics from '../components/GoogleAnalytics.astro'
 import SearchModal from '../components/SearchModal.astro'
 import SearchButton from '../components/SearchButton.astro'
@@ -26,71 +25,82 @@ export interface Props {
   postCover?: string | null
 }
 
-const { 
-  title = '', 
-  description = '', 
-  path = '/', 
-  ogImage = '', 
+const {
+  title = '',
+  description = '',
+  path = '/',
+  ogImage = '',
   hideSidebar = false,
   hideHeader = false,
   breadcrumbs = [],
-  postCover = null
+  postCover = null,
 } = Astro.props
 
 const database = await getDatabase()
 
 // 获取有效的站点URL，如果 Astro.site 无效则使用默认值
 const getValidSiteURL = (): string => {
-  if (Astro.site && typeof Astro.site === 'string' && Astro.site.trim() !== '') {
+  if (
+    Astro.site &&
+    typeof Astro.site === 'string' &&
+    Astro.site.trim() !== ''
+  ) {
     try {
       // 验证 URL 是否有效
-      new URL(Astro.site);
-      return Astro.site;
+      new URL(Astro.site)
+      return Astro.site
     } catch {
       // URL 无效，使用默认值
     }
   }
   // 使用默认值，优先从环境变量获取
-  const defaultSite = process.env.CUSTOM_DOMAIN 
+  const defaultSite = process.env.CUSTOM_DOMAIN
     ? `https://${process.env.CUSTOM_DOMAIN}`
-    : process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}`
-    : 'https://localhost:4321';
-  return defaultSite;
-};
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'https://localhost:4321'
+  return defaultSite
+}
 
-const siteBaseURL = getValidSiteURL();
+const siteBaseURL = getValidSiteURL()
 
 const siteTitle = title ? `${title} - ${database.Title}` : database.Title
 const siteDescription = description ? description : database.Description
 
 // 安全创建 siteURL
-let siteURL = siteBaseURL;
+let siteURL = siteBaseURL
 try {
-  const navLink = getNavLink(path);
+  const navLink = getNavLink(path)
   if (navLink && navLink.trim() !== '') {
-    siteURL = new URL(navLink, siteBaseURL).toString();
+    siteURL = new URL(navLink, siteBaseURL).toString()
   }
 } catch (error) {
-  console.error('创建 siteURL 失败:', error);
+  console.error('创建 siteURL 失败:', error)
 }
 
 // 安全创建 siteOGImage
-let siteOGImage = new URL('/default-og-image.png', siteBaseURL).toString();
+let siteOGImage = new URL('/default-og-image.png', siteBaseURL).toString()
 try {
-  const staticPath = getStaticFilePath('/default-og-image.png');
+  const staticPath = getStaticFilePath('/default-og-image.png')
   if (staticPath && staticPath.trim() !== '') {
-    siteOGImage = new URL(staticPath, siteBaseURL).toString();
+    siteOGImage = new URL(staticPath, siteBaseURL).toString()
   }
 } catch (error) {
-  console.error('创建 siteOGImage 失败:', error);
+  console.error('创建 siteOGImage 失败:', error)
 }
 
-
 // 是否为文章详情页
-const isPostDetail = path.startsWith('/posts/') && !path.includes('/page/') && !path.includes('/tag/') && breadcrumbs.length > 0;
+const isPostDetail =
+  path.startsWith('/posts/') &&
+  !path.includes('/page/') &&
+  !path.includes('/tag/') &&
+  breadcrumbs.length > 0
 // 是否为所有日志列表页
-const isBlogListPage = path === '/blog' || path.startsWith('/blog/') || path.startsWith('/posts/page/') || path.startsWith('/posts/tag/');
+const isBlogListPage =
+  path === '/blog' ||
+  path.startsWith('/blog/') ||
+  path.startsWith('/posts/page/') ||
+  path.startsWith('/posts/tag/')
 
 // 首先检查是否有文章封面图
 let coverImageURL = ''
@@ -98,7 +108,10 @@ let isPostCover = false
 
 if (postCover) {
   // 使用文章封面图 - 检查是否为Notion默认封面
-  if (postCover.includes('www.notion.so') && postCover.includes('/images/page-cover/')) {
+  if (
+    postCover.includes('www.notion.so') &&
+    postCover.includes('/images/page-cover/')
+  ) {
     coverImageURL = postCover // 直接使用原始URL
   } else {
     coverImageURL = postCover
@@ -133,21 +146,24 @@ if (database.Icon && database.Icon.Type === 'file') {
       customIconURL = filePath(url)
     }
   } catch {
-    console.log('Invalid DB custom icon URL: ', (database.Icon as FileObject)?.Url)
+    console.log(
+      'Invalid DB custom icon URL: ',
+      (database.Icon as FileObject)?.Url
+    )
     customIconURL = ''
   }
 }
 
 const isEmoji = (icon: FileObject | Emoji | null): icon is Emoji => {
-  return icon !== null && icon.Type === 'emoji';
-};
+  return icon !== null && icon.Type === 'emoji'
+}
 
 const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
-  return icon !== null && (icon.Type === 'external' || icon.Type === 'file');
-};
+  return icon !== null && (icon.Type === 'external' || icon.Type === 'file')
+}
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN" prefix="og: https://ogp.me/ns#">
   <head>
     <!-- 注释禁止缩放，视障用户友好，后续需看看有没有溢出的页面 -->
@@ -176,7 +192,12 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     <meta name="twitter:image" content={ogImage || siteOGImage} />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed"
+      href="/rss.xml"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
@@ -185,82 +206,126 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     />
   </head>
   <body>
-    {PUBLIC_GA_TRACKING_ID && <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />}
+    {
+      PUBLIC_GA_TRACKING_ID && (
+        <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />
+      )
+    }
     <div class="container">
-      {!hideHeader && (
-        <header class={`site-header ${(!coverImageURL && !isPostDetail) ? 'no-cover' : isPostDetail ? 'post-header' : ''}`}>
-          {(coverImageURL || isPostDetail) && (
-            <div class={`cover ${!coverImageURL && isPostDetail ? 'default-cover' : ''}`}>
-              {coverImageURL ? (
-                <img src={coverImageURL} alt={isPostCover ? title + " cover image" : "Site cover image"} loading="lazy" />
-              ) : null}
-            </div>
-          )}
-          {(coverImageURL || isPostDetail) && (
-            <div class="site-title-container">
-              <h1 class="site-title">
-                <a href={isPostDetail ? getNavLink(path) : getNavLink('/')}>
-                  {isPostDetail ? (
-                    title
-                  ) : (
-                    <>
-                      {isEmoji(database.Icon) && (
-                        <>
-                          <span>{database.Icon.Emoji}</span>
-                          {database.Title}
-                        </>
-                      )}
-                      {isFileObject(database.Icon) && database.Icon.Type === 'external' && (
-                        <>
-                          <img src={database.Icon.Url} alt="Site icon image" />
-                          {database.Title}
-                        </>
-                      )}
-                      {isFileObject(database.Icon) && database.Icon.Type === 'file' && customIconURL && (
-                        <>
-                          <img
-                            src={customIconURL}
-                            class="custom-icon"
-                            alt="Site icon image"
-                          />
-                          {database.Title}
-                        </>
-                      )}
-                      {!database.Icon && database.Title}
-                    </>
-                  )}
-                </a>
-              </h1>
-              {!isPostDetail && (
-                <div class="site-description">{database.Description}</div>
-              )}
-            </div>
-          )}
-        </header>
-      )}
+      {
+        !hideHeader && (
+          <header
+            class={`site-header ${!coverImageURL && !isPostDetail ? 'no-cover' : isPostDetail ? 'post-header' : ''}`}
+          >
+            {(coverImageURL || isPostDetail) && (
+              <div
+                class={`cover ${!coverImageURL && isPostDetail ? 'default-cover' : ''}`}
+              >
+                {coverImageURL ? (
+                  <img
+                    src={coverImageURL}
+                    alt={
+                      isPostCover ? title + ' cover image' : 'Site cover image'
+                    }
+                    loading="lazy"
+                  />
+                ) : null}
+              </div>
+            )}
+            {(coverImageURL || isPostDetail) && (
+              <div class="site-title-container">
+                <h1 class="site-title">
+                  <a href={isPostDetail ? getNavLink(path) : getNavLink('/')}>
+                    {isPostDetail ? (
+                      title
+                    ) : (
+                      <>
+                        {isEmoji(database.Icon) && (
+                          <>
+                            <span>{database.Icon.Emoji}</span>
+                            {database.Title}
+                          </>
+                        )}
+                        {isFileObject(database.Icon) &&
+                          database.Icon.Type === 'external' && (
+                            <>
+                              <img
+                                src={database.Icon.Url}
+                                alt="Site icon image"
+                              />
+                              {database.Title}
+                            </>
+                          )}
+                        {isFileObject(database.Icon) &&
+                          database.Icon.Type === 'file' &&
+                          customIconURL && (
+                            <>
+                              <img
+                                src={customIconURL}
+                                class="custom-icon"
+                                alt="Site icon image"
+                              />
+                              {database.Title}
+                            </>
+                          )}
+                        {!database.Icon && database.Title}
+                      </>
+                    )}
+                  </a>
+                </h1>
+                {!isPostDetail && (
+                  <div class="site-description">{database.Description}</div>
+                )}
+              </div>
+            )}
+          </header>
+        )
+      }
 
       <div class={`search-wrapper ${hideHeader ? 'hidden-search' : ''}`}>
         <div class="nav-container">
-          {!hideHeader && (
-            <div class="breadcrumbs">
-              <a href="/" class="breadcrumb-item home" aria-label="首页" title="回到首页">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="18" height="18" class="home-icon">
-                  <path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z" fill="currentColor"/>
-                </svg>
-              </a>
-              
-              <span class="breadcrumb-separator">/</span>
-              <a href="/blog" class="breadcrumb-item">所有日志</a>
-              
-              {isPostDetail && (
-                <>
-                  <span class="breadcrumb-separator">/</span>
-                  <span class="breadcrumb-item active">{breadcrumbs[breadcrumbs.length - 1].label}</span>
-                </>
-              )}
-            </div>
-          )}
-          <div class={`search-button-wrapper ${hideHeader ? 'only-search' : ''}`}>
+          {
+            !hideHeader && (
+              <div class="breadcrumbs">
+                <a
+                  href="/"
+                  class="breadcrumb-item home"
+                  aria-label="首页"
+                  title="回到首页"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512"
+                    width="18"
+                    height="18"
+                    class="home-icon"
+                  >
+                    <path
+                      d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </a>
+
+                <span class="breadcrumb-separator">/</span>
+                <a href="/blog" class="breadcrumb-item">
+                  所有日志
+                </a>
+
+                {isPostDetail && (
+                  <>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item active">
+                      {breadcrumbs[breadcrumbs.length - 1].label}
+                    </span>
+                  </>
+                )}
+              </div>
+            )
+          }
+          <div
+            class={`search-button-wrapper ${hideHeader ? 'only-search' : ''}`}
+          >
             <SearchButton />
           </div>
         </div>
@@ -270,628 +335,680 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         <main>
           <div class="content">
             <slot />
-            <Analytics /> 
+            <Analytics />
           </div>
         </main>
 
-        {!hideSidebar && (
-          <aside>
-            <slot name="aside" />
-          </aside>
-        )}
+        {
+          !hideSidebar && (
+            <aside>
+              <slot name="aside" />
+            </aside>
+          )
+        }
       </div>
 
-      <footer className={`site-footer ${path === '/' ? 'home-footer' : 'blog-footer'}`}>
+      <footer
+        className={`site-footer ${path === '/' ? 'home-footer' : 'blog-footer'}`}
+      >
         <div>
           <span>
-            &copy; {new Date().getFullYear()} {database.Title} · 轨道航行第 <span id="days-count"></span> 天  · All rights
-            reserved. 
-            <script>
-              const startDate = new Date("2025-04-05"); // 你的网站上线日
-              const now = new Date();
-              const diff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-              document.getElementById("days-count").textContent = diff;
-            </script>
-            <a href="https://github.com/youxiaohanpian/" target="_blank" rel="noopener noreferrer" title="GitHub Repository"class="github-link">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6c-3.3.3-5.6-1.3-5.6-3.6c0-2 2.3-3.6 5.2-3.6c3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9c2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9c.3 2 2.9 3.3 5.9 2.6c2.9-.7 4.9-2.6 4.6-4.6c-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2c12.8 2.3 17.3-5.6 17.3-12.1c0-6.2-.3-40.4-.3-61.4c0 0-70 15-84.7-29.8c0 0-11.4-29.1-27.8-36.6c0 0-22.9-15.7 1.6-15.4c0 0 24.9 2 38.6 25.8c21.9 38.6 58.6 27.5 72.9 20.9c2.3-16 8.8-27.1 16-33.7c-55.9-6.2-112.3-14.3-112.3-110.5c0-27.5 7.6-41.3 23.6-58.9c-2.6-6.5-11.1-33.3 2.6-67.9c20.9-6.5 69 27 69 27c20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27c13.7 34.7 5.2 61.4 2.6 67.9c16 17.7 25.8 31.5 25.8 58.9c0 96.5-58.9 104.2-114.8 110.5c9.2 7.9 17 22.9 17 46.4c0 33.7-.3 75.4-.3 83.6c0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252C496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2c1.6 1.6 3.9 2.3 5.2 1c1.3-1 1-3.3-.7-5.2c-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9c1.6 1 3.6.7 4.3-.7c.7-1.3-.3-2.9-2.3-3.9c-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2c2.3 2.3 5.2 2.6 6.5 1c1.3-1.3.7-4.3-1.3-6.2c-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9c1.6 2.3 4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2c-1.4-2.3-4-3.3-5.6-2z" fill="currentColor"></path></svg>
-            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" title="网站地图" class="sitemap-link">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 12 12"><g fill="none"><path d="M6 .5A4.5 4.5 0 0 1 10.5 5c0 1.863-1.42 3.815-4.2 5.9a.5.5 0 0 1-.6 0C2.92 8.815 1.5 6.863 1.5 5A4.5 4.5 0 0 1 6 .5zm0 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3z" fill="currentColor"></path></g></svg>
-
-            </a>
-            <a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="RSS订阅" class="rss-link">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18" fill="currentColor"></circle><path d="M4 10.1v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9zm0-5.66v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56z" fill="currentColor"></path></svg>
+            &copy; {new Date().getFullYear()}
+            {database.Title} · 轨道航行第 <span id="days-count"></span> 天 · All rights
+            reserved.
+            <a
+              href="https://github.com/youxiaohanpian/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="GitHub Repository"
+              class="github-link"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 496 512"
+                ><path
+                  d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6c-3.3.3-5.6-1.3-5.6-3.6c0-2 2.3-3.6 5.2-3.6c3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9c2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9c.3 2 2.9 3.3 5.9 2.6c2.9-.7 4.9-2.6 4.6-4.6c-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2c12.8 2.3 17.3-5.6 17.3-12.1c0-6.2-.3-40.4-.3-61.4c0 0-70 15-84.7-29.8c0 0-11.4-29.1-27.8-36.6c0 0-22.9-15.7 1.6-15.4c0 0 24.9 2 38.6 25.8c21.9 38.6 58.6 27.5 72.9 20.9c2.3-16 8.8-27.1 16-33.7c-55.9-6.2-112.3-14.3-112.3-110.5c0-27.5 7.6-41.3 23.6-58.9c-2.6-6.5-11.1-33.3 2.6-67.9c20.9-6.5 69 27 69 27c20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27c13.7 34.7 5.2 61.4 2.6 67.9c16 17.7 25.8 31.5 25.8 58.9c0 96.5-58.9 104.2-114.8 110.5c9.2 7.9 17 22.9 17 46.4c0 33.7-.3 75.4-.3 83.6c0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252C496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2c1.6 1.6 3.9 2.3 5.2 1c1.3-1 1-3.3-.7-5.2c-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9c1.6 1 3.6.7 4.3-.7c.7-1.3-.3-2.9-2.3-3.9c-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2c2.3 2.3 5.2 2.6 6.5 1c1.3-1.3.7-4.3-1.3-6.2c-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9c1.6 2.3 4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2c-1.4-2.3-4-3.3-5.6-2z"
+                  fill="currentColor"></path></svg
+              >
+              <a
+                href="/sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="网站地图"
+                class="sitemap-link"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 12 12"
+                  ><g fill="none"
+                    ><path
+                      d="M6 .5A4.5 4.5 0 0 1 10.5 5c0 1.863-1.42 3.815-4.2 5.9a.5.5 0 0 1-.6 0C2.92 8.815 1.5 6.863 1.5 5A4.5 4.5 0 0 1 6 .5zm0 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3z"
+                      fill="currentColor"></path></g
+                  ></svg
+                >
+              </a>
+              <a
+                href="/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="RSS订阅"
+                class="rss-link"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 24 24"
+                  ><circle cx="6.18" cy="17.82" r="2.18" fill="currentColor"
+                  ></circle><path
+                    d="M4 10.1v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9zm0-5.66v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56z"
+                    fill="currentColor"></path></svg
+                >
+              </a>
             </a>
           </span>
         </div>
       </footer>
+
+      <SearchModal />
+      <BackToTop />
+      {
+        ENABLE_LIGHTBOX && (
+          <script src={getStaticFilePath('/scripts/fslightbox.js')} />
+        )
+      }
+      <script type="module" src="/scripts/sw-register.js"></script>
+      <script>
+        //处理界面交互
+        document.addEventListener('DOMContentLoaded', () => {
+          const startDate = new Date('2025-04-05')
+          const now = new Date()
+          const diff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24))
+          const daysCount = document.getElementById('days-count')
+          if (daysCount) {
+            daysCount.textContent = String(diff)
+          }
+
+          document
+            .querySelectorAll('.blog-post-tags .post-tags a')
+            .forEach((tag) => {
+              tag.addEventListener('click', (e) => {
+                e.stopPropagation()
+              })
+            })
+
+          const header = document.querySelector('.site-header')
+          const searchWrapper = document.querySelector('.search-wrapper')
+
+          if (header && searchWrapper) {
+            const headerHeight = (header as HTMLElement).offsetHeight
+
+            window.addEventListener('scroll', () => {
+              if (window.scrollY > headerHeight) {
+                searchWrapper.classList.add('fixed')
+                document.body.style.paddingTop =
+                  (searchWrapper as HTMLElement).offsetHeight + 'px'
+              } else {
+                searchWrapper.classList.remove('fixed')
+                document.body.style.paddingTop = '0'
+              }
+            })
+          }
+        })
+      </script>
     </div>
-
-    <SearchModal />
-    <BackToTop />
-    {ENABLE_LIGHTBOX && (
-      <script src={getStaticFilePath('/scripts/fslightbox.js')} />
-    )}
-    <script type="module" src="/scripts/sw-register.js"></script>
-    <script>
-      //处理界面交互
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.blog-post-tags .post-tags a').forEach(tag => {
-          tag.addEventListener('click', (e) => {
-            e.stopPropagation();
-          });
-        });
-
-        const header = document.querySelector('.site-header');
-        const searchWrapper = document.querySelector('.search-wrapper');
-        
-        if (header && searchWrapper) {
-          const headerHeight = (header as HTMLElement).offsetHeight;
-          
-          window.addEventListener('scroll', () => {
-            if (window.scrollY > headerHeight) {
-              searchWrapper.classList.add('fixed');
-              document.body.style.paddingTop = (searchWrapper as HTMLElement).offsetHeight + 'px';
-            } else {
-              searchWrapper.classList.remove('fixed');
-              document.body.style.paddingTop = '0';
-            }
-          });
-        }
-      });
-    </script>
   </body>
-</html>
 
-<style>
-  :root {
-    --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    --font-family-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-    --primary-color: rgba(255,255,255,0.8);
-    --text-color: var(--text-primary);
-    --text-light: var(--text-secondary);
-    --text-lighter: var(--text-tertiary);
-    --background-light: #f8f8f8;
-    --border-radius: 12px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
+  <style>
+    :root {
+      --font-family-sans: var(--font-family-sans);
+      --font-family-chinese: var(--font-family-chinese);
+      --primary-color: var(--accent-primary);
+      --text-color: var(--text-primary);
+      --text-light: var(--text-secondary);
+      --text-lighter: var(--text-tertiary);
+      --background-light: var(--bg-secondary);
+      --border-radius: 4px; /* Maintaining 4px as requested in earlier README mentions but matching elegant theme */
+      --box-shadow: var(--shadow-sm);
+    }
 
-  .container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .site-header {
-    position: relative;
-    margin-bottom: 2rem;
-  }
-
-  .site-header.no-cover {
-    margin-bottom: 0;
-  }
-
-  .site-header.post-header {
-    margin-bottom: 2rem;
-  }
-
-  .cover {
-    position: relative;
-  }
-  
-  .cover.default-cover {
-    height: 25vh;
-    background: linear-gradient(135deg,rgb(252, 192, 26) 0%, #8E54E9 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* 添加细微波浪效果 */
-  .cover.default-cover::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
-    mix-blend-mode: overlay;
-  }
-
-  .cover img {
-    display: block;
-    width: 100%;
-    height: 25vh;
-    object-fit: cover;
-    object-position: center 35%;
-  }
-
-  .site-title-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2rem;
-    /* 默认标题下方的渐变色 */
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .site-title {
-    font-size: 2.5rem;
-    font-weight: var(--font-semibold);
-    margin: 0;
-    text-align: center;
-  }
-
-  .site-title a {
-    color: white !important;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .site-title a span,
-  .site-title a img {
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
-
-  .site-title a img {
-    width: 2rem;
-    height: 2rem;
-    vertical-align: middle;
-  }
-
-  .site-title a img.custom-icon {
-    border-radius: 8px;
-  }
-
-  .site-description {
-    font-size: 1.1rem;
-    margin-top: 0.5rem;
-    text-align: center;
-    max-width: 800px;
-    opacity: 0.9;
-    white-space: pre-line;
-    color: white !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .content-wrapper {
-    display: flex;
-    flex: 1;
-    gap: 2rem;
-    padding: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  main {
-    flex: 1;
-    min-width: 0;
-    padding: 0;
-  }
-
-  .content {
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  aside {
-    width: 300px;
-    flex-shrink: 0;
-    padding: 0; /*不要修改此项！重要*/
-  }
-
-  .site-footer {
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: 3rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
-  }
-  
-  /* 首页footer样式 - Dark模式 */
-  .site-footer.home-footer {
-    background-color: transparent !important; 
-    /* backdrop-filter: blur(8px) !important; */
-    /* -webkit-backdrop-filter: blur(8px) !important; */
-    color: rgba(255, 255, 255, 0.7) !important;
-    /* border-top: 1px solid rgba(255, 255, 255, 0.1) !important; */
-    margin-top: 2rem !important;
-  }
-
-  /* 首页footer文字样式 - 白色 */
-  .site-footer.home-footer p {
-    color: rgba(255, 255, 255, 0.7) !important;
-    margin: 0 0 0.5rem 0 !important;
-    font-size: 0.9rem !important;
-    font-weight: normal !important;
-  }
-
-  /* 首页footer链接样式 - 白色 */
-  .site-footer.home-footer a {
-    color: rgba(255, 255, 255, 0.8) !important;
-    background-color: transparent !important;
-    border-radius: 6px !important; 
-    padding: 0.5rem !important;
-    transition: all 0.3s ease !important;
-    margin: 0 0.25rem !important;
-    font-weight: normal !important;
-  }
-  
-  .site-footer.home-footer a:hover {
-    transition: all 0.2s ease;
-    color: rgba(255, 255, 255, 1) !important;
-    transform: translateY(-0.5px);
-  }
-
-  /* 首页footer图标样式 - 白色 */
-  .site-footer.home-footer a svg {
-    opacity: 0.9 !important;
-    transition: opacity 0.3s ease !important;
-    color: rgba(255, 255, 255, 0.9) !important; 
-    fill: rgba(255, 255, 255, 0.9) !important; 
-  }
-
-  .site-footer.home-footer a:hover svg {
-    opacity: 1 !important;
-    color: rgba(255, 255, 255, 1) !important; 
-    fill: rgba(255, 255, 255, 1) !important;
-  }
-  .site-footer div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .site-footer span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .site-footer a {
-    color: var(--text-light);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.4rem;
-    border-radius: 4px;
-    transition: color 0.2s ease, background-color 0.2s ease;
-    height: 28px;
-    position: relative;
-    box-sizing: border-box;
-  }
-
-  .site-footer a :global(svg),
-  .home-icon {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 18px;
-    height: 18px;
-    opacity: 0.6;
-  }
-
-  .site-footer a:hover :global(svg),
-  .site-footer a:hover .home-icon {
-    opacity: 0.8;
-  }
-  
-  .search-wrapper {
-    display: flex;
-    margin: -1rem auto 1rem;
-    padding: 0;
-    width: 100%;
-    position: relative;
-    z-index: 10;
-    background-color: white;
-    height: 48px;
-  }
-  
-  .site-header.no-cover + .search-wrapper {
-    margin-top: 0;
-  }
-  
-  .nav-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
-    padding-top: 0.5em;
-    height: 100%;
-  }
-  
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-  }
-  
-  .search-button-wrapper {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-  
-  .search-button-wrapper.only-search {
-    margin-left: auto;
-    padding-right: 1rem;
-  }
-  
-  .nav-container :global(.search-container) {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: auto;
-    padding-right: 1rem;
-  }
-  
-  .nav-container :global(.search-button) {
-    margin: 0;
-    padding: 0.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-  }
-  
-  .breadcrumb-item {
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .breadcrumb-item.home {
-    color: var(--text-primary);
-  }
-
-  .breadcrumb-item.active {
-    color: var(--text-secondary);
-    font-weight: var(--font-medium);
-  }
-
-  /* "/"分隔符的颜色设置得更浅了。 */
-  .breadcrumb-separator {
-    color: rgba(0, 0, 0, 0.2);/* 分隔符的颜色设置得更浅了。 */
-    margin: 0;
-  }
-
-  .breadcrumb-item.home {
-    display: flex;
-    align-items: center;
-    padding: 0.4rem;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    box-sizing: border-box;
-  }
-
-  .breadcrumb-item.home .home-icon {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 18px;
-    height: 18px;
-    opacity: 0.6;
-  }
-
-  .breadcrumb-item.home:hover .home-icon {
-    opacity: 0.8;
-  }
-
-  @media (max-width: 720px) {
-    .content-wrapper {
+    .container {
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
+    }
+
+    .site-header {
+      position: relative;
+    }
+
+    .site-header.no-cover {
+      margin-bottom: 0;
+    }
+
+    .site-header.post-header {
+      margin-bottom: 0;
+    }
+
+    .cover {
+      position: relative;
+    }
+
+    .cover.default-cover {
+      height: 25vh;
+      background: linear-gradient(135deg, rgb(252, 192, 26) 0%, #8e54e9 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 添加细微波浪效果 */
+    .cover.default-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        circle at 30% 40%,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 80%
+      );
+      mix-blend-mode: overlay;
+    }
+
+    .cover img {
+      display: block;
+      width: 100%;
+      height: 25vh;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .site-title-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 4rem;
+      /* 默认标题下方的渐变色 */
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: 2.5rem;
+      font-weight: var(--font-semibold);
+      margin: 0;
+      text-align: center;
+    }
+
+    .site-title a {
+      color: white !important;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .site-title a span,
+    .site-title a img {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .site-title a img {
+      width: 2rem;
+      height: 2rem;
+      vertical-align: middle;
+    }
+
+    .site-title a img.custom-icon {
+      border-radius: 8px;
+    }
+
+    .site-description {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      max-width: 800px;
+      opacity: 0.9;
+      white-space: pre-line;
+      color: white !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex: 1;
+      gap: 2rem;
       padding: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     main {
+      flex: 1;
+      min-width: 0;
       padding: 0;
+    }
+
+    .content {
+      width: 100%;
+      flex-grow: 1;
     }
 
     aside {
-      width: 100%;
-      padding: 0;
-      margin-top: 2rem;
+      width: 300px;
+      flex-shrink: 0;
+      padding: 0; /*不要修改此项！重要*/
     }
-  }
 
-  @media (max-width: 768px) {
-    .nav-container {
+    .site-footer {
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* 首页footer样式 - Dark模式 */
+    .site-footer.home-footer {
+      background-color: transparent !important;
+      /* backdrop-filter: blur(8px) !important; */
+      /* -webkit-backdrop-filter: blur(8px) !important; */
+      color: rgba(255, 255, 255, 0.7) !important;
+      /* border-top: 1px solid rgba(255, 255, 255, 0.1) !important; */
+      margin-top: 2rem !important;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 首页footer文字样式 - 白色 */
+    .site-footer.home-footer p {
+      color: rgba(255, 255, 255, 0.7) !important;
+      margin: 0 0 0.5rem 0 !important;
+      font-size: 0.9rem !important;
+      font-weight: normal !important;
+    }
+
+    /* 首页footer链接样式 - 白色 */
+    .site-footer.home-footer a {
+      color: rgba(255, 255, 255, 0.8) !important;
+      background-color: transparent !important;
+      border-radius: 6px !important;
+      padding: 0.5rem !important;
+      transition: all 0.3s ease !important;
+      margin: 0 0.25rem !important;
+      font-weight: normal !important;
+    }
+
+    .site-footer.home-footer a:hover {
+      transition: all 0.2s ease;
+      color: rgba(255, 255, 255, 1) !important;
+      transform: translateY(-0.5px);
+    }
+
+    /* 首页footer图标样式 - 白色 */
+    .site-footer.home-footer a svg {
+      opacity: 0.9 !important;
+      transition: opacity 0.3s ease !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+      fill: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .site-footer.home-footer a:hover svg {
+      opacity: 1 !important;
+      color: rgba(255, 255, 255, 1) !important;
+      fill: rgba(255, 255, 255, 1) !important;
+    }
+    .site-footer div {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .site-footer span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .site-footer a {
+      color: var(--text-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem;
+      border-radius: 4px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+      height: 28px;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .site-footer a :global(svg),
+    .home-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      opacity: 0.6;
+    }
+
+    .site-footer a:hover :global(svg),
+    .site-footer a:hover .home-icon {
+      opacity: 0.8;
+    }
+
+    .search-wrapper {
+      display: flex;
+      margin: 0rem auto 1rem;
       padding: 0;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      background-color: var(--bg-secondary);
+      height: 48px;
+    }
+
+    .site-header.no-cover + .search-wrapper {
+      margin-top: 0;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+      height: 100%;
     }
 
     .breadcrumbs {
-      font-size: 0.8rem;
-      padding-left: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .search-button-wrapper {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .search-button-wrapper.only-search {
+      margin-left: auto;
+      padding-right: 1rem;
     }
 
     .nav-container :global(.search-container) {
-      padding-right: 0.5rem;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      margin-left: auto;
+      padding-right: 1rem;
     }
 
-    .content-wrapper {
-      flex-direction: column;
+    .nav-container :global(.search-button) {
+      margin: 0;
+      padding: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .breadcrumb-item {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumb-item.home {
+      color: var(--text-primary);
+    }
+
+    .breadcrumb-item.active {
+      color: var(--text-secondary);
+      font-weight: var(--font-medium);
+    }
+
+    /* "/"分隔符的颜色设置得更浅了。 */
+    .breadcrumb-separator {
+      color: var(--text-tertiary); /* 分隔符的颜色设置得更浅了。 */
+      margin: 0;
+    }
+
+    .breadcrumb-item.home {
+      display: flex;
+      align-items: center;
+      padding: 0.4rem;
+      width: 28px;
+      height: 28px;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .breadcrumb-item.home .home-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      opacity: 0.5;
+      color: var(--text-secondary);
+    }
+
+    .breadcrumb-item.home:hover .home-icon {
+      opacity: 0.7;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 720px) {
+      .content-wrapper {
+        flex-direction: column;
+        padding: 0;
+      }
+
+      main {
+        padding: 0;
+      }
+
+      aside {
+        width: 100%;
+        padding: 0;
+        margin-top: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0;
+      }
+
+      .breadcrumbs {
+        font-size: 0.8rem;
+        padding-left: 0.5rem;
+      }
+
+      .nav-container :global(.search-container) {
+        padding-right: 0.5rem;
+      }
+
+      .content-wrapper {
+        flex-direction: column;
+        padding: 0;
+      }
+
+      main {
+        padding: 0;
+      }
+
+      aside {
+        width: 100%;
+        padding: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container {
+        padding: 0.5em 0.5em 0 0.5em;
+      }
+
+      .content-wrapper {
+        padding: 0 0.8rem;
+      }
+    }
+
+
+
+    .search-button svg {
+      width: 18px;
+      height: 18px;
+      color: inherit;
+    }
+
+    .search-wrapper.fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: var(--bg-secondary);
+    }
+
+    .search-wrapper.hidden-search {
+      margin-top: 0;
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+
+    .search-wrapper.hidden-search .nav-container {
+      padding-top: 1.5rem;
+    }
+
+    .search-wrapper.hidden-search .breadcrumbs {
+      color: var(--text-primary);
+    }
+
+    .search-wrapper.hidden-search .breadcrumb-item {
+      color: var(--text-secondary);
+    }
+
+    .search-wrapper.hidden-search .breadcrumb-separator {
+      color: var(--text-tertiary);
+    }
+
+    .search-wrapper.hidden-search .breadcrumb-item.home .home-icon {
+      opacity: 0.9;
+    }
+
+    .search-wrapper.hidden-search .breadcrumb-item:hover {
+      color: white;
+    }
+
+    .search-wrapper.hidden-search :global(.search-button) {
+      color: white;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
       padding: 0;
     }
 
-    main {
+    .search-wrapper.hidden-search :global(.search-container) {
       padding: 0;
+      margin: 0;
     }
 
-    aside {
-      width: 100%;
-      padding: 0;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .nav-container {
-      padding: 0.5em 0.5em 0 0.5em;
+    .search-wrapper.hidden-search :global(.search-button svg) {
+      width: 16px;
+      height: 16px;
+      margin: 0;
     }
 
-    .content-wrapper {
-      padding: 0 0.8rem;
+    .search-wrapper.hidden-search :global(.search-button:hover) {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-  }
 
-  @supports (font: -apple-system-body) {
-    :root {
-      --font-family-chinese: "PingFang SC", var(--font-family-sans);
+    .search-wrapper.hidden-search.fixed {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-  }
 
-  @supports (-ms-ime-align: auto) {
-    :root {
-      --font-family-chinese: "Microsoft YaHei", var(--font-family-sans);
+    .sitemap-link {
+      margin-left: 1rem;
+      color: var(--text-light);
+      transition: color 0.3s ease;
     }
-  }
 
-  .search-button svg {
-    width: 18px;
-    height: 18px;
-    color: inherit;
-  }
+    .sitemap-link:hover {
+      color: var(--primary-color);
+    }
 
-  .search-wrapper.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-  }
+    /* 博客页面footer - Lighter模式 */
+    .site-footer.blog-footer {
+      background-color: var(--background-light);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      color: #555;
+    }
 
-  .search-wrapper.hidden-search {
-    margin-top: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-  }
-  
-  .search-wrapper.hidden-search .nav-container {
-    padding-top: 1.5rem;
-  }
-  
-  .search-wrapper.hidden-search .breadcrumbs {
-    color: white;
-  }
-  
-  .search-wrapper.hidden-search .breadcrumb-item {
-    color: rgba(255, 255, 255, 0.9);
-  }
-  
-  .search-wrapper.hidden-search .breadcrumb-separator {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  .search-wrapper.hidden-search .breadcrumb-item.home .home-icon {
-    opacity: 0.9;
-  }
-  
-  .search-wrapper.hidden-search .breadcrumb-item:hover {
-    color: white;
-  }
-  
-  .search-wrapper.hidden-search :global(.search-button) {
-    color: white;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    padding: 0;
-  }
-  
-  .search-wrapper.hidden-search :global(.search-container) {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .search-wrapper.hidden-search :global(.search-button svg) {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-  }
-  
-  .search-wrapper.hidden-search :global(.search-button:hover) {
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .search-wrapper.hidden-search.fixed {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  }
+    /* 博客页面footer文字样式 - 深灰色 */
+    .site-footer.blog-footer p {
+      color: #555;
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+      font-weight: normal;
+    }
 
-  .sitemap-link {
-    margin-left: 1rem;
-    color: var(--text-light);
-    transition: color 0.3s ease;
-  }
+    /* 博客页面footer链接样式 - 深灰色 */
+    .site-footer.blog-footer a {
+      color: #555;
+      background-color: transparent;
+      border-radius: 4px;
+      padding: 0.4rem;
+      transition: all 0.2s ease;
+      margin: 0 0.25rem;
+      font-weight: normal;
+    }
 
-  .sitemap-link:hover {
-    color: var(--primary-color);
-  }
-
-  /* 博客页面footer - Lighter模式 */
-  .site-footer.blog-footer {
-    background-color: var(--background-light);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    color: #555;
-  }
-  
-  /* 博客页面footer文字样式 - 深灰色 */
-  .site-footer.blog-footer p {
-    color: #555;
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
-    font-weight: normal;
-  }
-  
-  /* 博客页面footer链接样式 - 深灰色 */
-  .site-footer.blog-footer a {
-    color: #555;
-    background-color: transparent;
-    border-radius: 4px;
-    padding: 0.4rem;
-    transition: all 0.2s ease;
-    margin: 0 0.25rem;
-    font-weight: normal;
-  }
-  
-  .site-footer.blog-footer a:hover {
-    color: #333;
-    transform: translateY(-0.5px);
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-  }
-</style>
+    .site-footer.blog-footer a:hover {
+      color: #333;
+      transform: translateY(-0.5px);
+      /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    }
+  </style>
+</html>

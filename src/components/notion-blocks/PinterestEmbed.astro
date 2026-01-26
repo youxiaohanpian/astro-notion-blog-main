@@ -29,10 +29,17 @@ const { url } = Astro.props
 <!-- Pinterest嵌入脚本 - 请勿删除或修改 -->
 <script
   type="text/javascript"
-  async
+  is:inline
   defer
-  src="//assets.pinterest.com/js/pinit.js"
+  src="https://assets.pinterest.com/js/pinit.js"
 ></script>
+<script is:inline>
+  window.addEventListener('load', () => {
+    if (window.PinUtils && window.PinUtils.build) {
+      window.PinUtils.build();
+    }
+  });
+</script>
 
 <style>
   /* 
