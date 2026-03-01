@@ -8,13 +8,19 @@ export interface Props {
 }
 
 const { block, headings } = Astro.props
+const columns = block.ColumnList?.Columns ?? []
 ---
 
 <div class="column-list">
   {
-    block.ColumnList.Columns.map((column: interfaces.Column) => (
+    columns.map((column: interfaces.Column) => (
       <div>
-        <NotionBlocks blocks={column.Children} headings={headings} />
+        <NotionBlocks
+          blocks={column.Children}
+          headings={headings}
+          isRoot={false}
+          level={1}
+        />
       </div>
     ))
   }

@@ -1,8 +1,8 @@
 ---
 import { PUBLIC_GA_TRACKING_ID, ENABLE_LIGHTBOX } from '../server-constants.ts'
-import { getDatabase } from '../lib/notion/client.ts'
+import { getDatabase, getHomeNavItems } from '../lib/notion/client.ts'
 import { getNavLink, getStaticFilePath, filePath } from '../lib/blog-helpers.ts'
-import type { FileObject, Emoji } from '../lib/interfaces.ts'
+import type { FileObject, Emoji, HomeNavItem } from '../lib/interfaces.ts'
   import '../styles/syntax-coloring.css'
   import '../styles/globals.css'
 import GoogleAnalytics from '../components/GoogleAnalytics.astro'
@@ -37,18 +37,71 @@ const {
 } = Astro.props
 
 const database = await getDatabase()
+const homeNavItems = await getHomeNavItems()
+
+const buildGlobalNavHref = (item: HomeNavItem): string => {
+  const rawUrl = item.Url?.trim() || ''
+  const rawSlug = item.Slug?.trim() || ''
+
+  if (rawUrl) {
+    if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
+      return rawUrl
+    }
+
+    if (rawUrl.startsWith('/')) {
+      return getNavLink(rawUrl)
+    }
+
+    if (/^[\w.-]+\.[a-z]{2,}(\/.*)?$/i.test(rawUrl)) {
+      return `https://${rawUrl}`
+    }
+
+    return getNavLink(`/${rawUrl}`)
+  }
+
+  if (rawSlug) {
+    const normalizedSlug = rawSlug.replace(/^\/+/, '')
+    return getNavLink(`/${normalizedSlug}`)
+  }
+
+  return '#'
+}
+
+const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href)
+const shouldOpenGlobalNavInNewTab = (item: HomeNavItem, href: string): boolean => {
+  if (item.OpenInNewTab) {
+    return true
+  }
+
+  return isExternalHref(href)
+}
+
+const isGlobalNavActive = (href: string): boolean => {
+  if (!href || href === '#' || isExternalHref(href)) {
+    return false
+  }
+
+  const currentPath = path.replace(/\/+$/, '') || '/'
+  const targetPath = href.replace(/\/+$/, '') || '/'
+
+  if (targetPath === '/') {
+    return currentPath === '/'
+  }
+
+  return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+}
 
 // 获取有效的站点URL，如果 Astro.site 无效则使用默认值
 const getValidSiteURL = (): string => {
-  if (
-    Astro.site &&
-    typeof Astro.site === 'string' &&
-    Astro.site.trim() !== ''
-  ) {
+  if (Astro.site) {
+    const site = Astro.site.toString()
+    if (site.trim() === '') {
+      return 'https://localhost:4321'
+    }
     try {
       // 验证 URL 是否有效
-      new URL(Astro.site)
-      return Astro.site
+      new URL(site)
+      return site
     } catch {
       // URL 无效，使用默认值
     }
@@ -89,18 +142,25 @@ try {
   console.error('创建 siteOGImage 失败:', error)
 }
 
+const resolvedPath = (path || Astro.url?.pathname || '/').replace(/\/+$/, '') || '/'
+const runtimePath = (Astro.url?.pathname || path || '/').replace(/\/+$/, '') || '/'
 // 是否为文章详情页
 const isPostDetail =
-  path.startsWith('/posts/') &&
-  !path.includes('/page/') &&
-  !path.includes('/tag/') &&
+  resolvedPath.startsWith('/posts/') &&
+  !resolvedPath.includes('/page/') &&
+  !resolvedPath.includes('/tag/') &&
   breadcrumbs.length > 0
 // 是否为所有日志列表页
 const isBlogListPage =
-  path === '/blog' ||
-  path.startsWith('/blog/') ||
-  path.startsWith('/posts/page/') ||
-  path.startsWith('/posts/tag/')
+  resolvedPath === '/blog' ||
+  resolvedPath.startsWith('/blog/') ||
+  resolvedPath.startsWith('/posts/page/') ||
+  resolvedPath.startsWith('/posts/tag/')
+const isLinksPage = resolvedPath === '/links'
+const isLinksApplyPage =
+  resolvedPath === '/links/apply' || resolvedPath.startsWith('/links/apply/')
+const isLinksSection = isLinksPage || isLinksApplyPage
+const showBreadcrumbs = isPostDetail || isBlogListPage || isLinksSection
 
 // 首先检查是否有文章封面图
 let coverImageURL = ''
@@ -211,7 +271,48 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         <GoogleAnalytics trackingId={PUBLIC_GA_TRACKING_ID} />
       )
     }
-    <div class="container">
+    <div
+      class={`container ${!hideHeader && (coverImageURL || isPostDetail) ? 'with-hero-header' : ''}`}
+      data-path={runtimePath}
+    >
+      <div class={`search-wrapper ${hideHeader ? 'hidden-search' : ''}`}>
+        <div class="nav-container">
+          <div class={`nav-leading ${hideHeader ? 'only-nav' : ''}`}>
+            {
+              homeNavItems.length > 0 && (
+                <nav class="global-nav-inline" aria-label="站点导航">
+                  {
+                    homeNavItems.map((item: HomeNavItem) => {
+                      const href = buildGlobalNavHref(item)
+                      const openInNewTab = shouldOpenGlobalNavInNewTab(item, href)
+                      const active = isGlobalNavActive(href)
+
+                      return (
+                        <a
+                          href={href}
+                          class={`global-nav-link ${active ? 'active' : ''}`}
+                          target={openInNewTab ? '_blank' : undefined}
+                          rel={openInNewTab ? 'noopener noreferrer' : undefined}
+                          title={item.Description || item.Title}
+                        >
+                          {item.Title}
+                        </a>
+                      )
+                    })
+                  }
+                </nav>
+              )
+            }
+          </div>
+
+          <div
+            class={`search-button-wrapper ${hideHeader ? 'only-search' : ''}`}
+          >
+            <SearchButton />
+          </div>
+        </div>
+      </div>
+
       {
         !hideHeader && (
           <header
@@ -282,54 +383,74 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         )
       }
 
-      <div class={`search-wrapper ${hideHeader ? 'hidden-search' : ''}`}>
-        <div class="nav-container">
-          {
-            !hideHeader && (
-              <div class="breadcrumbs">
-                <a
-                  href="/"
-                  class="breadcrumb-item home"
-                  aria-label="首页"
-                  title="回到首页"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 576 512"
-                    width="18"
-                    height="18"
-                    class="home-icon"
+      {
+        !hideHeader &&
+          showBreadcrumbs && (
+            <div class="breadcrumb-row">
+              <div class="breadcrumb-container">
+                <div class="breadcrumbs">
+                  <a
+                    href="/"
+                    class="breadcrumb-item home"
+                    aria-label="首页"
+                    title="回到首页"
                   >
-                    <path
-                      d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </a>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 576 512"
+                      width="18"
+                      height="18"
+                      class="home-icon"
+                    >
+                      <path
+                        d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </a>
 
-                <span class="breadcrumb-separator">/</span>
-                <a href="/blog" class="breadcrumb-item">
-                  所有日志
-                </a>
+                  {(isBlogListPage || isPostDetail) && (
+                    <>
+                      <span class="breadcrumb-separator">/</span>
+                      <a href="/blog" class="breadcrumb-item">
+                        所有日志
+                      </a>
+                    </>
+                  )}
 
-                {isPostDetail && (
-                  <>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-item active">
-                      {breadcrumbs[breadcrumbs.length - 1].label}
-                    </span>
-                  </>
-                )}
+                  {isLinksSection && (
+                    <>
+                      <span class="breadcrumb-separator">/</span>
+                      {isLinksApplyPage ? (
+                        <a href="/links" class="breadcrumb-item">
+                          友情链接
+                        </a>
+                      ) : (
+                        <span class="breadcrumb-item active">友情链接</span>
+                      )}
+                    </>
+                  )}
+
+                  {isLinksApplyPage && (
+                    <>
+                      <span class="breadcrumb-separator">/</span>
+                      <span class="breadcrumb-item active">申请友链</span>
+                    </>
+                  )}
+
+                  {isPostDetail && (
+                    <>
+                      <span class="breadcrumb-separator">/</span>
+                      <span class="breadcrumb-item active">
+                        {breadcrumbs[breadcrumbs.length - 1].label}
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
-            )
-          }
-          <div
-            class={`search-button-wrapper ${hideHeader ? 'only-search' : ''}`}
-          >
-            <SearchButton />
-          </div>
-        </div>
-      </div>
+            </div>
+          )
+      }
 
       <div class={`content-wrapper ${hideSidebar ? 'no-sidebar' : ''}`}>
         <main>
@@ -349,7 +470,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       </div>
 
       <footer
-        className={`site-footer ${path === '/' ? 'home-footer' : 'blog-footer'}`}
+        class={`site-footer ${path === '/' ? 'home-footer' : 'blog-footer'}`}
       >
         <div>
           <span>
@@ -424,7 +545,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         document.addEventListener('DOMContentLoaded', () => {
           const startDate = new Date('2025-04-05')
           const now = new Date()
-          const diff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24))
+          const diff = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
           const daysCount = document.getElementById('days-count')
           if (daysCount) {
             daysCount.textContent = String(diff)
@@ -438,22 +559,110 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
               })
             })
 
-          const header = document.querySelector('.site-header')
           const searchWrapper = document.querySelector('.search-wrapper')
+          if (searchWrapper) {
+            let pullDistance = 0
+            let syncFrame = 0
+            let wheelPull = 0
+            let touchStartY = 0
+            let touchPull = 0
+            const maxPullDistance = 32
 
-          if (header && searchWrapper) {
-            const headerHeight = (header as HTMLElement).offsetHeight
-
-            window.addEventListener('scroll', () => {
-              if (window.scrollY > headerHeight) {
-                searchWrapper.classList.add('fixed')
-                document.body.style.paddingTop =
-                  (searchWrapper as HTMLElement).offsetHeight + 'px'
-              } else {
-                searchWrapper.classList.remove('fixed')
-                document.body.style.paddingTop = '0'
+            const updatePullDistance = (nextValue) => {
+              const clampedValue = Math.max(0, Math.min(maxPullDistance, nextValue))
+              if (Math.abs(clampedValue - pullDistance) < 0.1) {
+                return
               }
-            })
+
+              pullDistance = clampedValue
+              searchWrapper.style.setProperty('--nav-pull', `${pullDistance.toFixed(2)}px`)
+            }
+
+            const readOverscrollDistance = () => {
+              const scrollOverscroll = Math.max(0, -window.scrollY)
+              const viewportOverscroll = window.visualViewport
+                ? Math.max(0, window.visualViewport.offsetTop)
+                : 0
+              return Math.max(scrollOverscroll, viewportOverscroll)
+            }
+
+            const syncNavPull = () => {
+              const overscrollPull = readOverscrollDistance() * 0.9
+              const targetPull = Math.max(overscrollPull, touchPull, wheelPull)
+
+              updatePullDistance(targetPull)
+
+              if (wheelPull > 0.05) {
+                wheelPull *= 0.82
+              } else {
+                wheelPull = 0
+              }
+
+              syncFrame = requestAnimationFrame(syncNavPull)
+            }
+
+            syncFrame = requestAnimationFrame(syncNavPull)
+
+            window.addEventListener(
+              'wheel',
+              (event) => {
+                if (window.scrollY <= 0 && event.deltaY < 0) {
+                  wheelPull = Math.min(
+                    maxPullDistance,
+                    wheelPull + Math.abs(event.deltaY) * 0.12
+                  )
+                } else if (event.deltaY > 0) {
+                  wheelPull *= 0.6
+                }
+              },
+              { passive: true }
+            )
+
+            window.addEventListener(
+              'touchstart',
+              (event) => {
+                if (event.touches.length === 1) {
+                  touchStartY = event.touches[0].clientY
+                }
+              },
+              { passive: true }
+            )
+
+            window.addEventListener(
+              'touchmove',
+              (event) => {
+                if (event.touches.length !== 1) {
+                  return
+                }
+
+                const deltaY = event.touches[0].clientY - touchStartY
+                if (window.scrollY <= 0 && deltaY > 0) {
+                  touchPull = Math.min(maxPullDistance, deltaY * 0.24)
+                } else {
+                  touchPull = 0
+                }
+              },
+              { passive: true }
+            )
+
+            window.addEventListener(
+              'touchend',
+              () => {
+                touchPull = 0
+              },
+              { passive: true }
+            )
+
+            window.addEventListener(
+              'pagehide',
+              () => {
+                if (syncFrame) {
+                  cancelAnimationFrame(syncFrame)
+                  syncFrame = 0
+                }
+              },
+              { passive: true }
+            )
           }
         })
       </script>
@@ -469,6 +678,12 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       --text-light: var(--text-secondary);
       --text-lighter: var(--text-tertiary);
       --background-light: var(--bg-secondary);
+      --top-nav-height: 44px;
+      --top-nav-bg: rgba(11, 14, 20, 0.42);
+      --top-nav-border: rgba(255, 255, 255, 0.12);
+      --top-nav-text: rgba(240, 244, 252, 0.78);
+      --top-nav-text-strong: rgba(252, 254, 255, 0.96);
+      --top-nav-icon: rgba(236, 241, 248, 0.84);
       --border-radius: 4px; /* Maintaining 4px as requested in earlier README mentions but matching elegant theme */
       --box-shadow: var(--shadow-sm);
     }
@@ -477,6 +692,11 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      padding-top: calc(var(--top-nav-height) + env(safe-area-inset-top));
+    }
+
+    .container.with-hero-header {
+      padding-top: 0;
     }
 
     .site-header {
@@ -496,7 +716,8 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     .cover.default-cover {
-      height: 25vh;
+      height: 32vh;
+      min-height: 260px;
       background: linear-gradient(135deg, rgb(252, 192, 26) 0%, #8e54e9 100%);
       position: relative;
       overflow: hidden;
@@ -521,9 +742,10 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     .cover img {
       display: block;
       width: 100%;
-      height: 25vh;
+      height: 32vh;
+      min-height: 260px;
       object-fit: cover;
-      object-position: center 35%;
+      object-position: center 40%;
     }
 
     .site-title-container {
@@ -545,6 +767,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       font-weight: var(--font-semibold);
       margin: 0;
       text-align: center;
+      line-height: 1.2;
     }
 
     .site-title a {
@@ -552,6 +775,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       text-decoration: none;
       display: flex;
       align-items: center;
+      justify-content: center;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
@@ -714,17 +938,47 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     .search-wrapper {
+      --nav-pull: 0px;
       display: flex;
-      margin: 0rem auto 1rem;
-      padding: 0;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 0 0;
       width: 100%;
-      position: relative;
-      z-index: 10;
-      background-color: var(--bg-secondary);
-      height: 48px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 120;
+      background-color: transparent;
+      height: calc(var(--top-nav-height) + env(safe-area-inset-top));
+      border-bottom: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      will-change: transform;
+      contain: paint;
+      isolation: isolate;
     }
 
-    .site-header.no-cover + .search-wrapper {
+    .search-wrapper::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: var(--top-nav-bg);
+      border-bottom: 1px solid var(--top-nav-border);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+      transform-origin: top center;
+      transform: translateY(var(--nav-pull)) scaleY(calc(1 + (var(--nav-pull) / 96)));
+      transition: transform 0.18s cubic-bezier(0.22, 0.8, 0.24, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .search-wrapper + .site-header {
       margin-top: 0;
     }
 
@@ -735,8 +989,23 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0;
-      height: 100%;
+      padding: 0 0.4rem;
+      height: var(--top-nav-height);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-leading {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .nav-leading.only-nav {
+      margin-left: 0;
     }
 
     .breadcrumbs {
@@ -744,17 +1013,79 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       align-items: center;
       gap: 0.5rem;
       font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .breadcrumb-row {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      background: transparent;
+    }
+
+    .breadcrumb-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.65rem 0;
+    }
+
+    .breadcrumb-row .breadcrumbs {
+      font-size: 0.88rem;
+    }
+
+    .global-nav-inline {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-right: 0.25rem;
+    }
+
+    .global-nav-inline::-webkit-scrollbar {
+      display: none;
+    }
+
+    .global-nav-link {
+      color: var(--top-nav-text);
+      font-size: 0.86rem;
+      font-weight: 400;
+      letter-spacing: 0.006em;
+      line-height: 1;
+      text-decoration: none;
+      opacity: 1;
+      padding: 0.1rem 0;
+      transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .global-nav-link:hover,
+    .global-nav-link.active {
+      color: var(--top-nav-text-strong);
+      opacity: 1;
+      text-decoration: none;
+    }
+
+    .global-nav-link.active {
+      font-weight: 500;
     }
 
     .search-button-wrapper {
       display: flex;
       align-items: center;
       height: 100%;
+      flex-shrink: 0;
     }
 
     .search-button-wrapper.only-search {
       margin-left: auto;
-      padding-right: 1rem;
+      padding-right: 0.45rem;
     }
 
     .nav-container :global(.search-container) {
@@ -763,17 +1094,23 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       display: flex;
       align-items: center;
       height: 100%;
-      margin-left: auto;
-      padding-right: 1rem;
+      padding-right: 0.45rem;
     }
 
     .nav-container :global(.search-button) {
       margin: 0;
-      padding: 0.4rem;
+      padding: 0.3rem;
+      color: var(--top-nav-icon);
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 100%;
+      transition: color 0.2s ease;
+    }
+
+    .nav-container :global(.search-button:hover),
+    .nav-container :global(.search-button:focus-visible) {
+      color: var(--top-nav-text-strong);
     }
 
     .breadcrumb-item {
@@ -841,13 +1178,62 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     @media (max-width: 768px) {
+      .cover img,
+      .cover.default-cover {
+        height: 30vh;
+        min-height: 240px;
+        object-position: center 46%;
+      }
+
+      .site-title-container {
+        padding: 1.6rem 1rem 1.2rem;
+      }
+
+      .site-title {
+        font-size: clamp(1.55rem, 6.2vw, 2.15rem);
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .site-title a {
+        display: inline-flex;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .site-description {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        max-width: min(92vw, 680px);
+        padding: 0 0.25rem;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
       .nav-container {
         padding: 0;
+      }
+
+      .nav-leading {
+        gap: 0.45rem;
       }
 
       .breadcrumbs {
         font-size: 0.8rem;
         padding-left: 0.5rem;
+      }
+
+      .breadcrumb-container {
+        padding: 0.55rem 0.5rem;
+      }
+
+      .global-nav-inline {
+        gap: 0.72rem;
+      }
+
+      .global-nav-link {
+        font-size: 0.83rem;
+        letter-spacing: 0.003em;
       }
 
       .nav-container :global(.search-container) {
@@ -870,8 +1256,53 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     @media (max-width: 480px) {
+      .cover img,
+      .cover.default-cover {
+        height: 28vh;
+        min-height: 220px;
+        object-position: center 50%;
+      }
+
+      .site-title-container {
+        padding: 1.1rem 0.75rem 0.95rem;
+      }
+
+      .site-title {
+        font-size: clamp(1.3rem, 7.4vw, 1.72rem);
+      }
+
+      .site-title a img {
+        width: 1.55rem;
+        height: 1.55rem;
+      }
+
+      .site-description {
+        font-size: 0.86rem;
+        line-height: 1.45;
+        max-width: 94vw;
+        padding: 0 0.1rem;
+      }
+
       .nav-container {
-        padding: 0.5em 0.5em 0 0.5em;
+        padding: 0;
+      }
+
+      .nav-leading.only-nav {
+        margin-left: 0;
+      }
+
+      .breadcrumbs {
+        display: none;
+      }
+
+      .breadcrumb-row .breadcrumbs {
+        display: flex;
+        font-size: 0.78rem;
+        padding-left: 0.4rem;
+      }
+
+      .global-nav-inline {
+        gap: 0.65rem;
       }
 
       .content-wrapper {
@@ -887,31 +1318,30 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       color: inherit;
     }
 
-    .search-wrapper.fixed {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      background-color: var(--bg-secondary);
+    .search-wrapper.hidden-search {
+      z-index: 120;
     }
 
-    .search-wrapper.hidden-search {
-      margin-top: 0;
-      background-color: transparent;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+    .search-wrapper.hidden-search::before {
+      background-color: var(--top-nav-bg);
+      border-bottom-color: var(--top-nav-border);
     }
 
     .search-wrapper.hidden-search .nav-container {
-      padding-top: 1.5rem;
+      padding-top: 0;
     }
 
     .search-wrapper.hidden-search .breadcrumbs {
       color: var(--text-primary);
+    }
+
+    .search-wrapper.hidden-search .global-nav-link {
+      color: var(--top-nav-text);
+    }
+
+    .search-wrapper.hidden-search .global-nav-link:hover,
+    .search-wrapper.hidden-search .global-nav-link.active {
+      color: var(--top-nav-text-strong);
     }
 
     .search-wrapper.hidden-search .breadcrumb-item {
@@ -927,19 +1357,24 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     .search-wrapper.hidden-search .breadcrumb-item:hover {
-      color: white;
+      color: var(--top-nav-text-strong);
     }
 
     .search-wrapper.hidden-search :global(.search-button) {
-      color: white;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      color: var(--top-nav-icon);
+      border-radius: 0;
+      width: auto;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: color 0.2s ease;
       padding: 0;
+    }
+
+    .search-wrapper.hidden-search :global(.search-button:hover),
+    .search-wrapper.hidden-search :global(.search-button:focus-visible) {
+      color: var(--top-nav-text-strong);
     }
 
     .search-wrapper.hidden-search :global(.search-container) {
@@ -954,18 +1389,16 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     .search-wrapper.hidden-search :global(.search-button:hover) {
-      background-color: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background-color: transparent;
+      transform: none;
+      box-shadow: none;
     }
 
     .search-wrapper.hidden-search.fixed {
       position: fixed;
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 

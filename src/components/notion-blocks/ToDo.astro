@@ -11,12 +11,17 @@ export interface Props {
 }
 
 const { block, headings } = Astro.props
+const listItems = (
+  ('ListItems' in block ? block.ListItems : []) as interfaces.Block[]
+).filter(
+  (item: interfaces.Block): item is interfaces.Block & { ToDo: interfaces.ToDo } =>
+    item.Type === 'to_do' && !!item.ToDo
+)
 ---
 
 <div class="to-do">
   {
-    block.ListItems.filter((b: interfaces.Block) => b.Type === 'to_do').map(
-      (b: interfaces.Block) => (
+    listItems.map((b) => (
         <div class={snakeToKebab(b.ToDo.Color)}>
           <label style="display: flex; align-items: center; gap: 0.5em;">
             <input type="checkbox" checked={b.ToDo.Checked} disabled />
@@ -31,12 +36,16 @@ const { block, headings } = Astro.props
               return <RichText richText={richText} />
             })}
           </label>
-          {b.HasChildren && (
-            <NotionBlocks blocks={b.ToDo.Children} headings={headings} />
+          {b.HasChildren && b.ToDo.Children && (
+            <NotionBlocks
+              blocks={b.ToDo.Children}
+              headings={headings}
+              isRoot={false}
+              level={1}
+            />
           )}
         </div>
-      )
-    )
+      ))
   }
 </div>
 

@@ -43,7 +43,7 @@ try {
   }
   // 尝试获取缩略图
   if (block.Video?.External && 'Thumbnail' in block.Video.External) {
-    thumbnail = (block.Video.External as any).Thumbnail || '';
+    thumbnail = (block.Video.External as { Thumbnail?: string }).Thumbnail || '';
   }
 } catch (err) {
   console.log(err)

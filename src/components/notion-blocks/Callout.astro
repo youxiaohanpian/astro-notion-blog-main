@@ -17,12 +17,16 @@ if (!block.Callout) {
 }
 
 // 类型保护函数
-const isEmoji = (icon: any): icon is interfaces.Emoji => {
-  return icon && icon.Type === 'emoji';
+const isEmoji = (
+  icon: interfaces.FileObject | interfaces.Emoji | null | undefined
+): icon is interfaces.Emoji => {
+  return !!icon && icon.Type === 'emoji'
 }
 
-const isFileObject = (icon: any): icon is interfaces.FileObject => {
-  return icon && icon.Type === 'external' || icon.Type === 'file';
+const isFileObject = (
+  icon: interfaces.FileObject | interfaces.Emoji | null | undefined
+): icon is interfaces.FileObject => {
+  return !!icon && (icon.Type === 'external' || icon.Type === 'file');
 }
 ---
 

@@ -7,6 +7,8 @@ import ExifTransformer from 'exif-be-gone'
 import {
   NOTION_API_SECRET,
   DATABASE_ID,
+  HOME_NAV_DATABASE_ID,
+  FRIEND_LINK_DATABASE_ID,
   NUMBER_OF_POSTS_PER_PAGE,
   REQUEST_TIMEOUT_MS,
 } from '../../server-constants'
@@ -52,27 +54,39 @@ import type {
   LinkToPage,
   Mention,
   Reference,
+  HomeNavItem,
+  FriendLink,
 } from '../interfaces'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import { Client, APIResponseError } from '@notionhq/client'
 import { generateSlugFromTitleSync, generateSlugFromTitle } from '../slug-helpers'
-import { buildURLToHTMLMap } from '../blog-helpers'
 import * as fsPromises from 'fs/promises'
 
 const client = new Client({
   auth: NOTION_API_SECRET,
 })
 
+const shouldUseRuntimeCache = process.env.NODE_ENV === 'production'
+
 let postsCache: Post[] | null = null
 let dbCache: Database | null = null
-let blocksCache: Record<string, Block[]> = {}
-let pageCache: Record<string, Post> = {}
+let homeNavCache: HomeNavItem[] | null = null
+let friendLinksCache: FriendLink[] | null = null
+const blocksCache: Record<string, Block[]> = {}
+const pageCache: Record<string, Post> = {}
 let tagsCache: SelectProperty[] | null = null
 const MAX_CONCURRENT_REQUESTS = 3
 let lastRequestTime = 0
 const REQUEST_THROTTLE_MS = 300
 
 const numberOfRetry = 2
+
+function getRequiredDatabaseId(): string {
+  if (!DATABASE_ID) {
+    throw new Error('DATABASE_ID is not set')
+  }
+  return DATABASE_ID
+}
 
 async function throttleRequest(): Promise<void> {
   const now = Date.now()
@@ -94,8 +108,9 @@ export async function getAllPosts(): Promise<Post[]> {
 
   console.log('开始从 Notion API 获取文章列表');
   console.log('DATABASE_ID:', DATABASE_ID);
+  const databaseId = getRequiredDatabaseId()
   const params: requestParams.QueryDatabase = {
-    database_id: DATABASE_ID,
+    database_id: databaseId,
     filter: {
       and: [
         {
@@ -500,6 +515,145 @@ export async function getAllTags(): Promise<SelectProperty[]> {
   return tags
 }
 
+export async function getHomeNavItems(): Promise<HomeNavItem[]> {
+  if (shouldUseRuntimeCache && homeNavCache !== null) {
+    return homeNavCache
+  }
+
+  if (!HOME_NAV_DATABASE_ID) {
+    if (shouldUseRuntimeCache) {
+      homeNavCache = []
+      return homeNavCache
+    }
+
+    return []
+  }
+
+  const params: requestParams.QueryDatabase = {
+    database_id: HOME_NAV_DATABASE_ID,
+    sorts: [
+      {
+        property: 'Sort',
+        direction: 'ascending',
+      },
+    ],
+    page_size: 100,
+  }
+
+  try {
+    let results: responses.PageObject[] = []
+    while (true) {
+      const res = (await client.databases.query(
+        params as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      )) as responses.QueryDatabaseResponse
+
+      results = results.concat(res.results)
+
+      if (!res.has_more) {
+        break
+      }
+
+      params['start_cursor'] = res.next_cursor as string
+    }
+
+    const items = results
+      .map((pageObject) => _buildHomeNavItem(pageObject))
+      .filter((item) => item.Title && (item.Url || item.Slug))
+
+    const publishedItems = items.filter((item) => item.Published)
+    const finalItems = publishedItems.length > 0 ? publishedItems : items
+
+    if (shouldUseRuntimeCache) {
+      homeNavCache = finalItems
+    }
+
+    return finalItems
+  } catch (error) {
+    console.warn('getHomeNavItems failed, fallback to empty list:', error)
+
+    if (shouldUseRuntimeCache) {
+      homeNavCache = []
+      return homeNavCache
+    }
+
+    return []
+  }
+}
+
+export async function getFriendLinks(): Promise<FriendLink[]> {
+  if (shouldUseRuntimeCache && friendLinksCache !== null) {
+    return friendLinksCache
+  }
+
+  if (!FRIEND_LINK_DATABASE_ID) {
+    if (shouldUseRuntimeCache) {
+      friendLinksCache = []
+      return friendLinksCache
+    }
+
+    return []
+  }
+
+  const params: requestParams.QueryDatabase = {
+    database_id: FRIEND_LINK_DATABASE_ID,
+    sorts: [
+      {
+        property: 'Sort',
+        direction: 'ascending',
+      },
+    ],
+    page_size: 100,
+  }
+
+  try {
+    let results: responses.PageObject[] = []
+    while (true) {
+      const res = (await client.databases.query(
+        params as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      )) as responses.QueryDatabaseResponse
+
+      results = results.concat(res.results)
+
+      if (!res.has_more) {
+        break
+      }
+
+      params['start_cursor'] = res.next_cursor as string
+    }
+
+    const links = results
+      .map((pageObject) => _buildFriendLink(pageObject))
+      .filter((link) => link.Name && link.Url)
+
+    const publishedLinks = links.filter((link) => link.Published)
+    const finalLinks = publishedLinks.length > 0 ? publishedLinks : links
+
+    const sortedLinks = [...finalLinks].sort((a, b) => {
+      if (a.Sort !== b.Sort) {
+        if (a.Sort === 0) return 1
+        if (b.Sort === 0) return -1
+        return b.Sort - a.Sort
+      }
+      return a.Name.localeCompare(b.Name, 'zh-CN', { numeric: true })
+    })
+
+    if (shouldUseRuntimeCache) {
+      friendLinksCache = sortedLinks
+    }
+
+    return sortedLinks
+  } catch (error) {
+    console.warn('getFriendLinks failed, fallback to empty list:', error)
+
+    if (shouldUseRuntimeCache) {
+      friendLinksCache = []
+      return friendLinksCache
+    }
+
+    return []
+  }
+}
+
 export async function downloadFile(url: URL) {
   let res!: AxiosResponse
   try {
@@ -569,7 +723,7 @@ export async function downloadFile(url: URL) {
     // 关闭写入流
     try {
       writeStream.destroy();
-    } catch (closeErr) {
+    } catch {
       // 忽略关闭错误
     }
     // 删除可能损坏的文件
@@ -578,7 +732,7 @@ export async function downloadFile(url: URL) {
         fs.unlinkSync(filepath);
         console.log(`已删除损坏的文件: ${filepath}`);
       }
-    } catch (unlinkErr) {
+    } catch {
       // 忽略删除错误
     }
     // 记录错误但继续处理其他图片
@@ -617,7 +771,7 @@ export const downloadPageCover = async (url: string): Promise<void> => {
       await fsPromises.access(savePath, fsPromises.constants.F_OK);
       console.log(`封面图片已存在: ${savePath}`);
       return;
-    } catch (e) {
+    } catch {
       // 文件不存在，继续下载
     }
     
@@ -641,8 +795,9 @@ export async function getDatabase(): Promise<Database> {
     return Promise.resolve(dbCache)
   }
 
+  const databaseId = getRequiredDatabaseId()
   const params: requestParams.RetrieveDatabase = {
-    database_id: DATABASE_ID,
+    database_id: databaseId,
   }
 
   const res = await retry(
@@ -1253,7 +1408,7 @@ function _buildPost(pageObject: responses.PageObject): Post {
   }
 
   // 初始化FirstImage属性为null，稍后在获取文章内容时会尝试提取实际内容中的第一张图片
-  let firstImage: FileObject | null = null;
+  const firstImage: FileObject | null = null;
 
   const title = prop.Page.title
     ? prop.Page.title.map((richText) => richText.plain_text).join('')
@@ -1301,6 +1456,171 @@ function _buildPost(pageObject: responses.PageObject): Post {
   });
 
   return post
+}
+
+interface NotionProperty {
+  type?: string
+  title?: Array<{ plain_text?: string }>
+  rich_text?: Array<{ plain_text?: string }>
+  url?: string | null
+  number?: number | null
+  checkbox?: boolean
+  select?: { name?: string | null } | null
+  files?: Array<{
+    type?: string
+    file?: { url?: string | null } | null
+    external?: { url?: string | null } | null
+  }>
+}
+
+type NotionPropertyMap = Record<string, NotionProperty | undefined>
+
+function _readTitleProperty(property: NotionProperty | undefined): string {
+  if (!property) return ''
+
+  if (property.type === 'title' && property.title?.length > 0) {
+    return property.title[0]?.plain_text || ''
+  }
+
+  if (property.type === 'rich_text' && property.rich_text?.length > 0) {
+    return property.rich_text[0]?.plain_text || ''
+  }
+
+  return ''
+}
+
+function _readRichTextProperty(property: NotionProperty | undefined): string {
+  if (!property || property.type !== 'rich_text' || !property.rich_text?.length) {
+    return ''
+  }
+
+  return property.rich_text.map((item) => item.plain_text || '').join('').trim()
+}
+
+function _readUrlProperty(property: NotionProperty | undefined): string {
+  if (!property) return ''
+
+  if (property.type === 'url' && typeof property.url === 'string') {
+    return property.url.trim()
+  }
+
+  if (property.type === 'rich_text' && property.rich_text?.length > 0) {
+    return property.rich_text[0]?.plain_text?.trim() || ''
+  }
+
+  return ''
+}
+
+function _readSlugProperty(property: NotionProperty | undefined): string {
+  if (!property) return ''
+
+  if (property.type === 'rich_text' && property.rich_text?.length > 0) {
+    return property.rich_text.map((item) => item.plain_text || '').join('').trim()
+  }
+
+  if (property.type === 'url' && typeof property.url === 'string') {
+    return property.url.trim()
+  }
+
+  return ''
+}
+
+function _readNumberProperty(property: NotionProperty | undefined): number {
+  if (!property || property.type !== 'number') {
+    return 0
+  }
+
+  return typeof property.number === 'number' ? property.number : 0
+}
+
+function _readCheckboxProperty(property: NotionProperty | undefined): boolean {
+  if (!property || property.type !== 'checkbox') {
+    return false
+  }
+
+  return Boolean(property.checkbox)
+}
+
+function _readSelectProperty(property: NotionProperty | undefined): string {
+  if (!property || property.type !== 'select' || !property.select) {
+    return ''
+  }
+
+  return property.select.name || ''
+}
+
+function _readAvatarProperty(property: NotionProperty | undefined): string {
+  if (!property) return ''
+
+  if (property.type === 'url' && typeof property.url === 'string') {
+    return property.url.trim()
+  }
+
+  if (property.type === 'files' && Array.isArray(property.files) && property.files.length > 0) {
+    const firstFile = property.files[0]
+
+    if (firstFile.type === 'file' && firstFile.file?.url) {
+      return firstFile.file.url
+    }
+
+    if (firstFile.type === 'external' && firstFile.external?.url) {
+      return firstFile.external.url
+    }
+  }
+
+  return ''
+}
+
+function _buildHomeNavItem(pageObject: responses.PageObject): HomeNavItem {
+  const properties = pageObject.properties as unknown as NotionPropertyMap
+
+  const title = _readTitleProperty(properties.Title) || _readTitleProperty(properties.Name)
+  const url = _readUrlProperty(properties.Url) || _readUrlProperty(properties.URL)
+  const slug = _readSlugProperty(properties.Slug)
+  const description = _readRichTextProperty(properties.Description)
+  const openInNewTab = properties.OpenInNewTab
+    ? _readCheckboxProperty(properties.OpenInNewTab)
+    : false
+  const sort = _readNumberProperty(properties.Sort)
+  const published = properties.Published
+    ? _readCheckboxProperty(properties.Published)
+    : true
+
+  return {
+    PageId: pageObject.id,
+    Title: title,
+    Url: url,
+    Slug: slug,
+    OpenInNewTab: openInNewTab,
+    Description: description,
+    Sort: sort,
+    Published: published,
+  }
+}
+
+function _buildFriendLink(pageObject: responses.PageObject): FriendLink {
+  const properties = pageObject.properties as unknown as NotionPropertyMap
+
+  const name = _readTitleProperty(properties.Name) || _readTitleProperty(properties.Title)
+  const url = _readUrlProperty(properties.Url) || _readUrlProperty(properties.URL)
+  const description = _readRichTextProperty(properties.Description)
+  const avatar = _readAvatarProperty(properties.Avatar)
+  const category = _readSelectProperty(properties.Category)
+  const sort = _readNumberProperty(properties.Sort)
+  const published = properties.Published
+    ? _readCheckboxProperty(properties.Published)
+    : true
+
+  return {
+    PageId: pageObject.id,
+    Name: name,
+    Url: url,
+    Description: description,
+    Avatar: avatar,
+    Category: category,
+    Sort: sort,
+    Published: published,
+  }
 }
 
 function _buildRichText(richTextObject: responses.RichTextObject): RichText {
@@ -1363,8 +1683,12 @@ export async function updatePostLikes(pageId: string, action: 'like' | 'unlike')
     const response = await client.pages.retrieve({ page_id: pageId });
     
     // 使用类型断言获取当前点赞数，如果属性不存在或值为空则默认为0
-    const pageObject = response as any;
-    const currentLikes = pageObject.properties.Likes?.number || 0;
+    const pageObject = response as {
+      properties?: {
+        Likes?: { number?: number | null }
+      }
+    };
+    const currentLikes = pageObject.properties?.Likes?.number || 0;
     console.log('当前点赞数:', currentLikes);
     
     // 根据操作类型计算新的点赞数
@@ -1396,7 +1720,9 @@ export async function getPostLikes(pageId: string): Promise<number> {
     console.log('Notion API响应:', JSON.stringify(response, null, 2));
     
     // 使用类型断言处理响应
-    const pageObject = response as any;
+    const pageObject = response as {
+      properties?: Record<string, { number?: number | null } | undefined>
+    };
     
     // 检查响应中的properties
     if (!pageObject.properties) {

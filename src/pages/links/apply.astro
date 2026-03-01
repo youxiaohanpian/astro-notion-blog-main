@@ -1,0 +1,438 @@
+---
+import Layout from '../../layouts/Layout.astro'
+
+const pageTitle = '申请链接'
+const pageDescription = '遇见彼此，链接美好'
+const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/default-og-image.png"
+  path="/links/apply"
+  hideSidebar={true}
+>
+  <div class="links-apply-page">
+    <header class="links-apply-header">
+      <h1>{pageTitle}</h1>
+      <p>{pageDescription}</p>
+      <p class="apply-tip">链接会在提交后审核通过后展示</p>
+    </header>
+
+    <form id="friend-link-form" class="apply-form" novalidate>
+      <div class="form-row">
+        <label for="link-title">网站名称 *</label>
+        <input id="link-title" name="title" required placeholder="比如：Ai-233" />
+      </div>
+
+      <div class="form-row">
+        <label for="link-url">网址 *</label>
+        <div class="input-with-action">
+          <input
+            id="link-url"
+            name="url"
+            required
+            placeholder="https://example.com"
+          />
+          <button type="button" class="ghost-button" id="fetch-meta">
+            自动填充
+          </button>
+        </div>
+        <span class="field-hint">可选：自动读取标题与简介</span>
+      </div>
+
+      <div class="form-row">
+        <label for="link-desc">一句话介绍</label>
+        <input id="link-desc" name="description" placeholder="建议填写，用于描述你的站点是做什么的" />
+      </div>
+
+      <div class="form-row two-columns">
+        <div class="form-field">
+          <label for="link-category">分类</label>
+          <input id="link-category" name="category" placeholder="life / friends" />
+        </div>
+        <div class="form-field">
+          <label for="link-email">你的邮箱</label>
+          <input id="link-email" name="email" placeholder="邮箱名@ai233.top" />
+        </div>
+      </div>
+
+      <input
+        class="hp-field"
+        type="text"
+        name="website"
+        autocomplete="off"
+        tabindex="-1"
+        aria-hidden="true"
+      />
+
+      <div class="form-actions">
+        <button type="submit" class="cta-button">提交申请</button>
+      </div>
+    </form>
+
+    <p id="apply-status" class="apply-status" aria-live="polite" hidden></p>
+  </div>
+</Layout>
+
+<script define:vars={{ applyEmail }}>
+  const APPLY_EMAIL = applyEmail
+  const form = document.getElementById('friend-link-form')
+  const statusEl = document.getElementById('apply-status')
+  const startTime = Date.now()
+
+  const normalizeUrl = (value) => {
+    const trimmed = String(value || '').trim()
+    if (!trimmed) return ''
+    if (/^https?:\/\//i.test(trimmed)) return trimmed
+    return `https://${trimmed}`
+  }
+
+  const showStatus = (message, tone = 'neutral') => {
+    if (!statusEl) return
+    statusEl.textContent = message
+    statusEl.dataset.tone = tone
+    statusEl.hidden = false
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    if (!form) return
+
+    const formData = new FormData(form)
+    const honeypot = String(formData.get('website') || '').trim()
+    if (honeypot) {
+      showStatus('检测到异常提交，请稍后再试。', 'error')
+      return
+    }
+
+    if (Date.now() - startTime < 4000) {
+      showStatus('请稍等几秒再提交，感谢理解。', 'error')
+      return
+    }
+
+    const title = String(formData.get('title') || '').trim()
+    const url = normalizeUrl(formData.get('url'))
+
+    if (!title || !url) {
+      showStatus('请填写网站名称与网址。', 'error')
+      return
+    }
+
+    showStatus('正在提交…', 'neutral')
+
+    try {
+      const payload = new FormData()
+      payload.set('title', title)
+      payload.set('url', url)
+      payload.set(
+        'description',
+        String(formData.get('description') || '').trim()
+      )
+      payload.set('category', String(formData.get('category') || '').trim())
+      payload.set('email', String(formData.get('email') || '').trim())
+      payload.set('website', honeypot)
+
+      const response = await fetch('/api/friend-link-apply', {
+        method: 'POST',
+        body: payload,
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(data?.error || '提交失败')
+      }
+
+      showStatus('提交成功，感谢申请！', 'success')
+      window.alert('提交成功！我们会审核后上线。')
+      form.reset()
+    } catch (error) {
+      const baseMessage =
+        error instanceof Error && error.message
+          ? error.message
+          : '提交失败，请稍后再试。'
+      const contactTip = APPLY_EMAIL
+        ? ` 如需帮助请联系 ${APPLY_EMAIL}`
+        : ''
+      showStatus(`${baseMessage}${contactTip}`, 'error')
+    }
+  })
+
+  const fetchButton = document.getElementById('fetch-meta')
+  const titleInput = document.getElementById('link-title')
+  const urlInput = document.getElementById('link-url')
+  const descInput = document.getElementById('link-desc')
+  let autoFetchTimer = null
+  let isFetchingMeta = false
+
+  const canAutoFill = () =>
+    (!titleInput || !titleInput.value) && (!descInput || !descInput.value)
+
+  const fetchMeta = async (targetUrl) => {
+    if (isFetchingMeta) return
+    const target = targetUrl || normalizeUrl(urlInput?.value)
+    if (!target) {
+      showStatus('请先填写网址。', 'error')
+      return
+    }
+
+    isFetchingMeta = true
+    fetchButton?.setAttribute('disabled', 'true')
+    if (fetchButton) fetchButton.textContent = '获取中...'
+    showStatus('正在获取标题与简介…', 'neutral')
+
+    try {
+      const res = await fetch('/api/link-preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: target }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        throw new Error(data?.error || '获取失败')
+      }
+
+      if (titleInput && !titleInput.value && data.title) {
+        titleInput.value = data.title
+      }
+
+      if (descInput && !descInput.value && data.description) {
+        descInput.value = data.description
+      }
+
+      showStatus('已自动填充，如需可手动调整。', 'success')
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message
+          ? error.message
+          : '暂时无法读取网页信息'
+      showStatus(`${message}，请手动填写标题与简介。`, 'error')
+    } finally {
+      isFetchingMeta = false
+      fetchButton?.removeAttribute('disabled')
+      if (fetchButton) fetchButton.textContent = '自动填充'
+    }
+  }
+
+  fetchButton?.addEventListener('click', async () => {
+    if (!urlInput) return
+    await fetchMeta(normalizeUrl(urlInput.value))
+  })
+
+  urlInput?.addEventListener('blur', () => {
+    if (!canAutoFill()) return
+    fetchMeta()
+  })
+
+  urlInput?.addEventListener('input', () => {
+    if (!canAutoFill()) return
+    if (autoFetchTimer) {
+      clearTimeout(autoFetchTimer)
+    }
+    autoFetchTimer = setTimeout(() => fetchMeta(), 800)
+  })
+
+</script>
+
+<style>
+  .links-apply-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 0 4rem;
+  }
+
+  .links-apply-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .links-apply-header h1 {
+    font-size: 2.1rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .links-apply-header p {
+    margin: 0.2rem 0;
+    color: var(--text-secondary);
+  }
+
+  .apply-tip {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+  }
+
+  .apply-email {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
+  .apply-form {
+    display: grid;
+    gap: 1.2rem;
+    padding: 2rem;
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .form-row {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .form-row.two-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .form-field {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .input-with-action {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .input-with-action input {
+    flex: 1;
+  }
+
+  .ghost-button {
+    padding: 0.55rem 1rem;
+    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .ghost-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ghost-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .field-hint {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+  }
+
+  .form-row label {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
+  .form-row input,
+  .form-row textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-primary) 90%, transparent);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+
+  .form-row textarea {
+    resize: vertical;
+  }
+
+  .form-row input:focus,
+  .form-row textarea:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--accent-primary) 45%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 18%, transparent);
+  }
+
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.6rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    background: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
+  }
+
+  .form-actions .cta-button {
+    padding: 0.65rem 1.6rem;
+  }
+
+  .form-hint {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+  }
+
+  .apply-status {
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .apply-status[data-tone='error'] {
+    color: #d64545;
+  }
+
+  .apply-status[data-tone='success'] {
+    color: #2f9d66;
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+
+  @media (max-width: 768px) {
+    .links-apply-page {
+      padding: 2rem 1rem 3rem;
+    }
+
+    .apply-form,
+    .apply-result {
+      padding: 1.4rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .form-row.two-columns {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -49,6 +49,7 @@ class PinyinTranslationService implements TranslationService {
   };
 
   async translate(text: string, targetLang: string): Promise<string> {
+    void targetLang;
     try {
       // 尝试使用更智能的方法处理中文
       return this.convertToSlug(text);

@@ -145,5 +145,9 @@ const lineClamp = typeof excerptLines === 'number' ? excerptLines : (hasImage ? 
     overflow: hidden;
   }
 
+  .blog-post.no-image .blog-post-body {
+    -webkit-line-clamp: var(--excerpt-lines, 4);
+  }
+
 
 </style>

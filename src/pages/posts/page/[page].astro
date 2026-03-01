@@ -1,8 +1,6 @@
 ---
 import {
   getPostsByPage,
-  getRankedPosts,
-  getAllTags,
   getNumberOfPages,
   getDatabase,
   getAllBlocksByBlockId,
@@ -16,9 +14,6 @@ import Layout from '../../../layouts/Layout.astro'
 import NoContents from '../../../components/NoContents.astro'
 import PostCard from '../../../components/PostCard.astro'
 import Pagination from '../../../components/Pagination.astro'
-import BlogPostsLink from '../../../components/BlogPostsLink.astro'
-import BlogTagsLink from '../../../components/BlogTagsLink.astro'
-import styles from '../../../styles/blog.module.css'
 import '../../../styles/notion-color.css'
 import '../../../styles/tag-cloud.css'
 
@@ -38,10 +33,8 @@ const { page } = Astro.params
 const database = await getDatabase()
 
 // 获取文章数据
-const [posts, rankedPosts, tags, numberOfPages, allPosts] = await Promise.all([
+const [posts, numberOfPages, allPosts] = await Promise.all([
   getPostsByPage(parseInt(page, 10)),
-  getRankedPosts(),
-  getAllTags(),
   getNumberOfPages(),
   getAllPostsSorted(), // 与 /blog 页相同的数据源，保证标签数量一致
 ])
@@ -55,12 +48,8 @@ const allTagCounts: Record<string, number> = allPosts.reduce((acc, post) => {
   return acc;
 }, {} as Record<string, number>);
 
-// 标签名称列表和颜色映射
+// 标签名称列表
 const allTagNames = Object.keys(allTagCounts);
-const tagColorMap: Record<string, string> = tags.reduce((acc, tag) => {
-  acc[tag.name] = tag.color;
-  return acc;
-}, {} as Record<string, string>);
 
 // 为每篇文章提取第一张图片
 await Promise.all(
@@ -100,7 +89,6 @@ await Promise.all(
     <!-- 顶部标签云：与 /blog 和标签页保持一致，用于翻页时也能快速切换标签 -->
     <div class="blog-tag-cloud">
       {allTagNames.map((tagName) => {
-        const colorClass = tagColorMap[tagName] ?? '';
         return (
           <a href={getTagLink(tagName)} class="blog-tag-pill">
             <span class="blog-tag-label">{tagName}</span>
@@ -195,4 +183,3 @@ await Promise.all(
   }
 
 </style>
-

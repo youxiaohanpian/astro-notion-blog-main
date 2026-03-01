@@ -345,13 +345,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // 5. 工具函数：计算元素到文档顶部的绝对距离（解决嵌套定位问题）
-      const getElementTop = (element) => {
+      const getElementTop = (element: HTMLElement) => {
           let top = 0;
-          while (element) {
-              top += element.offsetTop;
-              element = element.offsetParent;
-              if (element && element.tagName === 'BODY') {
-                  top -= element.clientTop; // 修正body边框影响
+          let current: HTMLElement | null = element;
+          while (current) {
+              top += current.offsetTop;
+              const parent: Element | null = current.offsetParent;
+              if (parent instanceof HTMLElement) {
+                  if (parent.tagName === 'BODY') {
+                      top -= parent.clientTop; // 修正body边框影响
+                  }
+                  current = parent;
+              } else {
+                  current = null;
               }
           }
           return top;
@@ -359,13 +365,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 6. 工具函数：获取头部实际高度（用于滚动偏移）
       const getHeaderHeight = () => {
-          const header = document.querySelector('.site-header');
+          const header = document.querySelector<HTMLElement>('.site-header');
           return header ? header.offsetHeight : 0;
       };
 
       // 7. 目录链接点击逻辑（核心）
-      const tocLinks = tocElement.querySelectorAll('.toc-link');
-      let currentActiveLink = null; // 全局跟踪当前激活项
+      const tocLinks = tocElement.querySelectorAll<HTMLAnchorElement>('.toc-link');
+      let currentActiveLink: HTMLAnchorElement | null = null; // 全局跟踪当前激活项
       
       tocLinks.forEach(link => {
           link.addEventListener('click', (e) => {
@@ -424,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       behavior: 'smooth'
                   });
                   // 激活对应目录项
-                  const targetLink = document.querySelector(`.toc-link[href="#${targetId}"]`);
+                  const targetLink = document.querySelector<HTMLAnchorElement>(`.toc-link[href="#${targetId}"]`);
                   if (targetLink) {
                       tocLinks.forEach(l => l.classList.remove('active'));
                       targetLink.classList.add('active');
@@ -439,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const visibleEntry = entries.find(entry => entry.isIntersecting);
           if (visibleEntry) {
               const id = visibleEntry.target.getAttribute('id');
-              const targetLink = document.querySelector(`.toc-link[href="#${id}"]`);
+              const targetLink = document.querySelector<HTMLAnchorElement>(`.toc-link[href="#${id}"]`);
               if (targetLink && targetLink !== currentActiveLink) {
                   tocLinks.forEach(l => l.classList.remove('active'));
                   targetLink.classList.add('active');

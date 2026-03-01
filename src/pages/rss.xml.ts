@@ -9,10 +9,11 @@ export const GET: APIRoute = async ({ site }) => {
   
   // 获取有效的站点URL
   const getValidSite = (): string => {
-    if (site && typeof site === 'string' && site.trim() !== '') {
+    const siteValue = site?.toString() ?? ''
+    if (siteValue.trim() !== '') {
       try {
-        new URL(site);
-        return site;
+        new URL(siteValue);
+        return siteValue;
       } catch {
         // URL 无效，使用默认值
       }

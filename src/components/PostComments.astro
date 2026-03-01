@@ -1,0 +1,67 @@
+---
+import {
+  ENABLE_GISCUS,
+  GISCUS_REPO,
+  GISCUS_REPO_ID,
+  GISCUS_CATEGORY,
+  GISCUS_CATEGORY_ID,
+  GISCUS_MAPPING,
+  GISCUS_STRICT,
+  GISCUS_REACTIONS_ENABLED,
+  GISCUS_EMIT_METADATA,
+  GISCUS_INPUT_POSITION,
+  GISCUS_THEME,
+  GISCUS_LANG,
+} from '../server-constants'
+
+const isConfigured =
+  ENABLE_GISCUS &&
+  Boolean(GISCUS_REPO) &&
+  Boolean(GISCUS_REPO_ID) &&
+  Boolean(GISCUS_CATEGORY) &&
+  Boolean(GISCUS_CATEGORY_ID)
+---
+
+{isConfigured && (
+  <section class="post-comments" aria-label="评论区">
+    <h2>评论</h2>
+    <script
+      src="https://giscus.app/client.js"
+      data-repo={GISCUS_REPO}
+      data-repo-id={GISCUS_REPO_ID}
+      data-category={GISCUS_CATEGORY}
+      data-category-id={GISCUS_CATEGORY_ID}
+      data-mapping={GISCUS_MAPPING}
+      data-strict={GISCUS_STRICT}
+      data-reactions-enabled={GISCUS_REACTIONS_ENABLED}
+      data-emit-metadata={GISCUS_EMIT_METADATA}
+      data-input-position={GISCUS_INPUT_POSITION}
+      data-theme={GISCUS_THEME}
+      data-lang={GISCUS_LANG}
+      crossorigin="anonymous"
+      async
+    ></script>
+  </section>
+)}
+
+<style>
+  .post-comments {
+    margin-top: 2.2rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .post-comments h2 {
+    font-size: 1.25rem;
+    margin: 0 0 0.9rem;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .post-comments {
+      margin-top: 1.8rem;
+      padding-top: 1.25rem;
+    }
+  }
+</style>
+

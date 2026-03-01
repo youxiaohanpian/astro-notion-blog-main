@@ -1,0 +1,268 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getFriendLinks } from '../lib/notion/client'
+import type { FriendLink } from '../lib/interfaces'
+
+const [friendLinks] = await Promise.all([getFriendLinks()])
+
+const groupedLinks = friendLinks.reduce((map, link) => {
+  const category = link.Category?.trim() || 'Others'
+  const current = map.get(category) ?? []
+  current.push(link)
+  map.set(category, current)
+  return map
+}, new Map<string, FriendLink[]>())
+
+const pageTitle = '友情链接'
+const pageDescription = '一些值得收藏与互相支持的站点'
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/default-og-image.png"
+  path="/links"
+  hideSidebar={true}
+>
+  <div class="links-page">
+    <header class="links-header">
+      <h1>{pageTitle}</h1>
+      <p>{pageDescription}</p>
+      <span class="links-subtitle">欢迎互链 · 联系请留言或邮件</span>
+      <div class="links-actions">
+        <a class="links-apply-button" href="/links/apply">在线申请链接</a>
+      </div>
+    </header>
+
+    {friendLinks.length === 0 ? (
+      <div class="links-empty">
+        <p>暂时还没有展示的友情链接。</p>
+      </div>
+    ) : (
+      <div class="links-groups">
+        {Array.from(groupedLinks.entries()).map(([category, links]) => (
+          <section class="links-group">
+            <h2 class="links-group-title">{category}</h2>
+            <div class="links-grid">
+              {links.map((link: FriendLink) => (
+                <a
+                  href={link.Url}
+                  class="friend-link-card"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.Avatar ? (
+                    <img
+                      src={link.Avatar}
+                      alt={`${link.Name} avatar`}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="friend-link-avatar-fallback">
+                      {link.Name.slice(0, 1)}
+                    </div>
+                  )}
+                  <div class="friend-link-meta">
+                    <h3>{link.Name}</h3>
+                    {link.Description && <p>{link.Description}</p>}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .links-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 0 4rem;
+  }
+
+  .links-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .links-header h1 {
+    font-size: 2.2rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .links-header p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .links-subtitle {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+  }
+
+  .links-actions {
+    margin-top: 1.4rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .links-apply-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .links-apply-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
+  }
+
+  .links-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    border: 1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+  }
+
+  .links-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .links-group-title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .friend-link-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--bg-secondary) 86%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .friend-link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+  }
+
+  .friend-link-card img,
+  .friend-link-avatar-fallback {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .friend-link-card img {
+    object-fit: cover;
+    background: color-mix(in srgb, var(--bg-tertiary) 70%, transparent);
+  }
+
+  .friend-link-avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    color: color-mix(in srgb, var(--text-primary) 70%, transparent);
+    background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  }
+
+  .friend-link-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .friend-link-meta h3 {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+
+  .friend-link-meta p {
+    margin: 0;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  @media (max-width: 768px) {
+    .links-page {
+      padding: 2rem 1rem 3rem;
+    }
+
+    .links-header h1 {
+      font-size: 1.8rem;
+    }
+
+    .links-group-title {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .links-header h1 {
+      font-size: 1.6rem;
+    }
+
+    .friend-link-card {
+      padding: 0.9rem;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    .friend-link-card img,
+    .friend-link-avatar-fallback {
+      background: #f0f0f0;
+    }
+  }
+</style>

@@ -31,7 +31,7 @@ export const filePath = (url: URL): string => {
         // 返回原始URL作为备选方案，确保图片可以显示
         const result = url.toString();
         return result || '/'; // 确保不返回空字符串
-      } catch (error) {
+      } catch {
         console.log('无法访问本地封面图片，使用原始URL:', url.toString());
         const result = url.toString();
         return result || '/'; // 确保不返回空字符串
@@ -385,7 +385,7 @@ export const parseYouTubeVideoId = (url: URL): string => {
 /**
  * 从文章块中提取第一张图片
  */
-export function extractFirstImage(blocks: any[]): { Type: string; Url: string } | null {
+export function extractFirstImage(blocks: Block[]): { Type: string; Url: string } | null {
   if (!blocks || blocks.length === 0) return null;
   
   console.log(`检查 ${blocks.length} 个块以提取图片`);

@@ -1,17 +1,18 @@
 ---
-import { RichText } from '../../lib/interfaces.ts'
+import type { RichText } from '../../lib/interfaces.ts'
 
 export interface Props {
   richTexts: RichText[]
 }
 
 const { richTexts } = Astro.props
+const caption = richTexts[0]?.Text?.Content ?? ''
 ---
 
 {
-  richTexts.length > 0 && richTexts[0].Text.Content && (
+  caption && (
     <div class="caption">
-      <div>{richTexts[0].Text.Content}</div>
+      <div>{caption}</div>
     </div>
   )
 }

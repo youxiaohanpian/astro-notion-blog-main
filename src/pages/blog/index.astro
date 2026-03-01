@@ -1,9 +1,7 @@
 ---
-import type { Post, SelectProperty } from '../../lib/interfaces'
+import type { Post } from '../../lib/interfaces'
 import {
   getAllPostsSorted,
-  getRankedPosts,
-  getAllTags,
   getNumberOfPages,
   getDatabase,
   getAllBlocksByBlockId
@@ -16,7 +14,6 @@ import Layout from '../../layouts/Layout.astro'
 import NoContents from '../../components/NoContents.astro'
 import PostCard from '../../components/PostCard.astro'
 import Pagination from '../../components/Pagination.astro'
-import styles from '../../styles/blog.module.css'
 import '../../styles/notion-color.css'
 import '../../styles/tag-cloud.css'
 
@@ -30,10 +27,8 @@ const database = await getDatabase()
 // 4. 获取总页数
 const PAGE_SIZE = 12;
 const currentPage = 1;
-const [allPosts, rankedPosts, tags, numberOfPages] = await Promise.all([
+const [allPosts, numberOfPages] = await Promise.all([
   getAllPostsSorted(),
-  getRankedPosts(),
-  getAllTags(),
   getNumberOfPages(),
 ]);
 const posts = allPosts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
@@ -49,12 +44,6 @@ const tagCounts: Record<string, number> = allPosts.reduce((acc, post: Post) => {
 
 // 标签名称列表，用于渲染标签云（与首页和标签页的计数逻辑保持一致）
 const allTagNames = Object.keys(tagCounts);
-
-// 标签名称到颜色的映射表，用于应用 Notion 标签颜色样式
-const tagColorMap: Record<string, string> = tags.reduce((acc, tag: SelectProperty) => {
-  acc[tag.name] = tag.color;
-  return acc;
-}, {} as Record<string, string>);
 
 // 为每篇文章提取第一张图片
 // 注意：这个步骤只在文章没有特色图片或封面图片时执行
@@ -90,7 +79,6 @@ await Promise.all(
     <!-- 所有日志页顶部标签云：展示所有标签及其文章数量，与首页和标签详情页保持一致 -->
     <div class="blog-tag-cloud">
       {allTagNames.map((tagName) => {
-        const colorClass = tagColorMap[tagName] ?? '';
         return (
           <a href={getTagLink(tagName)} class="blog-tag-pill">
             <span class="blog-tag-label">{tagName}</span>

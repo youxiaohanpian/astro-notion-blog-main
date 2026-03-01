@@ -1,4 +1,4 @@
-import type { Block, RichText } from '../interfaces'
+import type { RichText } from '../interfaces'
 
 /**
  * 从富文本数组中提取纯文本内容

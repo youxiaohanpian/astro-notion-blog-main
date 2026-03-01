@@ -27,7 +27,7 @@ export default (): AstroIntegration => ({
                 url = new URL(firstImageObject.Url)
                 console.log(`下载文章[${post.Title}]的第一张图片:`, url.toString())
                 return downloadFile(url)
-              } catch (error) {
+              } catch {
                 console.error(`文章[${post.Title}]的第一张图片URL无效:`, firstImageObject.Url)
               }
             }

@@ -84,6 +84,12 @@ NOTION_API_SECRET=your_notion_api_secret
 # Notion 数据库 ID
 DATABASE_ID=your_database_id
 
+# 首页导航数据库（可选）
+HOME_NAV_DATABASE_ID=your_home_nav_database_id
+
+# 友情链接数据库（可选）
+FRIEND_LINK_DATABASE_ID=your_friend_link_database_id
+
 # 博客基础路径（如果部署在子目录下）
 BASE_PATH=/
 
@@ -154,6 +160,26 @@ REQUEST_TIMEOUT_MS=30000
 3. 获取数据库 ID（从数据库 URL 中提取）
 4. 将数据库 ID 添加到 `.env.local` 文件中
 5. 共享数据库给你的 Notion 集成应用
+
+### 可选：首页导航数据库字段
+用于首页「首页导航」模块（配置 `HOME_NAV_DATABASE_ID` 后生效）：
+1. **Title**（title）或 **Name**（title）
+2. **Url**（url）或 **URL**（rich_text/url）
+3. **Slug**（rich_text，可选；当 Url 为空时用于站内跳转）
+4. **Description**（rich_text，可选）
+5. **OpenInNewTab**（checkbox，可选；勾选后新标签打开）
+6. **Sort**（number，可选）
+7. **Published**（checkbox，可选，默认展示）
+
+### 可选：友情链接数据库字段
+用于首页「友情链接」模块（配置 `FRIEND_LINK_DATABASE_ID` 后生效）：
+1. **Name**（title）或 **Title**（title）
+2. **Url**（url）或 **URL**（rich_text/url）
+3. **Description**（rich_text，可选）
+4. **Avatar**（files/url，可选）
+5. **Category**（select，可选）
+6. **Sort**（number，可选）
+7. **Published**（checkbox，可选，默认展示）
 
 ## 开发与构建环境说明
 

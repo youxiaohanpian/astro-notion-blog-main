@@ -51,7 +51,7 @@ try {
     ])
     const html = urlMap[url.toString()]
     if (html) {
-      // @ts-ignore - 忽略类型不匹配问题
+      // @ts-expect-error metascraper 返回类型与本地声明不完全兼容
       metadata = await metascraper({ html, url: url.toString() })
     }
   }

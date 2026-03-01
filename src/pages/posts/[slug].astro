@@ -3,7 +3,6 @@ import * as interfaces from '../../lib/interfaces.ts'
 import {
   getPosts,
   getAllPosts,
-  getRankedPosts,
   getPostBySlug,
   getPostsByTag,
   getBlock,
@@ -23,6 +22,7 @@ import PostDate from '../../components/PostDate.astro'
 import PostTags from '../../components/PostTags.astro'
 import PostTitle from '../../components/PostTitle.astro'
 import PostBody from '../../components/PostBody.astro'
+import PostComments from '../../components/PostComments.astro'
 import PostRelativeLink from '../../components/PostRelativeLink.astro'
 import BlogPostsLink from '../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../components/BlogTagsLink.astro'
@@ -64,10 +64,9 @@ try {
   throw new Error(`Post not found. slug: ${slug}`);
 }
 
-const [blocks, allPostsRaw, rankedPostsRaw, recentPostsRaw, tags, postsHavingSameTagRaw] = await Promise.all([
+const [blocks, allPostsRaw, recentPostsRaw, tags, postsHavingSameTagRaw] = await Promise.all([
   getAllBlocksByBlockId(post.PageId),
   getAllPosts(),
-  getRankedPosts(),
   getPosts(5),
   getAllTags(),
   getPostsByTag(post.Tags[0]?.name, 6),
@@ -75,7 +74,6 @@ const [blocks, allPostsRaw, rankedPostsRaw, recentPostsRaw, tags, postsHavingSam
 
 // 过滤掉无效的 post（没有 Slug 或 PageId 的）
 const allPosts = allPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
-const rankedPosts = rankedPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
 const recentPosts = recentPostsRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
 const postsHavingSameTag = postsHavingSameTagRaw.filter((p: interfaces.Post) => p && p.Slug && p.PageId);
 
@@ -152,11 +150,15 @@ let postCoverURL: string | null = null;
 // 获取有效的站点URL，如果 Astro.site 无效则使用默认值
 const getValidSiteURL = (): string => {
   const siteURL = Astro.site;
-  if (siteURL && typeof siteURL === 'string' && siteURL.trim() !== '') {
+  if (siteURL) {
+    const site = siteURL.toString()
+    if (site.trim() === '') {
+      return 'https://localhost:4321'
+    }
     try {
       // 验证 URL 是否有效
-      new URL(siteURL);
-      return siteURL;
+      new URL(site);
+      return site;
     } catch {
       // URL 无效，使用默认值
     }
@@ -185,7 +187,7 @@ if (post.FeaturedImage && post.FeaturedImage.Url && post.FeaturedImage.Url.trim(
         ogImage = new URL(processedPath, siteBaseURL).toString();
       }
     }
-  } catch (error) {
+  } catch {
     console.log('Invalid FeaturedImage URL: ', post.FeaturedImage.Url);
   }
 }
@@ -209,7 +211,7 @@ else if (post.Cover && post.Cover.Url && post.Cover.Url.trim() !== '') {
       }
       postCoverURL = url.hostname === 'www.notion.so' ? url.toString() : ogImage; // 使用原始URL或处理后的URL
     }
-  } catch (error) {
+  } catch {
     console.log('Invalid Cover URL: ', post.Cover.Url);
   }
 }
@@ -226,7 +228,7 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
         ogImage = new URL(processedPath, siteBaseURL).toString();
       }
     }
-  } catch (error) {
+  } catch {
     console.log('Invalid FirstImage URL: ', post.FirstImage.Url);
   }
 }
@@ -252,6 +254,7 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
       <PostTitle post={post} enableLink={false} />
       <PostDate post={post} />
       <PostBody blocks={blocks} />
+      <PostComments />
 
       <div class="post-actions">
         <button class="share-button" id="shareButton" aria-label="分享日志">
@@ -311,8 +314,6 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
 
     // 点赞按钮功能
     const likeButton = document.getElementById('likeButton');
-    const likeCount = document.getElementById('likeCount');
-    
     if (likeButton) {
       // 获取日志slug
       const postSlug = window.location.pathname.split('/').pop();

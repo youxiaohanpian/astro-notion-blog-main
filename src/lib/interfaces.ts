@@ -19,6 +19,28 @@ export interface Post {
   Rank: number
 }
 
+export interface HomeNavItem {
+  PageId: string
+  Title: string
+  Url: string
+  Slug: string
+  OpenInNewTab: boolean
+  Description: string
+  Sort: number
+  Published: boolean
+}
+
+export interface FriendLink {
+  PageId: string
+  Name: string
+  Url: string
+  Description: string
+  Avatar: string
+  Category: string
+  Sort: number
+  Published: boolean
+}
+
 export interface Block {
   Id: string
   Type: string

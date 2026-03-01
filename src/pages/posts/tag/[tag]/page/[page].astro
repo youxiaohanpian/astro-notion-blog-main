@@ -1,6 +1,4 @@
 ---
-import type { SelectProperty } from '../../../../../lib/interfaces.ts'
-import { NUMBER_OF_POSTS_PER_PAGE } from '../../../../../server-constants.ts'
 import {
   getPostsByTagAndPage,
   getNumberOfPagesByTag,
@@ -12,9 +10,6 @@ import Layout from '../../../../../layouts/Layout.astro'
 import NoContents from '../../../../../components/NoContents.astro'
 import PostCard from '../../../../../components/PostCard.astro'
 import Pagination from '../../../../../components/Pagination.astro'
-import BlogPostsLink from '../../../../../components/BlogPostsLink.astro'
-import BlogTagsLink from '../../../../../components/BlogTagsLink.astro'
-import styles from '../../../../../styles/blog.module.css'
 import '../../../../../styles/notion-color.css'
 import '../../../../../styles/tag-cloud.css'
 
@@ -46,10 +41,9 @@ const pageNum = parseInt(page, 10)
 const encodedTag = encodeURIComponent(tag)
 
 // 获取文章和分页信息
-const [posts, numberOfPages, tags, allPosts] = await Promise.all([
+const [posts, numberOfPages, allPosts] = await Promise.all([
   getPostsByTagAndPage(tag, pageNum),
   getNumberOfPagesByTag(tag),
-  getAllTags(),
   getAllPosts(), // 获取所有文章，用于精确统计该标签的文章总数
 ])
 
@@ -72,13 +66,6 @@ if (shouldRedirect) {
   return Astro.redirect(getTagLink(tag))
 }
 
-const currentTag = posts.length > 0 ? posts[0].Tags.find((t) => t.name === tag) : null
-
-// 当前标签在「全站」范围内的文章总数，用于在标签标题旁显示 (number)，与首页保持一致
-const tagPostCount = allPosts.filter((post) =>
-  post.Tags.find((t) => t.name === tag)
-).length
-
 // 统计所有标签的文章数量，用于在标签云中显示 (number)
 const tagCounts: Record<string, number> = allPosts.reduce((acc, post) => {
   post.Tags.forEach(t => {
@@ -90,12 +77,6 @@ const tagCounts: Record<string, number> = allPosts.reduce((acc, post) => {
 
 // 标签名称列表，用于渲染顶部标签云
 const allTagNames = Object.keys(tagCounts);
-
-// 标签名称到颜色的映射表，用于应用 Notion 标签颜色样式
-const tagColorMap: Record<string, string> = tags.reduce((acc, t: SelectProperty) => {
-  acc[t.name] = t.color;
-  return acc;
-}, {} as Record<string, string>);
 
 // 准备客户端重定向信息
 const redirectInfo = {
