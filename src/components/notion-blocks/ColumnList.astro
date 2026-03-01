@@ -5,9 +5,10 @@ import NotionBlocks from '../NotionBlocks.astro'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, headings } = Astro.props
+const { block, headings, headingSlugs } = Astro.props
 const columns = block.ColumnList?.Columns ?? []
 ---
 
@@ -18,6 +19,7 @@ const columns = block.ColumnList?.Columns ?? []
         <NotionBlocks
           blocks={column.Children}
           headings={headings}
+          headingSlugs={headingSlugs}
           isRoot={false}
           level={1}
         />

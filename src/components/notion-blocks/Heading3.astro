@@ -7,10 +7,13 @@ import NotionBlocks from '../NotionBlocks.astro'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, headings } = Astro.props
-const id = block.Heading3 ? buildHeadingId(block.Heading3) : ''
+const { block, headings, headingSlugs } = Astro.props
+const id =
+  headingSlugs?.[block.Id] ||
+  (block.Heading3 ? buildHeadingId(block.Heading3) : '')
 ---
 
 {block.Heading3 && block.Heading3.IsToggleable ? (
@@ -25,7 +28,13 @@ const id = block.Heading3 ? buildHeadingId(block.Heading3) : ''
     </summary>
     <div class="toggle-content">
       {block.Heading3.Children && (
-        <NotionBlocks blocks={block.Heading3.Children} headings={headings} isRoot={false} level={4} />
+        <NotionBlocks
+          blocks={block.Heading3.Children}
+          headings={headings}
+          headingSlugs={headingSlugs}
+          isRoot={false}
+          level={4}
+        />
       )}
     </div>
   </details>

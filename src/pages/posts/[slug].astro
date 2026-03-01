@@ -28,6 +28,7 @@ import BlogPostsLink from '../../components/BlogPostsLink.astro'
 import BlogTagsLink from '../../components/BlogTagsLink.astro'
 import TableOfContents from '../../components/TableOfContents.astro'
 import styles from '../../styles/blog.module.css'
+import GithubSlugger from 'github-slugger'
 
 export async function getStaticPaths() {
   try {
@@ -136,9 +137,30 @@ const prevPost = currentPostIndex >= 0 && currentPostIndex + 1 < allPosts.length
 const nextPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : undefined;
 
 // 筛选出所有标题类型的块
-const headingBlocks = blocks.filter(b => 
+const headingBlocks = blocks.filter((b) =>
   ['heading_1', 'heading_2', 'heading_3'].includes(b.Type)
-);
+)
+
+const getHeadingText = (block: interfaces.Block): string => {
+  if (block.Type === 'heading_1' && block.Heading1) {
+    return block.Heading1.RichTexts.map((rt) => rt.Text?.Content || '').join('')
+  }
+  if (block.Type === 'heading_2' && block.Heading2) {
+    return block.Heading2.RichTexts.map((rt) => rt.Text?.Content || '').join('')
+  }
+  if (block.Type === 'heading_3' && block.Heading3) {
+    return block.Heading3.RichTexts.map((rt) => rt.Text?.Content || '').join('')
+  }
+  return ''
+}
+
+const slugger = new GithubSlugger()
+const headingSlugs: Record<string, string> = {}
+headingBlocks.forEach((heading) => {
+  const text = getHeadingText(heading)
+  const slug = slugger.slug(text || heading.Id)
+  headingSlugs[heading.Id] = slug
+})
 
 const relatedPosts = postsHavingSameTag.filter((p: interfaces.Post) => p.Slug !== post.Slug);
 
@@ -247,13 +269,13 @@ else if (post.FirstImage && post.FirstImage.Url && post.FirstImage.Url.trim() !=
   ]}
 >
   <div class="blog-post-detail">
-    <TableOfContents headings={headingBlocks} />
+    <TableOfContents headings={headingBlocks} headingSlugs={headingSlugs} />
     
     <div class="blog-posts-container">
       <PostTags post={post} enableLink={true} />
       <PostTitle post={post} enableLink={false} />
       <PostDate post={post} />
-      <PostBody blocks={blocks} />
+      <PostBody blocks={blocks} headingSlugs={headingSlugs} />
       <PostComments />
 
       <div class="post-actions">

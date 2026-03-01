@@ -5,13 +5,20 @@ import * as interfaces from '../../lib/interfaces'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, headings } = Astro.props
+const { block, headings, headingSlugs } = Astro.props
 ---
 
 <div class="synced-block">
-  <NotionBlocks blocks={block?.SyncedBlock?.Children || []} isRoot={false} level={1} headings={headings} />
+  <NotionBlocks
+    blocks={block?.SyncedBlock?.Children || []}
+    isRoot={false}
+    level={1}
+    headings={headings}
+    headingSlugs={headingSlugs}
+  />
 </div>
 
 <style>

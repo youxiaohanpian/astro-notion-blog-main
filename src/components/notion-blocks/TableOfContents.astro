@@ -6,9 +6,10 @@ import '../../styles/notion-color.css'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { headings } = Astro.props
+const { headings, headingSlugs } = Astro.props
 
 // 获取标题文本
 function getHeadingText(block: interfaces.Block): string {
@@ -65,7 +66,9 @@ const hasHeadings = headings.length > 0
           {headings.map(heading => {
             const text = getHeadingText(heading)
             const headingObj = getHeadingObject(heading)
-            const slug = headingObj ? buildHeadingId(headingObj) : ''
+            const slug =
+              headingSlugs?.[heading.Id] ||
+              (headingObj ? buildHeadingId(headingObj) : '')
             const level = getHeadingLevel(heading)
             
             return (

@@ -34,6 +34,7 @@ export interface Props {
   isRoot: boolean
   level: number
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
 const {
@@ -41,6 +42,7 @@ const {
   isRoot = false,
   level = 1,
   headings: rawHeadings = [],
+  headingSlugs,
 } = Astro.props
 
 // 扩展List类型同时包含Block必需的属性
@@ -135,15 +137,45 @@ const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs)
 {blocks.map((block) => {
     switch (block.Type) {
       case 'paragraph':
-        return <Paragraph block={block as interfaces.Block} headings={headings} />
+        return (
+          <Paragraph
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'heading_1':
-        return <Heading1 block={block as interfaces.Block} headings={headings} />
+        return (
+          <Heading1
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'heading_2':
-        return <Heading2 block={block as interfaces.Block} headings={headings} />
+        return (
+          <Heading2
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'heading_3':
-        return <Heading3 block={block as interfaces.Block} headings={headings} />
+        return (
+          <Heading3
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'table_of_contents':
-        return <TableOfContents block={block as interfaces.Block} headings={headings} />
+        return (
+          <TableOfContents
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'image':
         return <Image block={block as interfaces.Block} />
       case 'video':
@@ -151,11 +183,23 @@ const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs)
       case 'code':
         return <Code block={block as interfaces.Block} />
       case 'quote':
-        return <Quote block={block as interfaces.Block} headings={headings} />
+        return (
+          <Quote
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'equation':
         return <Equation block={block as interfaces.Block} />
       case 'callout':
-        return <Callout block={block as interfaces.Block} headings={headings} />
+        return (
+          <Callout
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'embed':
         return <Embed block={block as interfaces.Block} urlMap={bookmarkURLMap} />
       case 'bookmark':
@@ -166,19 +210,54 @@ const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs)
       case 'table':
         return <Table block={block as interfaces.Block} />
       case 'column_list':
-        return <ColumnList block={block as interfaces.Block} headings={headings} />
+        return (
+          <ColumnList
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'bulleted_list':
-        return <BulletedListItems block={block as unknown as interfaces.Block} headings={headings} />
+        return (
+          <BulletedListItems
+            block={block as unknown as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'numbered_list':
         return (
-          <NumberedListItems block={block as unknown as interfaces.Block} level={level} headings={headings} />
+          <NumberedListItems
+            block={block as unknown as interfaces.Block}
+            level={level}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
         )
       case 'to_do_list':
-        return <ToDo block={block as unknown as interfaces.Block} headings={headings} />
+        return (
+          <ToDo
+            block={block as unknown as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'synced_block':
-        return <SyncedBlock block={block as interfaces.Block} headings={headings} />
+        return (
+          <SyncedBlock
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'toggle':
-        return <Toggle block={block as interfaces.Block} headings={headings} />
+        return (
+          <Toggle
+            block={block as interfaces.Block}
+            headings={headings}
+            headingSlugs={headingSlugs}
+          />
+        )
       case 'file':
         return <File block={block as interfaces.Block} />
       case 'link_to_page':

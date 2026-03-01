@@ -9,9 +9,10 @@ export interface Props {
   block: interfaces.Block
   level: number
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, level, headings } = Astro.props
+const { block, level, headings, headingSlugs } = Astro.props
 
 const listTypes = ['i', '1', 'a'] as const
 const listItems = (
@@ -35,6 +36,7 @@ const listItems = (
             blocks={b.NumberedListItem.Children}
             level={level + 1}
             headings={headings}
+            headingSlugs={headingSlugs}
             isRoot={false}
           />
         )}

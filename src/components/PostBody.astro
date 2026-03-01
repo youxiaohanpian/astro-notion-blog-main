@@ -4,9 +4,10 @@ import NotionBlocks from './NotionBlocks.astro'
 
 export interface Props {
   blocks: Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { blocks } = Astro.props
+const { blocks, headingSlugs } = Astro.props
 
 // 提取标题块用于目录
 const headings = blocks.filter((b: Block) =>
@@ -15,7 +16,13 @@ const headings = blocks.filter((b: Block) =>
 ---
 
 <div class="post-body">
-  <NotionBlocks blocks={blocks} isRoot={true} level={1} headings={headings} />
+  <NotionBlocks
+    blocks={blocks}
+    isRoot={true}
+    level={1}
+    headings={headings}
+    headingSlugs={headingSlugs}
+  />
 </div>
 
 <style>

@@ -8,9 +8,10 @@ import '../../styles/notion-color.css'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, headings } = Astro.props
+const { block, headings, headingSlugs } = Astro.props
 const listItems = (
   ('ListItems' in block ? block.ListItems : []) as interfaces.Block[]
 ).filter(
@@ -40,6 +41,7 @@ const listItems = (
             <NotionBlocks
               blocks={b.ToDo.Children}
               headings={headings}
+              headingSlugs={headingSlugs}
               isRoot={false}
               level={1}
             />

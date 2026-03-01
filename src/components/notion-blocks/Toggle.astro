@@ -8,9 +8,10 @@ import '../../styles/notion-color.css'
 export interface Props {
   block: interfaces.Block
   headings: interfaces.Block[]
+  headingSlugs?: Record<string, string>
 }
 
-const { block, headings } = Astro.props
+const { block, headings, headingSlugs } = Astro.props
 const toggle = block.Toggle
 ---
 
@@ -28,6 +29,7 @@ const toggle = block.Toggle
         <NotionBlocks
           blocks={toggle.Children}
           headings={headings}
+          headingSlugs={headingSlugs}
           isRoot={false}
           level={1}
         />
