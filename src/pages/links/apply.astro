@@ -17,10 +17,38 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     <header class="links-apply-header">
       <h1>{pageTitle}</h1>
       <p>{pageDescription}</p>
-      <p class="apply-tip">链接会在提交后审核通过后展示</p>
+      <p class="apply-tip">交换链接会在提交后24小时内审核通过后展示</p>
     </header>
 
-    <form id="friend-link-form" class="apply-form" novalidate>
+    <div class="apply-content">
+      <section class="links-application">
+        <div class="links-application-card">
+          <p class="links-application-tip">
+            请提交链接的组织或个人按照以下格式将放置在你网站的合适位置。再将需要交换的链接从右侧表单中提交，请注意链接的稳定性，如失效请及时联系。
+          </p>
+          <div class="links-application-meta">
+            <div class="links-application-title">本站信息</div>
+            <ul class="links-application-list">
+              <li>- 名称：银河系 Ai‑233 星区主控台</li>
+              <li>- 简介：设计 × AI × 生活 × 技术 × 英语</li>
+              <li>- 方向：工具实战 · 行业应用 · 生活手札</li>
+              <li>- 网址：https://www.ai233.top/</li>
+              <li>- RSS：https://www.ai233.top/rss.xml </li>
+            </ul>
+          </div>
+          <div class="links-code-block">
+            <code>
+              &lt;a href='https://ai233.top' target='_blank'
+              title='银河系 Ai-233 星区主控台'&gt;银河系 Ai-233 星区主控台&lt;/a&gt;
+            </code>
+            <button class="copy-button" type="button" data-copy>
+              复制代码
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <form id="friend-link-form" class="apply-form" novalidate>
       <div class="form-row">
         <label for="link-title">网站名称 *</label>
         <input id="link-title" name="title" required placeholder="比如：Ai-233" />
@@ -67,10 +95,11 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
         aria-hidden="true"
       />
 
-      <div class="form-actions">
-        <button type="submit" class="cta-button">提交申请</button>
-      </div>
-    </form>
+        <div class="form-actions">
+          <button type="submit" class="cta-button">提交申请</button>
+        </div>
+      </form>
+    </div>
 
     <p id="apply-status" class="apply-status" aria-live="polite" hidden></p>
   </div>
@@ -208,7 +237,8 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
         error instanceof Error && error.message
           ? error.message
           : '暂时无法读取网页信息'
-      showStatus(`${message}，请手动填写标题与简介。`, 'error')
+      const contactTip = APPLY_EMAIL ? ` 如需帮助请联系 ${APPLY_EMAIL}` : ''
+      showStatus(`${message}，请手动填写标题与简介。${contactTip}`, 'error')
     } finally {
       isFetchingMeta = false
       fetchButton?.removeAttribute('disabled')
@@ -232,6 +262,18 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
       clearTimeout(autoFetchTimer)
     }
     autoFetchTimer = setTimeout(() => fetchMeta(), 800)
+  })
+
+  const copyButton = document.querySelector('[data-copy]')
+  copyButton?.addEventListener('click', async () => {
+    const code = copyButton.parentElement?.querySelector('code')?.textContent || ''
+    if (!code) return
+    try {
+      await navigator.clipboard.writeText(code.trim())
+      showStatus('已复制代码。', 'success')
+    } catch (error) {
+      showStatus('复制失败，请手动复制。', 'error')
+    }
   })
 
 </script>
@@ -271,7 +313,7 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
   .apply-form {
     display: grid;
     gap: 1.2rem;
-    padding: 2rem;
+    padding: 1.4rem;
     border-radius: 20px;
     background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
     border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
@@ -281,6 +323,13 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
   .form-row {
     display: grid;
     gap: 0.5rem;
+  }
+
+  .apply-content {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 1.6rem;
+    align-items: stretch;
   }
 
   .form-row.two-columns {
@@ -309,7 +358,7 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
     background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
     color: var(--text-primary);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     white-space: nowrap;
@@ -378,7 +427,7 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
     background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -390,12 +439,24 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     background: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
   }
 
+  @media (prefers-color-scheme: light) {
+    .cta-button {
+      background: color-mix(in srgb, var(--bg-tertiary) 90%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 8%, transparent);
+    }
+
+    .cta-button:hover {
+      background: color-mix(in srgb, var(--bg-tertiary) 100%, transparent);
+      box-shadow: var(--shadow-md);
+    }
+  }
+
   .form-actions .cta-button {
     padding: 0.65rem 1.6rem;
   }
 
   .form-hint {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-tertiary);
   }
 
@@ -403,6 +464,100 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     margin-top: 1.2rem;
     font-size: 0.9rem;
     color: var(--text-secondary);
+  }
+
+  .links-application {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .links-application-tip {
+    margin: 0 0 0.6rem;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    text-align: left;
+  }
+
+  .links-application-meta {
+    margin-bottom: 0.6rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-primary) 94%, transparent);
+  }
+
+  .links-application-title {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    text-align: left;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .links-application-card {
+    padding: 1.4rem;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    flex: 1;
+  }
+
+  .links-application-card p {
+    margin: 0 0 0.6rem;
+  }
+
+  .links-application-list {
+    margin: 0.5rem 0 0.6rem;
+    padding-left: 0;
+    list-style: none;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+
+  .links-application-list li {
+    margin: 0 0 0.25rem;
+  }
+
+  .links-code-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.95rem 1.1rem;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.8rem;
+  }
+
+  .links-code-block code {
+    color: var(--text-primary);
+    word-break: break-all;
+  }
+
+  .copy-button {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .copy-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
   }
 
   .apply-status[data-tone='error'] {
@@ -427,6 +582,10 @@ const applyEmail = import.meta.env.PUBLIC_FRIEND_LINK_EMAIL || ''
     .apply-form,
     .apply-result {
       padding: 1.4rem;
+    }
+
+    .apply-content {
+      grid-template-columns: 1fr;
     }
   }
 
