@@ -24,7 +24,6 @@ const isConfigured =
 
 {isConfigured && (
   <section class="post-comments" aria-label="评论区">
-    <h2>评论</h2>
     <script
       src="https://giscus.app/client.js"
       data-repo={GISCUS_REPO}
@@ -46,22 +45,30 @@ const isConfigured =
 
 <style>
   .post-comments {
-    margin-top: 2.2rem;
-    padding-top: 1.6rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border-color);
   }
 
   .post-comments h2 {
-    font-size: 1.25rem;
-    margin: 0 0 0.9rem;
-    color: var(--text-primary);
+    display: none;
+  }
+
+  .post-comments :global(.giscus-frame) {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 10px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .post-comments :global(.giscus-frame) {
+      border-color: rgba(255, 255, 255, 0);
+    }
   }
 
   @media (max-width: 768px) {
     .post-comments {
-      margin-top: 1.8rem;
-      padding-top: 1.25rem;
+      margin-top: 1.6rem;
+      padding-top: 1rem;
     }
   }
 </style>
-

@@ -27,6 +27,18 @@
     }
   };
   
+  const syncButtonPosition = () => {
+    if (!backToTopButton) return;
+    const container = document.querySelector('.blog-posts-container');
+    if (!container) {
+      backToTopButton.style.removeProperty('right');
+      return;
+    }
+    const rect = container.getBoundingClientRect();
+    const offset = Math.max(16, Math.round(window.innerWidth - rect.right));
+    backToTopButton.style.right = `${offset}px`;
+  };
+
   // 滚动事件处理
   const handleScroll = () => {
     if (!backToTopButton) return;
@@ -51,9 +63,13 @@
   if (backToTopButton) {
     // 初始检查页面高度
     checkPageHeight();
+    syncButtonPosition();
     
     // 监听窗口大小变化
-    window.addEventListener('resize', checkPageHeight);
+    window.addEventListener('resize', () => {
+      checkPageHeight();
+      syncButtonPosition();
+    });
     
     // 监听滚动事件
     window.addEventListener('scroll', handleScroll);

@@ -36,8 +36,9 @@ const columns = block.ColumnList?.Columns ?? []
     gap: 0 1rem;
   }
   .column-list > div {
-    flex: 1 1 180px;
-    width: 180px;
+    flex: 1 1 0;
+    min-width: 240px;
+    width: auto;
   }
   @media (max-width: 640px) {
     .column-list {

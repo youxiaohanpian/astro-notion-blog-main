@@ -322,11 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 2. 初始化目录状态（展开/收起）
       const initTocState = () => {
-          if (isDesktop()) {
-              tocElement.classList.remove('collapsed');
-          } else {
-              tocElement.classList.add('collapsed');
-          }
+          tocElement.classList.add('collapsed');
+          tocElement.classList.remove('expanded');
       };
       initTocState();
       window.addEventListener('resize', initTocState);

@@ -2,13 +2,15 @@
 import { PUBLIC_GA_TRACKING_ID, ENABLE_LIGHTBOX } from '../server-constants.ts'
 import { getDatabase, getHomeNavItems } from '../lib/notion/client.ts'
 import { getNavLink, getStaticFilePath, filePath } from '../lib/blog-helpers.ts'
-import type { FileObject, Emoji, HomeNavItem } from '../lib/interfaces.ts'
+import type { FileObject, Emoji, HomeNavItem, Post } from '../lib/interfaces.ts'
   import '../styles/syntax-coloring.css'
   import '../styles/globals.css'
 import GoogleAnalytics from '../components/GoogleAnalytics.astro'
 import SearchModal from '../components/SearchModal.astro'
 import SearchButton from '../components/SearchButton.astro'
 import BackToTop from '../components/BackToTop.astro'
+import PostDate from '../components/PostDate.astro'
+import PostTags from '../components/PostTags.astro'
 import Analytics from '@vercel/analytics/astro'
 
 // 主要改进点
@@ -21,6 +23,7 @@ export interface Props {
   ogImage: string
   hideSidebar?: boolean
   hideHeader?: boolean
+  post?: Post
   breadcrumbs?: { label: string; href: string }[]
   postCover?: string | null
 }
@@ -32,6 +35,7 @@ const {
   ogImage = '',
   hideSidebar = false,
   hideHeader = false,
+  post = undefined,
   breadcrumbs = [],
   postCover = null,
 } = Astro.props
@@ -160,7 +164,7 @@ const isLinksPage = resolvedPath === '/links'
 const isLinksApplyPage =
   resolvedPath === '/links/apply' || resolvedPath.startsWith('/links/apply/')
 const isLinksSection = isLinksPage || isLinksApplyPage
-const showBreadcrumbs = isPostDetail || isBlogListPage || isLinksSection
+const showBreadcrumbs = !isPostDetail && (isBlogListPage || isLinksSection)
 
 // 首先检查是否有文章封面图
 let coverImageURL = ''
@@ -250,6 +254,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     <meta name="twitter:description" content={siteDescription} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage || siteOGImage} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260301" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link
@@ -277,32 +282,39 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     >
       <div class={`search-wrapper ${hideHeader ? 'hidden-search' : ''}`}>
         <div class="nav-container">
-          <div class={`nav-leading ${hideHeader ? 'only-nav' : ''}`}>
-            {
-              homeNavItems.length > 0 && (
-                <nav class="global-nav-inline" aria-label="站点导航">
-                  {
-                    homeNavItems.map((item: HomeNavItem) => {
-                      const href = buildGlobalNavHref(item)
-                      const openInNewTab = shouldOpenGlobalNavInNewTab(item, href)
-                      const active = isGlobalNavActive(href)
+          <div class="nav-logo">
+            <a href={getNavLink('/')} aria-label="首页">
+              <img src="/favicon.svg?v=20260301" alt="Site logo" />
+            </a>
+          </div>
+          <div class="nav-center">
+            <div class={`nav-leading ${hideHeader ? 'only-nav' : ''}`}>
+              {
+                homeNavItems.length > 0 && (
+                  <nav class="global-nav-inline" aria-label="站点导航">
+                    {
+                      homeNavItems.map((item: HomeNavItem) => {
+                        const href = buildGlobalNavHref(item)
+                        const openInNewTab = shouldOpenGlobalNavInNewTab(item, href)
+                        const active = isGlobalNavActive(href)
 
-                      return (
-                        <a
-                          href={href}
-                          class={`global-nav-link ${active ? 'active' : ''}`}
-                          target={openInNewTab ? '_blank' : undefined}
-                          rel={openInNewTab ? 'noopener noreferrer' : undefined}
-                          title={item.Description || item.Title}
-                        >
-                          {item.Title}
-                        </a>
-                      )
-                    })
-                  }
-                </nav>
-              )
-            }
+                        return (
+                          <a
+                            href={href}
+                            class={`global-nav-link ${active ? 'active' : ''}`}
+                            target={openInNewTab ? '_blank' : undefined}
+                            rel={openInNewTab ? 'noopener noreferrer' : undefined}
+                            title={item.Description || item.Title}
+                          >
+                            {item.Title}
+                          </a>
+                        )
+                      })
+                    }
+                  </nav>
+                )
+              }
+            </div>
           </div>
 
           <div
@@ -334,7 +346,14 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
               </div>
             )}
             {(coverImageURL || isPostDetail) && (
-              <div class="site-title-container">
+              <div
+                class={`site-title-container ${isPostDetail ? 'post-title-container' : ''}`}
+              >
+                {isPostDetail && post && (
+                  <div class="post-hero-tags">
+                    <PostTags post={post} enableLink={true} />
+                  </div>
+                )}
                 <h1 class="site-title">
                   <a href={isPostDetail ? getNavLink(path) : getNavLink('/')}>
                     {isPostDetail ? (
@@ -374,6 +393,11 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
                     )}
                   </a>
                 </h1>
+                {isPostDetail && post && (
+                  <div class="post-hero-date">
+                    <PostDate post={post} />
+                  </div>
+                )}
                 {!isPostDetail && (
                   <div class="site-description">{database.Description}</div>
                 )}
@@ -386,7 +410,9 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       {
         !hideHeader &&
           showBreadcrumbs && (
-            <div class="breadcrumb-row">
+            <div
+              class={`breadcrumb-row ${isPostDetail ? 'post-detail-breadcrumb' : ''}`}
+            >
               <div class="breadcrumb-container">
                 <div class="breadcrumbs">
                   <a
@@ -452,7 +478,9 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
           )
       }
 
-      <div class={`content-wrapper ${hideSidebar ? 'no-sidebar' : ''}`}>
+      <div
+        class={`content-wrapper ${hideSidebar ? 'no-sidebar' : ''} ${isPostDetail ? 'post-detail-layout' : ''}`}
+      >
         <main>
           <div class="content">
             <slot />
@@ -679,13 +707,30 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       --text-lighter: var(--text-tertiary);
       --background-light: var(--bg-secondary);
       --top-nav-height: 44px;
-      --top-nav-bg: rgba(11, 14, 20, 0.42);
-      --top-nav-border: rgba(255, 255, 255, 0.12);
-      --top-nav-text: rgba(240, 244, 252, 0.78);
-      --top-nav-text-strong: rgba(252, 254, 255, 0.96);
-      --top-nav-icon: rgba(236, 241, 248, 0.84);
+      --top-nav-bg: rgba(255, 255, 255, 0.1);
+      --top-nav-border: rgba(20, 24, 36, 0.08);
+      --top-nav-text: rgba(255, 255, 255, 0.86);
+      --top-nav-text-strong: rgba(255, 255, 255, 0.98);
+      --top-nav-icon: rgba(255, 255, 255, 0.9);
       --border-radius: 4px; /* Maintaining 4px as requested in earlier README mentions but matching elegant theme */
       --box-shadow: var(--shadow-sm);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --top-nav-bg: rgba(11, 14, 20, 0.42);
+        --top-nav-border: rgba(255, 255, 255, 0.12);
+        --top-nav-text: rgba(240, 244, 252, 0.78);
+        --top-nav-text-strong: rgba(252, 254, 255, 0.96);
+        --top-nav-icon: rgba(236, 241, 248, 0.84);
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      .global-nav-link,
+      .nav-container :global(.search-button) {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+      }
     }
 
     .container {
@@ -762,12 +807,51 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       align-items: center;
     }
 
+    .site-title-container.post-title-container {
+      padding: 3rem 3rem 2.4rem;
+    }
+
     .site-title {
       font-size: 2.5rem;
       font-weight: var(--font-semibold);
       margin: 0;
       text-align: center;
       line-height: 1.2;
+    }
+
+    .site-title-container .post-hero-tags,
+    .site-title-container .post-hero-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .site-title-container .post-hero-tags {
+      margin-bottom: 0.8rem;
+    }
+
+    .site-title-container .post-hero-date {
+      margin-top: 0.7rem;
+    }
+
+    .site-title-container .post-hero-tags :global(.post-tags) {
+      margin: 0;
+      justify-content: center;
+    }
+
+    .site-title-container .post-hero-tags :global(.tag) {
+      background-color: rgba(0, 0, 0, 0.25) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 0.95rem;
+    }
+
+    .site-title-container .post-hero-date :global(.post-date) {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.88);
+      letter-spacing: 0.04em;
     }
 
     .site-title a {
@@ -814,6 +898,24 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       max-width: 1200px;
       margin: 0 auto;
       width: 100%;
+    }
+
+    .content-wrapper.post-detail-layout {
+      max-width: 1400px;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    .content-wrapper.post-detail-layout main {
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-wrapper.post-detail-layout aside {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      padding-top: var(--post-aside-top, 1.8rem);
     }
 
     main {
@@ -983,16 +1085,55 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
     }
 
     .nav-container {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
       align-items: center;
-      justify-content: space-between;
       width: 100%;
-      max-width: 1200px;
+      max-width: none;
       margin: 0 auto;
-      padding: 0 0.4rem;
+      padding: 0 1rem;
       height: var(--top-nav-height);
       position: relative;
       z-index: 1;
+      column-gap: 1rem;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 36px;
+      height: 36px;
+      justify-self: start;
+    }
+
+    .nav-logo a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+
+    .nav-logo img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .nav-logo a:hover img {
+      transform: translateY(-1px) scale(1.04);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+    }
+
+    .nav-center {
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+      justify-self: center;
     }
 
     .nav-leading {
@@ -1000,8 +1141,8 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       align-items: center;
       gap: 1.1rem;
       min-width: 0;
-      flex: 1;
       overflow: hidden;
+      justify-content: center;
     }
 
     .nav-leading.only-nav {
@@ -1028,6 +1169,22 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0.65rem 0;
+    }
+
+    .breadcrumb-row.post-detail-breadcrumb .breadcrumb-container {
+      max-width: 1400px;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+      padding-right: calc(300px + 3rem);
+    }
+
+    .breadcrumb-row.post-detail-breadcrumb .breadcrumbs {
+      grid-column: 2;
+      width: 100%;
+      max-width: 760px;
+      justify-self: center;
     }
 
     .breadcrumb-row .breadcrumbs {
@@ -1081,6 +1238,7 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       align-items: center;
       height: 100%;
       flex-shrink: 0;
+      justify-self: end;
     }
 
     .search-button-wrapper.only-search {
@@ -1177,6 +1335,27 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
       }
     }
 
+    @media (max-width: 1200px) {
+      .breadcrumb-row.post-detail-breadcrumb .breadcrumb-container {
+        max-width: 1200px;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        display: block;
+      }
+
+      .breadcrumb-row.post-detail-breadcrumb .breadcrumbs {
+        width: 100%;
+        max-width: none;
+        justify-self: stretch;
+      }
+    }
+
+    @media (min-width: 1201px) {
+      .breadcrumb-row.post-detail-breadcrumb .breadcrumb-container {
+        margin-left: -10px;
+      }
+    }
+
     @media (max-width: 768px) {
       .cover img,
       .cover.default-cover {
@@ -1187,6 +1366,10 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
 
       .site-title-container {
         padding: 1.6rem 1rem 1.2rem;
+      }
+
+      .site-title-container.post-title-container {
+        padding: 1.3rem 1rem 1rem;
       }
 
       .site-title {
@@ -1210,12 +1393,39 @@ const isFileObject = (icon: FileObject | Emoji | null): icon is FileObject => {
         word-break: break-word;
       }
 
+      .site-title-container .post-hero-tags {
+        margin-bottom: 0.6rem;
+      }
+
+      .site-title-container .post-hero-date {
+        margin-top: 0.5rem;
+      }
+
+      .site-title-container .post-hero-tags :global(.tag) {
+        font-size: 0.88rem;
+      }
+
+      .site-title-container .post-hero-date :global(.post-date) {
+        font-size: 0.88rem;
+      }
+
       .nav-container {
         padding: 0;
+        column-gap: 0.6rem;
       }
 
       .nav-leading {
         gap: 0.45rem;
+      }
+
+      .nav-logo {
+        width: 30px;
+        height: 30px;
+      }
+
+      .nav-logo img {
+        width: 22px;
+        height: 22px;
       }
 
       .breadcrumbs {

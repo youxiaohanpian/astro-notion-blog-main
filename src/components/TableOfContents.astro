@@ -58,7 +58,6 @@ const hasHeadings = headings.length > 0
       </span>
     </div>
     <div class="toc-container">
-      <span class="toc-text">目录</span>
       <nav class="toc-nav">
         <ul class="toc-list">
           {headings.map(heading => {
@@ -85,12 +84,13 @@ const hasHeadings = headings.length > 0
 
 <style>
 .table-of-contents {
-  position: fixed;
-  top: 50px;
-  left: 10px;
+  position: sticky;
+  top: var(--toc-top, calc(var(--top-nav-height) + 0.65rem));
   z-index: 100;
   transition: all 0.3s ease;
-  max-width: 250px;
+  max-width: 220px;
+  align-self: start;
+  pointer-events: none;
 }
 
 /* 折叠状态（JS控制添加/移除此类） */
@@ -105,13 +105,15 @@ const hasHeadings = headings.length > 0
   box-shadow: var(--shadow-sm);
 }
 
-.table-of-contents.collapsed .toc-text {
-  display: none;
-}
 
 /* 固定状态（JS滚动时添加） */
 .table-of-contents.fixed {
-  top: 50px;
+  top: var(--toc-top, calc(var(--top-nav-height) + 0.65rem));
+}
+
+.table-of-contents .toc-toggle,
+.table-of-contents .toc-container {
+  pointer-events: auto;
 }
 
 /* 切换按钮 */
@@ -135,6 +137,20 @@ const hasHeadings = headings.length > 0
   background-color: var(--bg-tertiary);
 }
 
+@media (prefers-color-scheme: dark) {
+  .toc-toggle {
+    background-color: var(--top-nav-bg);
+    border-color: var(--top-nav-border);
+    box-shadow: none;
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+  }
+
+  .toc-toggle:hover {
+    background-color: color-mix(in srgb, var(--top-nav-bg) 85%, #ffffff 15%);
+  }
+}
+
 .toc-toggle:hover .toc-text {
   display: inline-block;
 }
@@ -145,21 +161,6 @@ const hasHeadings = headings.length > 0
   color: var(--text-secondary);
 }
 
-.toc-text {
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.2s ease;
-}
-
-/* 鼠标悬停时显示文本（配合JS的mouseenter事件） */
-.table-of-contents:not(.collapsed) .toc-text {
-  opacity: 1;
-  transform: translateX(0);
-  display: inline-block;
-}
 
 /* 目录容器（默认隐藏，通过JS移除collapsed类显示） */
 .toc-container {
@@ -320,11 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 2. 初始化目录状态（展开/收起）
       const initTocState = () => {
-          if (isDesktop()) {
-              tocElement.classList.remove('collapsed');
-          } else {
-              tocElement.classList.add('collapsed');
-          }
+          tocElement.classList.add('collapsed');
+          tocElement.classList.remove('expanded');
       };
       initTocState();
       window.addEventListener('resize', initTocState);
@@ -368,8 +366,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 6. 工具函数：获取头部实际高度（用于滚动偏移）
       const getHeaderHeight = () => {
-          const header = document.querySelector<HTMLElement>('.site-header');
-          return header ? header.offsetHeight : 0;
+          const nav = document.querySelector<HTMLElement>('.search-wrapper');
+          if (nav) {
+              return nav.getBoundingClientRect().height;
+          }
+          const cssValue = getComputedStyle(document.documentElement).getPropertyValue('--top-nav-height');
+          const parsed = parseFloat(cssValue);
+          return Number.isFinite(parsed) ? parsed : 0;
       };
 
       // 7. 目录链接点击逻辑（核心）
@@ -461,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // 观察所有带ID的标题元素
-      document.querySelectorAll('h3[id], h4[id], h5[id]').forEach(heading => {
+      document.querySelectorAll('h1[id], h2[id], h3[id]').forEach(heading => {
           observer.observe(heading);
       });
   }

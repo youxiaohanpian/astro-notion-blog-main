@@ -90,6 +90,20 @@ HOME_NAV_DATABASE_ID=your_home_nav_database_id
 # 友情链接数据库（可选）
 FRIEND_LINK_DATABASE_ID=your_friend_link_database_id
 
+# Giscus 评论（可选）
+ENABLE_GISCUS=true
+GISCUS_REPO=your_github_user/your_repo
+GISCUS_REPO_ID=your_repo_id
+GISCUS_CATEGORY=Announcements
+GISCUS_CATEGORY_ID=your_category_id
+GISCUS_MAPPING=pathname
+GISCUS_STRICT=0
+GISCUS_REACTIONS_ENABLED=1
+GISCUS_EMIT_METADATA=0
+GISCUS_INPUT_POSITION=top
+GISCUS_THEME=preferred_color_scheme
+GISCUS_LANG=zh-CN
+
 # 博客基础路径（如果部署在子目录下）
 BASE_PATH=/
 

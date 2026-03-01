@@ -154,7 +154,7 @@ a:hover {
 /* 全局样式 */
 
 html {
-  scroll-padding-top: 50px; /* 等于导航栏高度 */
+  scroll-padding-top: calc(var(--top-nav-height) + env(safe-area-inset-top));
   scroll-behavior: smooth; /* 平滑滚动 */
 }
 
