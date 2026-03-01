@@ -16,10 +16,6 @@
  * 
  * !!! 警告：此组件已调试正常工作，修改前请确保完全理解其工作原理 !!!
  */
-import createMetascraper from 'metascraper'
-import metascraperDescription from 'metascraper-description'
-import metascraperImage from 'metascraper-image'
-import metascraperTitle from 'metascraper-title'
 import { isAmazonURL } from '../../lib/blog-helpers.ts'
 import type * as interfaces from '../../lib/interfaces.ts'
 
@@ -34,6 +30,36 @@ const urlString = (block.Bookmark || block.LinkPreview || block.Embed)?.Url?.tri
 
 let url: URL | undefined
 let metadata: Record<string, string> | undefined
+
+const pickMeta = (html: string, patterns: RegExp[]) => {
+  for (const pattern of patterns) {
+    const match = html.match(pattern)
+    if (match && match[1]) {
+      return match[1].replace(/\s+/g, ' ').trim()
+    }
+  }
+  return ''
+}
+
+const extractMetadata = (html: string) => {
+  const title = pickMeta(html, [
+    /<meta[^>]+property=["']og:title["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+name=["']twitter:title["'][^>]*content=["']([^"']+)["']/i,
+    /<title[^>]*>([^<]*)<\/title>/i,
+  ])
+  const description = pickMeta(html, [
+    /<meta[^>]+name=["']description["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+property=["']og:description["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+name=["']twitter:description["'][^>]*content=["']([^"']+)["']/i,
+  ])
+  const image = pickMeta(html, [
+    /<meta[^>]+property=["']og:image["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i,
+  ])
+
+  return { title, description, image }
+}
+
 try {
   // 检查 URL 字符串是否为空或无效
   if (!urlString || urlString.trim() === '') {
@@ -44,15 +70,9 @@ try {
   }
 
   if (url && !isAmazonURL(url)) {
-    const metascraper = createMetascraper([
-      metascraperDescription(),
-      metascraperImage(),
-      metascraperTitle(),
-    ])
     const html = urlMap[url.toString()]
     if (html) {
-      // @ts-expect-error metascraper 返回类型与本地声明不完全兼容
-      metadata = await metascraper({ html, url: url.toString() })
+      metadata = extractMetadata(html)
     }
   }
 } catch (err) {
