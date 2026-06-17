@@ -1,0 +1,32 @@
+{
+  "pageId": "1f492d03-a33b-8063-acad-dcd3d3655a87",
+  "lastUpdated": "2026-06-16T05:28:46.167Z",
+  "mediaEntries": {
+    "1fa92d03-a33b-8060-9710-d03639181976": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/a53be66f-363b-4630-a8a0-d53685aada93/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4662CRAEGMV%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052839Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCkF4h2RjLXm8NpOMGVSL%2Fp22%2Fg3CVZntXvy0iqsaJunQIhAPT9mc0jBpUuMm64h2mazpagCh4atUaTlFVKDxdGAK9aKv8DCG4QABoMNjM3NDIzMTgzODA1IgxoV32ygSD5dYte1Fcq3AN59JOrtcl6D4513P2UTv7cS27lqmqtMJi%2F7ccIDdE%2F1QriDftq6nLuq%2FTdzeH4ToTEkD%2BB8RArBcnIfI3F%2FPxThofpps0FWSV31Y4t%2FAwMCwyAe%2FGYk4VdzeGOeK7khRcOUlYSQMPzFV2vTfB0twokRARAD0MAAiFRqT9caIMWmUwhGoJE8STAxGBKKT6rdgZ7BUhXPf12ziQ1qDeubnJpuBdyXksV1IKXUh4WBa88K3sGGUP3nPrJJBB%2FnaeOx2l7dFiuR3%2BHCDmRYXeMaRWKWAT5zUmENvKaB7INum5trAXheU03xZPGYhuOPVzzBUgCyC5EKhgyznt9BbEkyv5ETV8HwQgkpbwKVkEJRs3DMiR7Tu9qj2NWzXdfxKiQGXV0CVOJCgRimoOr91%2BK5HdJ%2F%2BTQbhRsgQ7oQGaoiybuH8fjWZBklIJPXcZCEadRDYO4I0A1vIvZ4L%2FGAFhLFB1t1NcIuweDhbxxg2aEuwN15LqwzJTr%2BmY38MschPW3P8Hs0T5%2BtI2vwfkadKhidS2Kiqno%2BqBJCf9cTvRsDBZvfdq%2Fup%2FOJcNxHwKG07RFhFwu0kNlRED1R4zoRm6wWx9O0EF%2FlzgmUP7GwY2rnfQN8NQ2NqsGia1TmwAjbTDQssPRBjqkARI8TfLAX7cGcUt1dhPY94u2YE%2BElixo6KANeYRFqEC0cIW8r8EE7lc1%2BBhVMiUoB%2FjZB72GWoh0Sgzj6MGazZD5dFpkZOrE3R%2BzJlPECwnwWj9PxDavMCG9gMqTReyW4k37I52x3MROOBwEKhdyoVEayrR13bq9m1mNcG1cez1UgX3uH4C87aC5lp0ToupuQFG7N%2FQwVpOd6tNuMV9Ph9Up9CpS&X-Amz-Signature=2a9bc543fbfd02a416af93ac5de41539746c535c7ea557deb7161dccbed5be3c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/image_1fa92d03-a33b-8060-9710-d03639181976.png",
+        "sourceType": "block",
+        "transformedPath": "assets/image_1fa92d03-a33b-8060-9710-d03639181976.png"
+      },
+      "lastEdited": "2025-05-21T03:14:00.000Z",
+      "createdAt": "2026-06-16T05:28:45.872Z",
+      "updatedAt": "2026-06-16T05:28:45.872Z"
+    },
+    "1f492d03-a33b-8063-acad-dcd3d3655a87_FeaturedImage_0": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/b9d2dc0e-565e-4453-ac77-5aad7b51ebf0/ComfyUI_00082_.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WAISUJDD%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052837Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCICWO1HNAoDv7o%2BN6kr6tbU%2FPh%2FPTMXp6w4YgH1WSgysMAiEAgHY9nSKXi0AM53MVy8RNgKalnpng%2BY5wVgCqt0pBv%2BYq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDH9ULzpOhpySNqdD%2BircA5VhNSr1KWjdM5QIIrLDx4Zs%2Fa8E8D7qdnjHlStL2%2BSIOvzB7aadUfjYNs39jjZZVhnUO0p4tCsa5kQIKsNavIIkPrHbVU8UlRh1p0C7uRTSpfnFYxkwA4srsjSI8BPKaTb5jqNkzVAfmYioFsIZj6SES4A20HSDAJb%2FDxqvEs%2BQEZ70G9UXylYY0iU%2FkwoTyCrwXo2mEGClnemVFK6BWKGdbB1GWl8YiD1Pl1iXuDozJNZfCALDIngiezITJU4aZZwfZGV%2F%2FnWnoQ4GCTmTVZzIIBfhdaHoiAI97N97Q2%2Ff7i%2B%2F6%2B9pz8CQXFtbI4lZZ9gLu8FbQ%2FGXcjJlBN0Tag%2FK4BGIsH%2Bqd9GovXm8mIBDtxkjLrD%2BFnNVvvaKWZLSjOqnXYrGfYnZO4xjoo6YGtGh3LyqTMvEl9ReSvRwuIT5sVYpJ82Xp6nAA3UEXMjFVCVvr7wiOGEmWi5Kc7BqIPZ%2F5u52K7TS2t1go%2FsnF2d49%2BYVpg5WzoZILdf5YhC%2F39vLxOH4O5MlTz2HpC5uQ6fh88QSRGbdri98XxIZ2olcFUGfwfMo5HY0n4xZxerQI2szhymIRJxDt9%2F82A24RoGvtWRqfU0w31tt1P0NVG7Xq5j7Duca8ilMTqOxMMWyw9EGOqUBUPwbIxpLYu4zHIfO%2Bo2TB4QU%2FdJCl%2FxKS5RVLg3rtfTfu5%2FjeZym%2BEU84ae0rLwTiSwHKL5ppOuJJI1TLp3Zih1AtIbB9tJcUu%2F3hi2ShdnXa2DA9gsJ7eCPGqPJ5icYDXte06c72zRlQc9TsE347yvGl0p02ThmMsApf9Bbu7MK%2BTjaWCOIiTd0G%2F9pBb%2F4DbF8wrFCdKbdRdEgRyyQ%2BPLMmPnL&X-Amz-Signature=4f8b2c1f7ff45b4e8d5e4893811ff3c8aaa932848176cb6d1ef5712a2ee55f4c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/ComfyUI_00082_0_FeaturedImage.png",
+        "sourceType": "page_property",
+        "propertyName": "FeaturedImage",
+        "propertyIndex": 0,
+        "transformedPath": "assets/ComfyUI_00082_0_FeaturedImage.png"
+      },
+      "lastEdited": "2026-06-16T05:28:45.130Z",
+      "createdAt": "2026-06-16T05:28:46.167Z",
+      "updatedAt": "2026-06-16T05:28:46.167Z"
+    }
+  }
+}

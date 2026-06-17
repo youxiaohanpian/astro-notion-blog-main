@@ -1,0 +1,20 @@
+{
+  "pageId": "2c792d03-a33b-8006-82a5-c9b6147d894d",
+  "lastUpdated": "2026-06-16T05:24:30.568Z",
+  "mediaEntries": {
+    "2c792d03-a33b-8006-82a5-c9b6147d894d_FeaturedImage_0": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/f2c16e6a-085b-4de7-b972-b51982ac02c1/insMind_AI-1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466VFXCJN7R%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052428Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCNW44J9tojruq9HoGUVmGw5tTFBjCu0AwpcfB3IR%2FWPAIhAMvU0U9IDuxOml0yZEFVEmFQdVsKnQcibnGRSwNsTP8yKv8DCG4QABoMNjM3NDIzMTgzODA1IgzMZVFJ0nRa%2Fu85Zx4q3ANFGoMTup2lH3G3ZDXfcuIDEwhyJhJkKCHyDpBw6oqpE7cPjuw0zaprWcpJU5FRgq6x5P8T%2FNQxnGu8Uvv5BEhwsO8ROR3qtJXYXPjd2OCOMlt1eXgf0HUQ4Hj01icTWACYOnoho3BM5bAYtrifQimutTugTCZSt6EOFDExbYMAaKRK5iTBVeTp7Dg7pIbM4oSoKu%2BU8VuuXh7nznDNSs%2BCG0PDzBvA124yfQ7j%2BxgeM6NVk1%2F%2FmwHQjJ%2BvG2ci4BFGoFCMuoM2OU84lVW98mTTX913sw7TAeWJPUFGch%2BIqNS6amltSzRridQBxPAusUmT9aBnnY4HxHawg7XLgRW%2FnClgkgDtjVQbh1hmnOc10YFcNNE9xZAyd0jb%2Fu25Kk0KQXIJHRMpIq9Cdk%2FEnNRHfZLpafzfNqzzBD4uOhtk676jlB7eSZw9TjMhuzgMM6fyb29MW%2FBfxnJw1YKQKmDa0D4Hl2KS2S8P4FaX8M%2BI5TaS%2BwFwevR08k050QB9s%2FtXv19D2LQjErVaFUsdYuJg4feiNdK5ikg6DOJaoBbgYeio2iE5mHPl2%2BYoNNpDo29zzG1%2F2oPHrmaEztNaBhDAty4fkl0Bn6kCvXtI%2F7agE69mnfde1AY3BWOIBTDwtMPRBjqkAZSRsxyTyq%2F6%2BUzU93Mmq9xcEKCdKEz%2BUlPEHObNa9ooffmDJjnvTitEvuXTbDQEzhlWbVRbOWYL1N04S23%2BgSjnKSfuPll7bmFw%2B6i%2Buy%2FBWFzY2F3CPKJFnn2t0IVpbiEITwI0XJ0hYXAGML%2BFklWyXF8pB6krqhSfBvxV%2FxOFV%2Fgt%2F014%2F9fHYCbhXULHeiHlW4dyGOlgIUDlowKPEFsLkirF&X-Amz-Signature=71394182b0ac9b661b5a29b463a5bf048c4a06123139c6ec01abcc8e155b98ce&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/insMind_AI-1_0_FeaturedImage.png",
+        "sourceType": "page_property",
+        "propertyName": "FeaturedImage",
+        "propertyIndex": 0,
+        "transformedPath": "assets/insMind_AI-1_0_FeaturedImage.png"
+      },
+      "lastEdited": "2026-06-16T05:24:29.157Z",
+      "createdAt": "2026-06-16T05:24:30.568Z",
+      "updatedAt": "2026-06-16T05:24:30.568Z"
+    }
+  }
+}

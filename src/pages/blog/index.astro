@@ -4,10 +4,8 @@ import {
   getAllPostsSorted,
   getNumberOfPages,
   getDatabase,
-  getAllBlocksByBlockId
 } from '../../lib/notion/client'
 import { 
-  extractFirstImage,
   getTagLink, // 用于生成标签链接，保持与首页和标签页一致
 } from '../../lib/blog-helpers'
 import Layout from '../../layouts/Layout.astro'
@@ -45,27 +43,6 @@ const tagCounts: Record<string, number> = allPosts.reduce((acc, post: Post) => {
 // 标签名称列表，用于渲染标签云（与首页和标签页的计数逻辑保持一致）
 const allTagNames = Object.keys(tagCounts);
 
-// 为每篇文章提取第一张图片
-// 注意：这个步骤只在文章没有特色图片或封面图片时执行
-await Promise.all(
-  posts.map(async (post: Post) => {
-    // 如果文章已经有FeaturedImage或Cover，不需要提取第一张图片
-    if (post.FeaturedImage || post.Cover) return;
-    
-    // 获取文章内容块
-    try {
-      const blocks = await getAllBlocksByBlockId(post.PageId);
-      // 提取第一张图片
-      const firstImageObject = extractFirstImage(blocks);
-      if (firstImageObject) {
-        post.FirstImage = firstImageObject;
-        console.log(`文章[${post.Title}]提取到第一张图片`);
-      }
-    } catch (error) {
-      console.error(`获取文章[${post.Title}]内容块失败:`, error);
-    }
-  })
-)
 ---
 
 <Layout 

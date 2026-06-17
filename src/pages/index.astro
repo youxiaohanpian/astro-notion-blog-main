@@ -74,10 +74,10 @@ const allTags = [...new Set(Object.keys(tagCounts))]
         x5-playsinline
         x5-video-player-type="h5"
         x5-video-player-fullscreen="true"
-        preload="auto"
+        preload="none"
       >
-        <source src="/banner.webm" type="video/webm" />
-        <source src="/banner.mp4" type="video/mp4" />
+        <source data-src="/banner.webm" type="video/webm" />
+        <source data-src="/banner.mp4" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
     </section>
@@ -282,6 +282,11 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     height: 100%;
     /* 这里不要加background，会有色块不好看 */
     z-index: 1;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   /* 英雄区域内容 */
@@ -734,6 +739,10 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     bottom: 0;
   }
 
+  .hero-overlay.video-ready {
+    opacity: 0;
+  }
+
   /* 确保在微信等浏览器中图片正确显示 */
   @media screen and (max-width: 768px) {
     .hero-overlay.fallback {
@@ -802,6 +811,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
     const video = document.querySelector('.hero-video') as HTMLVideoElement
     const loadingContainer = document.querySelector('.video-loading-container')
     const heroOverlay = document.querySelector('.hero-overlay')
+    const heroPosterUrl = '/banner-poster.webp'
 
     // 检测问题浏览器
     function isProblematicBrowser() {
@@ -829,55 +839,64 @@ const allTags = [...new Set(Object.keys(tagCounts))]
       return !(mp4Support === '' && webmSupport === '')
     }
 
+    function shouldSkipAutoplay() {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+      const connection = (
+        navigator as Navigator & {
+          connection?: { saveData?: boolean; effectiveType?: string }
+        }
+      ).connection
+      const isSlowConnection = Boolean(
+        connection?.effectiveType &&
+          /(^|-)2g$/.test(connection.effectiveType.toLowerCase())
+      )
+
+      return Boolean(mediaQuery.matches || connection?.saveData || isSlowConnection)
+    }
+
     // 设置背景图并保持比例
     function setupBackgroundImage(element: HTMLElement | null) {
       if (!element) return
 
-      // 获取图片的宽高比
-      const posterImage = new Image()
-      posterImage.src = '/banner-poster.jpg'
-      posterImage.onload = function () {
-        // 使用正确的类型
-        const imageRatio = posterImage.width / posterImage.height
-        // element已在最上面检查过null，这里不可能为null
-        const el = element as HTMLElement
-        el.style.backgroundImage = "url('/banner-poster.jpg')"
-        el.classList.add('fallback')
+      element.style.backgroundImage = `url('${heroPosterUrl}')`
+      element.classList.add('fallback')
+    }
 
-        // 检测设备方向并调整
-        function adjustBackground() {
-          const windowRatio = window.innerWidth / window.innerHeight
-          if (windowRatio > imageRatio) {
-            // 宽屏设备
-            el.style.backgroundSize = '100vw auto'
-            el.style.backgroundPosition = 'center center'
-          } else {
-            // 窄屏设备
-            el.style.backgroundSize = 'auto 100vh'
-            el.style.backgroundPosition = 'center center'
-          }
-        }
-
-        // 初始调整
-        adjustBackground()
-
-        // 当窗口大小改变时重新调整
-        window.addEventListener('resize', adjustBackground)
+    function markVideoReady() {
+      if (loadingContainer instanceof HTMLElement) {
+        loadingContainer.classList.remove('visible')
       }
+
+      if (heroOverlay instanceof HTMLElement) {
+        heroOverlay.classList.add('video-ready')
+      }
+
+      if (video) {
+        video.classList.add('loaded')
+      }
+    }
+
+    function injectVideoSources() {
+      if (!video) return
+
+      const sources = video.querySelectorAll('source[data-src]')
+      sources.forEach((source) => {
+        const nextSrc = source.getAttribute('data-src')
+        if (nextSrc && source.getAttribute('src') !== nextSrc) {
+          source.setAttribute('src', nextSrc)
+        }
+      })
     }
 
     // 处理视频加载
     function handleVideoLoading() {
       if (video && loadingContainer) {
+        setupBackgroundImage(heroOverlay instanceof HTMLElement ? heroOverlay : null)
+
         // 如果是问题浏览器或不支持视频，直接显示封面图
-        if (isProblematicBrowser() || !checkVideoSupport()) {
+        if (isProblematicBrowser() || !checkVideoSupport() || shouldSkipAutoplay()) {
           if (video) {
             video.style.display = 'none'
-          }
-
-          // 设置背景图为视频封面
-          if (heroOverlay instanceof HTMLElement) {
-            setupBackgroundImage(heroOverlay)
           }
 
           // 隐藏加载指示器
@@ -901,6 +920,7 @@ const allTags = [...new Set(Object.keys(tagCounts))]
           if (retryCount < 2) {
             setTimeout(() => {
               video.setAttribute('data-retry', (retryCount + 1).toString())
+              injectVideoSources()
               video.load()
             }, 1000)
           } else {
@@ -909,22 +929,59 @@ const allTags = [...new Set(Object.keys(tagCounts))]
               loadingContainer.innerHTML = '<p>视频加载失败，请刷新页面重试</p>'
             }
 
-            // 显示封面图
             if (heroOverlay instanceof HTMLElement) {
               setupBackgroundImage(heroOverlay)
             }
           }
         })
 
-        // 显示加载指示器
-        loadingContainer.classList.add('visible')
-
         // 视频可以播放时
         video.addEventListener('canplay', () => {
-          // 隐藏加载指示器
-          loadingContainer.classList.remove('visible')
-          video.classList.add('loaded')
+          markVideoReady()
         })
+
+        let started = false
+
+        const startVideoLoading = () => {
+          if (started) return
+          started = true
+
+          loadingContainer.classList.add('visible')
+          injectVideoSources()
+          video.load()
+
+          const playPromise = video.play()
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              // 保持静默回退到海报图，避免打断首屏体验
+            })
+          }
+        }
+
+        const scheduleDeferredLoad = () => {
+          if ('requestIdleCallback' in window) {
+            ;(
+              window as Window & {
+                requestIdleCallback: (
+                  callback: () => void,
+                  options?: { timeout: number }
+                ) => number
+              }
+            ).requestIdleCallback(startVideoLoading, { timeout: 2000 })
+            return
+          }
+
+          window.setTimeout(startVideoLoading, 1200)
+        }
+
+        ;['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach((eventName) => {
+          window.addEventListener(eventName, startVideoLoading, {
+            once: true,
+            passive: true,
+          })
+        })
+
+        window.addEventListener('load', scheduleDeferredLoad, { once: true })
       }
     }
 

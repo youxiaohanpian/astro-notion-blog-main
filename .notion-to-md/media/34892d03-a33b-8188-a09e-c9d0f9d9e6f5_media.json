@@ -1,0 +1,42 @@
+{
+  "pageId": "34892d03-a33b-8188-a09e-c9d0f9d9e6f5",
+  "lastUpdated": "2026-06-16T05:23:46.065Z",
+  "mediaEntries": {
+    "34892d03-a33b-8107-84e6-e2007e1dc3e3": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://paper-assets.alphaxiv.org/figures-normalized/figures/2603.27309v1/decoding_step.jpg",
+        "localPath": "/Users/tia/Desktop/markdown/assets/decoding_step_34892d03-a33b-8107-84e6-e2007e1dc3e3.jpg",
+        "sourceType": "block",
+        "transformedPath": "assets/decoding_step_34892d03-a33b-8107-84e6-e2007e1dc3e3.jpg"
+      },
+      "lastEdited": "2026-04-20T08:06:00.000Z",
+      "createdAt": "2026-06-16T05:23:45.888Z",
+      "updatedAt": "2026-06-16T05:23:45.888Z"
+    },
+    "34892d03-a33b-812f-809d-d2528d759d5f": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://paper-assets.alphaxiv.org/figures-normalized/figures/2603.27309v1/teaser.jpg",
+        "localPath": "/Users/tia/Desktop/markdown/assets/teaser_34892d03-a33b-812f-809d-d2528d759d5f.jpg",
+        "sourceType": "block",
+        "transformedPath": "assets/teaser_34892d03-a33b-812f-809d-d2528d759d5f.jpg"
+      },
+      "lastEdited": "2026-04-20T08:06:00.000Z",
+      "createdAt": "2026-06-16T05:23:45.984Z",
+      "updatedAt": "2026-06-16T05:23:45.984Z"
+    },
+    "34892d03-a33b-8177-b8b3-fd3e29729ebd": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://paper-assets.alphaxiv.org/figures-normalized/figures/2603.27309v1/texturing.jpg",
+        "localPath": "/Users/tia/Desktop/markdown/assets/texturing_34892d03-a33b-8177-b8b3-fd3e29729ebd.jpg",
+        "sourceType": "block",
+        "transformedPath": "assets/texturing_34892d03-a33b-8177-b8b3-fd3e29729ebd.jpg"
+      },
+      "lastEdited": "2026-04-20T08:06:00.000Z",
+      "createdAt": "2026-06-16T05:23:46.065Z",
+      "updatedAt": "2026-06-16T05:23:46.065Z"
+    }
+  }
+}

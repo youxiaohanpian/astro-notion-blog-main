@@ -1,0 +1,20 @@
+{
+  "pageId": "2ad92d03-a33b-8062-97ac-ef5568dba2b0",
+  "lastUpdated": "2026-06-16T05:25:13.992Z",
+  "mediaEntries": {
+    "2ad92d03-a33b-8062-97ac-ef5568dba2b0_FeaturedImage_0": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/3d529945-bd06-4c1a-8b49-4552b3e818d2/ruanluyou.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4667GEZ55JZ%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052502Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIFMROcuESF2hKCXs%2FKyvNQGJ%2BJlZqLDl2lf1xeJNQuHEAiAY8EeP%2FKal5C78USUl%2FEo4%2B6u6fjqeAhZfDV%2Br6WU7nSr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMXXG%2F%2BVugU8ha2y%2F9KtwDjNCxNwAvWe3hlzCfK%2F8q4Q1oex391w6fzKVRUrMlN1fNqIyF01sVFqSfmNp5e4119ZZ%2BBbkhMgQloBWno5ZlrS6P%2FOks12vgYHzulV8zaOb5UTudruWmoKLyvRi42qMO3B8cte4Mma%2BIrce%2BZgYlCrBeu1XDXJw8UejkeotyJsW%2BabU4uHln8VeRVlAwwU%2FjOG5txSxNUMDf3SBpJxW9bj9qZE5w1yle4S2IM65dO6uHKY0tpssJ0nSSW0d4%2BAeRsA%2FjQarwyC6IWLwX3VIyIRFWhMikn%2F7itBlrD2sodgkm%2FW7c%2FenYX3CdCU%2BbImt8shOwXOUYItrDSIZFzRZV1JE9y7RhZsbIP14CmI1TsZ%2ByXvIMDQlkE%2F5RbE82Vldj8DaSoKu6JvEjnFJhInNkCkVAKTErHODJDBVodpEUqWeRF8abKcZ%2FqKO%2Fe4LIWKdwsBlcm7ldbVMpgNpwuGbhU0NhrY2qgK9ZpcbQANHj85ESIUZk%2BNSa3yHZCFQDWthirFwNxOkuH6n4JRqo8kZzhW7rApQGxK8THUK1kmqWj1J2m%2B2VN1Dk0GShHuJRUMqkZg4%2BTDu74A98BRYJ7KrWJ0efp5D1ViYsLHGh9%2BgEL7w9p9MxIQP0MTa4im4wiLLD0QY6pgFeWdA4Lodk0mIS25b3ou7W%2F2sTNLn2pn%2FNss98UfJGpuJF8X57EQsoBhdBar05p3Eh9xxMZh5AwhJLmGhRdlqrnpK7A4rE6qlNj1uuCjmKDTf7pzzsSE%2B0psTz05P7QvgpAWPotXxX7NteR2un%2FvDtNuKOC3IcI5AUJR6SfDGoEXX0X0R%2BEpsm6YEWSck7bTHfIjxEZdJzPlsU880lRyivELbUEaAu&X-Amz-Signature=52f3fd7593f32197d7fd2211ac033f785dcdaae1e4ec4a1e2d77d2d934588b93&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/ruanluyou_0_FeaturedImage.png",
+        "sourceType": "page_property",
+        "propertyName": "FeaturedImage",
+        "propertyIndex": 0,
+        "transformedPath": "assets/ruanluyou_0_FeaturedImage.png"
+      },
+      "lastEdited": "2026-06-16T05:25:12.663Z",
+      "createdAt": "2026-06-16T05:25:13.992Z",
+      "updatedAt": "2026-06-16T05:25:13.992Z"
+    }
+  }
+}

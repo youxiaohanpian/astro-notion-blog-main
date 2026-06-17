@@ -1,0 +1,534 @@
+{
+  "pageId": "1b892d03-a33b-803e-aa4f-c90108761b3d",
+  "lastUpdated": "2026-06-16T05:29:54.462Z",
+  "mediaEntries": {
+    "1b892d03-a33b-8101-9607-f614928aca72": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/37941bcc-aeed-4ea3-8a97-5a6a44cdb437/10831.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YJF5SIWR%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052945Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIDqV%2Fw5dtxrrJXgk6BNC46eyGyZRk9jf7rVHf%2Bx5%2FTQ6AiEAlrXD1hCKI4oZkQL55I5tmGJHJqowCBaiV%2BZ8wWPp%2BT8q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDKprtoKrJ2BSy7eksCrcAwzPoB%2Fg6%2F0q5n7tpR2G%2Bv7VGlPg9lK001ndQ%2BEPCh6Ak7IGUb69Cov%2F1RRlz7ZCsOzkCGjb0YIYD5Mg4tY3cRVAnyp5m7nZvx%2B8GC2eH7q8lslQttRSNzxeIqKAxFBdPtHsbxJ61Wu6523hy8YnIKWsgulPGhu3q%2BwhF%2BUWtk01EWX49D%2BWavlVpDTT2g1HU8%2B0WEMmRuBhvYUlnWxmgvcuUWVfFDnsefTx%2F4x3o7RlrjJDU1xDNA6cR4pHvSatp18BRyAUwBtXuXMI%2F7VNV9lEfYlN8a34W0hVka0C2Xe2zKzLIba%2BdR05XaWk2RlAvBLN1MAnLh%2B08WZfD%2FENDTHuz0rZtvIpaBXrW2qUXkWxjOY%2Bn%2BnC1YlNYkrQ%2FjrWH5oYiQ%2Bu57hTXGIpt7h7zhKyEWp7DUvk2eEr4JOU%2Btr7uSZaf3eMVqJC4%2BzTu4Rj5m06W8QyxN0OtLAlazyWneT7V%2Bp8pmlTL9MqtY%2BgGxY97VJJdWWyc3qTedlKWvrSQlVVx6RKX59nNdl2pZ05Vsi9cmvUhGOc53ObYQBGBK1FBibNVmawS2fdyKByxN6zGEKvyliRDuxo1Eyt8LdJogosvi25g7M7DYElKwqGh8wVHdW1x4gQ%2FeXeySm4MNuyw9EGOqUBOIm7C%2FdSe1TsoLRKx5gNQp6qZxr58TSZViKd4P6rqfQpel26t5YXyRzNvnjSS3QiDwRQ%2FCGu6ruWuh7ujwERat%2BiPoYxqnCa0Vb4AO450jsBA5uW8ingE%2B02MXovfE2BZVTpSdUCN2LZ%2FPPO5EHN2g29V9XK%2BLQU92HlSQu%2BJh7C2a79z%2Fg6tOYWq8kcvCenc2DILqXiMP9B1X0w77UWQhYUaEm7&X-Amz-Signature=34ce6f7f720fee5fd5a06631c0bb7fef57ec9379575fd4d70a13e1ab27f9eaf2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10831_1b892d03-a33b-8101-9607-f614928aca72.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10831_1b892d03-a33b-8101-9607-f614928aca72.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.419Z",
+      "updatedAt": "2026-06-16T05:29:52.419Z"
+    },
+    "1b892d03-a33b-81e7-a533-e10b9f6b7bc1": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/5dfaddf4-a38f-4ee2-991a-eeed67023c36/10197.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4662OXMMW24%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052946Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD6f5q%2B4AP2VbUbfiMoRbkAXK678dTeR88pd7Ey2ca%2B5QIgRTz1%2B%2FFsM2FwMgJ92D60y%2FPU92163wQNWZczzsb4YHkq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDMYEbJMPVZegOQ5uAyrcA7W2E7x3Nkx95%2BxUrUeIKxZ1h3Y6QyDgnPVrm9Pexe%2FXq5AB4I3uNmDOTs9Pa1zgJI7KER3fOb3HgeIJgC64UaRVumfOca2ovTqwYTIdRf1q59kCsEF%2F6NBUEk%2B6iHmUIYUPGcs7%2FBXFxeKC1xV9YipiYTSPbunTekXa2zAvFQkjlEVBpsrOTqzEU%2FVlT5X068XzasOrSmV87Pcb6OBLxZTOc72PHW%2F92bAd0ZgHy%2BA1CnmYB4fzCDSY9bxN7%2BxWFVpGJ7WxEt7vLsH%2BQKdQnxN74fGt1n8xDqPWGiOF3JubpAHFQ6r4zjHfqeTlW2JV%2FRL95GncA5vNa6KFtjINpJnIW2cQqeXY%2Fo04OAOB6lgLCx8DvnlUJtFWvnnVmgdpetqUsBkpNiofCMnfJoY776Gn4O46c%2BV8zm5aHuTJIKIWYFA8PC8LDCIyRL1fl31SjK5Z2tiGpYk8oLhxxzrySDyEoKnckSGYyJtsKvSCyTeljIkzZh4j83NlgJaZgIiCRjFvSLqy7ngRTgKOrGZbvxZQATnYY87d%2BxgupK8E%2BIiWTSNiwYG18OhquoWd%2F1MoJYggFGFT7ypBP9wF8GmQAjAhtPKiVLLnVtL0qLj4qZ0nzgY9TzuAUzjdQZb8MPazw9EGOqUBEPw92Bi9%2BPvRsx7rdKZc5418sFHutP3epMXWJ%2BTOHTxOp0EGcUTvqg%2BxNG463dpJmO01QPSyakJ1NTU5MOvySkV%2FdOAH1oGcFUe9ViFt0JnYmVYy3JvzwZ32p0DV9KTRyLeRv98iyQEhHx8sY4AG3Y2XyuSa3IEpBi1eVFUltpLNFriAMG1%2FVs0rsjGcZTcTcOodQPou7c0SOfMRCnOCF%2BxSvi%2FT&X-Amz-Signature=bef3c1722e0cf1df9312fa338b5284d0a39b9e3c31ff751a3f29785b7e6a3865&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10197_1b892d03-a33b-81e7-a533-e10b9f6b7bc1.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10197_1b892d03-a33b-81e7-a533-e10b9f6b7bc1.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.462Z",
+      "updatedAt": "2026-06-16T05:29:52.462Z"
+    },
+    "1b892d03-a33b-81a4-bfb0-ce356caefc99": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/f65f105d-67be-49ce-ac90-f0bb64b92128/10452.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4662DVBP3VK%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052943Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIEo%2B1xiGtqVS6FXDaPZKIgrV5DsTR7AjQu8eF63SPw23AiEAnklEFU3jUO39Eq1I2dI3SaQENnopHl%2FSpYWMA4zw7woq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDOy8DYnIIMhyI49Q8yrcA%2FK%2Bybn9X8ULDRTBqiMc7bNf%2FOI0%2F7in6FL%2FJCc06DyH%2BWE26TxbW7Jfls3PUb%2BzfiiFST8LV3QxoE%2FvDEsxgQLogTn6rYZoEQQFjrLpwU%2FnA0zpII8dJ8lKJrgFnuMsfsl2r8WWHqlpeilPqwoDzNuL979Ma22V1wdHhaSF%2BAiWNDBLZ%2BZQsNHa6KVB3mSHrxWZ6G4qQctlFexXJm3g3%2BJqn12w9aIPp5TlFsxkcJaZWAGx348g9yfTgpZgfV0L1VfuiHrZx%2BhYSy8Xw2Fufl6Bk1FyNgc1HHqC9FeL8el46Cmy5PZEWc7jQXvQiZQsQ8X%2ByCywo40cZ1VUie76bOcmYKCBrAjydsS7DQVvCn44pkN1OkcaXFEhIaoKYFvFzCViE0AKe%2B%2BLPdOF1fcCIAqesyUg7VN0cfbNME%2B5obj2QlgM5V5jafVx%2BRxlyTaceSWlvK0nrDnVDYXcc0ADRE7i7AgMp9TbQGVBmIDYgB1kz6BlsAoJTi6pTOYl%2FyYrjGV6voa9oKcciXBGgHyyOcvzmzLY%2FZl%2B1gJ3BedBbiQ1n%2FpmB1PAvYUQ%2BhB6Dg10KTcKIY2VZ9WOSwKW043G%2Fn3stV3mRpOTQ%2Bcvl0JKjgAy1DW83sex9xIMGw7VMNCyw9EGOqUBH2rtcARl9b7o8VqbQ6idHtVG5QVGDMxdAASdL4NA5HDuiY7tBDdTV45yKToG8xoFFsB5XnivrLUaYlvqmOyOjNVvQnPtnAxenlXkroPyxnq%2F4C%2Fy7dKyFfmNs8eEUPX2Hy%2FiSgX7ahM5QJEiGT1T3oibI%2BNJ3yIoIXQRgpAzs0gi6KGy%2FWvpig25wx7NFEBZZ%2BVNB49LZDOpR0E3FUe%2BEsMpCIa8&X-Amz-Signature=86673d4e4c5318ec09fa382eb8fd074580159b6447eb2956e8e2e9e55fc77f05&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10452_1b892d03-a33b-81a4-bfb0-ce356caefc99.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10452_1b892d03-a33b-81a4-bfb0-ce356caefc99.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.465Z",
+      "updatedAt": "2026-06-16T05:29:52.465Z"
+    },
+    "1b892d03-a33b-8157-b6b3-d6d1a02895c7": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/5df85464-aeb5-4af1-b587-0b6dd48553bf/10202.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466V46MSWX3%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052945Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIEqBUcOojZ%2B5HuF5YZS%2BpsgzgOL7gxqd4yS5AMR0TdNPAiEA91JZ2m1mv0C3DGGoBQs8TjXA7PAm1gx1CvfSh753LUwq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDBxf83t%2B0aY53bM7wSrcA9CIhSYSjvbEOOP%2BWbR%2BZvYNUHiB1fYJB1YEXm1jroP0txtbg0QMR6iD08DTTcsZq7ccl9iUwkJ%2BgUGg2tPXnu%2BPxo1oswaywdlJ64Y835%2BFFXGzwDuxEBB2cwsXuQlywrOtbNfD6XnAgAztOw3ger%2BvCVvtSWdPkE9%2Bq2D4lwc7jKPC4gy8vZSzyNSKbvM%2BChvCruZ%2BogzQc08%2FwnuFTRArRN%2FhquY8vjlI139nyCoeqzhlsybwlsH2xdDfN3sL14HlAY2AqigMws1V7Nbe7QbG58xZo%2BDedh4POURzuUDTV%2BXix%2FiO559XuR4Wa%2Be2%2FQ79Zcxl9Y%2FOGMq8NQBB51CmGVrWX2f2G2UO0FvuBygjGpWnSfmcGfxW2ljts73THKg5YNtikw5PA3%2ByqrmPxjSM59RPpvz3m4Dt7CARyB%2FdKWU1pAzovZmjrHDc45syycenqoec5WqgW2rNfucFXilgTValcKDiWddqf5UCHixDqlhjis13DdEzBg%2B5QerEOp7mPgtNJbREaGvNEabRxrGTV%2BDgIJf8EV6mT6DtKFe55sV20eeoUX0aeXZtp7sXKk0huFFe6Z%2FMC%2BHLVX5Fp%2B2fSI8WN9R51OarqGMnxJdg%2BxBkw7F7Z4sHGWazMI60w9EGOqUBkERxEMw%2FO6%2FCTlMuUpCRMwS8cKBJxoTnKR4u3m7Fwr5Z21G2ZToqn9HoL7ofRBDUvYGP96ThaHPxF%2BZVoeNQYdceg%2FOg2DoUVZEBGbMlxxIAXpHpawOBVUEU0fCTYHxoroKll6QefvZbsi%2FPNhT%2BKwljR5IPvIQlpHmaaYAdJJJP0%2BswZO1TtK3qqfgYmbJyRp5v%2BWP1Q5E%2FL2%2Brik1XN6aykPL1&X-Amz-Signature=f7aa848f5a15eb846bec30b03a960283299120f6a9e8ba3064fa882900e05c17&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10202_1b892d03-a33b-8157-b6b3-d6d1a02895c7.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10202_1b892d03-a33b-8157-b6b3-d6d1a02895c7.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.488Z",
+      "updatedAt": "2026-06-16T05:29:52.488Z"
+    },
+    "1b892d03-a33b-81fe-958d-e4598473c25b": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/0b928433-73d0-4065-837a-567380c2b9ef/10834.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XXIJLZCD%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052944Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCP2ffSOBKA7c9l1%2BTBGdA0T%2FIWj9M4IQZYv0yVTBpYLwIhAIl4fWR6KquPlwhNpyVEsIkawbn7Zvc8uBwXG0ipzJSEKv8DCG4QABoMNjM3NDIzMTgzODA1Igzy88xiV1sjhxO%2FP%2FUq3APwDP9XE8og90SBBJXyUjW9g9S7KDnOsInDxUXx3CEiY%2FqnDyL4j04kAtIvHirHzoFBtwKjvhZrsz5Kk0CXgsgw2rZQIcLz2m24FaOfQLHTxmdEe2xygnVM%2FuYhtgj17l7FnL74Stse40M7GlcXXB3INK5DQbUwkAadWhhFc%2BFjKFqb3gXA3Nmd7vUMD3E074ODaq2fcTKGjHNxSckt2UjPvPvui5jYpjX%2BOgEo5DyObr8tFpYzq0OjxSL%2BQP29lBXquPoh1ngxCN3vWRaphCDX7HFyl3X49EYtY36VeQ7DPe%2FR92xQv1ZCEj8xGcJvCSNVpK3VFrXrAjD7TVJaFEMOykk09eJGgwWzjOBThSO%2FNQLx2oiYqoJL3inNZY9l8kAuELD3iOabZKKFj6rH4gwosRBe%2BvGGYXuQ%2FdI%2BEwC1pphqxuVJcDJ4pb9qcKqcbm0yt%2BsFEkDvchXRrfBdMUjhd0w748gYAxaML9rCkppi2zp9mYUbztuPDL2JzwfoJ1Y5FkJseob7yQNMDkFhnPNNUnQHtQiSzkyH5jEds56uG2lKfMR2Fk1IIr1lm4u%2BhQJ36BiTL1Z7znVaZ4fLYvS6nQY3fTeOPj6bZMI43Zgv5xlmDw4hvTX5I%2Brx9DDkscPRBjqkAbN9UVXFlyIxEqBcIdnzfkbZrzKZ51JajAY%2FitZsGGBLqqb0IZdF4aFFiRklclOmNO%2B6IVxZHNy87ByHCwjMmhaI96cpPmsSUYLdeRb58LAX4yuuEP7mOqJ0jShQp8b87RDXWdLqXmxgEUwfp5ILmNIPakWi8UWZ995JtSCoMWyPP7ww%2B6UptiEoO%2BdlqPK9y3G8Gbw9TdOnhOOZ49I1rc7JJAkh&X-Amz-Signature=fdf66c655788f7513132b1471cf4615dd1b9fbf8d52023e36b7fd90f87a34dda&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10834_1b892d03-a33b-81fe-958d-e4598473c25b.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10834_1b892d03-a33b-81fe-958d-e4598473c25b.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.506Z",
+      "updatedAt": "2026-06-16T05:29:52.506Z"
+    },
+    "1b892d03-a33b-81ac-b042-effa3c82c8e5": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/046a2d62-15f2-497a-9d2c-8b0d545c08f3/10915.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4664P5B67JH%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052944Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCID76UrYv8cCvzXorcSnYAUQxg7hq6ID6qlDXhJutFJM4AiEA6ItDPPSuUGahvuN1bYedaHWqKgx8gKsrjyl5rfF29gsq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDNjYIUH9t82usYrwTircA5NmlJQCCFP4jym52NMlTg9eLasGujpcjhkqFVGxWJnSEAFegXZN%2FRZrj8krldtUQctP99akP3hfcKt%2FP7eJuySqlq24dmNf5bzz%2B3zMPKWiWzTHPbI2lZL51AkQECRrmB7r3vRJ%2BSFtxtcJDyBJogdkHcXz7qzbtvcKA%2F7QlH6%2BEs%2BccJfpK2yst7CZAWY9z7pLkdNyVlTHqeyDsF0M5wE0kKtOCnkCqHjAS%2FMNbR4ND24Rt5%2FwD8No1aWKgg6yqCJ7KV4Ao7YWtpjFIN1EjH%2BGM2bcWEZU7VPQ4rwEJ5EPXDCggRJvBJFxeFt%2FzjSvRmj3dAgYhi8fUWzaemcPXePLvxbOnDeTw232ej1Z4UQpTn77SuM8zel0QEbpV24UPwkwrrWmkA8esUXZ8aE05BzQS61duFjUSII1LgsepCwCZnJNAzSnzqnLdRc5M%2FsWMMp6rTDXd%2Fxk9Jt2FWWnNrQqawtrWkHli0byv3U0dw5%2FzIib5nEv6l2LnaLc%2FVkjhpeC6UiBZpFNvQ%2FS6h1UWldu%2Bny7GmQ%2FxdNzndMtJ5%2BsX%2FAkykWXa9S%2B9Av0a%2FPlhb6X2kZXXWA88CidZvMxvyEoCPix526Kn3WP8TLtrX%2BP3p6tQHqkqL4wj%2B0bMJC0w9EGOqUBGubv%2F2qMOOsgJM2YG1oEVqAH828iU3Kl2fc%2FT2g%2FG2bodA7jkVeYYZTSpTy2K3f47zwBDPKZ%2FXJt2v3T%2BNTRg5O0DfgLiUOHxnSs6DXk4HrTRWw1bjWDnVddxfvh5ClTUjwfVIIIrRCWN3wCd7MZQodW08Ta0UhHOVdRg2TZnbdwODpMuClgajgUACXfXQ1MKtWzxLIB1PmCNvQAlP3Ls7GOG38W&X-Amz-Signature=bd32e90b96565345e692af2cb7bb127456e39aa7f25d556ff657215e821b5ce6&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10915_1b892d03-a33b-81ac-b042-effa3c82c8e5.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10915_1b892d03-a33b-81ac-b042-effa3c82c8e5.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.587Z",
+      "updatedAt": "2026-06-16T05:29:52.587Z"
+    },
+    "1b892d03-a33b-81af-a203-ee31babe7f33": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/edee124c-5666-410d-b413-7707054bff80/10836.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4666TCVEURK%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052943Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCRBTmANSz8fflkeavDzXqf%2BDV7JAavikEbOM%2BWdAk5ZgIgUY0u3CY6HAD%2BF2ODDqR%2B3rXGegU12OrGj04FX6xvFl4q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDOqcT9y1BnlWKtixMyrcA7NNz2JX0aCDIDVhDH%2Bsk2l%2B8CUKawFnrnVCXu%2BkQ4uaG5EXPhYWgPH0fHq3OU5HW84GwSaVzI8F0AXiwUweOtANW3PM0LpLV2fvygWXmG5gTvUkwvJQ1qE5ksKTsmQquSy%2Fk5XNyA7i7tzZ%2Fp24V55orEpu3xhsex9C%2FMndAwAhbrvx9n6rjxzJ4p7P1xDh99cGCbK10J89tms1zdF5l3D7DLgkIzVjJKzD78MaZkOAYQeym9pQtNBbWtLqeDJ9Xc8Wji8453bkHXl9mEgAyFdrefkJXVn%2FxogMePpDAvzqpTv1n2cCgUiELEcn4%2B32aNYMNI5C4K7KPwGbV0s4YbzCJ9uVnqdpcdbC0f2C10seYj%2F6%2FrdvAWyLvft58b30TZw8sOsKydhQAfxj7%2FN1hkXmGQgNjRwufAYC7agBb%2FC%2BjVy5ZHNWlJipqid5SeRHQRX2YCUuUyJZAOZSIgipcKxGgToIJH8y6oBb8g4fHSu3dq36y5QF4wdn4y%2FTFYnb2Msa94s%2FP%2BJC0CYSn4XdGXpckf%2BF1Jd4FPHzcdY9PDQphSgkxI63U9n1g%2Fx3bq4wD8vv4SHVothc43zHOrsMI6vVQ9llGhdvPCp4Cwhjsle0HjBcIxfQXMTCG502MOKxw9EGOqUBhKbkmN6icTd1DuYTImC0Dp9tamEkw2dWanBttHWQT6q5Zk1c9wY5ltjIHy3ypmbAzCZDyfJQKvaGWBCef2IvT8LUzRq3C8rtP341y2ZEV20jefMCFhQspIHzG0Jz2QcMnHoPQo7gE5I52SiwTgE%2BFF44Y8KzM8%2FsIVdSsP3FpGZ2Rijk2QZG%2BeFNmsJ1cDBAXI%2BESAksz%2Bw4oD8lZ2hL%2BjKpEGh6&X-Amz-Signature=2d3b1f8b078856d843dbad73b34bbc3ef58aa0936b269500016aef0608c5d97d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10836_1b892d03-a33b-81af-a203-ee31babe7f33.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10836_1b892d03-a33b-81af-a203-ee31babe7f33.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.614Z",
+      "updatedAt": "2026-06-16T05:29:52.614Z"
+    },
+    "1b892d03-a33b-81aa-8260-ea5d22186b76": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/6ec68dbe-6df3-416a-836c-dbb788f2ef00/lark_A_pile_of_gems_in_a_yellow_sack_Q_version_style_texture_te_0392dc22-9ed8-48b6-a6b0-648d24abdcba.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB46644PY3XPP%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052938Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDfH9EZkSCaanYDKBpNYlgT1GBc6L3Hiw4QtuavgPLB3wIhAPio%2FXW7YUF6nhHGVwjiI82ZuP1uOQ8tuZaceEikMUFXKv8DCG4QABoMNjM3NDIzMTgzODA1IgytFkdbwvRFZ%2BrwcBUq3AP4VUJcXBQ%2BRc3NjhbHePZ2enc6E%2FnOS6J%2FuKBfLdU7MmE5Cpgl4xxQ02SFu7mjgoNT2W%2BFa4oHdRBspX867RSWjHiYkFZZ1%2Fjl1ux4HLihxRxz0DLIJys4U5fc9cOyRfPoxktzQCnnLDfwlQFYECrXEwosrmMdejf3oWIvuri%2BJIOxA%2B86ACwfV%2B3nnHRRmZ1zYjnOrudWmEmoQMN0%2F4NYPAKPE7QbKss%2B38%2BjGdry0LC3LGdsrzIfPcWh5j2ompR8Y2PYt4nR%2F9EgVufvV1gGD26u%2BXSgVTpxxO5z5ImITX4qDtKP1T%2BsP4PKrJc%2F46hVqKp9BddmNoQcSgsc5v2IHmNR04EtwZg3YPM5BgTqJD0TCcGVfWhJFcSrK54kXH4eAERncakaCSfptLOc%2FEL9lN3bltxW2EUFU0UFmvuB3gtVdRLAEAa5aCHSg2ODPTIgvZPrnzaqrbc4a53%2FILNJyUrC2mtT%2B0dL2lBhjBg14c33SdDo86GInfXknPyaHno7yVUbo%2FR0rlqTv7l338pLL34iIPxLiMRHemdjnOL8Ah36iPmnLtm1Y6MeO%2B7dB8KbrFZ9%2BEMpq1IEs82JmekQCg%2Fyh3HMpGvsDR52QD4O2rNH0%2FCiYJsNoAkHXDCmtMPRBjqkAShROs9B5c7iQ1G7ur3%2B77o%2FztvPJivofQPDMfkty%2Fcz7m3XkxGKkz0mOVsCtx16wf5MTR7KT6SLMa2zKPxEwoNKfSNnQ0FFCQIVGfYo2hqT7gC4ZZWTCNz7ZlwIFjXjWkF268ffIAB8rmRxU4Z86Zp559ZYiLTkUh5lpR5BhKo2awQrzerbfdZHhbDOVFqPwQyK7w7nRDX6m2yTwlQo2oMbRcru&X-Amz-Signature=dbdb04a5696988239007f6cc749c441855d82f8e32e25e731921747fc45484d9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_pile_of_gems_in_a_yellow_sack_Q_version_style_texture_te_0392dc22-9ed8-48b6-a6b0-648d24abdcba_1b892d03-a33b-81aa-8260-ea5d22186b76.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_pile_of_gems_in_a_yellow_sack_Q_version_style_texture_te_0392dc22-9ed8-48b6-a6b0-648d24abdcba_1b892d03-a33b-81aa-8260-ea5d22186b76.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.621Z",
+      "updatedAt": "2026-06-16T05:29:52.621Z"
+    },
+    "1b892d03-a33b-815f-a726-c694c5a2e429": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/e3191bc1-5f27-4138-a6be-45df1f89798c/10204.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Y6I5DQZ6%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052945Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD50fe7vYolAHH%2BUv%2FIl71qUeO77DGtosE2MBullv2V3AIgdbAgJOoj1S%2F78b0hzXYpKARTBeznlEv8nhAT4%2BH5w4sq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDObWc5lMTnnLmkj%2BPCrcA5hDri458Odfxk7Sk9V1OyskDeTu6lZD04zPGq071JSLCCRLscjWudNFCs8lA1g0gQWb000pJyrfFV54moQRtqsfCxOK1GZVSHNre0Y6iFwtNQtIbsN0Tvol1E1VSZyTCKTg94iQFV0RyrUahywvJe2ncbk%2BnoAaq%2BPrqvO%2BhSFKmgl8kE2KL8fww%2FoSq5z8nWl4Wh4N3f42Bu2WGdx4CPzZymzLjGUgcyfI93Nym7cP30%2BuS1K88yVrCGcojI1PbIsoeZniMVgBLm38x0XIACENzP7aHxeYHOFIczOhSqwqBls2lN%2BEoLpS%2B%2Fg1p3ew0jTYjNkOGxCZIlqCk98PcNb5taJu5fHWS5LeodbDhmRnnL%2FHXxQOymCHIBsP7g5EW7mQd3EN2LhTdzPajmqLWGIU0Z3dcRjz0w12TTTz5T6O1tQ2X82OcqAv0olWPucMoaXucjKpzJSmpW86zR59M9%2BFweN%2BsfQ3lYyeXiqb7WwQqBRiBcJQDgqXDPT6DzXd71Z8vPKWWA5wrgptF2pw1qkXHhzohuGcQQN0gA%2FN1dCZ3%2FsucnseOV%2FV0KtZ9iltKd4NuZr4Pt%2FPC2wx1TCbl%2FbBk8nhL7X1UAMnakmntQ%2BL05PDcJiTnGfR8sgOMLS0w9EGOqUBesFC9o3wWQsUZiUhOGX%2FDljrbQ%2FYGhJoQPjLhDgCT8bF7XstQ9si9mW66PRC82UxA7nQz49B9Aco9v7KSvGhHTE3ynm3oMPthWAD9steYqqzz1ennItuaaL0F0Uom%2BHwY1sjgGBD7iRuyOjFZfwgiZwKy0i7DeePw4IZdF9kjfdPmFWBtrhXipreY22ZDa0JM5l2eD19eyAYqn6md6zacKkGm6kO&X-Amz-Signature=04c860fd50d7844deb9ae9085e4b81502eec8bc51fd993842b20b6c413f4751e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10204_1b892d03-a33b-815f-a726-c694c5a2e429.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10204_1b892d03-a33b-815f-a726-c694c5a2e429.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.630Z",
+      "updatedAt": "2026-06-16T05:29:52.630Z"
+    },
+    "1b892d03-a33b-815a-8e4d-db3a0e28398e": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/9f0e6ef7-903d-4d34-8ca5-7fc233257aff/10070.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466ZRUU2ZOK%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052944Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIG9RSA%2F%2B1lt%2BDf7dJcE29i8TiHPoYzYHkTFHkKeJlN50AiEA4ZpXEsw40qo7CFLm%2Fcqjz4otok2mB2saUVcLvxwnWV0q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDL8TzhmMUPvuWKNJ7SrcA7QIMUwVkpVEKWwSFT2h6R9cC7DX1J%2BpgZ%2FC9%2Fn7DDpk3TQSwPuh7Mdio0J0yh98KefMLpamH4y3TsIXZ7jA3f8QFyTdtJMnzKMhET8XiSmlm2bJqB9WGtXGmHEemgxUGFbxFOM3sI6oPXXUluIK0VKdbQEs3HVfkthrmAAzr8qWXaOeELyeDnxnOFSd3iBCCFWN6li9tSE5wYeNkgAEfRiaWOStn0pw4a5pw3EJgI12EQUm23F0NNyzX97czalHgGKIOkQo%2B0%2FNdHzDLAxGxVuIr%2FzeB5G0thbJF90Da4ZJ845bQguIxLJWOtdN62Tc%2FBo7CKt4MqpuqgiEQdgBoSOVIrInL37TSvBu%2BV%2FuvjU1DzsY0UFAHkAKeRmtKC0pnJ8%2FQ%2FizY23n5Cz7uCu3PRrW1jAX93ZDOVKLhlMYZnYHOVOcCw5pF1pc0y7l6wWhlvGrkt7gQTBT4pdMW7bNNMboev9lw5YBT8U1AyJjEbmNPi%2BtwaJFDTEjhAcHGhLoG4gGh4ffHqqm8ul14LO29%2BuXP1f8ZxwMtGt0G%2F93PGETgx6Or4Ocdg8vDFn23M5VpsEJ%2BQs5btxsl6B%2Fx3VUwA5aq00v3WoyYHSOmexdInXzvbsjG1oVuY1lP3dVMPOxw9EGOqUBcDUXPs9WPCvx8vDRWF%2B3w5wIgHplwRh6mQKgglI0NJl9Yom9tMg%2FPaSN%2BVElTnnSAH9DdOwUBKzMR8kqDnavzmjGByM3HYunvTN52%2BJebZYTZn1EalcvyALUHizuKvaM3iz%2Bw96FrjSirRnyPHgmumGfjebF25tTpEtv8CjELdC25%2FJMxTJooX84Z2NtVDcoken3XXxxoNKdxHKi7GYOZrCNyjq%2F&X-Amz-Signature=54fa9bdb4458aee9e777fc9fde7a1c0824e76c26148637cf5847ac45c560b55a&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/10070_1b892d03-a33b-815a-8e4d-db3a0e28398e.png",
+        "sourceType": "block",
+        "transformedPath": "assets/10070_1b892d03-a33b-815a-8e4d-db3a0e28398e.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.632Z",
+      "updatedAt": "2026-06-16T05:29:52.632Z"
+    },
+    "1b892d03-a33b-81d8-889c-e0ce88f77b89": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/20833181-4b9a-4664-9389-3066784c99ed/grid_0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB46665MBAPQO%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052940Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQC27GLP2%2FuJamVQQo1lJuhX7No5yngxDIKIQBrEmb2MswIhAJ54A08dkVgoMt%2B%2BiQEUo3uh6CWp6aUfHA3CJ6NYO8gkKv8DCG4QABoMNjM3NDIzMTgzODA1Igz7dYin463dJ6Ljki4q3APjqNUInOxDshBMpoNf37rtTfC0aHP6KRrynDl7nUNPP2U9SKAivOXfet3bMhwjBT5kX78JKDzcil929ZBQnBeecbr4%2Bea4EqfOvL50HWRMpGq66Mk7M57eNHOCNNty1AlXq7xAbxdjONzTT7FJOmj%2F7IjIWB%2BtHIrvEkamEJGVgPWiWj3jB13yMo985%2FPbJuoOF8ud6xE3yQjNAAZiGxLR%2FQ%2B7l6DeK7SuAyBL%2BCK%2FGGxWwqhYhX5cQYowvCIgLZfw5vu0ejzAiuYT%2B4GH%2BO4NAl002qsYZ2hG6Pa8gjZ4TH%2BKZ8L4kDijMSbxeERIaSsftAwDe12nB2N0Q%2FNeQGHlIvlEF8FSsucbxHBamqxfV1Ccg%2FonlUX%2BIsQQfOrZmrgxZcTr4JcHLXORv3ROMc08mULXkZ5Mth2SebE2%2BPv%2BgWc8xFmGMRmgZVWfm0ZmrDv4fdyoAMg2BEdpZRdlz6ajW1hhT5DjSloBZT9yUE12NHm4%2BE6nO%2FbI1EvSz16lj36whntiBPCATPW9xUA%2BYn4MyO1lz6JdXblm1iXA8hyWs5GHzhXSRu11Ux2qEVwseii3uTKjy5VYF5LowF6OX%2F1IciDIJ4xHAvjNvAkbQ00i4hd3YOHSNO2j33jSSTD0ssPRBjqkAdaxo3BSQTFo4skrXvhk0K8nHYFhKkEZ2urjW%2FFmGrWWyRYhw40PlFgweH2O%2F3cHgZPcOdJzGlJOFr5ctWIQrxtc0%2BTPNaB%2FWWrp5Fo3Ur%2BQwAJHO6rnXoIEwfAlzfP1%2FwL5puTH%2FtBwSENH2HK%2BcB7Xvr58mpLM6SZ%2F8tzLQOXHIGn7Sk80ZF7JlEbjPm2Bp0U3ZV3%2BuIkC8Wuve2TGiEhg6prC&X-Amz-Signature=143da2ba26b5711baee333481ea82d20df34103d182e54863973cadce4335879&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/grid_0_1b892d03-a33b-81d8-889c-e0ce88f77b89.png",
+        "sourceType": "block",
+        "transformedPath": "assets/grid_0_1b892d03-a33b-81d8-889c-e0ce88f77b89.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.674Z",
+      "updatedAt": "2026-06-16T05:29:52.674Z"
+    },
+    "1b892d03-a33b-8119-afec-ddbb61e4b443": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/b5805164-e733-4f89-b9a8-24fd4a204125/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_d9c3fac4-cbdf-476e-82ef-866ac179f603.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466V6VDIWB2%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052948Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIGy4MdzbTnLY52C%2BYHyN3jJFqYJjmzFqbL%2B7cprFflnvAiBAti8S%2F5JY48H320BiIykwQL0qFjsaDYu6ke6AdukYiyr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIM4gxo%2FQ%2FxMS6PPTpuKtwDrLZXrv547YOy0%2FwCrOjXDwOGnAo7wDWhQUUUknzfT1E08ckED1todacVxMqv1TjFXeNVklS1Wj3ynp4UjdN2ADa5UOGuPE3qu92%2FO%2B1qtzpQr235LlCOgFsv0oi49AucYXC6pX7APRbEpauI3aJT70gWVR%2F4HeXd9a%2BneqTQexjzag%2BR0xto%2FkVscyqsg%2FPWZYD2SA0u%2Bsf0DuPxtcLc6dpKNl3g9DaeKNeIFY9m%2BuDdadwV2JC7n2WKHa%2B0npFTZWgsyLaatGj3tFxGsNRKSLet2mfZ5NSiJGS5AOgFTiw5nKlgbE6Bcu2bX%2Fs3di1GBbGrHFfWY27ZjEeaxeZ6pBqB7TZH4CItwtPktBu8kfUfwcSfzGaCh5xDhCAV8UxthUU5k%2BjEzowkoS8Xln7BTHo9411QymnT6PT%2BlxxuiVd3Q5yGBFy5vJCnW2nEbayqamihrlRW20BTPQCOGhC3by0J38dBe%2BJkWYWyun4XLjzDlJ88fMysyjZzYMt6qd9tDuvaipB6fn8%2FhlM2yNCrLadTNftVYEMgEh552fWuflBtfDkY%2FiNYdHszSMI%2B%2Fz0FBbRRJmHEchypSdEHcyUiDBaiFrdmH5NrcBZZFS4oKhJrJhUaJjghayQn%2BtUw%2FLHD0QY6pgEbJY0Fzq9r0gcFejedZou3jpdJUkMyF23gBLR4E4VUyZGb9f%2B%2FjmeCgJJqi5TteQR0onj76gWvkGLkn%2B5z13HfU%2FQMAY1n5VeUpn569V%2B3JwbVnYBxxpZbVjjO38KXWHzZ1OCqTXGGYloSbjYKFMq2RU0EzAPd81i03cl6cnm8u9C97TYLw4Bk4OxTyPmR8jHfpToTH0FbxKfuzAp%2BKQ3kDU072AM5&X-Amz-Signature=fca8eac7c2c6dd4f69766491e583920a1a14e8f4710b13e94a87c4158d0f6e4b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_d9c3fac4-cbdf-476e-82ef-866ac179f603_1b892d03-a33b-8119-afec-ddbb61e4b443.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_d9c3fac4-cbdf-476e-82ef-866ac179f603_1b892d03-a33b-8119-afec-ddbb61e4b443.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.696Z",
+      "updatedAt": "2026-06-16T05:29:52.696Z"
+    },
+    "1b892d03-a33b-8189-9306-e1fef9e2ffda": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/73682cb4-91c1-4eee-9d61-2371b3710e36/lark_weapon_design_orange_pistol_cyberpunk_style_extreme_detail_0ce47859-6326-437b-a534-498e834d2995.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XTNRGSB2%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052949Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQC8alKN6q4F33xDVNku%2Frdk%2BKIdVCux8rQdHXlhEVRSRAIhAPgPwIEEmp%2Fy0lIsiVBtSQKJXeaCrtVflVTRSBeQNCkeKv8DCG4QABoMNjM3NDIzMTgzODA1IgxQCnQ9qzZhhW6v4Ggq3AOJHXPAT3Ya6f7KHXLbmaY3OVNgInBWXaatqhKO4CTJ4SzyB4QK6qbgZ6tIURR2weep7BBL9oAfXO4AgXGRU0u5uPrhxe7EcaKsQ7GgXvcgd6tpf3oKk17TO8Mca%2F%2F14XpI3JPojRVXkN%2BQkpRB6TbN5NPuxBiHX%2BuqDzMCoN3AOj2tOhTMldk92Ci6i5%2Ble7DsYHdNFpjkuFFitnM9rRkfelUtikUY4nx6RDd9eOBIKNmOlVGkFugG7VHxsp8V0dzWDrkJ9%2BQ92Bh8oIKswpqFIS7jk2PCQ4BQPZnqXTxdoMIQpjVQTvYSW7hCnnjYnMYC%2FpIgUver8fMhQ17wOka0Q7EfbPqtBUccwvMoGrFgROg%2BvwH9NwqcfT%2F6FPl3xo1%2FvVH6ksJl4tAleTJuMOlhatYXN%2F13k%2F1vHOaeAI30FNE7ESB3IFSrr9yFec%2BqmKi5mnIab9orB%2B8f17oHSeK9ZG%2FAww8edFK07uJEwCNDqvNOMzOYcY3QjCIpIGtL7kaXHkJrqD6lLT6Aqdegu8D5ev0GW%2FMoubOI%2F9DQeJFx%2FIaqLGk0QfD16FTMrXQtRLZPbRw3RLlgDkzEwl7%2Bjzvd8Q2mcVr2mEVGIOJsLMu7kWXeRiyjgMloPGk6mTD1ssPRBjqkAaZxu7%2BBkEKFQfdQsxKMqN2IwfwuA2RF5N8JTTD1wMGPrjy6eSNqvAGAwtAnmfA%2BW1AEmTyqsqGAKENo8p3SfiVZOOTXiPZH5pmiHjhmvvF%2BYjiFsfL%2FaLNifqpvPybfYmGwQD1tqJfsTq8RU0o9qwChcdTnZK4M01WYvFVSPgCbD1RHU4UjQ3EKE02MOF9zxZj1j8rZMoFnDi2%2FI0rfNLFjnMH%2F&X-Amz-Signature=0c5fb3d6b39684fa0433196f80558d45d6e0ad5ef99e4471f6468739809ee848&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_weapon_design_orange_pistol_cyberpunk_style_extreme_detail_0ce47859-6326-437b-a534-498e834d2995_1b892d03-a33b-8189-9306-e1fef9e2ffda.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_weapon_design_orange_pistol_cyberpunk_style_extreme_detail_0ce47859-6326-437b-a534-498e834d2995_1b892d03-a33b-8189-9306-e1fef9e2ffda.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.712Z",
+      "updatedAt": "2026-06-16T05:29:52.712Z"
+    },
+    "1b892d03-a33b-8106-ad8b-e668f144b679": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/35a180de-2463-41bf-9a6c-59f4e102c360/lark_Stylized_RPG_game_icons_spell_magic_potion_armor_45d83b5b-a3d6-46b5-bb05-4bc8a7f12b68.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4664LBPX2RG%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052938Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIAQ4uLW1KYsPCiWhkDqp%2BejAFMxQeXc3MuDNvDhFLckkAiBOydPPMPfkAIaLRSiVTN%2B4WyfL08%2B0JIDkvZq2n83NhCr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMUICHhzacyYMDHzVmKtwDX1zpTP4%2F2H4l9WTyFYC9r3BtGX8xDLHaDC1LgM7bt1hns%2BHu0%2FViN%2BDb6aOxTgeKfjQkbR%2BzB%2BYG4ZbM0tR3vGdmSQ8EoBOCelW7lUccU3os%2FpYlyg%2F9IgsmLF9pPnEGOtelVxKCnL%2FuP5sPnyCPOLMpm9jjFzFcGeeSdbZ%2FAnOEFVK9c2Ei7NiP6YeEY9JHiB6WAzvuxbv76yano9%2FXlr1SvfDwl%2BqOloX7ru884Z2I8vXRuuNaNJ2GonMAPMDu4TAn7euc%2F3b2PGaj6454NgI63HA%2F%2FzSDEucySZlWc8yVRKrrcJ3j2EEJu9vl6E59a0CDvI6YKwWLtbp2iyFEx5Q7NsfojMYWhIRceN16dj4%2FDXYWcstVdrk9LYDShfEjYKVkRXK9dvdszi3WecbOl%2BTeKZjmNgakmVyr7M5mgPALV%2FEyqYXXrkVgHyBLO8muhZ38C8NFfArVLmz26WH7lUbM1udCqZJwajLvOd2RQ1V30GGNNP5%2F66mCqOpqNQzpCvvI1RtpXyGHR1FkyM3HSQCs6z465vg090uINeiEOJ3iVf8TeKrHH36241xv6%2FSlX%2FswLlH5%2Bm2C8nC%2FrnlLQwl%2BVMkkdPzd3OnBliwHqjpS1Tbo6EsLHhKU5sUwhLPD0QY6pgEaLpEd%2FJgvpaifjQP82tWG8LqltVICazu%2BwuzQp7auzE19H%2FCC0p%2BTW5NbCep3tAvbpwvGiitxir6ROeTE46r9PWKhKsJBKlPuN3NZ4eB8KXAzJEACaqIW7PEOgBz4hyi%2BF30frmJ5L6XipeWhI%2FskUz7xTEkDvwZ2rwUzJ7SliADW78AeGkAa0kt0GauMfjKtGYBSmp63fIFUfOhSkwX%2FQJnXYCcB&X-Amz-Signature=b2f64874e4f1ba5b64da6bcd4c90c11436042e777f7417b7ab670d50d66ba148&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Stylized_RPG_game_icons_spell_magic_potion_armor_45d83b5b-a3d6-46b5-bb05-4bc8a7f12b68_1b892d03-a33b-8106-ad8b-e668f144b679.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Stylized_RPG_game_icons_spell_magic_potion_armor_45d83b5b-a3d6-46b5-bb05-4bc8a7f12b68_1b892d03-a33b-8106-ad8b-e668f144b679.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.757Z",
+      "updatedAt": "2026-06-16T05:29:52.757Z"
+    },
+    "1b892d03-a33b-81fe-976c-c3978fa3a2fc": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/3e995170-0e52-48ae-9a37-43ebc40d92f7/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_9dfe6ece-0ace-46b1-aced-762c4b00a25b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466TCB5UOOE%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052948Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCv7MdyBa7J0RtjZ4ScQOoTKOWVJZGgs%2FLM4dijgWdkDwIgat09l4kOlQggxo%2FBYyCbZWTlk2xfDwZAAwR8Qqs2e5Qq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDHycCh41cDlVMtbmdSrcA2oJWyWLikXFpNKCMTLFqMG9jMBu0KA6iigIc%2FXefRo3q0sbqV8DwMaYuUtrg1R0usVqAZ%2F4vzp0HzelPBn5bfKdcrlQOUffdT5GBTiJrinMZ29Mi8VIwODnrqeVArZhucXY%2FOLNXr4oitAg%2FuAwOuGLIwXjwTaHAMP%2BLWBzlgiiofhqgORKy9PD2T0qnKksnzx0JyuF4D1LfV2fgxDpeXXHxBAJhD%2BJnhukphw4QA8G9xKSG%2Brod1V05qucWRWIMdPnUMQEtK9ATly3aBLo%2BDH1AiowMlkezsKc6p1utCks5spGwDLKrWBYcXgd3ZdtilD0yixRdDxRTpRVvVujDCESx3qQt7WVRZbx%2FVf5SRRL79RU4r9fwdMbHgrdrlwEkW6nl7NEIlcrWdrfjhInPIC4EXGgYOce%2B%2Foc9F9LDguKSveRqPobkQ3szCqunfbKFv%2FZ3Wjh9q%2BsHea2TUnL%2Bzt83GeDxKf78pW6Ehx2uQ0t9yQ%2BKy%2FLQSpn%2FneA8oLIygsSBd%2B2pRvwnpskqPXtvJTRhIGouCsonsOblfzXsl5yVH88M%2F%2BgTcBoqmls1Dj7zCv9ftj9synaLsgeugNdQNbQWS%2BiaC9GHifPfkRs4T0A0U03QWNB5Z2KDqdHMLOyw9EGOqUB7QHZLTGYIJZNQeXEohq9xWP4hJjb5MZmvwf4HcZM3nirTe8gxIFVQFaX6X9R%2BP7hAuuDIAoZ0Uoo9t%2BinmEWc0FZSbuddD%2BgP7ER8tvuqZu6AfqPVnSVBuA8iQiJW%2FMxwBwbPHYWKrtlH7wTmbZQGtlSh8CpL10Ddz%2BgIDvOpfrNCJvdcXkFas1s4qxaiMfexbvI71K%2BZXU%2F%2BUf%2FAQr8kdGo9QrJ&X-Amz-Signature=67285f14b44750c4dcbce43730b1a69507a7228de2967d578a70dce6be322c85&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_9dfe6ece-0ace-46b1-aced-762c4b00a25b_1b892d03-a33b-81fe-976c-c3978fa3a2fc.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Logo_of_a_fantasy_backpack_for_and_adventuring_guild_clean_9dfe6ece-0ace-46b1-aced-762c4b00a25b_1b892d03-a33b-81fe-976c-c3978fa3a2fc.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.765Z",
+      "updatedAt": "2026-06-16T05:29:52.765Z"
+    },
+    "1b892d03-a33b-815f-bcef-f352e739a24e": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/823b5c8c-28b1-4776-98b9-226ecac45dd0/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_f77ac027-a3c5-4b39-aaf1-7b687c405142.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB46622KDMM4A%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052947Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQD98u7ArDrPWAei9ZBZglGwSD%2F67Y%2FWghCcPbEtMUPkdgIhALxLqejZ810xK%2F62VFMjeKEOummy6bd8AQSVrnha4A0uKv8DCG4QABoMNjM3NDIzMTgzODA1IgyPmaQUFj2i3O4E%2FW4q3AOzcYYJfoI4mGoPIKO89MKPdKIIIc9Hfx6lrSsvylZGENY0LKUex1i81p%2B3wnHbuDGFYefdawFMsSIqqDebkzpy5ZwusTIC82jpRTHUpNbytp%2B5h%2BI%2BTkS9oSFd6hFX5oBXSDyS1qv%2BOhAFDf9qsIArYjv3IU8JuMLEfJieo15CoeyzzEXnqOAlYL3hnyF1bI2fhDlhm4sxoHLzdisUpQ3ophcMaB4smf9mMpwdppZm0oZ61m2tvxzG%2BndSKGQRsSmroG00N3IFd5cJaCS37zWmaty6qKEeD%2FR2TKcDIWUOf2t6p06UxQ6OVr2Mudsk3hxW8%2Fp3gxU3Pf4RZ58jnM7uyVIbyegCZmdgf6q5oMw0CO4hu9HOGrcR7mfg4sp2lkD0PNOU%2FXMN%2Fl9QQzGCeKJ2NYbOtB1Efrxv5vg%2FYqL4nvnjJ%2FwlXVaKwLfxZZ%2BN9SjctXtU7xJtZyHh0MdgdYM%2BOK9QaC2yi7rF2VEHMszkBXIPCFzPKPbtYs4a50RVxNL7OL5kKypxCY%2BnqSMaajAKB35xp9MrxFTt8L5mwZuw%2BHTDdB%2BrKISSas4%2BRwf1Pl2TCGgjpt23oncwbnPDtlnEYQBXJEaDh9iB84zsHbfgW0rouEV4oEHLfUFqrDCUs8PRBjqkAbRRwnTwA1OKdUdppNi7t8Y%2BkiJHsVGK0KBh1T9FgixaAmwoTtkqk%2F5q2JYcxpAtToJ70rT%2Ff2gUTIOnXU6IdflSgB1JBrJKJMEKDxBWuNjSc0Xw0CqhSNAH3jZ1W6WG0sCiPuz%2BudxBPp59VS4DtYi8DPp29AJrScDRfsHfbZFERx2e6CV51X3YT6bxD4j4HhipTH85RIVTM7yNAfwAlwE0XmgD&X-Amz-Signature=9f6477689cef0abc77323e77d20611c72773c7e42623e988c25a324344523406&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_f77ac027-a3c5-4b39-aaf1-7b687c405142_1b892d03-a33b-815f-bcef-f352e739a24e.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_f77ac027-a3c5-4b39-aaf1-7b687c405142_1b892d03-a33b-815f-bcef-f352e739a24e.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.784Z",
+      "updatedAt": "2026-06-16T05:29:52.784Z"
+    },
+    "1b892d03-a33b-81e9-bb97-e8895f17cfa0": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/7aa55f2c-639f-4a85-8223-ed9cab7cdab1/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_d5e957d2-2cd6-435f-b1bc-c376e113c884.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YUUHCTSZ%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052946Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIEInF4OsGh5s4QKvDP%2Fthxk876OJ97JwF1jz6W7pKKb%2BAiAYXSjAyXrQMXLcDmG6r0CGTfSvt42szjlW%2B2DAOKW93Cr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMSizdRdJ0jfEK%2FwGrKtwDz8mj4YSqeiRXz7L%2FExhZ%2BloyeOkURzjIq%2BYWH2zP61MvuyFq4TjErsqdSUGqIBE9RvGtU5a616Zi0WQ3iFjnD3Vt4GAFztYN5pwxFQhVgysUnbaz38e4EHR3Z3uB9VxJF5VK4fjGrDLYf9hFfqJ7IejyqcQcrvkNKroVN99LjnWqOluwpzWnnyqzhVznT3nkk2UXrK2JxPGRmP%2B0SWVMtpmjD7L2V%2FZOkvhOSX%2BrvS4MtAA1zh8rxi7Tz%2BbJCKMolgidn5j86uuBsjR34EeKFQWgYqjYdlCBUe1SGD2TAY%2Bp0RW77V4Vjy9wBLzXjB6WmCltPGanxbeatBHCRJCm3Gxm2mU7Ep%2BSFAtqhvjQINmjfo74CzH4R7k0Q4tOJHeedOFAPtFECkiLHIDhr9opfmkLgS6pWk1uiumWlyzxdfg8NKwR%2BVaZpA8NOZMDjyTyWYoUUbDyDs5lFK%2BR4ip%2B%2B1uY2jqvzJiILLSciTiXq9v8BvXRXX81NqWzGpgKjcJ2ASObvai1zRoUVBTkYF%2FntZgDQ%2FVHKbK7Oheko%2BaBSEi0COFFGVTIxhDE1YHC5P7391cSqfQY3dBIbaaCecmepUhNWSYhgv%2FC%2B7TJ0BSRsuWWS6ua0US97vPA%2FvEwtrPD0QY6pgE6Yfy5M57I7y59vm6YeOn8tJ5LouFn%2BPU%2B6L1vP24SeybpDAicDdeAJ9w0aSxPHdOWPg%2FOHaYbtowVhhFzssT4%2BXHnYzDrSYcyGhArxLpE26yx4UFYqqs8irRmBLEvnHMX59JjKgacNwoinqxsrnLkBV8E1KINRFq5WNSSYKqAjXkILjrYT3%2BBSgVDgMYpTdjMUzxIIKBE9y%2FJquEPjKAfeIdbBnY7&X-Amz-Signature=d9b0d8c198dec7dfb8219ef8875942502c4edc2c679c874efcbcd38e6e79feff&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_d5e957d2-2cd6-435f-b1bc-c376e113c884_1b892d03-a33b-81e9-bb97-e8895f17cfa0.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Magic_ring_game_symbol_glow_magic_realistic_in_motion_brig_d5e957d2-2cd6-435f-b1bc-c376e113c884_1b892d03-a33b-81e9-bb97-e8895f17cfa0.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.800Z",
+      "updatedAt": "2026-06-16T05:29:52.800Z"
+    },
+    "1b892d03-a33b-815e-bde3-f215d734df6f": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/7ff714e7-fb05-46b4-9ea7-8e91ce558a65/lark_sfumato_game_icon_white_background_Q_version_style_pearl_t_6d9738ce-b66b-4763-8043-1b69744f2ab0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YG5B2VFE%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052942Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIF6movxZgZBJ28mh0L9IBUOCU5DfaX%2FD5XxfD7XGz86yAiEAnC%2B1XlUDNa9c4oFn2PAYAavJC5WwU6RoNkEq2mpy1L4q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDDwisREGX%2Fm2uz%2Br7SrcAz2Qs2CbYsiuELlHxIPD%2BaK7f2%2Biz%2BSdUx57PM7PEVT8HDFNUjq5kYbSTv4%2BrJeagln%2F2VGArHbRZ%2F1LSj4nIfLFlVq3qw5WrKfd09POiD2OcbDMRgFJ8HgvZCPJcYQ9YQ6L25%2BLIAzfpf9srKzt4EXtnQXPTAeSWHdYBNuPPfVQOHsXUIYsT8Ibdxb4glbEgCPdI%2FHxhTryeDozF9709PNoMRMhqqhfzAVWpuOK4XPgwZQJvlSDC7oVSDlnt%2FNloje9duWjeTHKx0SBi%2FNP%2Fde9f7Nz83TzqwPF0fH8O4ZWagV9WvPRY1ITco4iA3kJKUaVReibo0F%2FbBQUSjOqrGf9jHsxtuVYIRPQDYM%2FAG0RejTCk7ZLGHcYDTr8%2FVTUBG5eDa8I0nb2vqTqiv2wO%2FfdguUCRhdrRE2ZUAedVIr%2B0LtkEXLb%2BxIKGkrAIV1%2FVziaSonl5U%2BHMxFkX%2BoyqCEk5OpfsKl35RsH3UFzeUemZyGfspTKPcwB1Bnn3jWgPHnqFrZgME%2ByVwFR0v7OvpPnRHLrMzj6jw2Ev9awzI8t0vghRsiS6ntiY2o6MvuPSaAMGOjJwUam2sRVD3SGj7a2VrFAooYQuifl1ZCbsaXAm08z8SKzUUtwa6SgMMC0w9EGOqUBAFPosvskuwxXwM9vVLzJ03Jor65z%2BP7oQsA3cjPpIUfHdK1sH4kDLYJ3vCMgJGVPTYa%2BCK%2BucQ1svbe5csFg%2F1k0GmwH0K%2Fz1T4ybK%2Fv1kYySZZErw%2BGaXOFXyMsCLYA4FW9vw1bLwV0Ct5drDqfLc49lpmotLLTNTsItBkeg39tctOjPyXfypKnwpQkVKsQsp9pqKOdvD8%2B8TeeSQBiGEi2KDTk&X-Amz-Signature=c070b9845a4863b17afadf03568a77f0f5825b000cd5e20af4dc9daceda70eaa&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_sfumato_game_icon_white_background_Q_version_style_pearl_t_6d9738ce-b66b-4763-8043-1b69744f2ab0_1b892d03-a33b-815e-bde3-f215d734df6f.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_sfumato_game_icon_white_background_Q_version_style_pearl_t_6d9738ce-b66b-4763-8043-1b69744f2ab0_1b892d03-a33b-815e-bde3-f215d734df6f.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.811Z",
+      "updatedAt": "2026-06-16T05:29:52.811Z"
+    },
+    "1b892d03-a33b-8106-8d3b-ff9e157d9e8b": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/d4f7f6eb-ff88-424a-819c-f2e59167c892/lark_A_pile_of_gold_coins_in_a_wooden_barrel_like_a_wine_barrel_5f2df435-f286-4802-979f-872024de5ffd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466ZGSSNFRT%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052939Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCICobftH1VUUhYEdA%2BaZxPG4koWBoYHDGuBsyDZwUMWDOAiBMVguszz%2BbCmYa%2ByU0klFFlPiQW%2BZKbISTjrvCrPAlDCr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMhkrvljcgt0gty4hQKtwD6x8%2Bn1a%2FfUUPDpCh%2FkqK12J9mYeSPUhEkDl6c9CQV9feV6dN00a7LOXxQIOfpklDHQNkwCmHGp5ve%2Fb00mWVVBCYiI4VyKevY2FZ%2FJYmWMlR9KHDJKLb97Rri84Mil0CJpzSEMSQer3o4ALSYqQRXqjDS1rlI2OUNvhfrxBv2Svcl4YAwG2xNYWSILEl5l5VSbgaPTVXyByKmoS1MCCCCAI4nJVNL2qGxCyHDU3A1%2BksK8AQ%2BBqRpq9FmidfkdZBR6hXQ%2FD73URoq8TQcy9NpyI8Xkh4QyaBsUX%2B63c%2BTGO1pDy7L60hi%2BQ10GWedYq7zY9K%2FngIc0XZIPkNS%2FMpvuQKgVvLhegsOY3mPXFgBnkgmGiki4tNaQ7CHInnaY0%2BwLxav%2BeVlM49%2B6FPiIt%2Bpd5eOtaDoF%2Fzmp11CXtxKo23PeaYhWLA5BTFjJh7m7nWkIM4qh0i8Mj%2BdNnW3%2F4OXr%2BQzL0BLQxg7ssVGg4rktwdHkSHlj8g37YmYtRQjz6PLhPZEa8H1zdCZCESBujXRcEcIZVVHUufoHsxLMFD9e%2FYbdvflObalbnVjLIm%2FRHkvusiEcG2imv7r%2F1%2B%2FxYuutl%2FQ8aAUyeivBtbXXHdQ0T3TEdDF4kEbhhIqdAw07TD0QY6pgFcyF6EWFiqt0XXuDFBS2Pn4lvUIFwM%2F%2BX9vpgnLporD4qqluxcXE3e2pt29%2Fu951YHvHV4GWw4eFIP1HKaApsxMNiLmtS%2FUAb3EXh1udZKVH%2FjHTY0J1T%2FAAsuyzIP4Z9w%2BjMDkbjyEfmIveZthqtnqVjbj%2BeJTB2mbJdkkKZS363IOdgx9wLZu1lE8QilanYSrQUplruJLI9FEPnqdNP475pL2IgQ&X-Amz-Signature=55c7554644714ab659d253a96a609b67c223f4dd7e5e0766f211b9b81478f3b6&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_pile_of_gold_coins_in_a_wooden_barrel_like_a_wine_barrel_5f2df435-f286-4802-979f-872024de5ffd_1b892d03-a33b-8106-8d3b-ff9e157d9e8b.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_pile_of_gold_coins_in_a_wooden_barrel_like_a_wine_barrel_5f2df435-f286-4802-979f-872024de5ffd_1b892d03-a33b-8106-8d3b-ff9e157d9e8b.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:52.816Z",
+      "updatedAt": "2026-06-16T05:29:52.816Z"
+    },
+    "1b892d03-a33b-81ba-907c-dafaf89e610d": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/aac181de-b91c-495d-a0b4-dac6bed3759c/lark_weapon_design_orange_pistol_cyberpunk_style_photorealistic_fb8930c8-b619-4803-9028-b5b59d7214b3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WHG4C6KJ%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052949Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQC1Y2u7yBpEFs6nK00p%2FQcopez%2BWmKuoeLf3H5AFUov4wIgH1A%2B8CW5FyrllHt3jaT6yh%2FQrOthb4zfYNfh%2B13KGLgq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDFNef%2BZYDhoGX37elCrcA%2F%2FU1YZJ8MRX%2FjHXMMRggKJARnWMBJlVcA83n5Fqk5i%2Bag5%2FVOZjWuuzWHH6eJCn4rYUnC8lQc7znpXiMQebRvJN57zOiVC0JgTp0b88MpO59uGPTsv%2FuokHZqI6%2BuIbHsJ%2B3zxQo4bruODoFwBBJ57iwEejJGfqoV9%2FM1h365p6Nr08h0yGaoZmc2ajaPOj9fUWIGyX3vMacHgLhiBLFtngBMqqH4%2Fn1sOiIme0PQhz2YjgYkFsZpaNNmL5%2FZWOfK7sd3PDi9%2FXWEvsIpor7LUcwUi0bcofzIbmTKKL0Tl00sOIjJy1B88s1svLS323V%2FJOnE0N%2FC6FdIeWgnYt51oTmtaw7hRQCTJ4il9h2bsfBl%2Fg%2F5Ozag1One5ml9hNJmqMZ8mNPvzMVeHKPqkk7iNB4Pgpe74aMXk5fnV3aD90Xti4v6vuph96rOMC7pEcrgJXMob9c6acH%2BnWtvay7yymUCO8oOL0A1ctpO%2BvubV%2BU2O2OJY%2Fjgo9uypiSrRqULs5knqj%2BCQliGjiTuPShmfgRAfUwjeIf4cuDonq71ber%2F098k0zgd2EKqnWYKflK9F5T0zXb66NIQzWJKk7RkzqOYL57Rd1wv41iiNqSOOF1CrubsrvijrEHbaCMNCyw9EGOqUBc4LqBfyPJOYLf8WOPiOhl%2F2IRsx7V3G6ZQLjyMlOJtJqZEedr8kEscFyapsb%2B0Vwox9%2B6w7GYt2M6L63hDslj0iV20vpD3fqIXHT6McvIibfZqaXmrZZ5LMcaOgXDO3hUFkv02bgMw3DIPzUz0jSxUJYFuyMb7s1lpujJzx%2FGJQ8ocnU%2F8W%2Bruq7jbgz0bSOmolKxUCLOheW2InZMw9lBZ6AUequ&X-Amz-Signature=553f91c197c392b563129f48317256bcf8eb6f3ac115115c0e67558a41ccb327&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_weapon_design_orange_pistol_cyberpunk_style_photorealistic_fb8930c8-b619-4803-9028-b5b59d7214b3_1b892d03-a33b-81ba-907c-dafaf89e610d.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_weapon_design_orange_pistol_cyberpunk_style_photorealistic_fb8930c8-b619-4803-9028-b5b59d7214b3_1b892d03-a33b-81ba-907c-dafaf89e610d.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.009Z",
+      "updatedAt": "2026-06-16T05:29:53.009Z"
+    },
+    "1b892d03-a33b-8149-b72c-d7c371a23965": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/4bab8550-6d68-4ef2-b08d-cce57e4d002f/lark_q_version_style_game_gold_coin_anchor_in_gold_coin_simplif_b5272603-4f84-43c1-ba7e-843f13801157_%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YSSID7SV%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052941Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIBDFO1vt2TG81aicaSlMvXbaaYd7psGcLK41xquvprexAiEAkWQo4494HDALhtsMq1LDe2%2F7KyWZm%2Fv0ZT%2FXigPlbUIq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDORSIjNM15%2BUrfzrAircA55PXTj3VRJfsIy%2F5JwbH%2F%2Fkrk%2BffiiII8ZI86HBl%2BLtP%2BMUlMH40FbX5pI5bkIjkdW0SsOvLdkE01tFFCoFDupxMcUNApQv3joZYCpLQpjwAAaEfoSxbQFzfmWlxGv499wujOkNY2sez%2B7YFtAKnUyXjExwmp2ffENDBqr%2FgqvXJPcK%2FLUqYWhMqarP3eHS8WOfljDS56bDZfgVfzfZiXfD6clhR0dlbxJiJVB5TFh7yY6VAqGRi4uEHrzxzMYWnwFOHuaRtIXmMFRIwsg%2BsCAFb8HyewfxbJGGft%2Bltk2rpFh6W5Cqe0C%2BUOhFsTl2d8fxZv3BeZqsB1JGNGEQ9b2NPFYdszjokfYv0kp7mOjVZ7AopEriuTR%2BduecO%2BU2n%2FqaREnmevMkqOX43YAs78HMiAXn6%2Bh1%2F%2Fk%2FnAF9PDtfpoHl8qdlelwnE8Ilsmw%2FtvfBPe3PSSoOglLNIK%2B7LHhfoCof2JQ8NVITpHkCDxc90MuFeTr4fSo6oPEYjmdAuPmOBgx2fsaDXysGKbtvSLg%2F6XpjbCvXO2we2ppSGNKCGKFafiQyaqA0%2FCMVlKDXUJKFajCOAylosqiphr%2BE4c%2FecKywqFV8YWliOqsATuW07XwrQXn332gP0GhoMO%2Byw9EGOqUBRjY2ylfEbyHezoyzCGPwpvU8SPpZUsqBFDYutWbhZilyo8rjebB0u0F0MdYKkgtj8naVzDXhgHMCQTN4NC1ZkoPydrVetSL9RTK0qavAmNnG3uvmf7FYNn2%2FishJOqDc%2FvKLxtti02lPBebXgiiWZ4pFWq40ZXiMUu9f%2FLl0q5y2pna1r5BYXqNwrm7Zs%2Fv6dwBsVIljvKQXfvgucz%2BmK%2BIrKL2o&X-Amz-Signature=37bbaffc280f4e6008d6d840f32af7d6d91b4a4b0a6457ec95fa33bfa24d3c5d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_q_version_style_game_gold_coin_anchor_in_gold_coin_simplif_b5272603-4f84-43c1-ba7e-843f13801157_(1)_1b892d03-a33b-8149-b72c-d7c371a23965.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_q_version_style_game_gold_coin_anchor_in_gold_coin_simplif_b5272603-4f84-43c1-ba7e-843f13801157_(1)_1b892d03-a33b-8149-b72c-d7c371a23965.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.048Z",
+      "updatedAt": "2026-06-16T05:29:53.048Z"
+    },
+    "1b892d03-a33b-816c-9a3c-f511f3543057": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/f8912473-d9a1-4fa7-a910-73a6bccec2b9/lark_Gem_linen_linen_money_bag_Q_version_style_texture_white_ba_ed1dfcf2-27c3-4bd1-bb07-20dac8f1619d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4662EO6DFRB%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052939Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDoT81MiNPFPwi4ZqH0DoS8TlSHNO%2BuQ9CaMwgfruBJnQIhANahhDWLNzFohbhYi5gnT3h3XIabCN%2B2snmKRBDWvUKxKv8DCG4QABoMNjM3NDIzMTgzODA1Igxm1z1Fv0DtPenNW1Qq3AOunk%2B%2Bw30l%2BrytF9RHapSVJ0NOl2ScEdhgd5qdm8zboWvh26IJ9mWWa2NTTLMEd03qc4uy8zj2TiAEpmQosX46vHV0p2hCN2RubszErwV8Vk%2FCrt%2BS1KimY5owsz4EgQCyRcnTzoSNJMY6hjW9oj17allKmhMK9mU7EpVbd5e1sY7fA4j2hbKd6Ue1gOupDqQUHlG5jx5zXVKvdxI2ydCrnYDOt7PGUn%2FmnxKvTHS9dVjOF%2BZCXtFGeCakQaeBmQa8MPbipeLiXMyQMKLA5dvY%2BmFHxkf47%2F%2FR7RKdveLK7HAGlgumqJkS0sRM024pinCbtFBOTPRXNCJyK72f%2BAp29%2BHpTXByPD%2FjyDjUq5MNbSB8N7e7COh0FYYzHyf0xGdLR9urpUZiuKf0k62ZEJj8DVUM3499IrJ6VsftAblYnOy6s%2FPyU0Ej%2FSqlnGsXV5CNnq6i6CTXb%2F%2BQsVx49%2Bhq75Mov8mnzcF5hgdI%2FsMlPgNbFLXXgaZukE7FrozbBNn%2FWeR3XQHx2LnUwBYa2heHXFWx6wXvau%2FH8lyiBe2y4c8N1On%2BwveSBAAqQsoLez%2BhbruQqzRW1rZqlA5pOlP8pvNhld6sx8jW8eBhVhcrWDEF%2B0%2B%2B0oXhYvaW2zCnssPRBjqkASXY0SodOGM1MkV%2FBgdotsnxceCjAm%2BRrSWU3waEOVQgekdKNGnvHQJoECp2FUnSbNCy2o3lKwQEJ6VkusDEUMxUWsw%2FOhnKpCkSlVnVH4dLezja5jV5Sfu7XMKXKK7yk%2B4fvfc9ZE2G67ThkRk3aNcLMgjSwL90JXg4%2BraLIVjtDhdj%2BmqaOjKAQodM7XvaqzDLIfWsOe%2B6pS2DP0ChX4PQDfVI&X-Amz-Signature=86117e907fe8c634b15b6250a2d465c5c6dbb8db506448aa8d31652a724c6a3c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Gem_linen_linen_money_bag_Q_version_style_texture_white_ba_ed1dfcf2-27c3-4bd1-bb07-20dac8f1619d_1b892d03-a33b-816c-9a3c-f511f3543057.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Gem_linen_linen_money_bag_Q_version_style_texture_white_ba_ed1dfcf2-27c3-4bd1-bb07-20dac8f1619d_1b892d03-a33b-816c-9a3c-f511f3543057.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.069Z",
+      "updatedAt": "2026-06-16T05:29:53.069Z"
+    },
+    "1b892d03-a33b-8117-a13c-f853e413c156": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/e9d088e8-7afe-4f61-b617-83aa8c0872c1/lark_closed_treasure_chest_game_stylized_illustration_cute_bc5cc396-63af-4562-8b43-bfd3f818a2a3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466262ZAC5J%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052943Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCICyFwJUbyqCR7IlizRuhSKURhMaV8jpWeVos2w%2BqwQwHAiEAmwCFRnFJuwOJzIEF33sbk1bZS3upoyZyskPSdfvc1mMq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDH6Iau54J3RXBJwKmircA6Xz48vEK9WxR4Q3xZdhSjscWc7MjXUUjGSQxXuZxtTiZGwm2WYIc0UYiV3pQUoaXBH09hl6pAX66%2FKpX6EXW0bjRb1p9AEIrK3Db7DGqbR7ZSAY%2FmKNfqLAUoKzsauI%2FhJxEuAa%2BMaDyVrvj0QSW5IfklabY41Dh01t4W3WJZOKZBztU4E5fiPsFSK0j%2B9atmgZeZ3KRWpmz7L%2FLaiL3JPDqzC%2Bk9M6Q4YMpcgXrqyyvSu%2FjCqAKlIQIaX0eZnRxQBxNIGZMLDTZpfGsmaz3CdumbTHIwrzkyOW%2BF%2BE%2BR2fIiPnzZtr3siUzLm8Q%2FsqKP9lXfP1Z9b8gmCsqsuywE2vxkemTTDefbS%2FK88nDmmeUoVhLmYMQK%2F7J7uIosnxvxpp876LcN%2FeS5yh8pndbSFKj1xbi3jspJDU7y55PfptQZJ3i6EmEVL277xYiEgz5FWkcOk%2Fzmb065TRzqHfhHDtJGnctQjNGfrQQl%2FsTwvfWU07ODyh4YuIrGYhk9q8SKJelK2%2Bwh4n0%2FlogDjLLSzTDZdQ%2BW8LbxMShL5s0Jva0SRYeT0Xr9zTPI9dpaE%2BypI5zkTCY5pXsNrESBxw9Y21xZ%2BEYYdoIB1tA2WyGNHbcboMXMOVd7z9XNzrMKa0w9EGOqUBXydZ6mG38Ly0kjxWzNlO1Y5b7bHXMP6cBUwvt3y0yU4rBlCvIWVx9FB4R2MGNcR5P1CQ9U9P8kLM0SqzlXFanO%2BnMePVBh7LmCsoAfbgvI9d5QZ7%2B8k0u6aKa3291nXaWaifye89CGVc7ySnCnHm1yCahoY01QCE2jDNvQjg%2BxgjwX9mhV6EPQK7fJYFRSUQ%2BhtN7DeJSaRYsL0G4hGI59SvB0VG&X-Amz-Signature=1fb74c7cc8ccc74986951bc30a6eaccef48bcc776a4fcf9d504fabc84a16fb85&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_closed_treasure_chest_game_stylized_illustration_cute_bc5cc396-63af-4562-8b43-bfd3f818a2a3_1b892d03-a33b-8117-a13c-f853e413c156.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_closed_treasure_chest_game_stylized_illustration_cute_bc5cc396-63af-4562-8b43-bfd3f818a2a3_1b892d03-a33b-8117-a13c-f853e413c156.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.069Z",
+      "updatedAt": "2026-06-16T05:29:53.069Z"
+    },
+    "1b892d03-a33b-81ab-91b2-f28dd072c3cf": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/ed6724fe-4594-4422-b42a-8dc90f1a1f4c/lark_A_pile_of_blue_game_gems_in_a_money_bag_Q_version_style_te_d0c3a802-beef-4872-8303-f0603b20e43f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466UCEYS7M6%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052940Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD4w1T0PkQh0SBkRL89MR3YszkYwyacroNxPT1uw0BUqgIgKbNA8WtmqeiNh0nG241MBPTodDwUe7uGhCpbJpTXBZwq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDFsTKBWF1R1R7HnhWircA4w9NoPHEfW1Blh8HUwZpNqNhSFcoxMxkntXuPOJo0d2%2F45o4XzPQ2vxCWASLEVAafPNc0t6b8AbfLLLoBa1HIVqGlVUbzpPedHKJZj%2FGTlV49zxDdOObk3aNKDmPrVoYgmZZptWcpot4WLv%2Fk3fVmCJqrguRD3igDhI0MtSgfeMEN5dN4p92jIVfRnKqzI2M4iZbX9OqZjOKsSrELsXbEujV8EXpLgr02JVRdHEt2096cE7aTjnPJWKXN3FI4m5Xko891GUxBtiY4E6J7YDWii5L9ebTA2t8B%2Bu9olMLziVif23BRZS0kd%2BCzhZjOBWe9DbbPK%2BaFP05XbcxGamp%2FzUDn3Dz2pL68yBXlj9cCqATuptDFTt5M9kI141C2UpA6AOpGdqL4FA5%2FEO1FAZhEc8yLDm4iKqavMTwkW69zwtAR0gxzuz1fAp%2BxHyw5gLXnvyC4LFToNanZmhiUiLiYeEwj62R%2BYegz0ZQtVX6beueNp3DrToI7PCOmMtbkB9RDVYWekIngzcsW3AIe%2FzKGkfKvOpo3DBsuFUlwHlfw3k01vrsHctlWFz%2BoHQ59iF1dUxSJgrZuJ0TeIBPOux32vvzk6LYAyU74MzMCpOeHTbFI4QusNQBdoBvYPBMOCzw9EGOqUBDLUO2tZNgAFQTdQ2tfL77rntJO58ecEsbKmjAQ4bspYBpk3DxE3y49t80vQzUW2TMSV51Ux3FW0wOrqhln9yGIf5hyUGw%2BmiKHT77t1QL9bAD9e37YeLhP6eoC7nK7wV0htU6wDzWd9wo0FMU9BPegawcF2CeFu%2BvB5HXV6oG5My2tPke1sblnU4IzVvhLosqsRezd5BeCf6rXTLELIv%2F5%2Ff4qj8&X-Amz-Signature=d81455ce5e50430ccb838d26aa921f4f9baeb832ea3692c7d231928c0e319cbf&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_pile_of_blue_game_gems_in_a_money_bag_Q_version_style_te_d0c3a802-beef-4872-8303-f0603b20e43f_1b892d03-a33b-81ab-91b2-f28dd072c3cf.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_pile_of_blue_game_gems_in_a_money_bag_Q_version_style_te_d0c3a802-beef-4872-8303-f0603b20e43f_1b892d03-a33b-81ab-91b2-f28dd072c3cf.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.073Z",
+      "updatedAt": "2026-06-16T05:29:53.073Z"
+    },
+    "1b892d03-a33b-813c-9cc9-fc2cc00ff90c": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/3b89edf9-914b-40aa-a9d0-a0e25efcad7c/lark_warlord_badge_made_with_gold_leather_and_metal_military_st_fe9627a3-ef25-4a4b-8c0d-b950487b3fcc.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4664VG55I76%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052943Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIGOdJzjkVwEtOdhJfizwaeXA5Xh02ZdiY5ji70AkN%2Fd6AiAdrqdddQpeyLY7ON61JI88F6G%2Fdr2KD6EbAPlzOnGkSSr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMBzbvoYfmkuOIOBafKtwDfOiG4yXIchtjaPlFPQzH2mFH%2BSlTe1i0j8lZ7YlW31bhpwfQxcOQYNH9HZjVUXZbJPteBH%2Fvc2q4tjqm%2F4OLSw1bdykPRaImPJUGp%2BrHbyrf1tWbl2XY%2FK65mVTKcDYnIfuhcFQD4rf6DSS7qxMu40C09eYv%2BeEo8T%2FjZWVZhjnkngs1e%2B9di8B01Ffw7gSrWy8O6A7SG1JmVMdpJnHX82abGUkhTPQl0py7GEfwPU2wN2gWabU734ich9fNv0MwmDY5W6lD7hF10tE6sFR1QswOspS22gOjovTZdjFClhvFSDfHCBlYWCu1UfFSbjDk3Uf6l1e7b1%2F0ibuZs0%2Bu3MdJpBHDSOWMod1ePyQEeLIYZbd3yKzp5WauNH8JMECAR81kfkyIuq297CmSJuFSXkKsDMSHjPBo9ZLEDXYXFo%2Fk07wZezVjzHgOvzg7L%2BNAqxjxdh2izxL%2FKUByfdrMtBIHNH3PS%2FUzWQZMMFg4Y8UkY28b1PJ3TVwZtG%2BxQloYqNOjOpBBrafA9AOZc3whM6IrEkhhpVzt%2FJoUdda9Rlio5UCn7A0dHIQJ8c0Ke52E0yGiDwP8d4AqsqtZ2vqRyXMcjypyGrdw18orY4c1P3Gg2cx2qyUfwdIg11QwpLPD0QY6pgEaG9zR2jty7qGhsfG%2FPI2lplxYqs%2Fiza98jhwx1YSy7wom3cCn4nB9it8CyrrVbE8MzJj7aPAwBiAy1bPH20xC5R5METykcLVy5Z0RrLX0OCy472ro3VaQpXFU5npIwmWoS%2BXZ0%2BQSyhk3fYS1RV138SV718bEAE%2B7whR11h03Da%2FeduyoY6lyi0mxxlLN27zylcscUcCda1gmyhAjxhzOgiAqtCAC&X-Amz-Signature=407c59e6a2d0873c0e5278313e05da1bfc583a611e26198459a17b4371d32d66&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_warlord_badge_made_with_gold_leather_and_metal_military_st_fe9627a3-ef25-4a4b-8c0d-b950487b3fcc_1b892d03-a33b-813c-9cc9-fc2cc00ff90c.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_warlord_badge_made_with_gold_leather_and_metal_military_st_fe9627a3-ef25-4a4b-8c0d-b950487b3fcc_1b892d03-a33b-813c-9cc9-fc2cc00ff90c.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.073Z",
+      "updatedAt": "2026-06-16T05:29:53.073Z"
+    },
+    "1b892d03-a33b-817c-860b-f43b7dc0c69f": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/c68ea238-2989-477b-b23f-59b9b9a7c6f2/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_020f52b0-b8f1-4303-b975-ebc08c26403d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4665YNMSVLJ%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052951Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCJg%2F7%2Fgp%2F1BgmWpmPxojo1Laaqv%2FWWLXzDZSIEFB5RAAIgVFNs0XGtWZE0T8j57m6RXWLT2fOczyGqhDR%2B7plpGaAq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDH7chwjs2LhHTRgD%2BCrcA7y946xehtzj%2BLZ4buPTwsvXC8jc%2BGLduoQi4T75g1vn%2BnTXjxG%2FjE%2BBH8zCF2H6Zic%2BZyZj%2FqfnNuY%2FoMvUAOxZepDJub%2FwuJTn119%2FFbClo07wWxY5NiCEU%2FR5gIYgx1dU5JsbZbNXiDc0c7Zj3rsGD2x6Xmeu3vUtVm6Asz9LbbDo4%2Fw6gfbeI%2BjN%2FD4C7pW0ObetmKqSjSWx3uw6MmwMBqUxT%2FG9%2BPju7Fw4kBi8VHgaxAHbt6x6id4L7L%2BaZK%2BATbcWENgoNxgwqO9VVS1yTurTB9Tg8QqF9smg7KEbVU1rkT3JYFfpSn6JSyn7Nb%2BIFX246MIbsXM8Ryd09rpz7o98gJZth0Fj183VHn1wcJbtmoD4jo%2FxE4PP1yrXd67hCQmB%2FvMql6sxOtm6J%2FYdA%2BsTw%2Bogk%2BC3Y4wLmI9QrkIRPV1GC9Rtxx8czo%2FSW%2By%2B5qlyE65jU8hnd7gAYIOYetVjYEAViDJ6LiYdFpPf5LOi8%2FvJAnE74JLatf%2B4azOsrZOmd30hmkFItICg%2FS1ILrBbvy6S9lMMlbL%2BZD%2Bl6N9qOr3VomUpaFHE2KUan3b2oaFNbc7B9g0T%2BnJaV185SyF5loQtEWPRl2tdGYNOkwCgeg%2BaG9ug2a%2BSMNCyw9EGOqUBs3RKRgIMhGx9op6dRXJO6e9aQZ4xbn8B4isO0vCO7LUz70qCwbH3KsLOU5whDWuo2VYwOB8gDULJwMzBB6d%2BONZx5dzUzxXtRFSmZjqHjlQ2QhjiMaJSToxYTOAda3MuQeEi6Zl7CPpUSEHcbkQ87%2FXnmYylO6n3qJLhoTN3Im%2B2Nog2r4WQxUhjZboOAScic2ANQN6NdKC2aVig1U51neY2QuO4&X-Amz-Signature=c656e798ce9d6d8f43c48cb312c248caf1e28498e8a540d3979c4062405dcd93&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_020f52b0-b8f1-4303-b975-ebc08c26403d_1b892d03-a33b-817c-860b-f43b7dc0c69f.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_020f52b0-b8f1-4303-b975-ebc08c26403d_1b892d03-a33b-817c-860b-f43b7dc0c69f.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.073Z",
+      "updatedAt": "2026-06-16T05:29:53.073Z"
+    },
+    "1b892d03-a33b-81f1-a097-d07208ba9f85": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/09030079-dce6-496b-b283-43cd0384f12e/lark_A_pile_of_green_game_gems_in_a_dark_yellow_money_bag_the_p_e24c3e82-52b3-46d2-9f3a-9c3be1f8ad8a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4667FSXL6Y6%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052937Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDdfze1zMIqH6rmibQuMnrkNLLKkzQZeqH9E57XokrddAIgMMgQOCIUYIa7OZytz5sgHZhU5j%2FAS6BHFKNPIfLHuC8q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDAdi7io2IHBQl9REzSrcAwkudoqDtpMvhgWu%2BfOYzGN5MljiBfsIKS7psyE8%2FvpskP%2FWF11sEBJ51roEzusJJDXAvxBnU9hi49yqZnJaKP8Y7dtDdVWoZukFHEb2K8lqL9RQkE0bR4cSn2I2bc8tB%2BO%2BXbEiusDBtuR9EvjoT%2FIJI%2FOXWABqORLjkU6BJpWd8FYQEp53yzZ7Tyo6g0D2tXxTGOr8ZTs%2F9CKL%2F7DDkcH8wvaPIG5jAJUBg%2F2PT%2BU3ALG9OpO0LFmfhdkSBlLEBS48%2Ffhjof29lb724KfJonpq38eA%2FVy7J8J9zG2XAQZFzy37DpAgZjecUMSGdvm5%2BgxWdXnj1PmBAXylyszEF1UnEd7Jy0NtF6rnjhtveMUmreBbvz5YNLKQw6CXpgbcNgq2qi7Zk4RI2apx4tvSfOPTg58fqYE%2Fxn6mNLfkvD8PaQcs8ji0GDtA9f3%2BxOjL5VrVrUh9xyc6C5%2FNYih5M0YcX4OboROFKOuzn7NsI03W8xxoTHqfCLQixqpxN7W6PAqLbNCHJuKkxrcFYXswllPGLbetfJR9f0T4JnlZnuL8Rf0LechByQ64khJXOnKof3qJLlvOhxv20HjfOL1lxzM%2FQwef6Z0ZLMhey6SoHtb3s4C24Tjh5OSoqbxnMOSxw9EGOqUBcjht51n5du9qnz2VDC%2B%2FARVduNfM0Ph%2FVHgbggqGrGua56J1%2F6qizX2dcXB0T1Tdw2QAtHtSWYxIQWe%2Bm2TtsIMjoYkL1DWTnOouf5K9GDvkk3HeJDKGDwJkt%2FlVF759yyUbdDLmaJlY8t93h%2FvEL%2Bds1umCLQXXEqJxLEPgh9NtXcbGwPAPBlhva5VHicYR2c4t9gWSBgj9XQ44yn9PN1%2Fcf6Zg&X-Amz-Signature=a8c118bcd7b6026d294c54ae834edb40ad95f621dd089685a68489e1ac9a0419&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_pile_of_green_game_gems_in_a_dark_yellow_money_bag_the_p_e24c3e82-52b3-46d2-9f3a-9c3be1f8ad8a_1b892d03-a33b-81f1-a097-d07208ba9f85.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_pile_of_green_game_gems_in_a_dark_yellow_money_bag_the_p_e24c3e82-52b3-46d2-9f3a-9c3be1f8ad8a_1b892d03-a33b-81f1-a097-d07208ba9f85.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.086Z",
+      "updatedAt": "2026-06-16T05:29:53.086Z"
+    },
+    "1b892d03-a33b-818c-91ae-ef1a25338abe": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/28cee294-980b-4533-ad7f-f29443c35c08/lark_A_pile_of_gold_coins_in_a_treasure_chest_Q_version_style_t_f4e16d33-1b64-43a1-a092-36c7b19b6b4a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4667UM3AKBA%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052937Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDJwwpvSSshRpv6w3r84wt2xSdcVLxyeK52x%2FawtoUKmQIhANiSiJi5dAnLikhjcea6IQmzDokYoEijW4tu4TXeu3GNKv8DCG4QABoMNjM3NDIzMTgzODA1Igz4eKbADqm%2BiR3sAMUq3APAp5DG6mGi0JEtrgRIj0TIkGh%2B%2Fvhq5XZJP%2BH8baU8q2Ss0D%2BHWHIY4dUz683093rIZWIXAdI6OJIM5S6Gr3IPVNmrQboTqqLiSjKT1ka4375E2tz7zVEZT0gEx6h4f%2B6b%2FtlUHxNra2dUH1Q%2FD0F1JAYhnfDtSIcN4RaFqfkJTtkYwS%2FzKaQ8NVMuoJj1DB0CSc7bP4VjytVy4WA9yZlL%2BnZiBoREFezjza4UI5y2TxYfZ9KQzFNQEc3sWQminVBYJiPjDXheE6hIF6WkR7Vm4QGMdwkiYLDyAjDIJFUvJP26JElEOt5hHZUoWBDHlPdMuna1nf1uWZ6WqRBdZo3EeqGPh9KZ73oh6BYq7AzQw6B7S%2BqdpfmWcqBwjoJFSTzzuuRKHoAteAOlLeV3JZcn0AHCpm7ZQsOYwUmcZuiUsEx%2BoxMue452h0qaRZYDYUqACLiV7H1ROxJKRJa1bzPMWN7%2Fblf%2FUBC%2FQyFMYgUdFMuuz%2F3K0nLdwDRUCneqgvXx%2BjfNBu7bmu50eR3C2KRanTYMlawKC9H6D7EF0XVuORQJfnAT%2BNcrjK0SKC%2ByN1jQkpI7KVauT313fwsBI5jBfRLo%2BuxibHkm3eGT%2F9R0zO4oiwRdh872HuF3jzCNtMPRBjqkAV68S4QeV9yd5QLtZ%2B6U2QzwOF8R3P2hW0jiQIb%2Fk%2BP0zIFQvqsPDqbm2EIORsuygPJrVF%2FgQTtJSYtIvw1FjGDOGkiTIz%2BPgD8t2pqVlZn%2FbIGPPQyB1n8w2Yb2ZlOsGFVYYQBDTEktOkEftA9AJEED3rcD0DmwSPPCMv2LRPzBtij0hKV5u27h%2B9iomWRFPhy2p0suKzLtedzOQIlcAab7s%2BoA&X-Amz-Signature=701ce21c0cad6d18523651a3fe6c08395b5638d7cd295560f82c4e380c3eac12&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_pile_of_gold_coins_in_a_treasure_chest_Q_version_style_t_f4e16d33-1b64-43a1-a092-36c7b19b6b4a_1b892d03-a33b-818c-91ae-ef1a25338abe.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_pile_of_gold_coins_in_a_treasure_chest_Q_version_style_t_f4e16d33-1b64-43a1-a092-36c7b19b6b4a_1b892d03-a33b-818c-91ae-ef1a25338abe.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.087Z",
+      "updatedAt": "2026-06-16T05:29:53.087Z"
+    },
+    "1b892d03-a33b-81c3-9924-f7155d7a402a": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/c37b18cc-783c-4918-984f-bd33163b4207/lark_Treasure_box_Q_version_style_cartoon_gold_coins_treasure_m_1836cbcd-7d2a-422b-b77c-6182c51f5d71.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466R7GGS7NS%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052939Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDMBmKVgzDUAs34%2BGg76eYfy%2Fjaav13LX1YmwYvP8dHBwIhAKShP79de1EsmjOCfDpk23m2u43xb8yxDeyqB05SSbFnKv8DCG4QABoMNjM3NDIzMTgzODA1IgzmMwuBDLwu9vM71akq3AMJ0lPLcsakXKJmw1s%2Bxb48siZ%2BVZ2tgY%2B%2FNLaO2s5l%2Fag0QYWS6MfsrrTIv5Wmo6BvfjRPqX0XAM3HYa0eRP4P6Cra1wELMfR8EAvu8SVwBS6TuMkwdo4HBMQEyZyaoBBfOBWHhR7q1w360UZzVojVQRzkzvZC7W26OlcAXA4fiUFYqT2eyl3Je8WaUQDZaW%2FukGRYu7eTQdXP2RP6Jlgvx2G5dlTxBfsPZlxi6Lklg2PRGuQGvFCAn%2FijhSs15%2FVN95UYaRx4k9%2F02p%2Fm2OdStbdS3JRYvtGQiloRt2kyi3g57%2FuZ2QGXGsHZPTHWN5aFsvA8O3RwlidCE4YjK5JBFeNevR6MR7YDrMZ7p6cwzSrGI%2FfnUF0yY2EIutiESivr6KX0u5lhEs5zMVZQsG3BjnsjBZDTL14E6d377FY4%2B9LBH8csbExGU%2F9kRq%2F5uyJILvV7fUDegpE%2B8F0iQB9nuY8xxPuqHogccXFmpMDnOs9D5yNlqkKofCqQs5jlmFRF0mAiMq7Sg%2B65E47K7DVxnwyi6pZexs06tpnxQ9QK8%2Bbn9W5YcSDjWzoN9YP8cMcC%2FJDZDcLh3wpfRDb3GHFzmOSaMVG56PuqowRDMNHqVsEniam3xiPnLfcaQDDdtMPRBjqkAXp0yZWqejogv58T7nqUxQsNCcCmeO3rSH15bjXj5K%2FEYhGZeiWFfLPCVdFsHulSqY4SQRrg1FxB3yGviGHePcfDEIhuI%2BAXyzlwOLLYbNAE0qYlQh1II6YOa3oCujeo8jbiBXu0YkxuUw5ZFXxL%2FzGxJjQmPuueZadcZzvqO%2FrTz9B%2FiuRA6NoShPRcSz5fL69pglOHHWKSm%2BfMJRovTwojRgFQ&X-Amz-Signature=76c06402d873f4d58fc6f3199ab0f5162e94d623cc0899b91f2a4be4b97d3e0e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Treasure_box_Q_version_style_cartoon_gold_coins_treasure_m_1836cbcd-7d2a-422b-b77c-6182c51f5d71_1b892d03-a33b-81c3-9924-f7155d7a402a.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Treasure_box_Q_version_style_cartoon_gold_coins_treasure_m_1836cbcd-7d2a-422b-b77c-6182c51f5d71_1b892d03-a33b-81c3-9924-f7155d7a402a.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.091Z",
+      "updatedAt": "2026-06-16T05:29:53.091Z"
+    },
+    "1b892d03-a33b-81c9-82d0-dd6075241f34": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/e1343977-f413-4b00-9b21-674592c56805/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_04214b86-9d53-405c-a476-95ba7b435b55.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466UUK6UKP7%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052950Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIHJC77HS45L0t4wjIRz7k%2BITg6UADDTObXreD%2BvKHOFFAiBMmA%2FtIj0gWJZD311oZZrEoyml%2Fy4fwbX57AglA4oD6yr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMUPH%2BTUg5%2F%2BsOynbPKtwDht4eyNDjpdaNQ5nZeEXWG0b1HNIvNiw5Gm5B0EO5BIOmSC4ByelGUjrSU5OBzeZBe1BcOX1zt8%2FXLbVeGU7iASMTIg%2BO714gETzdb46fR3m8A%2B%2BaDkdgVCWFEy3K0DTTB2LYiYULjM1aq%2FfKXN5QV8xKa9KikYiQisXRH96yfmzzM5GHg1NA9EqBWYfBF0D5hFkygKWJI8tPa96nV7aLvqn8iSw18ncXMxn95HPH9e1dtibWgdYYkCCDbfn3eTTr%2B87sqXusEYCTLTO4%2FWlyy1MMgqqpafq2ADONRP08XvdY6WWobZTLpNWieqMcU8sYdYXaPD9jVyGIrX2Qfu%2Bnl1kJKmHEVZORBBEXK%2BFILSzstt0cSNCSd0umM9daHleVlKmJIOrSVpOLFpFixEBxCTIQBevWLiMoyOxhUxTQNulum6eDVFqUwjQqT8eWSbiUsXNHPTaiBuhO%2FWAYqC%2FDDfNYBg3BAjhGWE9Rqz4l2sBkGJvXtb7t4Z3DTOfeWlcS3V6eLaQDrSkTByaRoyiaNYKd2izqf1KQG2TwmRb6wyChY1GFMeq%2FbYEOdkuGk%2F%2FmloiS83Bm9CKMQmSeUMqTQJqrzvhT8B%2BIKtzAYqw8Qv%2BFa5lLsRISFaPBl3AwpbLD0QY6pgFY1SiG3wrAPB2yOVJSo9E9FwTtSsuVqwAhpmhfIR7iIrjlzQO9TfSmywkUQh9rCk7DhHaaFT%2Bjh2GNfsvxnHwbauAZ3aTJ%2FEXurJTDTdDv5D5rw5Ameh%2B4eAYvEGzZsDeNgt8rPJDRmB7Fw44yoC5MV9k2%2B8%2F9kNTwY1xJr7y2Nv6kY40IsZdUYJGyaqrHLyR9yPbopMaec%2BVeod7uR%2BNHQW4p5fsk&X-Amz-Signature=7702ba182f2fe4ec4443357f68b7fbd25e3fcd630e48af3d0e46284ce33bddab&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_04214b86-9d53-405c-a476-95ba7b435b55_1b892d03-a33b-81c9-82d0-dd6075241f34.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_04214b86-9d53-405c-a476-95ba7b435b55_1b892d03-a33b-81c9-82d0-dd6075241f34.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.091Z",
+      "updatedAt": "2026-06-16T05:29:53.091Z"
+    },
+    "1b892d03-a33b-8119-9bf5-e15b39343511": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/19b99d8f-850f-4ed4-b637-4b31525a8997/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_607a1d79-b869-421a-9c43-c67ffe847678.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YCTCKMDO%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052951Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDgY8i9rZOaA1%2BnnX9yowUwxgjCWDgiQJmsx34ybYHpGAIgEjx%2FQJ2KtQuvGmw46CE5JwhF9R0lP2Z0%2BPVhHfbz1%2Fsq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDAm4AEZDLAOf8mwKLircAzH6K9fPAc9lB1JMRvkt4z0co8wBE%2BdTOk3GXUXlMJDHj5lhuFA0y75CVFvSDOZEBvLbtoOALEdYDIBLtz4X7hd%2FfimoIARqTDCf4Mp7M3K21yanKdPQHgKEUFXEthd%2FnpKoGiLM8BF6Fukn2hjqC%2F0vjs0F9JqYg%2F44PJ8h0SHyPdW%2Fe862DqqwlOBxK2Fv84aO56j6Zhjbxem0phEo6N3kSpgKWv6X2qWVMndFl61VsRcf7oM7nYuEJjm2d4v%2FyOsmYSIhPpmS5O3R5FOUxwN6YL3qiU%2FcukW05LwgOYbeBwZh4TQbbQQP7UlJv6xVDJGf8xQuZLOwO6lzSMfEG%2ByfXAb76%2BamsQYFKofGeUMD3hIa7lVqFoOeq5ikruO56uIy9BL5i1uouaFbRX7Xihqj8LVbwOAfso0M4vFrBhQp5%2BFzc3ke%2B0NUaRqVoi8M9QHk6TBwYiJX%2FRQ2YT%2Bgjyl%2BqF1nglUbnZztHnwi4mmlc8nToqd35zpfyeDDFY8Zuyoir8%2BrdgDwOx%2F8bejnXvGz%2FIhFcpb3f2CQjMKPOnUuN5nwHQ7LCKyrrQwFxmOnWACn9km66y2nlG7Gdnab3gedGrjnMHPscmTedMQq%2BDDJp6GSFV4jDc75Os7aMKWzw9EGOqUBwJ46J9YxzqxEZ46VRS8Ls8y3mop5kPoxtwbaHB1mvLj2ya6vmLZar2RqHHuC5YyCaD77sVdTJGF7tbjQ%2FRViqXqfTpCoJEW1LHQtPoXDbmRst3rRsnrp7Vswcm%2FtIKgR%2BOKdBOZRuOfHB1fTjDOvX24M6loWjaAW%2FSCNlNd0ceap%2Fp%2BtAtzWCFw39bZ6QfcLUioaTwGwZdGSCmmktQSJkvdX97w8&X-Amz-Signature=76826ca57547a03dd46a9f16f7a110e6d877f9e41772b446e031ff12c9d5dd73&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_607a1d79-b869-421a-9c43-c67ffe847678_1b892d03-a33b-8119-9bf5-e15b39343511.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_607a1d79-b869-421a-9c43-c67ffe847678_1b892d03-a33b-8119-9bf5-e15b39343511.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.113Z",
+      "updatedAt": "2026-06-16T05:29:53.113Z"
+    },
+    "1b892d03-a33b-8117-9487-f96c7d05563e": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/2c47090c-dd7d-45d7-9c39-80b3e99c7d0f/grid_0_%282%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YICGQCAP%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052940Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCLlyzBbmdPdsPP%2B7BDozO0LDGhyYg2IXntT9g0DbzE7wIhANpmdsV3UiiKS68GvUYO1j1k8Jv0GqvLuF6EfUXAqX8wKv8DCG4QABoMNjM3NDIzMTgzODA1Igw7LRtiMTYsj3pHW3Aq3APgYKo6KCJOvX5pKwUmX8kY3bV6U%2BgEO9WpSjBmrTTibqJ9zFbGHSnHAiGSq86r%2FTExyXY91PKxr%2FvgHKW%2BhJuUBcaUA0z7GYlc%2FAQyvrd82uSBKRnKwuDkAW7WyM3ChnHJM6AMA%2F6z9NXk0vifXwKETf188ji3vRCtCLE0jY%2B1GXXCGsU8x6nDAyGssO3zGTAdUPlCnOCM4srrmY9ESd%2FfnChqGc%2BqxMl2XeRaupFQf3lEnv9XMv6OsDtLiOyJxMbo5zYucMIdTaOyh4D86DCB3AlifCdS4ajYs9MWh43ulSjjYrCjaTcGghcSYXlBaJEAavzt93cl%2BQTE59seRLRmkXpXe8Jy1eIzJ%2FpdWoSpd46b1v5h%2Bs18sEqy4RF%2FBGAFCEoG88Yw4YJuoHnETF7jNXFvXydtSR76erfKxqD3lq31QCo0EG42Mlj%2BkEjQffxg3E6MWSqnfzmAAVp0Q4JqKss%2FwFhrUFau4jAAlhJgLogT5st%2FFgqOna%2BlUDe%2BUwVCgK11gZ%2FtBihx6xwBvk4qApAJQkPV1c6JfwHHNd8PaQ26CWq8fbLxUEUdNhBi5CTiBnEMHH0M1Ee5K%2FprERsS35khDcOAX41uaFCD0RRcG9gJpfZu6P%2F2tCjCZzDdtMPRBjqkAUgf6ioT5I9TOxEAUVcU5YyyL0SKjOKXqM35Fbzhk4kN17B1dufICLYL0UqJeEDHq8aXRK7bSo8Jb9tB27zMCLhgF6h3ytmIMhjda%2B1S2j98Tou8%2FejpAciIkPnndd1RqtYflifbxlK5Bazmpgq3msyo57frgcisxQe2xPlREztwh5hdY%2B%2BDtahnPfuGbGGT6ZUl9fpZ1l4QRVB149zRq%2Fv5sfpj&X-Amz-Signature=5dd0876a099b1fc856313ca47c8278ba27e6b5acc8d987166cfa525f13638915&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/grid_0_(2)_1b892d03-a33b-8117-9487-f96c7d05563e.png",
+        "sourceType": "block",
+        "transformedPath": "assets/grid_0_(2)_1b892d03-a33b-8117-9487-f96c7d05563e.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.114Z",
+      "updatedAt": "2026-06-16T05:29:53.114Z"
+    },
+    "1b892d03-a33b-817d-9693-c44c1897c215": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/34fb4838-fd1b-441f-86c7-9469d4c2ad24/lark_Render_game_icon_white_background_q_version_style_pearl_tr_32964555-a300-48b9-9315-00816db867fd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466QPABT3KB%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052942Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIEvqWkC7TXaSupsEdRSxBiHeG1NZrLM1A4ntUjkgzC4AAiAW2MDNmDLSla7uZBL9OeKNsOnu%2FjzHU23dmzcRcPjIGyr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMUUNmJNwJfmockgytKtwD8QLPmt54jQyuFVJ1cb7Y91tzwg0cmvt%2Bx%2BKAnjx6DtpvcsqZF8YBzoCh4%2F%2B%2Bt%2B%2BUDaGFk1d%2BXyHM69dqcCk93Q%2BgY7X%2FExEm%2Fv3jEYQZCTSsXBhQNYlc2Tge3qs9pGIyixzSYCqs2dvXSOLnWUXBvGaBtQcbOqu0KbOhvzSSxvAR2yzUx%2FI3AmXpJZh%2BzP32ji%2FU6IxmAstvce4u7BTGS2nBcLKVsgE6MgWeN8zhp4kGObKWHX%2Bz%2FfqMwF5%2B9fxmEpwZYBPVuLPDQaZSL8JiZ%2BA98%2BapNbF7jn9v2askTuqILVjSMQBZ8poIvOLdOGmbVH4EFjK86IVBnrZSaSpUj22bypEovnufac4SavONi7t5LWErR6cpHEhNoFQRTB7UQJi%2FYOoN9WrztsO89y52gpWlGa96s%2B%2BOZBlf4X6YzENualXU%2FVY3UwNwdcR%2BmL5QpALFiFtow25tuhSV%2FpWSeO3sjgrGTq1SAw8HyLYWUvkGwM2Q5tNI9fuJ609K%2BZdS%2FDpqfMfQ4foUOg7cKGiPQ8DLU4f68n9q8nyvYfP0OiVIgOaPddHq3XdNCJ12Cq8TDHo26Y1kZkNPAc2eMUiB%2BEB4g9IjjOeRptEPYPMsQKBycddrQ2ewk%2BXIp9UwwLTD0QY6pgGwFfd0E1sj8mkmWx1ztUUIWz%2B3oiNEAUykzVWQu6Sz%2F93SFvhxJOjvSYFRH8hJPVwL4gtEYMN%2FUKOh8xSqnreqbSG8gJhPc018fqMljxCu9MVuF3AE%2FDb86qwZ0ADiC3zIDG04DWgL8fosDVsOW6T%2B5DH3vYar6bQAk2fUMF6iJgsU3wCHdng43%2FTOEjlFvB%2BNKZe5BEwQQMTLuDlMy23UbrEM%2BM%2Fl&X-Amz-Signature=c99d95fc1642cf546bc76db14c9b7dc23bd8ae52fc62ef49bf86259c551909ef&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Render_game_icon_white_background_q_version_style_pearl_tr_32964555-a300-48b9-9315-00816db867fd_1b892d03-a33b-817d-9693-c44c1897c215.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Render_game_icon_white_background_q_version_style_pearl_tr_32964555-a300-48b9-9315-00816db867fd_1b892d03-a33b-817d-9693-c44c1897c215.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.119Z",
+      "updatedAt": "2026-06-16T05:29:53.119Z"
+    },
+    "1b892d03-a33b-81b5-badd-fbc9447fb4d7": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/52766011-0b70-4327-85cd-a6a7b3d5459d/lark_Minimalist_fantasy_time_guild_logo_based_on_an_hourglass_a_691811d3-99be-476a-8faf-f784d72527dd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466VMVB2WU6%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052947Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIDVtd6JZ9L%2BdLGWAsbhVqjMET1Bt38rLk%2FncIge98BEcAiA3184qR%2BIqt93IvJGABGyrsRmm9OwlCU9DJnZlTX4PBCr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMDYNYBv9UAw4DTD86KtwDyA2n80kXGZYg4vgs3I%2FR9NcQh%2Fr96Fpxrwd1iYcbJg6opwhFS2uewlX5712J8NOd%2FuVIRp%2BOvvxwSP%2FJyP6MfeyrRwuZ%2BMn0akduSftacziud66cCme7a4g432HdTi03eqaZJs6T5df168%2F2QvPgi1%2F64AmDI%2BOYOkpc6k6gU%2Fp2YOn5RtbywyosVVVGWoN1j7bZfvD2yP3qs2NRTfuqBTnyQSrBxaOefVDsQo63hgmZmXDU6MCAVQ2zQYXKcCdE6oSsWUpZGQF%2BMiuqGIOIdp0owpFKzvvCqq4BpEr5F%2BuEmPn2PfJBtEWrpf55iqPj1R0UHM629AKbDTWlxFiEt1hINTaXb%2FJ2zp3v5RxWccL4gnksdD6E6SuEKAIiKe%2FYWGbd6XjQxtXfb6mEyUvTHMKGT3n5SRVQk40GQI5xVaV31V1U2%2FTpnNLWy6LTrhbA98B1j%2BGlEV3NOuMWKc0ecfheczxOPmkf8Cv6idZrYoDs0Ksv9A7wYY6xVrDBk6nGgVQBdB5atvhOQDSlkasuKya8amy3sxTdalrWEI%2F0bU%2FhgmMiTSG4AdVMmIqBIWR5HC1ck2nlHbeSWjV2rj48CTHtuyLe%2BumlQtYv1QgY7ofjzYhLFT8t9uC%2BnNkw%2FbHD0QY6pgGxVXJjzGK%2F%2FCJ3XnybRQS0nyKlYR8JRhSYjsznbF0xi5kFSC%2B%2FDi%2FmydiSGqVq16dCOuep%2FUbggxNJFSbgc%2BH50YNzDkP2Qf8WrKYBn0jIm6RMInSEC4%2BWEoK8yZnNcvqDeTEwBRXXAUe7%2FwVNddO5%2BUW8csiIq8Yv4kBmx99ORhO7MkGmPY3WlHM9sHFqUV%2F7%2FFtwLST2LNtcdYwKRT6CooZNAOOr&X-Amz-Signature=6c87b8adf70a6c51e19750532b662390a49df4d3a8cd94362c485ea9ff52afcf&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Minimalist_fantasy_time_guild_logo_based_on_an_hourglass_a_691811d3-99be-476a-8faf-f784d72527dd_1b892d03-a33b-81b5-badd-fbc9447fb4d7.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Minimalist_fantasy_time_guild_logo_based_on_an_hourglass_a_691811d3-99be-476a-8faf-f784d72527dd_1b892d03-a33b-81b5-badd-fbc9447fb4d7.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.126Z",
+      "updatedAt": "2026-06-16T05:29:53.126Z"
+    },
+    "1b892d03-a33b-81c3-bfa8-eb0e13077868": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/281cabc1-ee97-4da0-9d70-4210e8045050/lark_Treasure_box_Q_version_style_cartoon_gold_coin_treasure_ma_5fb05365-59f5-4117-a07b-84c019ca3ff4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466T7K2QIMC%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052942Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDZ8yXfvzOV6jAC4bNN15HL0sQMX87ZV44IdNuB%2Bg3X1wIgUU6dsCdAhxdfi8xOxDDruZYamQjGRg1g2%2BEPuDk0xU0q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDNv3xfif%2BGsLA1LdMSrcAw%2FbjV28YG0%2FsXM%2FNSLuIhMWyXUbrKsCdkUgEGE5%2Bgdk8wolYlxbn5TG1BWPbRtq3wWSWp%2FVBmgK7mUjkOkMhDrls1bnx0Z0dQG8xqk8t7SN%2BqdPzAX%2FsQStfdFJIgoAA7qB8hO1dZQOXneRvh5ENahxO5sKGO5Y%2B4WozbxJA80WySRLaUIjN%2FHvObCsAjp32gWeTUGIFHWNYShhlNDHU28KXj4Eoem4g2wzieaNsPIayX6At06YnaSbu0mlHgpsDFf72JDPu%2FEPPOFimU4L5JJMJvlhmuG8Ckp9Fmn2epeGLfUue8%2BtDKMRgi8RVtITaSA7Lmoyl9DIclwXLFk13pSLT1YsLNMpUabMBvEWog6MYvnAF3jrmhy9563gZ6nHAWTwcC98T92u%2B4AgFQlvUvNm48UKAXY8kgMyVdz2kwMXc3Zg9RDeK1ZWiW1CD7ahjqEMwuF%2BohMm3rxyEJDg7r%2F1m%2F%2BuoCthXxSfJNkoyL6smTjt9zNTbDqsh7BwTC9P%2F3yvU%2FKaMuhxXj9FV87RoOzjVaIbC9JqCmmRiO4TY27eEdNzOePmolp91sVNgKB3AbleHF3V3lNAZbUSS7Nbvghj3ANrVxkCbXE2ookxhKd4BKjLhNsk4FQGH3q5MLazw9EGOqUBFct1ncx8diycrEba1bkRDa9DiNFfk8YSevmyWwUypga34g%2FUC6X5j4yLn1nuYTtVp5vh%2BgyDD4vYC4CiUk1xJZsy%2FRkeLUGOz9NizsqaHaiic4bOubTgne6MKTuR93MG2UBY1vNtMLg%2FUxGcuyrSgdL2XekKjYmtl63iqtY4WDAPOP8kXfMgcDA97Y5lAiPIrkRzkk17UYJb3FBJlVB7lXn3XJuV&X-Amz-Signature=84a14614ed85dc400544dad40344124039d702d8d66d08966763ced6bfc2a1e7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Treasure_box_Q_version_style_cartoon_gold_coin_treasure_ma_5fb05365-59f5-4117-a07b-84c019ca3ff4_1b892d03-a33b-81c3-bfa8-eb0e13077868.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Treasure_box_Q_version_style_cartoon_gold_coin_treasure_ma_5fb05365-59f5-4117-a07b-84c019ca3ff4_1b892d03-a33b-81c3-bfa8-eb0e13077868.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.133Z",
+      "updatedAt": "2026-06-16T05:29:53.133Z"
+    },
+    "1b892d03-a33b-8118-bb59-e2b0fcef1696": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/18d990b0-c716-4ce4-8007-303732e34db2/lark_weapon_design_orange_pistol_anime_style_photorealistic_8k__d3618532-2b77-4d6e-a3f7-1cad01a34fb4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466VJKY6PZR%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052949Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCA10ZzRLkU1FHqn5q3CRk8G%2FTDYNXjZX5HswVmIFDxOgIgTsDkCRwVUm8RrGgGGMQwna3UldWaSaKpD11U9HNM3SEq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDEHPKr2V330LJXcqsyrcA%2BqoSt1Ucp6GdVKQ%2BvC5nQI5NTcOP9B7j%2BLfWN2fhxjtZ%2FMYtpFKbugHUilO7pKRmXr9E8%2Fy1PdKaOYOmmpKopHsMju%2FCpFJZCq4BXNMVAh%2Bagl%2BH49XdnKoXRj33oTPGkw%2BVyWWRoLZi5fnti6GSmo3czuDCawvNk2a6qVVbYqRwo7JA2sHLV0LCViLaQW0CtsP6TGM9Vp0aUxZ0qeIf2kmNpy%2FOwiFbUDz9YaXvwaTWFPQjQwR3auDpiyLDzqVlpNvyp4cvRuTt4WYQzsGX2UEg703wZ073YllK0iQrjP5yE8p7KqC0JAlc3dkrFT%2BwmU5cYRpQJl7iCAmU9Z5TqFviChLK2tLX%2BB5F5bzTa4RuNZvfYfgHNqzEXls54njo0sArxs5%2FlcGCQMxbPxa1Rhkq75IQ2Hrsivo8wEL2SzvdgZiO7jj26oPgYfVnYX3SMRtvjwu1zaBQpkLMLu6HSdjHKblNX76gvXOu4pLxdTm3CtO3x5%2B9Uob1NhVTqPQt99o43VSanM4j2aVhB2rF6EdYZkT3Zu1XbnZxTuhC8NqGRu99hpy4H8c1Pd%2BqeLkrV7sCtXP7qp7rt2Ke67S1%2F2PVWq2poN6oVWSgIEhoPpK8X%2B1gLE9dBA3v6elMNCzw9EGOqUBI%2B1eWvO6bDQO%2BirAvCWCZ7rp%2BZXwY9VLWHn5nTnNcRcrifn4O3ncUGl7o2xkMQGCZrG7gdwM7LufjajvHNshzoZoieO%2BHS8oOXy5yNqOgX%2FWBeNA8rxuGSKzfGrmWVIbSuug23VuONO1cSgNbqrkPX9tUnslRY0qDIuT6CWwIU6dZQokriq1e9XWrDJEbD4L%2F%2F8d3r4e90BxE3GfhYTFRNNo9iV6&X-Amz-Signature=ad221aeeeee0c75a80690d8824581a0abbb9b18ccef7507ff093984ecdadb6c0&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_weapon_design_orange_pistol_anime_style_photorealistic_8k_d3618532-2b77-4d6e-a3f7-1cad01a34fb4_1b892d03-a33b-8118-bb59-e2b0fcef1696.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_weapon_design_orange_pistol_anime_style_photorealistic_8k_d3618532-2b77-4d6e-a3f7-1cad01a34fb4_1b892d03-a33b-8118-bb59-e2b0fcef1696.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.144Z",
+      "updatedAt": "2026-06-16T05:29:53.144Z"
+    },
+    "1b892d03-a33b-8136-ab08-d28bbfc1e09c": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/1c1cafab-24c4-468e-99d7-4f554ff263d1/lark_Magic_rainbow_ring_game_symbol_glow_magic_realistic_in_mot_a738297d-049a-407d-bd85-ea5569ec050d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XAQLKXFH%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052946Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDbqw5hRayEphsoCSAPS3AjmXSURmDfPbZMSwyO7wATfwIgDT2oohm3vJzr%2FRvxVKKXI1UStF9DVXuFocds7Zo4imkq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDOhC9bwO%2FM9qujaqQCrcAyMKd38QXDfjNjYQ7WhaypqrAtoNSsESmNqwYd3PvlBIjAigQMi0JVMbU%2Bnf7UO55vXvxwJGzHbGU%2FNnjriDibVZTbgWnOo%2B3lcMAosB97ppWb3HPV%2BFa4AJaW%2B6641YplQtYr6b2FqKfIo4bG%2FpRQdZM%2Fqojv%2BM%2B05yaiLpr4dHyiar1G%2FEGT4XzonIaipicMZkvGVhRDH4yB%2BuzvnxzkgoSUgGK1h%2BNGBXtDQjq8jYR4N1%2BepyYJnlA8ebDyA2t7sOCmV0vi5wWcwtYBPqYWMNds1jQpULevx5pDOhYf4lIGPC5%2F1UY4yqolcYBGIMoBERfU%2FARegjmmQi4Tp9QRNp7fn3J7MSDbKRiBSbiYOsNKAJ3ZyPIyOXHqRkdY7Ybwrg5nI%2BKjS%2FnnoQDemsaQX5fbtVLsSogw3j1D4qPBZXo06WoUZP%2BYilKa22ygql6NohuGU2VCoVWuYsA5S1RWG0%2FRyNimjHE4Tbvlyc3%2B1eiLJMelqaxjb8vNYZArHSfuLMlIvcO%2FNtjk6Uv2xMA3LDzcLAf2GMLxlUsVMo%2BmyPqQjE4ecwHd8OfqoGUET3%2BG8UBMs%2FqpaLLPKKAZKQ3XTPzJMWwgyLu9KIslxemQn3Bzqjj5WzAD3gBquaMKm0w9EGOqUBeiObr7S1jpnvqaXM7S8LdtCKhCZsss3zW3uiMiGVw9GkiYQ1tpF18Y%2B%2Bun5ETnQedppFsVqSBDOGwSmkdLrpo74xuF%2BSqRhl5XHlhV8UEC9qqSP0V7pE3KYlgx4dUZ39%2FkPDqQx%2BL5bodpRIlXMfDs9yIGjdhBJ4e1n7dPfot601wg9Wfj9Lo3Hj169Tp40w%2BHxWcdG6WoWs9KL3vjBa97o1W3ZA&X-Amz-Signature=72a34ee6e1792975aca248b2014d2d82443f8239ba7564b01e47b81a2d4a9034&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Magic_rainbow_ring_game_symbol_glow_magic_realistic_in_mot_a738297d-049a-407d-bd85-ea5569ec050d_1b892d03-a33b-8136-ab08-d28bbfc1e09c.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Magic_rainbow_ring_game_symbol_glow_magic_realistic_in_mot_a738297d-049a-407d-bd85-ea5569ec050d_1b892d03-a33b-8136-ab08-d28bbfc1e09c.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.268Z",
+      "updatedAt": "2026-06-16T05:29:53.268Z"
+    },
+    "1b892d03-a33b-8150-a720-e41e0bc3609e": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/cf5e0f7b-3f9f-4e5e-a7ab-e0ef08dc3832/lark_Q_version_style_game_icon_white_background_treasure_chest__fae3c2df-f3fd-4bb0-859e-545e8ea6ef62.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XCXSWMVK%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052939Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIA4q2pSCSaYQwSGKn3fL4QB7geqghAz4IYih4bCh5MsHAiBUR%2BCqA0TqfDed81ke0BeW49wuZqMqgeOp0pmh3WzPnyr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMvQMFo7rYIkEvdamSKtwDsEvulOzcrRGZG%2Be6zFtHOd3er3Ghtxus7HndP27JzQROhXu6bqjjV7a2v5jWApm43fWYfTyaqzs5bMlcCUiPzSnaOwaPwJNNp8mFpGzb3040piQofa34B20M3OLQhUN9a2SPqAzi1O%2FwLtVECofvoylAJHOwxhpEDq3QuzIwh3k%2FKLir9act46sevvEwzFR%2F6JaolDnrDBR2CqYY3dN8NsD6a8aAvNCPqFAkZkO3cE1Ezbrx2Sx6Q23mgvWEdvEXvwCTDtY88iKy8qpKdFNumfKY81BqwtpI%2BEI9fNO2iNigx3TwyzwuyhTRshPLCbxqFbYL0VSwuR7zMzrztISFY5hipEmMwHHi0%2BH8BRBMCQQWcserg7SLn3WbSLRmQWlbEe0KCvuZneqBQKd9NAGu3vxzRhOIvkaztuQWwZCC56j%2FIq%2FmP9hMp8bfDUBrU7vojsQTZ6FaWl66y1L%2B5Bl2QSsfTdw23GlHhIqbUzJPh7wjSXx9YqaIAGos31qiEx8SqnAcqecpM3DEFR5uVwW6Lh9dRblQIVf0c0vLc4%2FRdMlySiJsIIf4%2BHeCjNdmt2%2FPEjex5484LrHhPXRSstmhIKmxe3uLeVCaoC3vz%2Bo71EwREjMkNViV0uFB22MwobPD0QY6pgGezliVHNTRUUUEplH%2FbF7v%2FxIFte3iV%2FmkJntUblBhdWpD5MeNUMjmYGuDw%2FWVWztR0e%2BoO3alupHSqGb7lPZHfLuAYQ%2FCMWFYLn82TZ7B7Y4jG683X21dc5CSLXS401M0O3PfBN5VeXH3%2Bpi2C%2FrU1N6WBb1yULNK%2FNvMqORsb0xmdFC%2FuXIShI3thl07F0vrwYVDhI8ssxmrEs09h75OwrIWwY4%2F&X-Amz-Signature=9434fde4ccee9b3a6c919aef3edf89cb5982ebdbd82656b7682b14757e836e73&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Q_version_style_game_icon_white_background_treasure_chest_fae3c2df-f3fd-4bb0-859e-545e8ea6ef62_1b892d03-a33b-8150-a720-e41e0bc3609e.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Q_version_style_game_icon_white_background_treasure_chest_fae3c2df-f3fd-4bb0-859e-545e8ea6ef62_1b892d03-a33b-8150-a720-e41e0bc3609e.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.277Z",
+      "updatedAt": "2026-06-16T05:29:53.277Z"
+    },
+    "1b892d03-a33b-8188-814a-f39d59bede14": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/01d03b56-3f45-4388-a4b8-8604915ec092/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_f34baf43-b7cf-4bad-a782-8a6549ed7135.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466W5I4VAJW%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052948Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCgheky8sWg6GlSx64V5zIGzTYCzUlEBGY9egEJednYKwIhAPTjaYhMAQTm7OasHoAmlqJWWvfml5ta9jYSovUChKCJKv8DCG4QABoMNjM3NDIzMTgzODA1IgxjlsZboH5xfQjlyR8q3AMuHCXYNN%2FUbQV7VlHpKfL8ESiLNGdHcDOojex%2Fk9EQNK7hch2jwINYnDZDPEiUeEfyaOLzVTv8jdgB6UgVkOVmuEsg8hJr%2FWdsvpC3qsJe9DbjW9tm%2FMVvPncC6Zr37fnknKrTVfTTFrg96GInR7pazel%2FcPzvITexVcHavvLquhPEK2Ks8wBFe5cO5QqOZeXEevSUQcKnln%2FnsZE9ShWJLbVTTNSkr0FokuJDTNA6tiraBvDBVDh851dEsfzl7gvlJYmz9TIMGIFHQaxlhUSyjEiGngWO37dnIr6NIdw7VqveQnCxcQKE5RQwPlTSnlEUEQxrl8MDjj3TaBzkN6KR6IwNVnZYj5gTgorZ3HNWimWSNDFMooHzfI5VxPsPdp%2BcucKe59qufRMZC2B%2FJBjGX3NcO0Fcz0K1HlywxlJ478Xr9WWyGGfPMOSs2AaJMh5E69c8ufrJaL3kt14gBnRx9BtMxd8butx4JoxJ68OCH7evv2PvYI458wraL2vWy3d8hTr3Y9Iwq4mnfCX5iMRUssPJFS8PNOdJQMOtZWJ61gm8Qq5o9TnaJKBWRNf%2FtE0WfQv5KfpNJ6yAFRbxPjOoVD81eeqrwVHAv03qv%2BIXiBm%2BWzm7r8eWRiXwNDD1s8PRBjqkASpHi%2Bokr1QIDA3C1A04o%2FBt3bsUm81mJ1cEuE6M6%2FaqNCMgUZBqfB54x1NpdHZ3wFlZ7SrPW6U9XDnDK5%2BmRRls2yz4anJqmUdKhy4khxcel4xQdKpKIBvWl9NHAKgPIUuPP%2FJoZ8M7OLBZcoBS%2B4B4iQLlX5XjUzgjbpKpXoW7LkqD38K4NQRSnHJRrLuu85xwXwxIDwGMMKL8VG9ZqqfQUdVD&X-Amz-Signature=e3ce93ddc1290b95af5e54b37831ed0a0f0cd243a194d63ce1cce4b84a0267ff&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_f34baf43-b7cf-4bad-a782-8a6549ed7135_1b892d03-a33b-8188-814a-f39d59bede14.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_f34baf43-b7cf-4bad-a782-8a6549ed7135_1b892d03-a33b-8188-814a-f39d59bede14.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.286Z",
+      "updatedAt": "2026-06-16T05:29:53.286Z"
+    },
+    "1b892d03-a33b-81c1-a670-e43e3ed5244a": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/2faaae36-473f-4352-ae96-5b1690bb443e/lark_Minimalist_fantasy_time_guild_logo_based_on_an_clock_yello_20dcaa6e-c693-45e9-9dbd-a8db118bd7c4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466ZD3BVIN5%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052948Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCg9vGUp3QvXrh%2BdnMG05bY3NyTMf4SDvXJJsjbj3SmKwIgZVpn0%2Bv%2BU1aJRdqjlewVUYCN87M0hYRfeL9tZ0iM7acq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDCQcuEVVypqQYsa%2FQSrcA%2FsrNCNlo1UZRH5LstXN4Lxmj4u%2BrYCBFZ95yZ%2FooUSDkcqPMiDnaXIuF7UVELUo%2ByvZf2jOga6Q057QstGA1fImALT%2BQs2c1Ht%2FuQxBl01zR6ZNhoBxMsJNBtmVBEpIbhs9JSTUDembpipv9YFhKrU%2BnPuu0Hu6b3q71m7wF2bJ8jxnJgmo%2BhO8S1VhZFODc4OLevw%2FGidoxWVFSHqYzVymkAhVxfjFBRoj%2BU42e%2B93rpqLLXQV4Nsr0OHSkVxEGODGQ4a2GnmAlJSzO27mO1j%2BCw3wsfSlPplVhXssA%2FFcmiUidV2PaTWj53ALpn8C%2BPxvtc0fxYIW8JyTO8SYKp7WB3eQ2BsoGvE6AOAt9INXyxgdswgPWZEYGDIqtKs4isqYGbPLj1GDJfAwORmjONY5fd2tbrra86O6tFv5Y1j5NTfxSXu%2FP0wr8%2F2QBXvcazx3rb54g%2Fs5vDCBDPMSzbR1ZHznYRJz%2FNfib25yh9Mt8FhDrYdEYmfwxxDqpfxqO0EP1F%2Fppn%2FW3BWK4Etw0nlRnl0UoqU%2BtVmoa6DulHqOK%2B2V7G9T3mISNaUEgyuP5sYnR5jazngd8YHuchXnS39BOvB9OrLC2318TzdXQ0nHDsXmyC1DbX7PVvhVMJayw9EGOqUBkCwDa0JwLzkpGMdPrazLyanGXEWfUiMTbpMFjnmfgNR7C%2B2sNiBpyYJgOgM7dj4VFSlgv0S4hauZUXt1xs17qYg7YYn0fuRJtUf0%2FCiACeA4wENPbYv%2Bw2ypU2XPfJKBuMdVjW6scAiWlGulH0RdWu%2Fh9elJ3TPK089ImbSHlX5yoiCSRH80JPJYPMjde06xddxQIQlQhpbf%2B%2F8gtHNazF6LflAs&X-Amz-Signature=c925c2da391726b2d97642aab9467b3e36e95ddfbac21a7e9ab2bbe29d945dfb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_Minimalist_fantasy_time_guild_logo_based_on_an_clock_yello_20dcaa6e-c693-45e9-9dbd-a8db118bd7c4_1b892d03-a33b-81c1-a670-e43e3ed5244a.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_Minimalist_fantasy_time_guild_logo_based_on_an_clock_yello_20dcaa6e-c693-45e9-9dbd-a8db118bd7c4_1b892d03-a33b-81c1-a670-e43e3ed5244a.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.318Z",
+      "updatedAt": "2026-06-16T05:29:53.318Z"
+    },
+    "1b892d03-a33b-81b9-9d4c-f1e0f63a0975": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/0a27f842-7884-4931-b6e7-29a14f6dda3b/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_8b500eb2-9930-4ba9-9c75-43cf5e8eea72.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB46663QMDRST%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052950Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDvykihugWCg8vGLjs7MPC0vehDJnoGn%2FyCXS04AwpuBgIhAKcq0A1NpeUnRsU70QfXYlgLaVg05sQ4lqPYWHOEr7DaKv8DCG4QABoMNjM3NDIzMTgzODA1IgzuthRaDax26X%2FuGA4q3ANLR6rQ6oQ%2FBGhOa0%2FPeNsCKUokCsMMfAVhQ%2BXVrMFwpYFCDkuyUmJFzWa489Eqw8fTmPAyNuE5AzArUQY7qoTLw73QylHl5z9%2FKZJoaLJwb1Cgx5ghVs%2BrPJiZ5yDz8GE5LczcbsD4QI%2BVyAeTYn%2BgFOgFjMZcva6gZDWMo%2BdWEiuCOwvklAKfyx6HsQ5eS78lqN4I0lr6Bb1ztoLoF0mS%2F7tayQ8%2BT7%2FhrnLV%2FzbC9HMgQwQtAlaTe1o2luwDWhhPkPNr3%2FrZqMEALZUqxQ2TNaSpp%2FzDaEbROAgQhX8yEKrn9gaCqkF8cUEkECK6eVfAR8%2FnemoxfwhOoVjFccqrK77SmSiYGzkzmtVy6JP8MxEEW55428PDK24GDlO7kSq3dwLf7hYzMmTD7jfLRUVZKFYVPtEmyM8CDola91OwheoDGyINv1nIzE11Vm%2FhFSJqNVHpo0rCAJ08OFMq%2FePVxxleyWXQo1%2BWet6sRIXhau7LuwrwD%2FOp4LgK4qBZDAv38beFLG9a7SAP%2BSrbVMhDAAlQgqLU9q4hOVZCBLrAg790%2Bowr7k%2BA7xvdpRhL4xN15oqsxvD8vCH15eenddkrwupay%2FHJaiqiOf8ptYGHxA0nfzEHXB74cax0uDDwtMPRBjqkAdXQRdk1642ohLSAXoqP5nj%2BTMAIGD3Nw7vLckCmOFbIwjgPOBb7xebVY0jf6OcbZl61PO4K4ZVDIWPNi50n7ih16jEUNPlGUCbrY7Vz28lSJbpllmVRP%2F%2BMMyOFgMVK4iJvo3XtWqMzsP%2F29xrb7kjENtkqFHTHUqYZTqnaguq77HUr3fAJ2FtqPKHZdl0suc8%2Bg7YO%2B7LZif3GjzQsBi1rRK9o&X-Amz-Signature=0c64288a9a96e6c6847aa4e201d277d4793ad64e202dbaa09b93cc8abc599c8b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_8b500eb2-9930-4ba9-9c75-43cf5e8eea72_1b892d03-a33b-81b9-9d4c-f1e0f63a0975.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_8b500eb2-9930-4ba9-9c75-43cf5e8eea72_1b892d03-a33b-81b9-9d4c-f1e0f63a0975.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.321Z",
+      "updatedAt": "2026-06-16T05:29:53.321Z"
+    },
+    "1b892d03-a33b-8196-b688-d76555c5e2b2": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/d13efa14-c0dc-4360-84e6-fc643f8516f8/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_003a6372-8888-4515-a14e-0c6add6dacbd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4663UBKSPV7%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052950Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIEqpD5japZat0%2B4MyVslXXcu9U13bkYl6i%2BDRtVuQbFqAiEA1Q2NI%2Fg1f1K0DN7lfi5eWbno23WigCrNtIjDc%2Fb4fssq%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDJ9alr81GXKAFOwT4yrcA4inylcQ6Gs8yXQDqxWS%2FmC8zL5aqFI1%2FrhDAvNo8Iga64tZ8qp5taE1ANpEvuIzsss5P4R%2FMz0G2Jy9IBxHBWSpW7%2BqmuvmYVMIvo5UwDexRcMoc7wam8n8dWyzLCKGNsY2dbFtGxJ29XJShETA1%2FKu0QBMYBImckflmBvFJt3xCEEH2X8AflImdkfJjjZHYXOhSn1NF9w%2FQbn9jekXkdmFrCFzftgd8vX1Z%2FYYgvASPu5pt1T5Kodl8xqAgOPJNhx1z9J6mdJZHdZdE5tTQHhpQS0rG6H%2F0CXMt893qTfkhSg4YOtRrnq2WY1xO17CvwEbJEPYCWmusLSaIeZSenw5vHACMTX64njG9flqramsl0vj3UPmK8ooNJt00Ow57tsix3NQobbVqD8PYEo2DmET9mZaoCgDzc%2BxPePia%2BlTQWf8TtLUmaQF%2FhOXiYM8fMv7q1DRLzJYpI85sUx%2FiDTbULHu3J3IfVl9ctalE34I8svLdANVzJkx8kYOSc7IibqXX9XAp3W35noQwvFm01wtrETmuJcjTR5f%2BdQXd71O2L4zBaNUHT9qa%2FXCSuWQDqLfYwXSlFG6HSJAb9OaWGNbiH6h1Yq8XLqVUlr63Zduy%2F%2FV40coosPe6K30MNu0w9EGOqUBDJCgvJnuxJrGAj6enJ6ZMmSlUWkw%2BpovLSH%2Bn6WFllLcoiYbuT3O3jTmCPBZ9GfNwKL0Bf8d3rIeKbrhB2YdCyg%2BJUK5F0CBQaeXrmz9BM4V%2BbGM8g7UDEADAfurqaYscvAizsaRRYXfOzyIR5OnbPGzG49fh1Bw7ib6zgEt0QiY3iumEgS0R%2BkSEcCdTWGBHrs%2FzTZ2UjFK5xHcfFi2uu2YLF8R&X-Amz-Signature=a4c39b5ce0688ddfd5dbed9b427f81ceb2c8fe2d24428f09891269887d9efb8a&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_003a6372-8888-4515-a14e-0c6add6dacbd_1b892d03-a33b-8196-b688-d76555c5e2b2.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_intricately_designed_machine_its_gears_and_pistons_whirrin_003a6372-8888-4515-a14e-0c6add6dacbd_1b892d03-a33b-8196-b688-d76555c5e2b2.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.426Z",
+      "updatedAt": "2026-06-16T05:29:53.426Z"
+    },
+    "1b892d03-a33b-81fa-b340-f79dc08f7153": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/b1c41dd9-4799-4e97-94d5-a4c659394965/lark_detailed_illustration_of_treasure-chest_closed_cover_Paste_4c30b55a-c36b-4b1c-9c1a-921dbdf15821.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4663RREFEE5%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052941Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDwmQUToS57Gnfg%2BP11embXbN2cvUfQaJn6yAjpJ1BruAIgH49CLqbHU7wRqTra4kEjm7WjqpKvSNlsPoBCoVAJjS8q%2FwMIbhAAGgw2Mzc0MjMxODM4MDUiDPNzqftbqmpFYOwAtCrcAyDncZE1PiaMSztwh2ycyfkuytXWYs62tAEI7XPUTpFepbyNSyT7N6PKyEd6jkHyg6hnvgPRXYFdmF8UZLPVwh1Y7gVsHpjwmxsPxuOcy5SNwpGMnaEnlcUY%2F71tvx9ZaLr3M%2BlM%2FfbSx9ytahrlrm0Ira9rM9IDX%2Bgrs3xyisqoLLssKxPyoxuIKXszFzfGIJlbhnmI3YlCuQp1%2BoHRf38%2BghAkzTaNnlo80E4sTVrfQIZpVUObR7i6xZqguLmRmEOXz1oLsbNPU4iE3sVJ0z%2Fjl%2FyekNyXo00MIkxX1muBHlSbMq66CV4wsUGCI8xkW2jo%2BF3aR9E2gLaL0gtHgs%2B0WF0%2BcBqEjEjdy7O03Ouu7LQeCK%2B5C8LCm9sPknb8%2BCw09CMIclVuQ9U3odcLC%2F9nHFL3B6q3JUcj1gfMScP08a3Aej%2FJaJrAFQDQONZKbkusgTO4paM8lgyCdE%2BTjFU5ytVztUZUIseuR1Ddybf%2BAX%2BfX0nCHAtTjM0i1y3xCqSOUXGqlO1MdjeZoRdb4TaUVfWj5dMMkWteuGb3OKaHwy75NLr59K%2BFkgEUmM0eqA9aYpGwMbfu9EhW42bAqbo3pF%2B%2Fp%2Be%2FPq3ZqueoEGrVStuLD4NWfd9Dunr8MN2zw9EGOqUBcmWnBGWxzfGbWVaVztzIxrQGPlu8oaYq5ALD4y4KoeX0XXjdW4Vo7zpmAa8tdJ38b2fkPv1MsW9NTRyDH5nErShLBuDtgn8m3AM%2B8FAXsyG6gWueQZI0Yc1s%2FH0DjmGKIFg34fQESm80ByFb6zI3xp0sHI8fGVcVRXLh8eUEsd6o1XwOjmChOioKRmUzxPDDkQyQHaanfBpeFzTUs%2BsRVStUFNib&X-Amz-Signature=5177c57c3080fed93a418b7ed017e44dd3683a8ec09790ed1c1a09987973f1f3&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_detailed_illustration_of_treasure-chest_closed_cover_Paste_4c30b55a-c36b-4b1c-9c1a-921dbdf15821_1b892d03-a33b-81fa-b340-f79dc08f7153.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_detailed_illustration_of_treasure-chest_closed_cover_Paste_4c30b55a-c36b-4b1c-9c1a-921dbdf15821_1b892d03-a33b-81fa-b340-f79dc08f7153.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:53.810Z",
+      "updatedAt": "2026-06-16T05:29:53.810Z"
+    },
+    "1b892d03-a33b-81c0-9ae0-dca5e036cd2c": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/55bc6d35-4614-45ec-a5af-652a466b4116/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_a670186b-1be5-4061-a20a-a38036f999c7.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB4667BZED3HX%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052951Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCIFIJV8T59VJrxNlNP7KMUSZDJ2Nv0rLZVycBXifl1UOBAiA5U1vPK7%2BEpNPQ2AD3dTCTIgPW%2FUH7vzAxo6ZeTCsmLyr%2FAwhuEAAaDDYzNzQyMzE4MzgwNSIMv6G8iw9G0mXkuWeSKtwDsJU2pgHhMkBvBwXZDdDJC0Yfg0fzK2E2ogClT8ZzaVr%2BdZOeCKwY1L1lJTElZZKwKestSGsUkTKbO2PgDvf8O20XqDY7RZLpKj6wPMXmzgnBUESi5Q4RzUEcxFC51lss3W6jeEApw464MuCOn7t%2BpMY2OYN3SrY%2FRuvPA9gIh8cJLtyx43gPrtP0VTmBtOa6iSiwwkOiV8htFbVFaNO8Fr97fJwwOTRi5NjvYZoh5fBohK%2B%2BmpUujCiMMmVkA%2BUsIFBBfRJUFa58Y4Wh490M82XAV6acSzYD1QX0aegOzPJRayokui%2FgvcWqxehqDs%2BbZ3SFFH10p0f4W%2Fq7zj3AW5r%2Fayy9N4N1jyQmw%2FP8jriwrz2KQhwA%2FG5zNQyKLOTMyBBKLITzBqgy0s5VwKzZrVRrnvifa0%2BpYl5CwsveK12KjU4qN0xwWNsQ1TL8QZSm8Ksn7JQdXIvNV13Meyl91xWBHq2p%2BWiyj1NerLNu6dXTTr1%2FGM1r8eImsD9WxhkGqX9Lfkw8CkYbMvlG3G7nsH8qULbsc%2BIJwWxzNXe9cotj8wOD53kDO4irbPnqmtSTw0ZTS9Oyvyq%2BUsAsWycFNgDD7xGdxzaewO%2Fx5173IjkptZW9W3tYzk91T7AwprTD0QY6pgEbTvbJiuj7PipK0f8uEOO3qo%2FqO9nFcCqvPHvrENTqiJAnF%2BWY%2BOZ5dHUg3HYjn0RBRJichaPKXU4aLmm%2BRd0NL1Mdwik4bsoLZWmtGCEiBt%2FSL8PFn6LzSmHx5%2F2m%2FOo%2BPtydOeCbUupen5wncVJWk2hSPIy8HzZWKuYLHT2gs6gInSmvzrKvIZJwbIfA1my0r9RicjCf4Yry2tbIO%2FeezTkdVxcc&X-Amz-Signature=f9f163ec369985c7637de47677588c015a79a5c35d492e406266c31d307d8c36&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_a670186b-1be5-4061-a20a-a38036f999c7_1b892d03-a33b-81c0-9ae0-dca5e036cd2c.png",
+        "sourceType": "block",
+        "transformedPath": "assets/lark_A_Libra_sign_made_of_crystal_with_low_poly_eyes_surrounded_a670186b-1be5-4061-a20a-a38036f999c7_1b892d03-a33b-81c0-9ae0-dca5e036cd2c.png"
+      },
+      "lastEdited": "2025-03-16T10:35:00.000Z",
+      "createdAt": "2026-06-16T05:29:54.462Z",
+      "updatedAt": "2026-06-16T05:29:54.462Z"
+    }
+  }
+}

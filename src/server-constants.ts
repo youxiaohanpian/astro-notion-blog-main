@@ -4,7 +4,9 @@ export const NOTION_API_SECRET = env.NOTION_API_SECRET;
 export const DATABASE_ID = env.DATABASE_ID;
 export const HOME_NAV_DATABASE_ID = env.HOME_NAV_DATABASE_ID;
 export const FRIEND_LINK_DATABASE_ID = env.FRIEND_LINK_DATABASE_ID;
-export const ENABLE_GISCUS = env.ENABLE_GISCUS === 'true';
+export const ENABLE_GISCUS = env.ENABLE_GISCUS
+  ? env.ENABLE_GISCUS === 'true'
+  : true;
 export const GISCUS_REPO = env.GISCUS_REPO;
 export const GISCUS_REPO_ID = env.GISCUS_REPO_ID;
 export const GISCUS_CATEGORY = env.GISCUS_CATEGORY;

@@ -1,0 +1,20 @@
+{
+  "pageId": "1c292d03-a33b-80aa-97fb-fea062a7dcd6",
+  "lastUpdated": "2026-06-16T05:29:00.912Z",
+  "mediaEntries": {
+    "1c292d03-a33b-80aa-97fb-fea062a7dcd6_FeaturedImage_0": {
+      "mediaInfo": {
+        "type": "DOWNLOAD",
+        "originalUrl": "https://prod-files-secure.s3.us-west-2.amazonaws.com/dffdbb4a-071f-4d20-916f-8baecd06c0de/9bf96bfd-4e4d-4e77-b32e-679f20367ac1/ComfyUI_00132_.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466ZB2ZAKKX%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T052859Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQCHr3Ta0lqQk9DZMpmr2RgrHkqtUuSHjAiw%2FmARfYttAgIhAL7hO5xMdoFUwMQCLAVmvj2iFGnXL3bfaipd63CJHD3GKv8DCG4QABoMNjM3NDIzMTgzODA1IgzSEjnow%2FdzT7wX7YYq3APYgFtjMAIhT75HcRuSdP0B6P9J4TSRY1rqmJNmApe7cQMruKW91L5UJuozYKgwYc9ejd5R803FPJ%2Fql05OeK8McEJ%2BRB45bznxGwmdDGDlO6o8ZHlGm%2FStG5Rqz1WOodlS%2BIJFFdmiyZHqwnUxR39pDZi1Ky0n3%2Fe5c3IHg1nfFcjzY69e91XouyXc3NggeqC53BnjBlwN9J2cK8mzbZUuOBgGih2fqlLdU9W4wqo3jfv8bl9XkQtKM%2BJbkkIzEO54JJRc9f%2Boc%2FVXQgtEp0uyt2%2BGoiK8qs5G%2BT1xfH%2FYJ6fBUd35QQ7%2BadXF37DAZSl9s0TBzoN4%2BKvaICDFZGcXOKvmQV%2FX4eQL%2FUxlzK0Ij4EKPVXFqfk7yiPGYZxRMvt9Q%2BU6wGwQ7Akt1J9FpKkccRwxhR%2FxWQh8Qv%2FNIuuIvEq1h8jysKqR5LcEW0ng6xQ%2Fa8S8k70PLnGsWReR9tX6oJzdI4Q53d7PoYRKbYwB%2FqBwApe1Rulbhb%2FSSizo0P%2FkvbSiooYzi1v3soiDMo1KrcNwyhTfdHUJL5ZfAutvSQ5588Tl1d%2FApGthkZuAsN5Wevb8v%2B4LJXeGFhG2eAzNR2zgPCwsreTD7ekhWMFqYXzQhNdmqKT2F9%2BQxjCms8PRBjqkATT62bo0W%2FBMI4DNTPLYMYk%2BCiWKRVQUTw12xtgafUWIXIZYjtwNHlEn7ElZt4%2B%2BMCpUrFzTcvELhqf7LRavXUm1si1b1iBAeO2iig7b0NMmTDOEIy8PKh3LKz0h3LMHaYJ4yR0gQRFUvVP9WZbNadwvO0lVsrk%2BgGiRHEO%2FdnvGlQW4eyfGP9ryqiC1kvyzrRCad8qpYu5EqqlClfV8gKDC1xI5&X-Amz-Signature=9c7356ae970d2436baf4fb6bd0406c8334f53e8134455983ffe60b9be66dc187&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "localPath": "/Users/tia/Desktop/markdown/assets/ComfyUI_00132_0_FeaturedImage.png",
+        "sourceType": "page_property",
+        "propertyName": "FeaturedImage",
+        "propertyIndex": 0,
+        "transformedPath": "assets/ComfyUI_00132_0_FeaturedImage.png"
+      },
+      "lastEdited": "2026-06-16T05:29:00.622Z",
+      "createdAt": "2026-06-16T05:29:00.912Z",
+      "updatedAt": "2026-06-16T05:29:00.912Z"
+    }
+  }
+}

@@ -71,9 +71,7 @@ export default defineConfig({
     FirstImageDownloader(),
     PublicNotionCopier(),
   ],
-  experimental: {
-    session: false, //新版 Astro 对 session 功能是实验性质，必须手动开启
-  },
+  // Note: experimental.session was removed in Astro 5.18+ as sessions are now stable
   vite: {
     define: {
       'process.env.NOTION_API_SECRET': JSON.stringify(env.NOTION_API_SECRET),
